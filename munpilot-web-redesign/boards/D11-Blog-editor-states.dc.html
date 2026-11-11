@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blog editor states</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dis{background:var(--sunk);color:var(--muted)}
+.b-dan{background:var(--paper);color:var(--red);border-color:var(--line)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni i{width:18px;height:18px;border-radius:5px;border:1.8px solid var(--muted);box-sizing:border-box;flex:none;opacity:.7}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.ni.on i{border-color:var(--seal);opacity:1}
+.uc{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--sunk2)}
+.av{width:36px;height:36px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex:none}
+.main{flex:1;min-width:0;padding:32px 40px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.seg{display:inline-flex;gap:2px;padding:4px;border-radius:12px;background:var(--sunk)}
+.seg span{height:34px;padding:0 14px;display:flex;align-items:center;gap:8px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.seg em{font-style:normal;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:9px;background:var(--sunk2);color:var(--muted)}
+.sel{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--paper);font-size:13.5px;color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.pill i{width:6px;height:6px;border-radius:3px;background:currentColor;display:block}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.cc{padding:20px;display:flex;flex-direction:column;gap:14px;position:relative}
+.meta{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+.meta span{display:flex;align-items:center;gap:6px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tiles div{padding:10px 12px;border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;gap:3px}
+.tiles span{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.tiles b{font-size:14px;font-weight:600}
+.trk{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.trk div{display:flex;flex-direction:column;gap:6px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.trk i{display:block;height:4px;border-radius:2px;background:var(--sunk)}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap}
+.ptabs span{height:34px;padding:0 14px;border-radius:17px;display:flex;align-items:center;font-size:13.5px;font-weight:500;color:var(--ink2);border:1px solid var(--line);background:var(--paper)}
+.ptabs span.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.bn{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:12px}
+.dr{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line2)}
+.prose{font-family:Newsreader,Georgia,serif;font-size:17px;line-height:1.65;color:var(--ink)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label,.fld .fl{font-size:13px;font-weight:600}
+.inp{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--sunk2);font-size:14px;box-sizing:border-box}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:15px;font-size:13px;border:1px solid var(--line);background:var(--paper)}
+.chip.lock{background:var(--sealSoft);border-color:transparent;color:var(--seal);font-weight:600}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+
+.w{--red:#B42318;--redSoft:#FBE7E4;--violet:#6B46C1;--violetSoft:#EEE8FA;--blue:#1F5FBF;--blueSoft:#E5EEFB}
+.w.dark{--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--violet:#B79CF2;--violetSoft:rgba(183,156,242,.16);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14)}
+.lw .lga{fill:#fff}.lw .lgb{fill:#47A481}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.skl{border-radius:8px;background:linear-gradient(90deg,var(--sunk) 0%,var(--sunk2) 50%,var(--sunk) 100%);background-size:200% 100%;animation:skl 1.4s ease-in-out infinite}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:11px;font-size:13.5px;line-height:1.45}
+.a-err{background:var(--redSoft);color:var(--red)}.a-warn{background:var(--amberSoft);color:var(--amber)}.a-ok{background:var(--sealSoft);color:var(--seal)}.a-info{background:var(--blueSoft);color:var(--blue)}
+.ferr{font-size:12.5px;color:var(--red)}
+.t-red{background:var(--redSoft);color:var(--red)}.t-vio{background:var(--violetSoft);color:var(--violet)}.t-blue{background:var(--blueSoft);color:var(--blue)}
+.slab{background:#0E1D2C;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:56px;color:#fff}
+.slab .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%);mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%)}
+.slab .dia{position:absolute;right:-60px;top:-60px;width:320px;height:320px;transform:rotate(45deg);border:1px solid rgba(71,164,129,.35);border-radius:28px}
+.slab .dia2{position:absolute;right:40px;top:40px;width:120px;height:120px;transform:rotate(45deg);background:rgba(71,164,129,.16);border-radius:16px}
+.note{font-size:12.5px;color:var(--muted);line-height:1.5}
+.lab{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.dots{display:flex;gap:6px;align-items:center}.dots i{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.35);display:block}.dots i.on{width:22px;background:#fff}
+.pg{width:30px;height:30px;border-radius:15px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.pg.on{background:#fff;color:#0E1D2C}
+.toast{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;background:var(--ink);color:var(--paper);font-size:13.5px;line-height:1.45;box-shadow:var(--sh2);max-width:380px}
+.w{--purple:#6B46C1;--purpleSoft:#EEE8FA}.w.dark{--purple:#B79CF2;--purpleSoft:rgba(183,156,242,.16)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.wiz{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh1);display:flex;flex-direction:column;overflow:hidden}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:22px 28px;border-bottom:1px solid var(--line2)}
+.st{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--muted);position:relative}
+.st i{width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:700;background:var(--sunk);color:var(--muted);flex:none}
+.st.done i{background:var(--seal);color:var(--sealInk)}
+.st.done{color:var(--ink)}
+.st.on i{background:var(--paper);color:var(--seal);box-shadow:inset 0 0 0 2px var(--seal)}
+.st.on{color:var(--ink);font-weight:600}
+.st span.ln{flex:1;height:2px;border-radius:1px;background:var(--line2);margin:0 4px}
+.st.done span.ln{background:var(--seal)}
+.wb{padding:28px;display:flex;flex-direction:column;gap:20px}
+.wf{padding:18px 28px;border-top:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;background:var(--sunk2)}
+.req{color:var(--signal)}
+.ta{border:1px solid var(--line);border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;overflow:hidden}
+.ta textarea{border:0;background:none;outline:none;resize:none;height:110px;padding:12px 14px;font:14.5px/1.55 Inter,sans-serif;color:var(--ink)}
+.ai{display:flex;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line2);background:var(--paper)}
+.aib{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;background:var(--purpleSoft);color:var(--purple);font-size:12.5px;font-weight:600;border:0}
+.help{font-size:12.5px;color:var(--muted);line-height:1.5}
+.pb{border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.pbh{display:flex;align-items:center;gap:10px}
+.rank{width:26px;height:26px;border-radius:8px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex:none}
+.role{display:flex;align-items:flex-start;gap:14px;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--paper)}
+.role.on{border-color:var(--seal);box-shadow:0 0 0 3px var(--sealSoft)}
+.role.off{opacity:.55;background:var(--sunk2)}
+.role.on .rd{border:6px solid var(--seal)}
+.mstep{height:4px;border-radius:2px;background:var(--sunk);flex:1}
+.mstep.on{background:var(--seal)}
+.sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:var(--glass);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;gap:10px}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0;display:inline-block}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.menu{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh2);padding:6px;display:flex;flex-direction:column}
+.menu span,.menu a{height:36px;display:flex;align-items:center;gap:10px;padding:0 10px;border-radius:8px;font-size:13.5px;color:var(--ink)}
+.dlg{background:var(--paper);border-radius:20px;box-shadow:var(--sh2);display:flex;flex-direction:column;overflow:hidden}
+.dlg .dh{padding:20px 22px 12px;display:flex;flex-direction:column;gap:4px}
+.dlg .dh b{font-size:18px}.dlg .dh span{font-size:13.5px;color:var(--muted)}
+.dlg .db{padding:8px 22px 18px;display:flex;flex-direction:column;gap:12px}
+.dlg .df{padding:14px 22px;border-top:1px solid var(--line2);display:flex;justify-content:flex-end;gap:8px}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:36px 24px}
+.empty .ei{width:48px;height:48px;border-radius:14px;background:var(--sunk2);color:var(--muted);display:flex;align-items:center;justify-content:center}
+.empty b{font-size:16px}.empty span{font-size:14px;color:var(--muted);max-width:360px;line-height:1.5}
+.sec-h{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line2)}
+.sec-h b{font-size:16px}
+.bub{max-width:70%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45}
+.bub.in{background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:6px}
+.bub.out{background:var(--seal);color:var(--sealInk);border-bottom-right-radius:6px;margin-left:auto}
+.tb{display:flex;align-items:center;gap:2px;padding:6px;border-bottom:1px solid var(--line2);background:var(--sunk2);flex-wrap:wrap}
+.tb button{width:32px;height:32px;border:0;background:none;border-radius:7px;color:var(--ink2);display:flex;align-items:center;justify-content:center;font:600 13px Inter,sans-serif;padding:0}
+.tb i{width:1px;height:20px;background:var(--line);margin:0 4px;display:block}
+.fus{background:linear-gradient(#3C3B6E,#3C3B6E) 0 0/45% 54% no-repeat,repeating-linear-gradient(#B22234 0 7.7%,#fff 7.7% 15.4%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.fin{background:linear-gradient(#FF9933 0 33%,#fff 33% 66%,#138808 66%)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2500px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">D11 · Dashboard · /dashboard/articles/new and /[id]/edit — editor states</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Blog editor: every state</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Completes D03. The edit header ("Edit Blog" with the blog title underneath), the red error banner, the verbatim placeholders, an excerpt counter that turns amber above 180, and the cover uploader in every state (progress bar instead of a spinner). The full rich-text toolbar is drawn button by button. Also here: the AI assist panel under textareas, both states of the Generate-a-draft dialog, the not-authorized page, the published-empty state, and the committee-doc AI item "Auto-Convert to Draft Resolution".</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+<div style="display: flex; flex-direction: column; gap: 40px;">
+
+<div class="cap"><b>Edit Blog · desktop · with an error</b></div>
+<div class="frame" style="width: 1440px; height: 1320px;">
+<aside class="side">
+<div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div>
+<span class="sl">Menu</span>
+<a class="ni" href="#"><i></i>Dashboard</a><a class="ni" href="#"><i></i>My Conferences</a><a class="ni" href="#"><i></i>Documents</a><a class="ni on" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni" href="#"><i></i>Network</a><a class="ni" href="#"><i></i>Payments</a><a class="ni" href="#"><i></i>Settings</a>
+<span style="flex: 1;"></span>
+<div class="uc"><span class="av" style="background: #13895F;">NR</span><span class="col"><b style="font-size: 13.5px;">Nadia Rahman</b><span style="font-size: 12px; color: var(--muted);">nadia@school.edu</span></span></div>
+</aside>
+<main class="main">
+<a href="#" class="row" style="gap: 6px; font-size: 14px; font-weight: 600; color: var(--ink2);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to My Blogs</a>
+<div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 38px;">Edit Blog</h1><span style="font-size: 15px; color: var(--muted);">Surviving your first unmoderated caucus</span></div>
+<div class="alert a-err"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>Content cannot be empty.</div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start;">
+<div class="col" style="gap: 18px;">
+<div class="fld"><label>Blog Title</label><div class="inp" style="height: 50px; font-size: 18px; color: var(--muted);">Enter a compelling title...</div></div>
+<div class="fld"><label>Content</label>
+<div class="card" style="overflow: hidden; box-shadow: none;">
+<div class="tb">
+<button aria-label="Undo"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5M4 9h11a5 5 0 0 1 0 10h-3"/></svg></button><button aria-label="Redo"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 14 5-5-5-5M20 9H9a5 5 0 0 0 0 10h3"/></svg></button><i></i>
+<button aria-label="Bold">B</button><button aria-label="Italic" style="font-style: italic;">I</button><button aria-label="Underline" style="text-decoration: underline;">U</button><button aria-label="Strikethrough" style="text-decoration: line-through;">S</button><i></i>
+<button aria-label="Heading 1">H1</button><button aria-label="Heading 2">H2</button><button aria-label="Heading 3">H3</button><i></i>
+<button aria-label="Align left"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h14"/></svg></button><button aria-label="Align center"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M5 18h14"/></svg></button><button aria-label="Align right"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M10 12h10M6 18h14"/></svg></button><button aria-label="Justify"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><i></i>
+<button aria-label="Bullet list"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></button><button aria-label="Numbered list"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6h10M10 12h10M10 18h10M4 4v4M3 18h3l-3 3h3"/></svg></button><button aria-label="Quote"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h4v6H5V9M15 7h4v6h-6V9"/></svg></button><button aria-label="Code block"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg></button><i></i>
+<button aria-label="Link"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/></svg></button><button aria-label="Insert image"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg></button><i></i>
+<span class="aib" style="margin-left: 4px;">AI</span>
+</div>
+<div class="prose" style="padding: 20px 24px; min-height: 260px; color: var(--muted);">[Empty body — the error above]</div>
+</div>
+<span class="ferr">Image errors: "Only image files are allowed (JPEG, PNG, GIF, WebP…)." · "Image must be under 5MB." · "Upload failed." — Link asks for "Link URL".</span>
+</div>
+</div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+<b style="font-size: 16px;">Blog Settings</b>
+<div class="fld"><label>Excerpt / Summary</label><div class="ta"><div style="height: 80px; padding: 12px 14px; font-size: 14px; line-height: 1.5;">[Excerpt text that has run past the soft limit…]</div><div class="ai" style="justify-content: space-between;"><span class="aib">AI</span><span style="font-size: 12px; font-weight: 600; color: var(--amber);">186</span></div></div><span class="help">Placeholder: "Provide a short summary that will catch readers' attention on listing pages..." · counter turns amber above 180.</span></div>
+<div class="fld"><label>Category</label><div class="inp">Guide ▾</div><span class="help">Guide · Analysis · Tips · News</span></div>
+<div class="fld"><label>Tags</label><div class="inp" style="color: var(--muted);">e.g. UNSC, diplomacy, guide</div></div>
+<div class="fld"><label>Cover Image</label><div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; background: linear-gradient(160deg, #B9CBC4, #DCD8CA);"><div style="position: absolute; inset: 0; background: rgba(14,29,44,.55); display: flex; align-items: center; justify-content: center;"><button class="btn sm b-sec">Remove Image</button></div></div><span class="help">Filled · on hover</span></div>
+<div class="row" style="gap: 8px;"><button class="btn b-sec" style="flex: 1;">Save as Draft</button><button class="btn b-pri" style="flex: 1;">Publish Blog</button></div>
+</div>
+</div>
+</main>
+</div>
+
+<div class="cap"><b>Generate a draft · input and preview</b></div>
+<div class="frame" style="width: 1440px; height: 640px; padding: 40px; gap: 24px; align-items: flex-start; box-sizing: border-box; background: rgba(14,29,44,.38);">
+<div class="dlg" style="width: 520px;"><div class="dh"><b>Generate a draft</b></div><div class="db"><div class="inp" style="height: 140px; align-items: flex-start; padding-top: 12px; color: var(--muted);">Topic, key points, anything the draft should cover…</div><span class="ferr">No usable result — try again.</span></div><div class="df"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Generate</button></div></div>
+<div class="dlg" style="width: 640px;"><div class="dh"><b>Generate a draft</b></div><div class="db"><div class="prose" style="padding: 16px 20px; border-radius: 12px; background: var(--sunk2); height: 260px; overflow: hidden;"><b>[Draft heading]</b><br>[Rendered draft…]</div></div><div class="df" style="justify-content: space-between;"><span class="row" style="gap: 8px;"><button class="btn sm b-ghost">Back</button><button class="btn sm b-sec">Regenerate</button></span><span class="row" style="gap: 8px;"><button class="btn sm b-sec">Insert at cursor</button><button class="btn sm b-pri">Replace document</button></span></div></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px; width: 390px;">
+<div class="cap"><b>Cover uploader states</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div style="aspect-ratio: 16/9; border-radius: 12px; border: 2px dashed var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg><b style="font-size: 14px;">Click to upload cover photo</b><span style="font-size: 12.5px; color: var(--muted);">JPG, PNG or WEBP (Max 5MB)</span></div>
+<div style="aspect-ratio: 16/9; border-radius: 12px; background: var(--sunk2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;"><b style="font-size: 14px;">Uploading... 64%</b><div style="width: 70%; height: 6px; border-radius: 3px; background: var(--sunk);"><i style="display: block; width: 64%; height: 100%; border-radius: 3px; background: var(--seal);"></i></div><span style="font-size: 12.5px; color: var(--muted);">Please wait</span></div>
+<span class="ferr">Please select an image file (JPEG, PNG, etc.)</span><span class="ferr">Image must be less than 5MB</span>
+</div>
+
+<div class="cap"><b>Error banners</b></div>
+<div class="col" style="gap: 8px;"><div class="alert a-err">Title is required.</div><div class="alert a-err">Failed to save. Please try again.</div></div>
+
+<div class="cap"><b>AI assist under a textarea</b></div>
+<div class="ta" style="background: var(--paper);"><div style="padding: 12px 14px; font-size: 14px;">[Their text]</div>
+<div class="col" style="gap: 10px; padding: 12px; border-top: 1px solid var(--line2); background: var(--purpleSoft);"><div class="row" style="gap: 6px;"><button class="btn sm b-sec">Improve</button><button class="btn sm b-sec">Fix grammar</button><button class="btn sm b-sec">Suggest</button></div>
+<div class="col" style="gap: 6px; padding: 10px 12px; border-radius: 10px; background: var(--paper);"><div class="row" style="justify-content: space-between;"><span class="lab" style="color: var(--purple);">Suggestion</span><button class="ib" aria-label="Close suggestion" style="width: 24px; height: 24px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><span style="font-size: 13.5px; line-height: 1.5;">[Suggested text]</span><div class="row" style="gap: 6px;"><button class="btn sm b-pri">Use this</button><button class="btn sm b-ghost">Try another</button></div></div>
+<div class="alert a-warn" style="font-size: 12.5px; padding: 8px 10px;">Could not reach the AI.</div></div></div>
+<span class="note">After a rewrite: "Undo" chip (title "Restore what you wrote"). Suggest is hidden on academic surfaces; disabled tooltip "Write something first".</span>
+
+<div class="cap"><b>Committee-doc AI menu</b></div>
+<div class="menu" style="width: 280px;"><span>Improve document</span><span>Fix grammar (document)</span><span>Generate draft…</span><span style="font-weight: 600; color: var(--purple);">Auto-Convert to Draft Resolution</span></div>
+
+<div class="cap"><b>Not authorized · published empty</b></div>
+<div class="card empty"><span class="ei"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><b>Not authorized to edit this blog.</b><a class="btn sm b-sec" href="#">Back to My Blogs</a></div>
+<div class="card empty"><span class="ei"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></span><b>No published blogs yet</b><span>Share your Model UN expertise with the community.</span><a class="btn sm b-pri" href="#">Write your first blog</a></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2500}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

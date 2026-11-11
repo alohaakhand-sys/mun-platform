@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Event overview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-glass{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.25)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:220px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px 12px;box-sizing:border-box;gap:2px}
+.sl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px}
+.ni{display:flex;align-items:center;height:32px;padding:0 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.main{flex:1;min-width:0;padding:24px 30px;display:flex;flex-direction:column;gap:18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.pill i{width:6px;height:6px;border-radius:3px;background:currentColor;display:block}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.hero{height:230px;border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(160deg,#2C4A44,#0E1D2C)}
+.rr{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line2)}
+.cki{width:24px;height:24px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.stat{padding:16px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-size:28px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--muted)}
+.pb{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.pb i{display:block;height:100%;border-radius:3px;background:var(--seal)}
+.ar{display:flex;align-items:center;gap:12px;padding:11px 16px;border-top:1px solid var(--line2)}
+.av{width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex:none}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.sheet{position:absolute;top:0;right:0;bottom:0;width:440px;background:var(--paper);box-shadow:var(--sh2);border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.30)}
+.sec{padding:14px 20px;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:8px}
+.sec h4{margin:0;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sel{display:flex;align-items:center;justify-content:space-between;gap:8px;height:38px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);font-size:13.5px}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3340px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">OR02 · Organizer · /organizer/events/[id] and the applicant sheet</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Event overview and applicant profile</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">A draft leads with "Ready to publish?" — each requirement a row with Add / Edit, Publish unlocking when they're done. A live event leads with its numbers: applicants, approved, capacity, days away, then recent applications, pending country assignments, the next session, committees fill and quick tools. Clicking an application opens the applicant profile sheet with ranked choices, experience and motivation, and — while pending — committee and country pickers that star their preferences and mark taken seats.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 900px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni" style="color: var(--muted); font-size: 12.5px;">← Back to Events</span><span class="sl">Setup</span><span class="ni on">Overview</span><span class="ni">Details</span><span class="ni">Allocation</span><span class="ni">Committees</span><span class="ni">Partners</span><span class="sl">Content</span><span class="ni">Schedule</span><span class="ni">Announcements</span><span class="ni">Rules &amp; Regs</span><span class="sl">Finances</span><span class="ni">Financials</span><span class="ni">Plan</span></aside>
+<main class="main">
+<div class="hero"><div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,29,44,0) 20%, rgba(14,29,44,.8) 100%);"></div>
+<div class="row" style="position: absolute; top: 16px; left: 18px; right: 18px; justify-content: space-between;"><span class="row" style="gap: 8px;"><span class="pill" style="background: rgba(255,255,255,.92); color: #0E1D2C;">Draft</span><span style="font-size: 12px; color: rgba(255,255,255,.8);">Edited 2 hours ago</span></span><span class="row" style="gap: 8px;"><button class="btn sm" style="background: #fff; color: #0E1D2C; opacity: .55;" disabled><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1zM12 15l-3-3a22 22 0 0 1 2-3.9A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22.4 22.4 0 0 1-4 2z"/></svg>Publish</button><button class="btn sm b-glass">Edit</button><button class="btn sm b-glass">View</button></span></div>
+<div class="col" style="position: absolute; left: 22px; bottom: 18px; gap: 6px; color: #fff;"><b class="serif" style="font-size: 30px; color: #fff;">Dhaka Model United Nations Conference 2026</b><span style="font-size: 13.5px; color: #DDE6EC;">Aug 15, 2026 · 9:00 AM · Pan Pacific Sonargaon Dhaka</span></div></div>
+<div class="card" style="overflow: hidden; box-shadow: var(--sh1), inset 0 3px 0 var(--amber);">
+<div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 17px;">Ready to publish?</b><span style="font-size: 13.5px; color: var(--muted);">Complete the required steps below to make this event public. Schedule is recommended but optional.</span></div>
+<div class="rr"><span class="cki" style="background: var(--seal); color: #fff;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span style="flex: 1; font-size: 14px;">Basic info — title, date, location, description</span></div>
+<div class="rr"><span class="cki" style="background: var(--seal); color: #fff;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span style="flex: 1; font-size: 14px;">At least one committee with name and capacity</span><a class="btn sm b-sec" href="#">Edit</a></div>
+<div class="rr"><span class="cki" style="box-shadow: inset 0 0 0 2px var(--line);"></span><span style="flex: 1; font-size: 14px;">At least one accepted role with pricing</span><a class="btn sm b-pri" href="#">Add</a></div>
+<div class="rr"><span class="cki" style="box-shadow: inset 0 0 0 2px var(--line);"></span><span style="flex: 1; font-size: 14px;">Event details — expected delegates, audience, application deadlines</span><a class="btn sm b-pri" href="#">Add</a></div>
+<div class="rr"><span class="cki" style="box-shadow: inset 0 0 0 2px var(--line); opacity: .6;"></span><span style="flex: 1; font-size: 14px; color: var(--muted);">Schedule items <span class="pill p-mute" style="height: 20px;">optional</span></span><a class="btn sm b-sec" href="#">Add</a></div>
+<div style="padding: 12px 18px; background: var(--sunk2); font-size: 12.5px; color: var(--muted);">Publish unlocks once all required items are checked.</div>
+</div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 1100px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="sl">Setup</span><span class="ni on">Overview</span><span class="ni">Details</span><span class="ni">Allocation</span></aside>
+<main class="main">
+<div class="hero" style="height: 150px;"><div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,29,44,.2), rgba(14,29,44,.85));"></div><div class="row" style="position: absolute; left: 22px; right: 18px; bottom: 16px; justify-content: space-between;"><span class="col" style="gap: 4px; color: #fff;"><span class="pill" style="background: #B42318; color: #fff; align-self: flex-start;"><i></i>Live</span><b class="serif" style="font-size: 26px; color: #fff;">Dhaka MUN 2026</b></span><span class="row" style="gap: 8px;"><button class="btn sm b-glass">Unpublish</button><button class="btn sm b-glass">Edit</button><button class="btn sm b-glass">View</button></span></div></div>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;"><div class="card stat"><span>Applicants</span><b>186</b></div><div class="card stat"><span>Approved</span><b style="color: var(--seal);">152</b></div><div class="card stat"><span>Capacity</span><b>82%</b><div class="pb"><i style="width: 82%;"></i></div></div><div class="card stat"><span>Days Away</span><b>9</b></div></div>
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px; align-items: start;">
+<div class="col" style="gap: 16px;">
+<div class="card" style="overflow: hidden;"><div class="row" style="padding: 14px 16px; justify-content: space-between;"><span class="col"><b style="font-size: 16px;">Recent Applications</b><span style="font-size: 12.5px; color: var(--muted);">Latest delegates and staff</span></span><a href="#" style="font-size: 13px; font-weight: 600;">View All →</a></div>
+<div class="ar" style="background: var(--sealSoft);"><span class="av" style="background: #1E6FE0;">D</span><span class="col" style="flex: 1;"><b style="font-size: 14px;">Tanvir Ahmed</b><span style="font-size: 12px; color: var(--muted);">DISEC</span></span><span class="pill p-wait">pending</span></div>
+<div class="ar"><span class="av" style="background: #13895F;">D</span><span class="col" style="flex: 1;"><b style="font-size: 14px;">Nadia Rahman</b><span style="font-size: 12px; color: var(--muted);">UNSC</span></span><span class="pill p-ok">approved</span></div>
+<div class="ar"><span class="av" style="background: #7B4FD6;">H</span><span class="col" style="flex: 1;"><b style="font-size: 14px;">[Name]</b><span style="font-size: 12px; color: var(--muted);">Head Delegate</span></span><span class="pill p-bad">rejected</span></div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;"><div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Country Assignments</b><span class="serif" style="font-size: 30px;">7</span><span style="font-size: 12.5px; color: var(--muted);">Pending assignments</span><a class="btn sm b-pri" href="#">Assign Now →</a></div><div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Upcoming Session</b><b style="font-size: 14px;">Opening Ceremony</b><span style="font-size: 12.5px; color: var(--muted);">9:00 AM - Main Hall</span><a class="btn sm b-sec" href="#">View Full Schedule →</a></div></div>
+</div>
+<div class="col" style="gap: 16px;">
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="justify-content: space-between;"><b style="font-size: 15px;">Committees</b><a href="#" style="font-size: 13px; font-weight: 600;">Manage</a></div><div class="col" style="gap: 4px;"><div class="row" style="justify-content: space-between; font-size: 13px;"><span>UNSC</span><span>15 / 15</span></div><div class="pb"><i style="width: 100%;"></i></div></div><div class="col" style="gap: 4px;"><div class="row" style="justify-content: space-between; font-size: 13px;"><span>DISEC</span><span>32 / 40</span></div><div class="pb"><i style="width: 80%;"></i></div></div><div class="col" style="gap: 4px;"><div class="row" style="justify-content: space-between; font-size: 13px;"><span>UNHRC</span><span>18 / 30</span></div><div class="pb"><i style="width: 60%;"></i></div></div></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 15px;">Quick Tools</b><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><a class="btn sm b-sec" href="#">Complaints</a><a class="btn sm b-sec" href="#">ID Cards</a><a class="btn sm b-sec" href="#">Certificates</a><a class="btn sm b-sec" href="#">Announcements</a><a class="btn sm b-sec" href="#">Partners</a></div></div>
+</div>
+</div>
+<div class="scrim"></div>
+<aside class="sheet">
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="justify-content: space-between;"><span class="col"><b style="font-size: 16px;">Applicant Profile</b><span style="font-size: 12px; color: var(--muted);">View submitted data and onboarding profile details.</span></span><button class="btn sm b-sec" aria-label="Close" style="width: 32px; padding: 0;">×</button></div>
+<div class="row"><span class="av" style="background: #1E6FE0; width: 44px; height: 44px; font-size: 15px;">T</span><span class="col" style="gap: 4px;"><b style="font-size: 16px;">Tanvir Ahmed</b><span class="row" style="gap: 6px;"><span class="pill p-mute">Delegate</span><span class="pill p-wait">pending</span><span class="pill p-ok">Paid</span></span></span></div></div>
+<div class="sec"><h4>User Information</h4><span style="font-size: 13px;">tanvir@mail.com · +880 1X XXX XXXX · [Institution]</span></div>
+<div class="sec"><h4>Ranked Committee Choices</h4><div class="row" style="gap: 8px; font-size: 13px;"><span class="pill p-mute">1</span><b>DISEC</b><span class="row" style="gap: 4px;"><i class="flag fbd"></i><i class="flag fjp"></i><i class="flag ffr"></i></span></div><div class="row" style="gap: 8px; font-size: 13px;"><span class="pill p-mute">2</span><b>UNHRC</b><span style="color: var(--muted);">Any country</span></div></div>
+<div class="sec"><h4>Previous MUN Experience</h4><span style="font-size: 13px; color: var(--ink2);">[Text]</span><h4 style="margin-top: 4px;">Motivation for Choices</h4><span style="font-size: 13px; color: var(--ink2);">[Text]</span></div>
+<div class="sec" style="background: var(--sunk2);"><h4>Approve Application Settings</h4><div class="col" style="gap: 5px;"><span style="font-size: 12.5px; font-weight: 600;">Assign Committee</span><div class="sel">DISEC <span class="pill p-wait" style="height: 20px;">★ #1</span></div></div><div class="col" style="gap: 5px;"><span style="font-size: 12.5px; font-weight: 600;">Assign Country</span><div class="sel"><span class="row" style="gap: 6px;"><i class="flag fbd"></i>Bangladesh <span class="pill p-wait" style="height: 20px;">#1</span></span></div><span style="font-size: 12px; color: var(--muted);">France — Taken · Already assigned for another delegate</span></div></div>
+<div class="row" style="padding: 14px 20px; border-top: 1px solid var(--line2); gap: 8px; margin-top: auto;"><button class="btn b-sec" style="flex: 1; color: var(--red);">Reject</button><button class="btn b-pri" style="flex: 2;">Approve</button></div>
+</aside>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Overview · phone</b></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 12px;">
+<div class="hero" style="height: 150px;"><div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,29,44,.1), rgba(14,29,44,.85));"></div><span class="col" style="position: absolute; left: 14px; bottom: 12px; gap: 4px;"><span class="pill" style="background: #B42318; color: #fff; align-self: flex-start;">Live</span><b class="serif" style="font-size: 20px; color: #fff;">Dhaka MUN 2026</b></span></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="card stat" style="padding: 12px;"><span>Applicants</span><b style="font-size: 22px;">186</b></div><div class="card stat" style="padding: 12px;"><span>Approved</span><b style="font-size: 22px; color: var(--seal);">152</b></div><div class="card stat" style="padding: 12px;"><span>Capacity</span><b style="font-size: 22px;">82%</b></div><div class="card stat" style="padding: 12px;"><span>Days Away</span><b style="font-size: 22px;">9</b></div></div>
+<div class="card" style="padding: 14px; display: flex; align-items: center; gap: 12px;"><span class="col" style="flex: 1;"><b>7 pending assignments</b><span style="font-size: 12px; color: var(--muted);">Country Assignments</span></span><a class="btn sm b-pri" href="#">Assign Now</a></div>
+<div class="card" style="overflow: hidden;"><div style="padding: 12px 14px;"><b>Recent Applications</b></div><div class="ar"><span class="av" style="background: #1E6FE0;">D</span><b style="flex: 1; font-size: 13.5px;">Tanvir Ahmed</b><span class="pill p-wait">pending</span></div><div class="ar"><span class="av" style="background: #13895F;">D</span><b style="flex: 1; font-size: 13.5px;">Nadia Rahman</b><span class="pill p-ok">approved</span></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Applicant sheet variants</b><span>Unpaid, faculty, team.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="gap: 10px; padding: 10px 12px; border-radius: 10px; background: var(--amberSoft); color: var(--amber); font-size: 13px; align-items: flex-start;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 1px;"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Registration fee unpaid. This applicant can't be approved until Stripe confirms payment.</div><div class="row" style="gap: 8px;"><button class="btn sm b-sec" style="flex: 1; color: var(--red);">Reject</button><button class="btn sm" style="flex: 2; background: var(--sunk); color: var(--muted);" disabled title="Applicant must pay before approval">Unpaid</button></div></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Faculty Advisor Information</b><span style="font-size: 13px;">Position · Teaching Experience · Accompanying Students: 8 delegates</span></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Team Details</b><span style="font-size: 13px;">Team Name: Harvard A · Team Size: 5 members</span><span style="font-size: 12.5px; color: var(--muted);">Members List — name · email</span></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Event Assignment</b><span class="row" style="gap: 8px; font-size: 13px;">UNSC · <i class="flag fbd"></i>Bangladesh</span></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--sh2);"><span style="font-size: 13.5px; line-height: 1.5;">You already have 2 published Free events (the limit is 2). Make this event Pro, or ask for more room, under Plan.</span><button class="btn sm b-sec" style="align-self: flex-end;">OK</button></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--sh2);"><span style="font-size: 13.5px;">Unpublish this event? It will no longer appear on the public events page.</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Unpublish</button></div></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3340}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

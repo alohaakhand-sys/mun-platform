@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Detail and apply states</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}a:hover{color:#08543D}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--signalSoft:#F8E6E1;--sand:#E7E3D6;--amber:#8A5A00;--amberSoft:#FBF0D9;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 6px 20px rgba(14,29,44,.08);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.78);--scrim:rgba(14,29,44,.42);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--signalSoft:rgba(224,128,101,.14);--sand:#2A3B46;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--sh1:none;--sh2:0 8px 24px rgba(0,0,0,.35);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.80);--scrim:rgba(0,0,0,.6)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:34px;padding:0 13px;font-size:13.5px;border-radius:8px}
+.btn.lg{height:48px;padding:0 20px;font-size:15px;border-radius:10px}
+.btn.block{width:100%}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dis{background:var(--sunk);color:var(--muted)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.hdr{height:68px;background:var(--glass);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:20px;padding:0 40px;flex:none}
+.search{flex:1;max-width:420px;height:40px;border-radius:20px;background:var(--sunk2);box-shadow:inset 0 0 0 1px var(--line2);display:flex;align-items:center;gap:10px;padding:0 16px;color:var(--muted);font-size:14px;box-sizing:border-box}
+.nav a{font-size:14px;font-weight:500;color:var(--ink2)}
+.shell{max-width:1200px;margin:0 auto;padding:0 40px;box-sizing:border-box;width:100%}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.tag i{display:block;width:6px;height:6px;border-radius:3px;background:currentColor}
+.t-ok{background:var(--sealSoft);color:var(--seal)}.t-sig{background:var(--signalSoft);color:var(--signal)}.t-mute{background:var(--sunk);color:var(--ink2)}.t-wait{background:var(--amberSoft);color:var(--amber)}
+.photo{background:linear-gradient(160deg,#B9CBC4 0%,#DCD8CA 100%)}
+.w.dark .photo{background:linear-gradient(160deg,#2C4A44 0%,#2A3B46 100%)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--sh1)}
+.ph2{margin:0;font-size:24px}
+.ph3{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.dl{display:grid;grid-template-columns:140px 1fr;gap:12px 16px;font-size:14.5px}
+.dl dt{color:var(--muted)}.dl dd{margin:0;font-weight:500}
+.bh{display:flex;align-items:baseline;justify-content:space-between}
+.bh span{font-size:13.5px;color:var(--muted)}
+.com{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh1)}
+.com .plate{padding:16px 18px;background:var(--sunk2);border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:10px}
+.com .plate b{font-family:Newsreader,Georgia,serif;font-size:21px;font-weight:500;flex:1}
+.com .cb{padding:16px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.clamp{font-size:14px;line-height:1.55;color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tier{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sh1)}
+.tier.on{box-shadow:inset 0 0 0 2px var(--seal)}
+.price{font-size:32px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.strike{font-size:16px;color:var(--muted);text-decoration:line-through;font-weight:500}
+.lr{display:flex;align-items:center;gap:12px;height:48px;border-top:1px solid var(--line2);font-size:14.5px;color:var(--ink)}
+.soc{width:38px;height:38px;border-radius:19px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;background:var(--paper);flex:none}
+.flag{width:22px;height:15px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.fin{background:linear-gradient(#FF9933 0 33%,#fff 33% 66%,#138808 66%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.fng{background:linear-gradient(90deg,#008751 0 33%,#fff 33% 66%,#008751 66%)}
+.fbr{background:radial-gradient(circle,#002776 0 22%,transparent 23%),linear-gradient(135deg,transparent 30%,#FEDF00 30% 70%,transparent 70%),#009C3B}
+.fus{background:linear-gradient(#3C3B6E,#3C3B6E) 0 0/45% 54% no-repeat,repeating-linear-gradient(#B22234 0 7.7%,#fff 7.7% 15.4%)}
+.fgr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.fgr span{display:flex;align-items:center;gap:8px;font-size:13.5px;padding:8px 10px;border-radius:10px;background:var(--sunk2)}
+.fstub{background:var(--paper);border-top:1px solid var(--line);height:96px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);flex:none}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.mh{height:56px;background:var(--glass);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 12px;flex:none}
+.ib{width:40px;height:40px;border-radius:10px;border:0;background:none;color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:var(--glass);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.scrimx{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:90px;background:var(--paper);border-radius:24px 24px 0 0;display:flex;flex-direction:column;overflow:hidden}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:8px auto 0;flex:none}
+.radio{display:flex;align-items:center;gap:12px;height:46px;padding:0 14px;border-radius:12px;border:1px solid var(--line);font-size:14.5px}
+.radio.on{border-color:var(--seal);background:var(--sealSoft)}
+.rd{width:18px;height:18px;border-radius:9px;border:1.5px solid var(--line);box-sizing:border-box;flex:none}
+.radio.on .rd{border:5px solid var(--seal)}
+
+.w{--red:#B42318;--redSoft:#FBE7E4;--violet:#6B46C1;--violetSoft:#EEE8FA;--blue:#1F5FBF;--blueSoft:#E5EEFB}
+.w.dark{--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--violet:#B79CF2;--violetSoft:rgba(183,156,242,.16);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14)}
+.lw .lga{fill:#fff}.lw .lgb{fill:#47A481}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.skl{border-radius:8px;background:linear-gradient(90deg,var(--sunk) 0%,var(--sunk2) 50%,var(--sunk) 100%);background-size:200% 100%;animation:skl 1.4s ease-in-out infinite}
+@keyframes skl{0%{background-position:100% 0}100%{background-position:-100% 0}}
+@media (prefers-reduced-motion:reduce){.skl{animation:none}}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label,.fld .fl{font-size:13.5px;font-weight:600}
+.fld .hint{font-size:12.5px;color:var(--muted);line-height:1.45}
+.inp{display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border-radius:11px;border:1px solid var(--line);background:var(--sunk2);box-sizing:border-box;font-size:14.5px;color:var(--ink)}
+.inp.pv{color:var(--muted)}
+.inp.ta{height:96px;align-items:flex-start;padding-top:12px;line-height:1.5}
+.inp.dis{background:var(--sunk);color:var(--muted)}
+.inp.err{border-color:var(--red);box-shadow:0 0 0 3px var(--redSoft)}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:11px;font-size:13.5px;line-height:1.45}
+.a-err{background:var(--redSoft);color:var(--red)}.a-warn{background:var(--amberSoft);color:var(--amber)}.a-ok{background:var(--sealSoft);color:var(--seal)}.a-info{background:var(--blueSoft);color:var(--blue)}
+.ferr{font-size:12.5px;color:var(--red)}
+.t-red{background:var(--redSoft);color:var(--red)}.t-vio{background:var(--violetSoft);color:var(--violet)}.t-blue{background:var(--blueSoft);color:var(--blue)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sh1)}
+.slab{background:#0E1D2C;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:56px;color:#fff}
+.slab .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%);mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%)}
+.slab .dia{position:absolute;right:-60px;top:-60px;width:320px;height:320px;transform:rotate(45deg);border:1px solid rgba(71,164,129,.35);border-radius:28px}
+.slab .dia2{position:absolute;right:40px;top:40px;width:120px;height:120px;transform:rotate(45deg);background:rgba(71,164,129,.16);border-radius:16px}
+.note{font-size:12.5px;color:var(--muted);line-height:1.5}
+.lab{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.dots{display:flex;gap:6px;align-items:center}.dots i{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.35);display:block}.dots i.on{width:22px;background:#fff}
+.pg{width:30px;height:30px;border-radius:15px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.pg.on{background:#fff;color:#0E1D2C}
+.toast{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;background:var(--ink);color:var(--paper);font-size:13.5px;line-height:1.45;box-shadow:var(--sh2);max-width:380px}
+
+.w{--purple:#6B46C1;--purpleSoft:#EEE8FA}.w.dark{--purple:#B79CF2;--purpleSoft:rgba(183,156,242,.16)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.wiz{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh1);display:flex;flex-direction:column;overflow:hidden}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:22px 28px;border-bottom:1px solid var(--line2)}
+.st{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--muted);position:relative}
+.st i{width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:700;background:var(--sunk);color:var(--muted);flex:none}
+.st.done i{background:var(--seal);color:var(--sealInk)}
+.st.done{color:var(--ink)}
+.st.on i{background:var(--paper);color:var(--seal);box-shadow:inset 0 0 0 2px var(--seal)}
+.st.on{color:var(--ink);font-weight:600}
+.st span.ln{flex:1;height:2px;border-radius:1px;background:var(--line2);margin:0 4px}
+.st.done span.ln{background:var(--seal)}
+.wb{padding:28px;display:flex;flex-direction:column;gap:20px}
+.wf{padding:18px 28px;border-top:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;background:var(--sunk2)}
+.req{color:var(--signal)}
+.sel{display:flex;align-items:center;gap:10px;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--sunk2);font-size:14.5px;box-sizing:border-box;color:var(--ink)}
+.sel.pv{color:var(--muted)}
+.sel.dis{opacity:.55}
+.sel.on{background:var(--paper);border-color:var(--seal);box-shadow:0 0 0 3px var(--sealSoft)}
+.ta{border:1px solid var(--line);border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;overflow:hidden}
+.ta textarea{border:0;background:none;outline:none;resize:none;height:110px;padding:12px 14px;font:14.5px/1.55 Inter,sans-serif;color:var(--ink)}
+.ai{display:flex;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line2);background:var(--paper)}
+.aib{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;background:var(--purpleSoft);color:var(--purple);font-size:12.5px;font-weight:600;border:0}
+.help{font-size:12.5px;color:var(--muted);line-height:1.5}
+.pb{border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.pbh{display:flex;align-items:center;gap:10px}
+.rank{width:26px;height:26px;border-radius:8px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex:none}
+.role{display:flex;align-items:flex-start;gap:14px;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--paper)}
+.role.on{border-color:var(--seal);box-shadow:0 0 0 3px var(--sealSoft)}
+.role.off{opacity:.55;background:var(--sunk2)}
+.role.on .rd{border:6px solid var(--seal)}
+.bn{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;font-size:13.5px;line-height:1.5}
+.mstep{height:4px;border-radius:2px;background:var(--sunk);flex:1}
+.mstep.on{background:var(--seal)}
+.sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:var(--glass);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;gap:10px}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 4740px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">P09 · Public · Conference detail &amp; apply wizard — states and variants</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Detail and apply: every state</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Adds what P03 and P04 left out. Conference detail: a skeleton load, an organiser theme colour example, the late-price tier, the committee dialog on desktop, signed-out rail variants, and Join the staff busy and error states. Apply wizard: skeleton load, the late badge and empty / closed roles, the single-committee step, the Faculty Advisor step 3 and review, the AI writing panel, and inline submit errors that replace today's browser alerts.</p>
+</div>
+
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+<div style="display: flex; flex-direction: column; gap: 40px;">
+
+<div class="cap"><b>Conference detail · loading</b><span>Hero block, two main blocks beside a rail block.</span></div>
+<div class="frame" style="width: 1440px; height: 760px;">
+<div class="hdr">
+<svg viewBox="0 -100 492 130" width="124" height="33" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<div class="search"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search a conference, committee or city</div>
+<nav class="row nav" style="gap: 24px; margin-left: auto;"><a href="#">Conferences</a><a href="#">Articles</a></nav>
+<span style="width: 1px; height: 24px; background: var(--line);"></span>
+<a class="btn sm b-sec" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Create event</a>
+<a class="btn sm b-ghost" href="#">Log in</a>
+<a class="btn sm b-pri" href="#">Sign up</a>
+</div>
+<div class="shell" style="padding-top: 24px; display: flex; flex-direction: column; gap: 24px;">
+<div class="skl" style="height: 14px; width: 160px;"></div>
+<div class="skl" style="height: 320px; border-radius: 20px;"></div>
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px;"><div class="col" style="gap: 20px;"><div class="skl" style="height: 170px; border-radius: 16px;"></div><div class="skl" style="height: 240px; border-radius: 16px;"></div></div><div class="skl" style="height: 300px; border-radius: 16px;"></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Organiser theme colour · no cover photo</b><span>Set in Tools › Theme. Hero background, format pill and the rail "Apply now" take the colour, with contrasting ink. Example: a plum brand colour.</span></div>
+<div class="frame" style="width: 1440px; height: 980px;">
+<div class="hdr">
+<svg viewBox="0 -100 492 130" width="124" height="33" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<div class="search"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search a conference, committee or city</div>
+<nav class="row nav" style="gap: 24px; margin-left: auto;"><a href="#">Conferences</a><a href="#">Articles</a></nav>
+<span style="width: 1px; height: 24px; background: var(--line);"></span>
+<a class="btn sm b-sec" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Create event</a>
+<a class="btn sm b-ghost" href="#">Log in</a>
+<a class="btn sm b-pri" href="#">Sign up</a>
+</div>
+<div class="shell" style="padding-top: 24px; display: flex; flex-direction: column; gap: 20px;">
+<a href="#" class="row" style="gap: 6px; font-size: 14px; font-weight: 600; color: var(--ink2);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to conferences</a>
+<div style="height: 320px; border-radius: 20px; position: relative; overflow: hidden; background: #5B2A6E;">
+<div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 48px 48px;"></div>
+<div class="col" style="position: absolute; left: 40px; right: 40px; bottom: 36px; gap: 14px; color: #fff;">
+<div class="row" style="gap: 8px;"><span class="tag" style="background: #fff; color: #5B2A6E;">In-person</span><span class="tag" style="background: rgba(255,255,255,.16); color: #fff;">Conference</span></div>
+<h1 class="serif" style="margin: 0; font-size: 46px; line-height: 1.05;">[Event title]</h1>
+<span style="font-size: 15px; color: #EADCF0;">Sat, 15 August 2026 · [Venue]</span>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 32px; align-items: start;">
+<div class="col" style="gap: 16px;">
+<div class="bh"><h2 class="serif ph2">Registration</h2><span>Late phase</span></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+<div class="tier"><span class="tag t-sig" style="align-self: flex-start;">Late price</span><b style="font-size: 17px;">Delegate — standard</b><div class="row" style="gap: 10px; align-items: baseline;"><span class="price">$18</span><span class="strike">$15</span></div></div>
+<div class="tier"><span class="tag t-sig" style="align-self: flex-start;">Late price</span><b style="font-size: 17px;">Team Delegation Lead</b><div class="row" style="gap: 6px; align-items: baseline;"><span class="price">$14</span><span class="strike">$10</span><span style="font-size: 14px; color: var(--muted);">/ member</span></div></div>
+</div>
+</div>
+<div class="panel"><span class="ph3">Application status</span><span class="tag t-ok" style="align-self: flex-start;"><i></i>Accepting applications</span><span style="font-size: 14px; color: var(--ink2);">[Role options and deadline as on P03]</span><a class="btn lg block" href="#" style="background: #5B2A6E; color: #fff;">Apply now</a></div>
+</div>
+</div>
+</div>
+
+<div class="cap"><b>Committee dialog · desktop</b><span>"View members" opens a centred dialog (max ~620px); phones keep the bottom sheet from P03.</span></div>
+<div class="frame" style="width: 1440px; height: 900px; position: relative; align-items: center; justify-content: center;">
+<div class="scrimx"></div>
+<div style="position: relative; width: 620px; background: var(--paper); border-radius: 20px; box-shadow: var(--sh2); display: flex; flex-direction: column; overflow: hidden;">
+<div style="padding: 24px 28px 18px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid var(--line2);">
+<div class="row" style="justify-content: space-between;"><span class="kick">Committee</span><button class="ib" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+<h2 class="serif" style="margin: 0; font-size: 30px;">UN Security Council</h2>
+<div class="row" style="gap: 6px;"><span class="tag t-sig">Advanced</span><span class="tag t-mute">15 positions</span><span class="tag t-mute">15 spots</span><span class="tag t-sig"><i></i>Full</span></div>
+</div>
+<div style="padding: 20px 28px 26px; display: flex; flex-direction: column; gap: 18px;">
+<div class="col" style="gap: 8px;"><span class="lbl">Agendas</span><ol style="margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.7;"><li>[Agenda one]</li><li>[Agenda two]</li></ol></div>
+<div class="col" style="gap: 8px;"><span class="lbl">Description</span><span style="font-size: 14.5px; line-height: 1.6; color: var(--ink2);">[Committee description]</span></div>
+<div class="col" style="gap: 8px;"><span class="lbl">Countries / positions</span><div class="fgr" style="grid-template-columns: repeat(3, minmax(0, 1fr));"><span><i class="flag fbd"></i>Bangladesh</span><span><i class="flag fjp"></i>Japan</span><span><i class="flag ffr"></i>France</span><span><i class="flag fde"></i>Germany</span><span><i class="flag fin"></i>India</span><span><i class="flag fus"></i>United States</span></div></div>
+<span class="note">Open variant: pill "Open" (green, with pip). Single agenda: section "Topic / agenda". No positions: "Positions to be announced."</span>
+</div>
+</div>
+</div>
+
+<div class="cap"><b>Apply wizard · step 2, single committee · step 3, Faculty Advisor</b><span>Faculty step 4 shows "Applying As" + Experience + Motivation only.</span></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 1440px;">
+<div class="wiz">
+<div class="steps"><span class="st done"><i>✓</i>Role Selection<span class="ln"></span></span><span class="st on"><i>2</i>Preferences<span class="ln"></span></span><span class="st"><i>3</i>Experience<span class="ln"></span></span><span class="st"><i>4</i>Review</span></div>
+<div class="wb">
+<div class="fld"><label>Committee <span class="req">*</span></label><div class="sel on">UNHRC ▾</div><span class="help">Pick a committee, then rank up to 3 countries within it. The same country can't be chosen twice.</span></div>
+<div class="fld"><label>1st choice <span class="req">*</span></label><div class="sel"><i class="flag fjp"></i>Japan ▾</div></div>
+<div class="fld"><label>2nd choice</label><div class="sel pv">Optional ▾</div></div>
+<div class="fld"><label>3rd choice</label><div class="sel pv">Optional ▾</div></div>
+<span class="note">No country list on the committee → the only option is "Any Available Country". No committees → disabled item "No committees available".</span>
+</div>
+<div class="wf"><button class="btn b-sec">Back</button><button class="btn b-pri">Continue</button></div>
+</div>
+<div class="wiz">
+<div class="steps"><span class="st done"><i>✓</i>Role Selection<span class="ln"></span></span><span class="st done"><i>✓</i>Preferences<span class="ln"></span></span><span class="st on"><i>3</i>Experience<span class="ln"></span></span><span class="st"><i>4</i>Review</span></div>
+<div class="wb">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;"><div class="fld"><label>Institution</label><div class="inp pv">e.g., Harvard University</div></div><div class="fld"><label>Faculty Position</label><div class="inp pv">e.g., History Teacher, Professor of Law</div></div><div class="fld"><label>Years Teaching MUN</label><div class="inp pv">e.g., 5 years</div></div><div class="fld"><label>Students Accompanying</label><div class="inp">1</div></div></div>
+<div class="fld"><label>Supervisor Experience <span class="req">*</span></label><span class="help">Briefly list your experience accompanying or supervising student groups.</span><div class="ta"><div style="height: 72px; padding: 12px 14px; font-size: 14px; color: var(--muted);">e.g., Supervised Harvard MUN delegations in 2022 and 2023...</div><div class="ai"><span class="aib">AI</span></div></div></div>
+<div class="fld"><label>Motivation for Participating <span class="req">*</span></label><span class="help">Why is your institution participating in this conference?</span><div class="ta"><div style="height: 72px; padding: 12px 14px; font-size: 14px; color: var(--muted);">I am deeply interested in global health policies...</div><div class="ai"><span class="aib">AI</span></div></div></div>
+</div>
+<div class="wf"><button class="btn b-sec">Back</button><button class="btn b-pri">Continue</button></div>
+</div>
+</div>
+
+<div class="cap"><b>Submit errors · inline, replacing window.alert</b><span>Shown above the step 4 footer. After a payment-start failure the application is saved unpaid and the success card still follows.</span></div>
+<div class="wiz" style="width: 1440px; box-sizing: border-box;">
+<div class="wb" style="gap: 12px;">
+<div class="alert a-err"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Applications are closed. Please refresh and check the application window.</span></div>
+<div class="alert a-err"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>You have already applied to this event. You can't apply twice.</span></div>
+<div class="alert a-err"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Failed to submit application. Please try again.</span></div>
+<div class="alert a-warn"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v4M12 17h.01"/></svg><span>Could not start payment. You can pay later from the Payments page. <span style="opacity: .75;">(or the server's error text)</span></span></div>
+<div class="alert a-warn"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v4M12 17h.01"/></svg><span>Could not reach payment service. You can pay later from the Payments page.</span></div>
+</div>
+<div class="wf"><button class="btn b-sec">Back</button><button class="btn b-pri">Submit Application</button></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px; width: 390px;">
+<div class="cap"><b>Rail · signed-out variants</b></div>
+<div class="panel"><span class="ph3">Application status</span><div class="row" style="gap: 6px;"><span class="tag t-ok"><i></i>Accepting applications</span><span class="tag t-wait">Early bird</span></div><span style="font-size: 14px; color: var(--muted);">Sign in to submit an application.</span><a class="btn lg block b-pri" href="#">Log in — early bird</a></div>
+<div class="panel"><span class="ph3">Application status</span><span class="tag t-sig" style="align-self: flex-start;"><i></i>Applications closed</span><span style="font-size: 14px; color: var(--muted);">Sign in to submit an application.</span><button class="btn lg block b-dis" disabled>Applications closed</button></div>
+
+<div class="cap"><b>Join the staff · busy and errors</b><span>Only when public staff applications are on.</span></div>
+<div class="panel">
+<span class="ph3">Join the staff</span>
+<div class="radio on"><span class="rd"></span>Chair<span style="margin-left: auto; font-size: 12px; font-weight: 600; color: var(--seal);">Selected</span></div>
+<div class="radio"><span class="rd"></span>Vice Chair</div>
+<div class="radio"><span class="rd"></span>Director</div>
+<button class="btn block b-dis" disabled>Sending…</button>
+<span class="ferr">Couldn't send your application. Please try again.</span>
+</div>
+<div class="card" style="gap: 8px;"><span class="lab">Other states</span><button class="btn sm b-dis" disabled style="align-self: flex-start;">Withdrawing…</button><span class="ferr">Your account needs an email address to apply.</span><span class="ferr">Couldn't withdraw. Please try again.</span></div>
+
+<div class="cap"><b>Apply · loading · phone</b></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div class="col" style="padding: 20px 16px; gap: 18px;"><div class="skl" style="height: 26px; width: 66%;"></div><div class="skl" style="height: 500px; border-radius: 20px;"></div></div>
+</div>
+
+<div class="cap"><b>Step 1 · extra states</b></div>
+<div class="role"><span class="rd"></span><span class="col" style="flex: 1; gap: 4px;"><b>Delegate — standard</b><span class="row" style="gap: 8px;"><span class="price" style="font-size: 22px;">$18</span><span class="tag t-wait">Late price</span></span></span></div>
+<div class="role off"><span class="rd"></span><span class="col" style="flex: 1; gap: 4px;"><b>Head Delegate</b><span class="tag t-mute" style="align-self: flex-start;">Closed Nov 20, 11:59 PM</span></span></div>
+<div class="card" style="align-items: center; text-align: center; color: var(--muted); font-size: 14px;">No application roles are open for this event yet.</div>
+
+<div class="cap"><b>AI writing panel</b><span>Under every textarea. Chip "AI" opens it.</span></div>
+<div class="ta" style="background: var(--paper);">
+<div style="padding: 12px 14px; font-size: 14px; line-height: 1.5;">[Their text]</div>
+<div class="col" style="gap: 10px; padding: 12px; border-top: 1px solid var(--line2); background: var(--purpleSoft);">
+<div class="row" style="gap: 6px;"><button class="btn sm b-sec">Improve</button><button class="btn sm b-sec">Fix grammar</button><button class="btn sm b-sec">Suggest</button></div>
+<div class="col" style="gap: 6px; padding: 10px 12px; border-radius: 10px; background: var(--paper);"><span class="lab" style="color: var(--purple);">Suggestion</span><span style="font-size: 13.5px; line-height: 1.5;">[Suggested text]</span><div class="row" style="gap: 6px;"><button class="btn sm b-pri">Use this</button><button class="btn sm b-ghost">Try another</button></div></div>
+</div>
+</div>
+<div class="row" style="gap: 8px; flex-wrap: wrap;"><span class="aib">Undo</span><span class="tag t-mute">Tooltip: Write something first</span><span class="ferr">Could not reach the AI.</span></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":4740}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

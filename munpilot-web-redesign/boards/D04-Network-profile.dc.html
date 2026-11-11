@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Network and profile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--gold:#B8860B;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--gold:#E9C25A;--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni i{width:18px;height:18px;border-radius:5px;border:1.8px solid var(--muted);box-sizing:border-box;flex:none;opacity:.7}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.ni.on i{border-color:var(--seal);opacity:1}
+.main{flex:1;min-width:0;padding:32px 40px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.tabs{display:flex;gap:28px;border-bottom:1px solid var(--line)}
+.tabs span{padding:10px 0;font-size:14.5px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs span.on{color:var(--ink);font-weight:600;border-color:var(--seal)}
+.chipst{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:17px;background:var(--paper);border:1px solid var(--line);font-size:13.5px;font-weight:500}
+.pc{overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center}
+.pc .band{height:56px;width:100%;background:var(--sand)}
+.pc .avl{width:68px;height:68px;border-radius:34px;margin-top:-34px;box-shadow:0 0 0 4px var(--paper);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;color:#fff}
+.pc .acts{display:flex;gap:8px;padding:14px 0 18px}
+.rb{width:38px;height:38px;border-radius:19px;border:1px solid var(--line);background:var(--paper);color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.rb.pri{background:var(--seal);border-color:var(--seal);color:var(--sealInk)}
+.rb.dan{color:var(--red)}
+.av{width:36px;height:36px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex:none}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-mute{background:var(--sunk);color:var(--ink2)}.p-info{background:var(--blueSoft);color:var(--blue)}
+.sec{padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.sec h2{margin:0;font-size:17px;font-weight:600}
+.xp{display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--line2)}
+.xp:first-of-type{border-top:0}
+.org{width:44px;height:44px;border-radius:12px;background:var(--sunk);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--ink2);flex:none}
+.stars{display:inline-flex;gap:2px;color:var(--gold)}
+.sk{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line2)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.pop{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh2);padding:20px;display:flex;flex-direction:column;gap:12px}
+.stripe{background:repeating-linear-gradient(135deg,var(--sunk) 0 12px,var(--sunk2) 12px 24px)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3560px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">D04 · Dashboard · /dashboard/network and /dashboard/profile/[uid]</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Network and public profile</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Network keeps the two count chips and Discover / Connections / Blocked. Connections stay grouped into "From Conferences" and "Manually Connected"; each card keeps its round actions (Message, Visit profile, Disconnect, Block) — now with visible labels on hover. Blocked shows the person's name instead of the raw user id. The public profile keeps the main column + 312px rail and every section, from the hero to Contact &amp; Social. Sidebar abbreviated.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 980px;">
+<aside class="side"><div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div><span class="sl">Menu</span><a class="ni" href="#"><i></i>Dashboard</a><a class="ni" href="#"><i></i>My Conferences</a><a class="ni" href="#"><i></i>Documents</a><a class="ni" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni on" href="#"><i></i>Network</a><a class="ni" href="#"><i></i>Payments</a><a class="ni" href="#"><i></i>Settings</a></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><div class="col" style="gap: 8px;"><h1 class="serif" style="margin: 0; font-size: 38px;">Network</h1><span style="font-size: 15px; color: var(--muted);">Your connections from conferences and manual follows.</span></div><div class="row" style="gap: 8px;"><span class="chipst"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--seal);"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 11l2 2 4-4"/></svg>12 connections</span><span class="chipst"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--blue);"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M19 8v6M16 11h6"/></svg>30 to discover</span></div></div>
+<div class="tabs"><span>Discover</span><span class="on">Connections (12)</span><span>Blocked (1)</span></div>
+<div class="row" style="gap: 8px;"><b style="font-size: 15px;">From Conferences</b><span class="pill p-mute">8</span></div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;">
+<div class="card pc"><i class="band"></i><span class="avl" style="background: #1E6FE0;">TA</span><b style="font-size: 15px; margin-top: 10px;">Tanvir Ahmed</b><span style="font-size: 12.5px; color: var(--muted);">Met via conference</span><div class="acts"><button class="rb pri" aria-label="Message"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button><button class="rb" aria-label="Visit profile"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg></button><button class="rb" aria-label="Disconnect"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 11h6"/></svg></button><button class="rb dan" aria-label="Block"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></button></div></div>
+<div class="card pc" style="box-shadow: var(--sh2);"><i class="band" style="background: var(--sealSoft);"></i><span class="avl" style="background: #7B4FD6;">RS</span><b style="font-size: 15px; margin-top: 10px;">Ria Sen</b><span style="font-size: 12.5px; color: var(--muted);">Met via conference</span><div class="acts"><button class="rb pri" aria-label="Message"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button><button class="rb" aria-label="Visit profile"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg></button><span style="position: relative;"><button class="rb" aria-label="Disconnect" style="border-color: var(--ink);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 11h6"/></svg></button><span style="position: absolute; top: -34px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--paper); font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 6px; white-space: nowrap;">Disconnect</span></span><button class="rb dan" aria-label="Block"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></button></div></div>
+<div class="card pc"><i class="band"></i><span class="avl" style="background: #B8860B;">AK</span><b style="font-size: 15px; margin-top: 10px;">[Name]</b><span style="font-size: 12.5px; color: var(--muted);">Met via conference</span><div class="acts"><button class="rb pri" aria-label="Message"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button><button class="rb" aria-label="Visit profile"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg></button><button class="rb" aria-label="Disconnect"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 11h6"/></svg></button><button class="rb dan" aria-label="Block"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></button></div></div>
+<div class="card pc"><i class="band"></i><span class="avl" style="background: #13895F;">MH</span><b style="font-size: 15px; margin-top: 10px;">[Name]</b><span style="font-size: 12.5px; color: var(--muted);">Met via conference</span><div class="acts"><button class="rb pri" aria-label="Message"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button><button class="rb" aria-label="Visit profile"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg></button><button class="rb" aria-label="Disconnect"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 11h6"/></svg></button><button class="rb dan" aria-label="Block"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></button></div></div>
+</div>
+<div class="row" style="gap: 8px; margin-top: 4px;"><b style="font-size: 15px;">Manually Connected</b><span class="pill p-mute">4</span></div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;">
+<div class="card pc"><i class="band"></i><span class="avl" style="background: #0E1D2C;">JD</span><b style="font-size: 15px; margin-top: 10px;">[Name]</b><span style="font-size: 12.5px; color: var(--muted);">&#160;</span><div class="acts"><button class="rb pri" aria-label="Message"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button><button class="rb" aria-label="Visit profile"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg></button><button class="rb" aria-label="Disconnect"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 11h6"/></svg></button><button class="rb dan" aria-label="Block"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></button></div></div>
+</div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 1560px;">
+<aside class="side"><div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div><span class="sl">Menu</span><a class="ni" href="#"><i></i>Dashboard</a><a class="ni" href="#"><i></i>My Conferences</a><a class="ni" href="#"><i></i>Documents</a><a class="ni" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni on" href="#"><i></i>Network</a><a class="ni" href="#"><i></i>Payments</a><a class="ni" href="#"><i></i>Settings</a></aside>
+<main class="main" style="gap: 18px;">
+<a href="#" class="row" style="gap: 6px; font-size: 14px; font-weight: 600; color: var(--ink2);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back</a>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 312px; gap: 24px; align-items: start;">
+<div class="col" style="gap: 18px;">
+<div class="card" style="overflow: hidden;">
+<div class="stripe" style="height: 170px;"></div>
+<div style="padding: 0 28px 24px; display: flex; flex-direction: column; gap: 14px;">
+<div class="row" style="align-items: flex-end; justify-content: space-between; margin-top: -64px;"><span style="position: relative;"><span style="width: 128px; height: 128px; border-radius: 64px; background: #1E6FE0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 600; box-shadow: 0 0 0 5px var(--paper), 0 0 0 8px #22A06B;">TA</span><span style="position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%); background: #22A06B; color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; padding: 3px 8px; border-radius: 8px; white-space: nowrap;">OPEN TO DELEGATE</span></span>
+<div class="row" style="gap: 8px;"><button class="btn b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg>Rate</button><button class="btn b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg>Message</button><button class="btn b-pri"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M19 8v6M16 11h6"/></svg>Connect</button></div></div>
+<div class="row" style="justify-content: space-between; align-items: flex-start; margin-top: 8px;">
+<div class="col" style="gap: 6px;"><span class="row" style="gap: 8px;"><h1 class="serif" style="margin: 0; font-size: 34px;">Tanvir Ahmed</h1><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--blue);"><path d="M12 2l2.4 1.8 3-.2.9 2.9 2.5 1.7-1 2.8 1 2.8-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9-2.5-1.7 1-2.8-1-2.8 2.5-1.7.9-2.9 3 .2z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span><span style="font-size: 15.5px; color: var(--ink2);">[Headline — e.g. Head Delegate · IR student]</span>
+<div class="row" style="gap: 14px; font-size: 13.5px; color: var(--muted); flex-wrap: wrap;"><span class="pill p-info">Delegate</span><span class="row" style="gap: 4px;"><span class="stars"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="fill: currentColor;"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="fill: currentColor;"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="fill: currentColor;"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="fill: currentColor;"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg></span>· 6 ratings</span><span>Dhaka, Bangladesh</span><span>Bangladeshi</span><a href="#">Contact info</a><span>48 connections</span></div></div>
+<div class="row" style="gap: 10px; padding: 10px 14px; border-radius: 12px; background: var(--sunk2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="M22 10 12 5 2 10l10 5 10-5zM6 12v5c3 2 9 2 12 0v-5"/></svg><span style="font-size: 13.5px; font-weight: 600;">[Institution]</span></div>
+</div>
+<div class="row" style="gap: 10px; padding: 12px 14px; border-radius: 12px; background: var(--sealSoft); color: var(--seal); font-size: 14px;"><b>Open to delegate &amp; chair invitations</b><span style="color: var(--ink2);">UNSC, DISEC, Crisis</span></div>
+</div>
+</div>
+<div class="card sec"><h2>MUN Stats</h2><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;"><div style="padding: 14px; border-radius: 12px; background: var(--sunk2);"><b class="serif" style="font-size: 30px;">7</b><div style="font-size: 13px; color: var(--muted);">Conferences</div></div><div style="padding: 14px; border-radius: 12px; background: var(--sunk2);"><b class="serif" style="font-size: 30px;">2</b><div style="font-size: 13px; color: var(--muted);">Blogs</div></div><div style="padding: 14px; border-radius: 12px; background: var(--sunk2);"><b class="serif" style="font-size: 30px;">3</b><div style="font-size: 13px; color: var(--muted);">Awards</div></div></div></div>
+<div class="card sec"><h2>About</h2><span style="font-size: 15px; line-height: 1.65; color: var(--ink2);">[Bio — markdown.]</span><div class="row" style="gap: 6px; flex-wrap: wrap;"><span class="pill p-mute">Diplomacy</span><span class="pill p-mute">Public Speaking</span><span class="pill p-mute">Crisis</span><span class="pill p-mute">+3 more</span></div></div>
+<div class="card sec"><h2>MUN Experience</h2><div class="col"><div class="xp"><span class="org">IM</span><span class="col" style="gap: 3px;"><b style="font-size: 15px;">Head Delegate</b><span style="font-size: 13.5px; color: var(--ink2);">IUBAT MUN Society</span><span style="font-size: 12.5px; color: var(--muted);">Oct 2024 – Present · Dhaka</span><span style="font-size: 13.5px; color: var(--ink2);">[Description]</span></span></div><div class="xp"><span class="org">DM</span><span class="col" style="gap: 3px;"><b style="font-size: 15px;">[Role]</b><span style="font-size: 13.5px; color: var(--ink2);">[Organization]</span><span style="font-size: 12.5px; color: var(--muted);">[Start – End · Location]</span></span></div></div></div>
+<div class="card sec"><h2>Honors &amp; Awards</h2><div class="row" style="gap: 12px;"><span class="org" style="background: #F8EFD6; color: #8A6400;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/></svg></span><span class="col" style="gap: 2px;"><b style="font-size: 15px;">Best Delegate — UNSC</b><span style="font-size: 12.5px; color: var(--seal); font-weight: 600;">MUN result · verified</span></span></div></div>
+<div class="card sec"><div class="row" style="justify-content: space-between;"><h2>Skills &amp; Interests</h2></div><div class="col"><div class="sk" style="border-top: 0;"><b style="font-size: 14.5px; flex: 1;">Diplomacy</b><span class="row" style="gap: 0;"><span class="av" style="width: 24px; height: 24px; font-size: 10px; background: #13895F; box-shadow: 0 0 0 2px var(--paper);">NR</span><span class="av" style="width: 24px; height: 24px; font-size: 10px; background: #7B4FD6; margin-left: -6px; box-shadow: 0 0 0 2px var(--paper);">RS</span></span><span style="font-size: 12.5px; color: var(--muted);">Endorsed by 2</span><button class="btn sm b-sec">Endorse</button></div><div class="sk"><b style="font-size: 14.5px; flex: 1;">Public Speaking</b><span style="font-size: 12.5px; color: var(--muted);">No endorsements yet</span><button class="btn sm b-pri">Endorsed</button></div></div></div>
+<div class="card sec"><div class="row" style="justify-content: space-between;"><h2>Recommendations</h2><button class="btn sm b-sec">Recommend</button></div><div class="row" style="gap: 2px; padding: 3px; border-radius: 10px; background: var(--sunk); align-self: flex-start; font-size: 13px;"><span style="padding: 6px 12px; border-radius: 8px; background: var(--paper); font-weight: 600; box-shadow: var(--sh1);">Received 2</span><span style="padding: 6px 12px; color: var(--ink2);">Given 1</span></div><div class="row" style="gap: 12px; align-items: flex-start;"><span class="av" style="background: #7B4FD6;">RS</span><span class="col" style="gap: 3px;"><a href="#" style="font-size: 14.5px; font-weight: 600;">Ria Sen</a><span style="font-size: 12.5px; color: var(--muted);">Chaired alongside at [conference] · [headline]</span><span style="font-size: 14.5px; line-height: 1.55; color: var(--ink2);">[Recommendation text.]</span></span></div></div>
+<div class="card sec" id="contact"><h2>Contact &amp; Social</h2><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;"><div style="padding: 12px; border-radius: 12px; background: var(--sunk2);"><span style="font-size: 12px; color: var(--muted);">Email</span><div style="font-size: 14px; font-weight: 600;">[email]</div></div><div style="padding: 12px; border-radius: 12px; background: var(--sunk2);"><span style="font-size: 12px; color: var(--muted);">Instagram</span><div style="font-size: 14px; font-weight: 600;">@[handle]</div></div><div style="padding: 12px; border-radius: 12px; background: var(--sunk2);"><span style="font-size: 12px; color: var(--muted);">LinkedIn</span><div style="font-size: 14px; font-weight: 600;">in/[username]</div></div></div></div>
+</div>
+<div class="col" style="gap: 18px; position: sticky; top: 24px;">
+<div class="card sec"><h2 style="font-size: 15px;">People you may know</h2><div class="row"><span class="av" style="background: #13895F;">NR</span><span class="col" style="flex: 1; min-width: 0;"><a href="#" style="font-size: 14px; font-weight: 600; color: var(--ink);">Nadia Rahman</a><span style="font-size: 12px; color: var(--muted);">[Headline]</span></span><button class="btn sm b-sec">View</button></div><div class="row"><span class="av" style="background: #B8860B;">AK</span><span class="col" style="flex: 1; min-width: 0;"><a href="#" style="font-size: 14px; font-weight: 600; color: var(--ink);">[Name]</a><span style="font-size: 12px; color: var(--muted);">[Headline]</span></span><button class="btn sm b-sec">View</button></div></div>
+<div class="card sec"><h2 style="font-size: 15px;">Suggested conferences</h2><div class="row"><span style="width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(160deg,#B9CBC4,#DCD8CA); flex: none;"></span><span class="col"><b style="font-size: 13.5px;">Screens Model UN 2027</b><span style="font-size: 12px; color: var(--muted);">15 Nov · Online</span></span></div><a href="#" style="font-size: 13.5px; font-weight: 600;">Browse conferences →</a></div>
+<div class="row" style="gap: 12px; font-size: 12.5px; color: var(--muted); padding: 0 6px;"><a href="#" style="color: var(--muted);">Home</a><a href="#" style="color: var(--muted);">Network</a><a href="#" style="color: var(--muted);">Events</a><span>MUN Pilot © 2026</span></div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Discover · phone</b><span>Two-column people grid.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mtop"><button class="ib" aria-label="Open sidebar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><b style="flex: 1; font-size: 16px;">Network</b></div>
+<div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 14px;">
+<div class="tabs" style="gap: 20px;"><span class="on">Discover</span><span>Connections (12)</span><span>Blocked (1)</span></div>
+<b style="font-size: 15px;">People You May Know</b>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+<div class="card pc"><i class="band" style="height: 40px;"></i><span class="avl" style="background: #13895F; width: 54px; height: 54px; margin-top: -27px; font-size: 18px;">NR</span><b style="font-size: 14px; margin-top: 8px;">Nadia Rahman</b><div class="acts" style="padding: 10px 0 14px;"><button class="rb pri" aria-label="Connect"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="rb" aria-label="Message"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button></div></div>
+<div class="card pc"><i class="band" style="height: 40px;"></i><span class="avl" style="background: #B8860B; width: 54px; height: 54px; margin-top: -27px; font-size: 18px;">AK</span><b style="font-size: 14px; margin-top: 8px;">[Name]</b><div class="acts" style="padding: 10px 0 14px;"><button class="rb pri" aria-label="Connect"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="rb" aria-label="Message"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button></div></div>
+<div class="card pc"><i class="band" style="height: 40px;"></i><span class="avl" style="background: #0E1D2C; width: 54px; height: 54px; margin-top: -27px; font-size: 18px;">JD</span><b style="font-size: 14px; margin-top: 8px;">[Name]</b><div class="acts" style="padding: 10px 0 14px;"><button class="rb pri" aria-label="Connect"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="rb" aria-label="Message"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button></div></div>
+<div class="card pc"><i class="band" style="height: 40px;"></i><span class="avl" style="background: #1E6FE0; width: 54px; height: 54px; margin-top: -27px; font-size: 18px;">MH</span><b style="font-size: 14px; margin-top: 8px;">[Name]</b><div class="acts" style="padding: 10px 0 14px;"><button class="rb pri" aria-label="Connect"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="rb" aria-label="Message"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button></div></div>
+</div>
+</div>
+</div>
+
+<div class="cap"><b>Profile · phone</b><span>Hero, actions as a full-width row.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="stripe" style="height: 120px; flex: none;"></div>
+<div style="padding: 0 18px; display: flex; flex-direction: column; gap: 10px;">
+<span style="width: 96px; height: 96px; border-radius: 48px; background: #1E6FE0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 600; margin-top: -48px; box-shadow: 0 0 0 4px var(--page), 0 0 0 7px #22A06B;">TA</span>
+<h1 class="serif" style="margin: 6px 0 0; font-size: 28px;">Tanvir Ahmed</h1>
+<span style="font-size: 14px; color: var(--ink2);">[Headline]</span>
+<div class="row" style="gap: 10px; font-size: 12.5px; color: var(--muted); flex-wrap: wrap;"><span class="pill p-info">Delegate</span><span>★ 4.0 · 6 ratings</span><span>Dhaka</span><span>48 connections</span></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr 44px; gap: 8px; margin-top: 4px;"><button class="btn b-pri">Connect</button><button class="btn b-sec">Message</button><button class="btn b-sec" aria-label="Rate" style="padding: 0;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg></button></div>
+<div class="card sec" style="padding: 16px; margin-top: 6px;"><h2 style="font-size: 15px;">MUN Stats</h2><div class="row" style="gap: 18px;"><span><b class="serif" style="font-size: 24px;">7</b> <span style="font-size: 12px; color: var(--muted);">Conferences</span></span><span><b class="serif" style="font-size: 24px;">3</b> <span style="font-size: 12px; color: var(--muted);">Awards</span></span></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Dialogs &amp; states</b><span>Rate, recommend, block, blocked list.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="pop"><b style="font-size: 17px;">Rate Tanvir Ahmed</b><span style="font-size: 13.5px; color: var(--ink2);">Ratings roll up into their average score. You can change yours anytime.</span><div class="row" style="gap: 6px; color: var(--gold);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; fill: currentColor;"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; fill: currentColor;"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; fill: currentColor;"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; fill: currentColor;"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px;"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg></div><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Submit rating</button></div></div>
+<div class="pop"><b style="font-size: 17px;">Recommend Tanvir Ahmed</b><span style="font-size: 13.5px; color: var(--ink2);">They review it before it appears on their profile.</span><div style="height: 40px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; display: flex; align-items: center; font-size: 13px; color: var(--muted);">How you know them — e.g. Chaired alongside at DUNMUN 2025</div><div style="height: 80px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; color: var(--muted);">Write about your experience working with Tanvir…</div><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Send recommendation</button></div></div>
+<div class="pop"><b style="font-size: 17px;">Block user</b><span style="font-size: 13.5px; line-height: 1.5; color: var(--ink2);">Block Ria Sen? They won't be able to message you and your connection will be removed.</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm" style="background: var(--red); color: #fff;">Confirm</button></div></div>
+<div class="card" style="padding: 14px; display: flex; align-items: center; gap: 12px;"><span class="av" style="background: #56697B;">JD</span><span class="col" style="flex: 1;"><b style="font-size: 14px;">[Blocked person's name]</b><span style="font-size: 12px; color: var(--muted);">Blocked 3 days ago</span></span><button class="btn sm b-sec">Unblock</button></div>
+<div class="card" style="padding: 20px; border-style: dashed; box-shadow: none; text-align: center; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 15px;">No connections yet</b><span style="font-size: 13px; color: var(--muted);">Head to Discover to find and connect with fellow delegates.</span></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3560}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

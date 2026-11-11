@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): nu.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <path
+        android:fillColor="#FEDD00"
+        android:pathData="M0 0l640 0 0 480-640 0z"/>
+    <path
+        android:fillColor="#012169"
+        android:pathData="M0 0l320 0 0 240-320 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M37.5 0l122 90.5 121.5-90.5 39 0 0 31-120 89.5 120 89 0 30.5-40 0-120-89.5-119.5 89.5-40.5 0 0-30 119.5-89-119.5-89 0-32z"/>
+    <path
+        android:fillColor="#C8102E"
+        android:pathData="M212 140.5l108 79.5 0 20-135.5-99.5z m-92 10l3 17.5-96 72-27 0z m200-150.5l0 1.5-124.5 94 1-22 98.5-73.5z m-320 0l119.5 88-30 0-89.5-67z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M120.5 0l0 240 80 0 0-240z m-120.5 80l0 80 320 0 0-80z"/>
+    <path
+        android:fillColor="#C8102E"
+        android:pathData="M0 96.5l0 48 320 0 0-48z m136.5-96.5l0 240 48 0 0-240z"/>
+    <path
+        android:fillColor="#012169"
+        android:pathData="M200.8 120c0 22.5-18.3 40.8-40.8 40.8-22.5 0-40.8-18.3-40.8-40.8 0-22.5 18.3-40.8 40.8-40.8 22.5 0 40.8 18.3 40.8 40.8z"/>
+    <path
+        android:fillColor="#FEDD00"
+        android:pathData="M160 79.2l24 73.8-62.8-45.6 77.6 0-62.8 45.6m-69.3-54.7l14 43.4-36.8-26.7 45.7 0-37 26.8m200.7-43.5l14.1 43.4-36.9-26.8 45.7 0-37 26.8m-79.2 36.6l14.1 43.4-37-26.8 45.7 0-37 26.8m14.2-203.4l14.1 43.4-37-26.8 45.7 0-37 26.8"/>
+</vector>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): gw.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <path
+        android:fillColor="#CE1126"
+        android:pathData="M0 0l220 0 0 480-220 0z"/>
+    <path
+        android:fillColor="#FCD116"
+        android:pathData="M220 0l420 0 0 240-420 0z"/>
+    <path
+        android:fillColor="#009E49"
+        android:pathData="M220 240l420 0 0 240-420 0z"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M110 160l-24.7 76.1 38 12.3"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M110 160l24.7 76.1-38 12.3"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M186.1 215.3l-80 0 0 40"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M186.1 215.3l-64.7 47-23.5-32.4"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M157 304.7l-24.7-76.1-38 12.4"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M157 304.7l-64.7-47 23.5-32.4"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M63 304.7l64.7-47-23.5-32.4"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M63 304.7l24.7-76.1 38 12.4"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M33.9 215.3l64.7 47 23.5-32.4"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M33.9 215.3l80 0 0 40"/>
+</vector>

@@ -1,0 +1,36 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "status": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['state', 'lastChangedAt']) && newData.child('state').isString()"
+      }
+    },
+    "sessionPresence": {
+      "$eventId": {
+        ".read": "auth != null && (root.child('eventMembers').child($eventId).child(auth.uid).exists() || root.child('platformAdmins').child(auth.uid).exists())",
+        "$sessionKey": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid && (!newData.exists() || root.child('eventMembers').child($eventId).child(auth.uid).exists())",
+            ".validate": "newData.hasChildren(['name', 'joinedAt']) && newData.child('name').isString()"
+          }
+        }
+      }
+    },
+    "eventMembers": {
+      "$eventId": {
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid"
+        }
+      }
+    },
+    "platformAdmins": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid"
+      }
+    }
+  }
+}

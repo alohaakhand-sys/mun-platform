@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): vc.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <path
+        android:fillColor="#F4F100"
+        android:fillType="evenOdd"
+        android:pathData="M0 0l640 0 0 480-640 0z"/>
+    <path
+        android:fillColor="#199A00"
+        android:fillType="evenOdd"
+        android:pathData="M490 0l150 0 0 480-150 0z"/>
+    <path
+        android:fillColor="#0058AA"
+        android:fillType="evenOdd"
+        android:pathData="M0 0l150 0 0 480-150 0z"/>
+    <path
+        android:fillColor="#199A00"
+        android:fillType="evenOdd"
+        android:pathData="M259.3 130l-46.4 71.3 44.7 74.4 43.8-73.7z m121.2 0l-46.3 71.3 44.7 74.4 43.8-73.7z m-61.2 97.3l-46.4 71.4 44.8 74.4 43.8-73.7-42.2-72z"/>
+</vector>

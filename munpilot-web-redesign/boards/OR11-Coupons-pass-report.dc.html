@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Coupons and pass report</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-glass{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.25)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:220px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px 12px;box-sizing:border-box;gap:2px}
+.sl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px}
+.ni{display:flex;align-items:center;height:32px;padding:0 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.main{flex:1;min-width:0;padding:24px 30px;display:flex;flex-direction:column;gap:18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.pill i{width:6px;height:6px;border-radius:3px;background:currentColor;display:block}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.hero{height:230px;border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(160deg,#2C4A44,#0E1D2C)}
+.rr{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line2)}
+.cki{width:24px;height:24px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.stat{padding:16px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-size:28px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--muted)}
+.pb{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.pb i{display:block;height:100%;border-radius:3px;background:var(--seal)}
+.ar{display:flex;align-items:center;gap:12px;padding:11px 16px;border-top:1px solid var(--line2)}
+.av{width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex:none}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.sheet{position:absolute;top:0;right:0;bottom:0;width:440px;background:var(--paper);box-shadow:var(--sh2);border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.30)}
+.sec{padding:14px 20px;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:8px}
+.sec h4{margin:0;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sel{display:flex;align-items:center;justify-content:space-between;gap:8px;height:38px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);font-size:13.5px}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--gold:#B8860B;--goldSoft:#F8EFD6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;--glass:rgba(255,255,255,.82);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--gold:#E9C25A;--goldSoft:rgba(233,194,90,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14;--glass:rgba(19,36,52,.84)}
+.b-live{background:var(--red);color:#fff}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+.tile{padding:16px;display:flex;flex-direction:column;gap:4px}
+.tile b{font-size:26px;font-variant-numeric:tabular-nums}
+.tile span{font-size:12.5px;color:var(--muted)}
+.tgl{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--paper);font-size:13px;font-weight:500}
+.tgl.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.mx{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.mx th{text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.03em;padding:10px 12px;background:var(--sunk2);border-bottom:1px solid var(--line);white-space:nowrap}
+.mx th small{display:block;font-weight:500;letter-spacing:0;text-transform:none;font-size:11px;opacity:.8}
+.mx td{padding:8px 12px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.mx td.dl{position:sticky;left:0;background:var(--paper);box-shadow:1px 0 0 var(--line2);min-width:220px}
+.mx tr.ft td{background:var(--sunk2);font-weight:600;font-size:12.5px}
+.bsel{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.bsel span{width:30px;height:28px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:var(--muted);border-left:1px solid var(--line2)}
+.bsel span:first-child{border-left:0}
+.bsel span.neg{background:var(--red);color:#fff}
+.bsel span.zero{background:var(--sunk);color:var(--ink)}
+.bsel span.pos{background:var(--seal);color:var(--sealInk)}
+.att{display:inline-flex;align-items:center;height:18px;padding:0 6px;border-radius:9px;font-size:10.5px;font-weight:700}
+.pc{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:var(--muted)}
+.pbar{display:flex;align-items:center;gap:8px}
+.pbar i{display:block;height:6px;border-radius:3px;background:var(--sunk);width:70px;overflow:hidden}
+.pbar i b{display:block;height:100%;border-radius:3px}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.fin{background:linear-gradient(#FF9933 0 33%,#fff 33% 66%,#138808 66%)}
+.fng{background:linear-gradient(90deg,#008751 0 33%,#fff 33% 66%,#008751 66%)}
+.mchip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:12px;font-size:12px;font-weight:700}
+.dayb{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:12px;border:1px solid var(--line2);min-width:120px}
+.dayb.on{box-shadow:inset 0 0 0 2px var(--seal);border-color:transparent}
+.tabsc{display:flex;gap:6px;overflow:hidden;padding:10px 16px;background:var(--paper);border-bottom:1px solid var(--line2);flex:none}
+.tabsc span{height:32px;padding:0 13px;border-radius:16px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--ink2);background:var(--sunk2);white-space:nowrap;flex:none}
+.tabsc span.on{background:var(--ink);color:var(--paper)}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--orange:#B45309;--orangeSoft:#FCEFE3;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;--glass:rgba(255,255,255,.82);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--orange:#F5A14B;--orangeSoft:rgba(245,161,75,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14;--glass:rgba(19,36,52,.84)}
+.b-dis{background:var(--sunk);color:var(--muted)}
+.stub{width:320px;flex:none;align-self:flex-start;border:1.5px dashed var(--line);border-radius:16px;padding:20px;font-size:13px;color:var(--muted);text-align:center;box-sizing:border-box}
+.qr{width:96px;height:96px;border-radius:10px;background:#fff;padding:8px;box-sizing:border-box;box-shadow:inset 0 0 0 1px var(--line);flex:none;background-image:linear-gradient(#0E1D2C 0 0),linear-gradient(#0E1D2C 0 0),linear-gradient(#0E1D2C 0 0),repeating-conic-gradient(#0E1D2C 0 25%,#fff 0 50%);background-size:22px 22px,22px 22px,22px 22px,12px 12px;background-position:8px 8px,66px 8px,8px 66px,0 0;background-repeat:no-repeat,no-repeat,no-repeat,repeat;background-origin:border-box}
+.coupon{display:flex;gap:0;overflow:hidden}
+.coupon .l{flex:1;padding:18px;display:flex;flex-direction:column;gap:8px}
+.coupon .r{width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-left:2px dashed var(--line);background:var(--sunk2);padding:12px 0}
+.meal{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.dh{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cbar{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.cbar i{display:block;height:100%;border-radius:3px;background:var(--seal)}
+.photo{background:linear-gradient(160deg,#B9CBC4 0%,#DCD8CA 100%)}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dan{background:var(--paper);color:var(--red);border-color:var(--line)}
+.uc{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--sunk2)}
+.seg{display:inline-flex;gap:2px;padding:4px;border-radius:12px;background:var(--sunk)}
+.seg span{height:34px;padding:0 14px;display:flex;align-items:center;gap:8px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.seg em{font-style:normal;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:9px;background:var(--sunk2);color:var(--muted)}
+.cc{padding:20px;display:flex;flex-direction:column;gap:14px;position:relative}
+.meta{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+.meta span{display:flex;align-items:center;gap:6px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tiles div{padding:10px 12px;border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;gap:3px}
+.tiles span{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.tiles b{font-size:14px;font-weight:600}
+.trk{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.trk div{display:flex;flex-direction:column;gap:6px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.trk i{display:block;height:4px;border-radius:2px;background:var(--sunk)}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap}
+.ptabs span{height:34px;padding:0 14px;border-radius:17px;display:flex;align-items:center;font-size:13.5px;font-weight:500;color:var(--ink2);border:1px solid var(--line);background:var(--paper)}
+.ptabs span.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.bn{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:12px}
+.dr{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line2)}
+.prose{font-family:Newsreader,Georgia,serif;font-size:17px;line-height:1.65;color:var(--ink)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label,.fld .fl{font-size:13px;font-weight:600}
+.inp{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--sunk2);font-size:14px;box-sizing:border-box}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:15px;font-size:13px;border:1px solid var(--line);background:var(--paper)}
+.chip.lock{background:var(--sealSoft);border-color:transparent;color:var(--seal);font-weight:600}
+.w{--red:#B42318;--redSoft:#FBE7E4;--violet:#6B46C1;--violetSoft:#EEE8FA;--blue:#1F5FBF;--blueSoft:#E5EEFB}
+.w.dark{--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--violet:#B79CF2;--violetSoft:rgba(183,156,242,.16);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14)}
+.lw .lga{fill:#fff}.lw .lgb{fill:#47A481}
+.skl{border-radius:8px;background:linear-gradient(90deg,var(--sunk) 0%,var(--sunk2) 50%,var(--sunk) 100%);background-size:200% 100%;animation:skl 1.4s ease-in-out infinite}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:11px;font-size:13.5px;line-height:1.45}
+.a-err{background:var(--redSoft);color:var(--red)}.a-warn{background:var(--amberSoft);color:var(--amber)}.a-ok{background:var(--sealSoft);color:var(--seal)}.a-info{background:var(--blueSoft);color:var(--blue)}
+.ferr{font-size:12.5px;color:var(--red)}
+.t-red{background:var(--redSoft);color:var(--red)}.t-vio{background:var(--violetSoft);color:var(--violet)}.t-blue{background:var(--blueSoft);color:var(--blue)}
+.slab{background:#0E1D2C;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:56px;color:#fff}
+.slab .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%);mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%)}
+.slab .dia{position:absolute;right:-60px;top:-60px;width:320px;height:320px;transform:rotate(45deg);border:1px solid rgba(71,164,129,.35);border-radius:28px}
+.slab .dia2{position:absolute;right:40px;top:40px;width:120px;height:120px;transform:rotate(45deg);background:rgba(71,164,129,.16);border-radius:16px}
+.note{font-size:12.5px;color:var(--muted);line-height:1.5}
+.lab{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.dots{display:flex;gap:6px;align-items:center}.dots i{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.35);display:block}.dots i.on{width:22px;background:#fff}
+.pg{width:30px;height:30px;border-radius:15px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.pg.on{background:#fff;color:#0E1D2C}
+.toast{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;background:var(--ink);color:var(--paper);font-size:13.5px;line-height:1.45;box-shadow:var(--sh2);max-width:380px}
+.w{--purple:#6B46C1;--purpleSoft:#EEE8FA}.w.dark{--purple:#B79CF2;--purpleSoft:rgba(183,156,242,.16)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.wiz{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh1);display:flex;flex-direction:column;overflow:hidden}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:22px 28px;border-bottom:1px solid var(--line2)}
+.st{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--muted);position:relative}
+.st i{width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:700;background:var(--sunk);color:var(--muted);flex:none}
+.st.done i{background:var(--seal);color:var(--sealInk)}
+.st.done{color:var(--ink)}
+.st.on i{background:var(--paper);color:var(--seal);box-shadow:inset 0 0 0 2px var(--seal)}
+.st.on{color:var(--ink);font-weight:600}
+.st span.ln{flex:1;height:2px;border-radius:1px;background:var(--line2);margin:0 4px}
+.st.done span.ln{background:var(--seal)}
+.wb{padding:28px;display:flex;flex-direction:column;gap:20px}
+.wf{padding:18px 28px;border-top:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;background:var(--sunk2)}
+.req{color:var(--signal)}
+.ta{border:1px solid var(--line);border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;overflow:hidden}
+.ta textarea{border:0;background:none;outline:none;resize:none;height:110px;padding:12px 14px;font:14.5px/1.55 Inter,sans-serif;color:var(--ink)}
+.ai{display:flex;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line2);background:var(--paper)}
+.aib{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;background:var(--purpleSoft);color:var(--purple);font-size:12.5px;font-weight:600;border:0}
+.help{font-size:12.5px;color:var(--muted);line-height:1.5}
+.pbh{display:flex;align-items:center;gap:10px}
+.rank{width:26px;height:26px;border-radius:8px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex:none}
+.role{display:flex;align-items:flex-start;gap:14px;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--paper)}
+.role.on{border-color:var(--seal);box-shadow:0 0 0 3px var(--sealSoft)}
+.role.off{opacity:.55;background:var(--sunk2)}
+.role.on .rd{border:6px solid var(--seal)}
+.mstep{height:4px;border-radius:2px;background:var(--sunk);flex:1}
+.mstep.on{background:var(--seal)}
+.sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:var(--glass);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;gap:10px}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0;display:inline-block}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.menu{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh2);padding:6px;display:flex;flex-direction:column}
+.menu span,.menu a{height:36px;display:flex;align-items:center;gap:10px;padding:0 10px;border-radius:8px;font-size:13.5px;color:var(--ink)}
+.dlg{background:var(--paper);border-radius:20px;box-shadow:var(--sh2);display:flex;flex-direction:column;overflow:hidden}
+.dlg .dh{padding:20px 22px 12px;display:flex;flex-direction:column;gap:4px}
+.dlg .dh b{font-size:18px}.dlg .dh span{font-size:13.5px;color:var(--muted)}
+.dlg .db{padding:8px 22px 18px;display:flex;flex-direction:column;gap:12px}
+.dlg .df{padding:14px 22px;border-top:1px solid var(--line2);display:flex;justify-content:flex-end;gap:8px}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:36px 24px}
+.empty .ei{width:48px;height:48px;border-radius:14px;background:var(--sunk2);color:var(--muted);display:flex;align-items:center;justify-content:center}
+.empty b{font-size:16px}.empty span{font-size:14px;color:var(--muted);max-width:360px;line-height:1.5}
+.sec-h{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line2)}
+.sec-h b{font-size:16px}
+.bub{max-width:70%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45}
+.bub.in{background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:6px}
+.bub.out{background:var(--seal);color:var(--sealInk);border-bottom-right-radius:6px;margin-left:auto}
+.tb{display:flex;align-items:center;gap:2px;padding:6px;border-bottom:1px solid var(--line2);background:var(--sunk2);flex-wrap:wrap}
+.tb button{width:32px;height:32px;border:0;background:none;border-radius:7px;color:var(--ink2);display:flex;align-items:center;justify-content:center;font:600 13px Inter,sans-serif;padding:0}
+.tb i{width:1px;height:20px;background:var(--line);margin:0 4px;display:block}
+.fus{background:linear-gradient(#3C3B6E,#3C3B6E) 0 0/45% 54% no-repeat,repeating-linear-gradient(#B22234 0 7.7%,#fff 7.7% 15.4%)}
+.qrl{width:256px;height:256px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);flex:none;background-image:radial-gradient(#fff 0 0),linear-gradient(#0E1D2C 0 0),radial-gradient(#fff 0 0),linear-gradient(#0E1D2C 0 0),radial-gradient(#fff 0 0),linear-gradient(#0E1D2C 0 0),repeating-conic-gradient(#0E1D2C 0 25%,#fff 0 50%),repeating-conic-gradient(#fff 0 25%,#0E1D2C 0 50%);background-size:40px 40px,56px 56px,40px 40px,56px 56px,40px 40px,56px 56px,16px 16px,28px 28px;background-position:24px 24px,16px 16px,192px 24px,184px 16px,24px 192px,16px 184px,0 0,4px 4px;background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat,repeat;background-clip:content-box;padding:16px;box-sizing:border-box}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:12px;height:44px;border-top:1px solid var(--line2);font-size:14px}
+.prow.used{opacity:.5}.prow.used b{text-decoration:line-through}
+.cert{aspect-ratio:1.414/1;background:#fff;color:#0E1D2C;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;border-radius:6px;box-shadow:var(--sh1)}
+.dlg .dh{font-size:inherit;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink)}
+.dlg .dh b{font-size:18px;font-weight:600}.dlg .dh span{font-size:13.5px;color:var(--muted)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2620px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">OR11 · Organizer · QR passes — Coupons (Pro) and Pass report</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Coupons and pass report</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Two new pages under Tools. Coupons (a Pro feature) lists kits, gifts, drinks and extra meals that people claim with their QR pass. It has "Scan" and "New coupon" buttons, paused rows, the New / Edit dialog (kind, day / time / where, who gets it, named people, uses per person) and a real delete confirmation instead of the browser one. Free events see the "Unlock Custom coupons" gate. The Pass report counts what was handed out per meal, coupon, check-in and ride. On Pro, picking a row opens a side panel listing who claimed it and who hasn't yet. Free events count meals only and see a notice.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+<div style="display: flex; flex-direction: column; gap: 40px;">
+
+<div class="cap"><b>Coupons · Pro · with the New coupon dialog</b></div>
+<div class="frame" style="width: 1440px; height: 1060px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni" style="color: var(--muted); font-size: 12.5px;">← Back to Events</span><span class="sl">Setup</span><span class="ni">Overview</span><span class="ni">Details</span><span class="ni">Allocation</span><span class="ni">Committees</span><span class="ni">Partners</span><span class="sl">Content</span><span class="ni">Schedule</span><span class="ni">Announcements</span><span class="ni">Rules &amp; Regs</span><span class="sl">Live MUN</span><span class="ni">Live Control</span><span class="sl">Tools</span><span class="ni">Modules</span><span class="ni on">Coupons</span><span class="ni">Scan Passes</span><span class="ni">Pass Report</span><span class="ni">Complaints</span><span class="ni">ID Cards</span><span class="ni">Certificates</span><span class="ni">Theme</span><span class="ni">Results</span><span class="sl">Finances</span><span class="ni">Financials</span><span class="ni">Plan</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><div class="col" style="gap: 6px;"><h1 class="serif row" style="margin: 0; font-size: 32px; gap: 10px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px; color: var(--seal);"><path d="M3 9V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a3 3 0 0 0 0 6v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3a3 3 0 0 0 0-6zM13 5v2M13 17v2M13 11v2"/></svg>Coupons</h1><span style="font-size: 14.5px; color: var(--muted);">Kits, gifts, drinks and extra meals, claimed with each person's QR pass.</span></div><span class="row" style="gap: 8px;"><button class="btn sm b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>Scan</button><button class="btn sm b-pri"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>New coupon</button></span></div>
+<div class="card" style="overflow: hidden;">
+<div class="ar" style="border-top: 0;"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 15px;">Welcome kit</b><span style="font-size: 13px; color: var(--ink2);">Kit · Day 1 · 8:00 – 10:00 · Help desk</span><span style="font-size: 12.5px; color: var(--muted);">Delegates, Observers</span></span><button class="btn sm b-ghost">Edit</button><button class="ib" title="Pause" aria-label="Pause"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg></button><button class="ib" title="Delete" aria-label="Delete" style="color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div>
+<div class="ar" style="opacity: .6;"><span class="col" style="flex: 1; gap: 2px;"><span class="row" style="gap: 8px;"><b style="font-size: 15px;">Gala drink</b><span class="pill p-mute">Paused</span></span><span style="font-size: 13px; color: var(--ink2);">Drink · Day 2 · Any time · [Where]</span><span style="font-size: 12.5px; color: var(--muted);">Everyone · 2 each</span></span><button class="btn sm b-ghost">Edit</button><button class="ib" title="Resume" aria-label="Resume"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 4 13 8-13 8z"/></svg></button><button class="ib" title="Delete" aria-label="Delete" style="color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div>
+</div>
+<div class="scrim" style="left: 220px;"></div>
+<div class="dlg" style="position: absolute; left: 50%; top: 120px; transform: translateX(-34%); width: 560px;"><div class="dh"><b>New coupon</b></div>
+<div class="db">
+<div class="fld"><label>[Title]</label><div class="inp" style="color: var(--muted);">e.g. Welcome kit</div></div>
+<div class="fld"><label>[Kind]</label><div class="row" style="gap: 6px; flex-wrap: wrap;"><span class="chip lock">Kit</span><span class="chip">Gift</span><span class="chip">Drink</span><span class="chip">Extra meal</span><span class="chip">Other</span></div></div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;"><div class="fld"><label>[Day]</label><div class="inp" style="color: var(--muted);">Any day</div></div><div class="fld"><label>[Time]</label><div class="inp" style="color: var(--muted);">Any time</div></div><div class="fld"><label>[Where]</label><div class="inp" style="color: var(--muted);">Help desk</div></div></div>
+<div class="fld"><label>Who gets it</label><div class="row" style="gap: 6px; flex-wrap: wrap;"><span class="chip lock">Delegates</span><span class="chip">Observers</span><span class="chip">Faculty &amp; team leads</span><span class="chip">EB &amp; chairs</span><span class="chip">Other staff &amp; organizers</span></div></div>
+<div class="fld"><label>And these people</label><div class="row" style="gap: 6px;"><span class="chip">[Name] <span aria-label="Remove">×</span></span></div><div class="inp" style="color: var(--muted);">Search a name to add</div><div class="card" style="box-shadow: var(--sh2); padding: 4px;"><div class="row" style="padding: 8px 10px; font-size: 13.5px;"><b style="font-weight: 600;">[Name]</b><span style="color: var(--muted);">delegate · UNSC</span></div><div class="row" style="padding: 8px 10px; font-size: 13.5px;"><b style="font-weight: 600;">[Name]</b><span style="color: var(--muted);">chair · DISEC</span></div></div></div>
+<div class="fld"><label>Uses per person</label><div class="inp" style="width: 90px;">1</div></div>
+</div>
+<div class="df"><span class="ferr" style="margin-right: auto;">Couldn't save.</span><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Save</button></div></div>
+</main>
+</div>
+
+<div class="cap"><b>Pass report · Pro · row selected</b></div>
+<div class="frame" style="width: 1440px; height: 1000px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni" style="color: var(--muted); font-size: 12.5px;">← Back to Events</span><span class="sl">Setup</span><span class="ni">Overview</span><span class="ni">Details</span><span class="ni">Allocation</span><span class="ni">Committees</span><span class="ni">Partners</span><span class="sl">Content</span><span class="ni">Schedule</span><span class="ni">Announcements</span><span class="ni">Rules &amp; Regs</span><span class="sl">Live MUN</span><span class="ni">Live Control</span><span class="sl">Tools</span><span class="ni">Modules</span><span class="ni">Coupons</span><span class="ni">Scan Passes</span><span class="ni on">Pass Report</span><span class="ni">Complaints</span><span class="ni">ID Cards</span><span class="ni">Certificates</span><span class="ni">Theme</span><span class="ni">Results</span><span class="sl">Finances</span><span class="ni">Financials</span><span class="ni">Plan</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><div class="col" style="gap: 6px;"><h1 class="serif row" style="margin: 0; font-size: 32px; gap: 10px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px; color: var(--seal);"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 14l2 2 4-4"/></svg>Pass report</h1><span style="font-size: 14.5px; color: var(--muted);">What was handed out with the QR passes, and to whom.</span></div><span class="row" style="gap: 8px;"><button class="btn sm b-sec">Scan</button><button class="btn sm b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></svg>Refresh</button><button class="btn sm b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>CSV</button></span></div>
+<div style="display: grid; grid-template-columns: 1fr 420px; gap: 18px; align-items: start;">
+<div class="col" style="gap: 14px;">
+<div class="card" style="overflow: hidden;"><div style="padding: 12px 16px;"><b>Meals</b></div>
+<div class="col" style="padding: 10px 16px; gap: 6px; border-top: 1px solid var(--line2); background: var(--sealSoft);"><div class="row" style="justify-content: space-between; font-size: 13.5px;"><span>Lunch · Day 1</span><span style="font-family: ui-monospace, monospace;">132 / 180</span></div><div class="pb"><i style="width: 73%;"></i></div></div>
+<div class="col" style="padding: 10px 16px; gap: 6px; border-top: 1px solid var(--line2);"><div class="row" style="justify-content: space-between; font-size: 13.5px;"><span>Breakfast · Day 1</span><span style="font-family: ui-monospace, monospace;">171 / 180</span></div><div class="pb"><i style="width: 95%;"></i></div></div></div>
+<div class="card" style="overflow: hidden;"><div style="padding: 12px 16px;"><b>Coupons</b></div><div class="col" style="padding: 10px 16px; gap: 6px; border-top: 1px solid var(--line2);"><div class="row" style="justify-content: space-between; font-size: 13.5px;"><span>Welcome kit · Day 1</span><span style="font-family: ui-monospace, monospace;">95 / 160</span></div><div class="pb"><i style="width: 59%;"></i></div></div></div>
+<div class="card" style="overflow: hidden;"><div style="padding: 12px 16px;"><b>Check-in</b></div><div class="col" style="padding: 10px 16px; gap: 6px; border-top: 1px solid var(--line2);"><div class="row" style="justify-content: space-between; font-size: 13.5px;"><span>Check-in · Day 1</span><span style="font-family: ui-monospace, monospace;">168 / 186</span></div><div class="pb"><i style="width: 90%;"></i></div></div></div>
+<div class="card" style="overflow: hidden;"><div style="padding: 12px 16px;"><b>Transport</b></div><div class="col" style="padding: 10px 16px; gap: 6px; border-top: 1px solid var(--line2);"><div class="row" style="justify-content: space-between; font-size: 13.5px;"><span>[Route] · Day 1</span><span style="font-family: ui-monospace, monospace;">10 / 12</span></div><div class="pb"><i style="width: 83%;"></i></div></div></div>
+</div>
+<div class="card" style="overflow: hidden;"><div class="col" style="padding: 16px 18px; gap: 4px; border-bottom: 1px solid var(--line2);"><b style="font-size: 16px;">Lunch · Day 1</b><span style="font-size: 13px; color: var(--muted);">132 claimed · 48 not yet</span></div>
+<div class="col" style="padding: 12px 18px; gap: 10px;"><span class="lab">Claimed</span>
+<div class="col" style="gap: 2px;"><div class="row" style="justify-content: space-between; font-size: 13.5px;"><b style="font-weight: 600;">Nadia Rahman</b><span style="color: var(--muted);">Sat 1:05 PM</span></div><span style="font-size: 12px; color: var(--muted);">Delegate · UNSC · by [scanner name]</span></div>
+<div class="col" style="gap: 4px;"><div class="row" style="justify-content: space-between; font-size: 13.5px;"><b style="font-weight: 600;">[Name]</b><span style="color: var(--muted);">Sat 2:20 PM</span></div><span style="font-size: 12px; color: var(--muted);">Observer · by [scanner name]</span><span class="row" style="gap: 4px;"><span class="pill p-mute">by hand</span><span class="pill p-wait">outside time</span><span class="pill p-bad">1 undone</span></span></div>
+<span class="lab" style="margin-top: 6px;">Not yet</span>
+<div class="row" style="justify-content: space-between; font-size: 13.5px;"><span>[Name]</span><span style="font-size: 12px; color: var(--muted);">Delegate · DISEC</span></div>
+<span class="note">Empty: "Nobody yet." / "Everyone has it."</span></div></div>
+</div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px; width: 390px;">
+<div class="cap"><b>Coupons · Free (locked)</b></div>
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;"><span style="width: 48px; height: 48px; border-radius: 14px; background: #F8EFD6; color: #8A6400; display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m2 7 5 4 5-7 5 7 5-4-2 12H4z"/></svg></span><b style="font-size: 16px;">Unlock Custom coupons</b><span style="font-size: 13.5px; color: var(--muted); line-height: 1.5;">This comes with a Pro event. Upgrade this event, or ask for it, under Plan.</span><button class="btn sm b-pri">Upgrade to Pro</button><span class="note">No Scan / New coupon buttons.</span></div>
+
+<div class="cap"><b>Coupons · empty, loading</b></div>
+<div class="card" style="padding: 20px; font-size: 13.5px; color: var(--muted); text-align: center; line-height: 1.5;">No coupons yet. Make one for a welcome kit, a T-shirt or a gala drink.</div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px;"><div class="skl" style="height: 52px;"></div><div class="skl" style="height: 52px;"></div></div>
+
+<div class="cap"><b>Delete coupon · real dialog</b><span>Replaces confirm().</span></div>
+<div class="dlg"><div class="dh"><b>[Delete coupon]</b><span>Delete "Welcome kit"? Uses already recorded stay in the report.</span></div><div class="df"><button class="btn sm b-sec">Cancel</button><button class="btn sm" style="background: var(--red); color: #fff;">Delete</button></div></div>
+
+<div class="cap"><b>Pass report · Free</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><div class="alert" style="background: #F8EFD6; color: #8A6400; font-size: 13px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m2 7 5 4 5-7 5 7 5-4-2 12H4z"/></svg>Free events count meals. Who claimed what, coupons, check-in, transport and the CSV come with Pro (Plan).</div><div class="col" style="gap: 6px; opacity: .8;"><div class="row" style="justify-content: space-between; font-size: 13.5px;"><span>Lunch · Day 1</span><span style="font-family: ui-monospace, monospace;">132 / 180</span></div><div class="pb"><i style="width: 73%;"></i></div><span class="note">Rows aren't clickable on Free; no CSV.</span></div></div>
+
+<div class="cap"><b>Pass report · empty, error</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;"><span style="color: var(--muted);">Nothing to hand out yet: add meals (Modules → Food) or coupons.</span><span class="ferr">Couldn't load the report.</span><div class="skl" style="height: 44px;"></div></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2620}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

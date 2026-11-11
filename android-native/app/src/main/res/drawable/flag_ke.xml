@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): ke.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M0 0l640 0 0 480-640 0z"/>
+    <path
+        android:fillColor="#000001"
+        android:pathData="M0 0l640 0 0 144-640 0z"/>
+    <path
+        android:fillColor="#006600"
+        android:pathData="M0 336l640 0 0 144-640 0z"/>
+    <path
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="3"
+        android:strokeMiterLimit="10"
+        android:pathData="M234.2 382.5l5.4 3 140.1-243c8.1-1.8 12.6-9.6 17.1-17.4 3-5.4 15-26.1 20.1-53.1-14.2 12.6-26.3 27.5-35.7 44.1-4.5 7.8-9 15.6-6.9 23.7z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M234.2 382.5l5.4 3 140.1-243c8.1-1.8 12.6-9.6 17.1-17.4 3-5.4 15-26.1 20.1-53.1-14.2 12.6-26.3 27.5-35.7 44.1-4.5 7.8-9 15.6-6.9 23.7z"/>
+    <path
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="3"
+        android:strokeMiterLimit="10"
+        android:pathData="M405.8 382.5l-5.4 3-140.1-243c-8.1-1.8-12.6-9.6-17.1-17.4-3-5.4-15-26.1-20.1-53.1 14.2 12.6 26.3 27.5 35.7 44.1 4.5 7.8 9 15.6 6.9 23.7z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M405.8 382.5l-5.4 3-140.1-243c-8.1-1.8-12.6-9.6-17.1-17.4-3-5.4-15-26.1-20.1-53.1 14.2 12.6 26.3 27.5 35.7 44.1 4.5 7.8 9 15.6 6.9 23.7z"/>
+    <path
+        android:fillColor="#BB0000"
+        android:pathData="M640.5 168l-263.5 0c-9-24-39-72-57-72-18 0-48 48-57 72l-263.2 0 0 144 263.2 0c9 24 39 72 57 72 18 0 48-48 57-72l263.5 0z"/>
+    <path
+        android:fillColor="#000000"
+        android:pathData="M377 312c9-24 15-48 15-72 0-24-6-48-15-72-9 24-15 48-15 72 0 24 6 48 15 72"/>
+    <path
+        android:fillColor="#000000"
+        android:pathData="M263 312c-9-24-15-48-15-72 0-24 6-48 15-72 9 24 15 48 15 72 0 24-6 48-15 72"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M332 240c0 9.9-5.4 18-12 18-6.6 0-12-8.1-12-18 0-9.9 5.4-18 12-18 6.6 0 12 8.1 12 18z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M323 257.4c0 0 12 24 12 63 0 39-12 63-12 63z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M317 222.6c0 0-12-24-12-63 0-39 12-63 12-63z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M317 257.4c0 0-12 24-12 63 0 39 12 63 12 63z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M323 222.6c0 0 12-24 12-63 0-39-12-63-12-63z"/>
+</vector>

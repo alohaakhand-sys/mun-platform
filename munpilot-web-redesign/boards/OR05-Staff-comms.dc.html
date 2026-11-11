@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Staff, schedule, announcements</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--gold:#8A6400;--goldSoft:#F8EFD6;--orange:#B45309;--orangeSoft:#FCEFE3;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--gold:#E9C25A;--goldSoft:rgba(233,194,90,.16);--orange:#F5A14B;--orangeSoft:rgba(245,161,75,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:220px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px 12px;box-sizing:border-box;gap:2px}
+.sl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px}
+.ni{display:flex;align-items:center;height:32px;padding:0 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.main{flex:1;min-width:0;padding:28px 32px;display:flex;flex-direction:column;gap:18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}.p-gold{background:var(--goldSoft);color:var(--gold)}
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--line)}
+.tabs span{padding:10px 0;font-size:14px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs span.on{color:var(--ink);font-weight:600;border-color:var(--seal)}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.sel{display:inline-flex;align-items:center;justify-content:space-between;gap:6px;height:34px;padding:0 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper);font-size:13px;box-sizing:border-box}
+.av{width:36px;height:36px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex:none}
+.sr{display:flex;align-items:center;gap:12px;padding:14px 18px;border-top:1px solid var(--line2)}
+.perm{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;background:var(--paper)}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld .fl{font-size:12.5px;font-weight:600}
+.inp{display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);font-size:13.5px;box-sizing:border-box}
+.inp.pv{color:var(--muted)}
+.cb{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);box-sizing:border-box;flex:none;display:inline-flex;align-items:center;justify-content:center}
+.cb.on{background:var(--seal);border-color:var(--seal);color:var(--sealInk)}
+.rd{width:16px;height:16px;border-radius:8px;border:1.5px solid var(--line);box-sizing:border-box;flex:none}
+.rd.on{border:5px solid var(--seal)}
+.ck{display:flex;align-items:center;gap:8px;font-size:13px}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.srow{display:flex;gap:10px;padding:12px;border-radius:12px;background:var(--paper);border:1px solid var(--line2);position:relative;overflow:hidden}
+.srow::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3400px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">OR05 · Organizer · Staff &amp; Permissions, Schedule Builder, Communication, Rules</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Staff, Schedule, Announcements, Rules</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Staff keeps "Current &amp; Invited" and "Applications", the public-applications switch, role and committee per person, vice-chair delegate power and the six permission switches. The announcement composer keeps subject ideas, the Word-style body with email preview, Audience Filtering (roles, committees, payment, or specific people), the recipient estimate, scheduling, drafts and the Pro gate above 50 recipients. Schedule Builder and Rules are on the right.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 1060px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="sl">Setup</span><span class="ni">Overview</span><span class="ni">Details</span><span class="ni on">Allocation</span><span class="ni">Committees</span><span class="ni">Partners</span><span class="sl">Content</span><span class="ni">Schedule</span><span class="ni">Announcements</span><span class="ni">Rules &amp; Regs</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 32px;">Staff &amp; Permissions</h1><span style="font-size: 14.5px; color: var(--muted);">Manage your Executive Board, Chairs, and their specific access rights.</span></div><div class="row" style="gap: 10px;"><span class="row" style="gap: 8px; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--paper); font-size: 13px;"><button class="tg on" aria-label="Allow Public Applications" aria-pressed="true"></button>Allow Public Applications<button class="btn sm b-sec" style="height: 28px;">Save</button></span><button class="btn b-pri"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Invite Staff</button></div></div>
+<div class="tabs"><span class="on">Current &amp; Invited</span><span class="row" style="gap: 6px;">Applications<i style="width: 7px; height: 7px; border-radius: 4px; background: var(--red);"></i></span></div>
+<div class="card" style="overflow: hidden;">
+<div class="sr" style="border-top: 0;"><span class="av" style="background: #24384B;">CO</span><span class="col" style="flex: 1;"><b>[Co-organizer]</b><span style="font-size: 12.5px; color: var(--muted);">co@school.edu</span></span><span class="sel" style="width: 150px;">Co-Organizer ▾</span><button class="btn sm b-ghost">Edit Permissions</button><button class="btn sm b-sec" aria-label="Remove staff member" style="width: 32px; padding: 0; color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div>
+<div class="sr"><span class="av" style="background: #B8860B;">AK</span><span class="col" style="flex: 1;"><b>[Chair name]</b><span style="font-size: 12.5px; color: var(--muted);">chair@school.edu</span></span><span class="sel" style="width: 120px;">Chair ▾</span><span class="col" style="gap: 2px;"><span style="font-size: 11px; color: var(--muted);">Committee</span><span class="sel" style="width: 110px;">UNSC ▾</span></span><button class="btn sm b-ghost">Edit Permissions</button><button class="btn sm b-sec" aria-label="Remove staff member" style="width: 32px; padding: 0; color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div>
+<div class="sr" style="background: var(--sunk2);"><span class="av" style="background: #7B4FD6;">MJ</span><span class="col" style="flex: 1;"><span class="row" style="gap: 8px;"><b>[Vice chair]</b><span class="pill p-wait">Pending Invite</span></span><span style="font-size: 12.5px; color: var(--muted);">vc@school.edu</span></span><span class="sel" style="width: 120px;">Vice Chair ▾</span><span class="col" style="gap: 2px;"><span style="font-size: 11px; color: var(--muted);">Committee</span><span class="sel" style="width: 110px;">UNSC ▾</span></span><span class="sel" style="width: 160px;" title="Vice-chair delegate power mode">+ Delegate Power ▾</span><button class="btn sm b-ghost">Hide Permissions</button></div>
+<div style="padding: 16px 18px; background: var(--sunk2); border-top: 1px solid var(--line2); display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 14px;">Custom Permissions</b><span style="font-size: 12.5px; color: var(--muted);">Overrides the default permissions for the vice-chair role. Changes take effect after the staff member re-accepts; chair/vice-chair marking is always scoped to their committee.</span>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;"><div class="perm"><span class="col" style="flex: 1;"><b style="font-size: 13px;">View Applications</b><span style="font-size: 11.5px; color: var(--muted);">See all delegate applications and waitlists.</span></span><button class="tg" aria-label="View Applications" aria-pressed="false"></button></div><div class="perm"><span class="col" style="flex: 1;"><b style="font-size: 13px;">Mark Delegates</b><span style="font-size: 11.5px; color: var(--muted);">Grade delegates and submit daily scores.</span></span><button class="tg on" aria-label="Mark Delegates" aria-pressed="true"></button></div><div class="perm"><span class="col" style="flex: 1;"><b style="font-size: 13px;">Send Announcements</b><span style="font-size: 11.5px; color: var(--muted);">Use the bulk email system.</span></span><button class="tg" aria-label="Send Announcements" aria-pressed="false"></button></div><div class="perm"><span class="col" style="flex: 1;"><b style="font-size: 13px;">Manage Schedule</b><span style="font-size: 11.5px; color: var(--muted);">Edit the event timeline.</span></span><button class="tg" aria-label="Manage Schedule" aria-pressed="false"></button></div><div class="perm" style="opacity: .55;"><span class="col" style="flex: 1;"><b style="font-size: 13px;">View Financials</b><span style="font-size: 11.5px; color: var(--muted);">See revenue and ticketing status (Co-organizer only).</span></span><button class="tg" aria-label="View Financials" aria-pressed="false" disabled></button></div><div class="perm"><span class="col" style="flex: 1;"><b style="font-size: 13px;">Approve Results</b><span style="font-size: 11.5px; color: var(--muted);">Approve final awards and unlock certificates.</span></span><button class="tg" aria-label="Approve Results" aria-pressed="false"></button></div></div></div>
+</div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 1220px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="sl">Content</span><span class="ni">Schedule</span><span class="ni on">Announcements</span><span class="ni">Rules &amp; Regs</span></aside>
+<main class="main">
+<div class="col" style="gap: 6px;"><a href="#" style="font-size: 13.5px; font-weight: 600; color: var(--ink2);">← Back to History</a><h1 class="serif" style="margin: 0; font-size: 32px;">Communication</h1><span style="font-size: 14.5px; color: var(--muted);">Send email blasts to participants and manage your announcement history.</span></div>
+<div class="card" style="padding: 22px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 22px;">
+<div class="col" style="gap: 16px;">
+<div class="col" style="gap: 2px;"><b style="font-size: 17px;">New Announcement</b><span style="font-size: 13px; color: var(--muted);">Compose and send emails to specific participant groups.</span></div>
+<div class="fld"><span class="fl">Subject Line</span><div class="inp">Conference Schedule Update</div><div class="row" style="gap: 6px;"><button class="btn sm" style="background: var(--purpleSoft); color: var(--purple); height: 28px;">Subject ideas</button><span style="font-size: 12px; color: var(--muted);">[3 AI suggestions appear as chips]</span></div></div>
+<div class="fld"><div class="row" style="justify-content: space-between;"><span class="fl">Email Body</span><span style="display: inline-flex; padding: 2px; border-radius: 8px; background: var(--sunk); font-size: 12px;"><span style="padding: 4px 10px; border-radius: 6px; background: var(--paper); font-weight: 600;">Edit</span><span style="padding: 4px 10px;">Preview email</span></span></div>
+<div style="border: 1px solid var(--line); border-radius: 12px; overflow: hidden;"><div class="row" style="gap: 2px; padding: 6px 8px; border-bottom: 1px solid var(--line2); color: var(--ink2); font-size: 14px;"><b style="width: 30px; text-align: center;">B</b><i style="width: 30px; text-align: center;">I</i><span style="width: 30px; text-align: center; text-decoration: underline;">U</span><span style="width: 30px; text-align: center;">H2</span><span style="width: 30px; text-align: center;">•</span><span style="flex: 1;"></span><button class="btn sm" style="background: var(--purpleSoft); color: var(--purple); height: 26px;">AI</button></div><div style="height: 230px; padding: 14px 16px; font-size: 14.5px; line-height: 1.6; color: var(--ink2);">[Announcement body…]</div></div></div>
+<div style="padding: 14px; border-radius: 12px; background: var(--sunk2); display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 13.5px;">Schedule for later <span style="font-weight: 500; color: var(--muted);">(optional — leave empty to send now)</span></b><div class="row" style="gap: 8px;"><div class="inp" style="flex: 1; background: var(--paper);">20 Nov 2026, 09:00</div><button class="btn sm b-sec">Schedule Send</button><a href="#" style="font-size: 13px;">Clear</a></div><span style="font-size: 12.5px; color: var(--seal);">Will send 20 Nov 2026, 9:00 AM.</span></div>
+</div>
+<div style="padding: 16px; border-radius: 14px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px; align-self: start;">
+<b style="font-size: 15px;">Audience Filtering</b>
+<div class="col" style="gap: 8px;"><span class="fl" style="font-size: 12.5px; font-weight: 600;">Target Roles</span><span class="ck"><span class="cb on"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 11px; height: 11px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>Delegates</span><span class="ck"><span class="cb on"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 11px; height: 11px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>Chairs &amp; Directors</span><span class="ck"><span class="cb"></span>Observers</span><span class="ck"><span class="cb"></span>Faculty Advisors</span><span class="ck"><span class="cb"></span>Staff &amp; Team</span></div>
+<div class="col" style="gap: 8px;"><span style="font-size: 12.5px; font-weight: 600;">Target Committees <span style="font-weight: 500; color: var(--muted);">(none selected = all committees)</span></span><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><span class="ck"><span class="cb on"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 11px; height: 11px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>UNSC</span><span class="ck"><span class="cb"></span>DISEC</span><span class="ck"><span class="cb"></span>UNHRC</span><span class="ck"><span class="cb"></span>WHO</span></div></div>
+<div class="col" style="gap: 8px;"><span style="font-size: 12.5px; font-weight: 600;">Payment Status</span><div class="row" style="gap: 14px;"><span class="ck"><span class="rd on"></span>All</span><span class="ck"><span class="rd"></span>Paid</span><span class="ck"><span class="rd"></span>Unpaid</span></div></div>
+<div class="col" style="gap: 6px;"><span style="font-size: 12.5px; font-weight: 600;">Search Specific Users <span style="font-weight: 500; color: var(--muted);">(overrides filters above)</span></span><div class="inp pv" style="background: var(--paper);">Search by name, email, or role...</div></div>
+<div class="row" style="justify-content: space-between; padding: 10px 12px; border-radius: 10px; background: var(--amberSoft);"><span style="font-size: 13px;">Estimated Recipients: <b>62</b></span><span class="pill p-gold">Pro Required (&gt;50)</span></div>
+</div>
+<div class="row" style="grid-column: span 2; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--line2);"><button class="btn b-sec">Save Draft</button><div class="row" style="gap: 12px; padding: 8px 12px; border-radius: 12px; background: var(--goldSoft);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--gold);"><path d="M2 8l4 10h12l4-10-6 4-4-7-4 7z"/></svg><span class="col"><b style="font-size: 13.5px;">Unlock Bulk Emails (&gt;50)</b><span style="font-size: 12px; color: var(--ink2);">This comes with a Pro event. Upgrade this event, or ask for it, under Plan.</span></span><a class="btn sm" href="#" style="background: #8A6400; color: #fff;">Upgrade to Pro</a></div></div>
+</div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Schedule Builder · phone</b><span>Sessions colour-coded by type.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+<div class="row" style="justify-content: space-between;"><div class="col"><b class="serif" style="font-size: 24px;">Schedule Builder</b><span style="font-size: 12.5px; color: var(--muted);">4 sessions · Dhaka MUN 2026</span></div><button class="btn sm b-pri">Save Schedule</button></div>
+<div class="srow" style="--c: #0E1D2C;"><span class="col" style="gap: 6px; flex: 1; padding-left: 4px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14px;">Opening Ceremony</b><span class="pill p-mute">Main Event</span></span><span style="font-size: 12px; color: var(--muted);">Main Hall · 15 Aug 09:00 – 10:00</span></span></div>
+<div class="srow" style="--c: var(--blue);"><span class="col" style="gap: 6px; flex: 1; padding-left: 4px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14px;">Committee Session I</b><span class="pill p-info">Committee Session</span></span><span style="font-size: 12px; color: var(--muted);">Rooms · 10:30 – 13:00</span></span></div>
+<div class="srow" style="--c: var(--orange);"><span class="col" style="gap: 8px; flex: 1; padding-left: 4px;"><div class="fld"><span class="fl">Session Title</span><div class="inp">Lunch</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><div class="fld"><span class="fl">Type</span><div class="inp" style="font-size: 12.5px;">Break / Lunch ▾</div></div><div class="fld"><span class="fl">Location</span><div class="inp pv" style="font-size: 12.5px;">e.g. Main Hall</div></div><div class="fld"><span class="fl">Start Time</span><div class="inp" style="font-size: 12.5px;">13:00</div></div><div class="fld"><span class="fl">End Time</span><div class="inp" style="font-size: 12.5px;">14:00</div></div></div></span></div>
+<button class="btn b-sec" style="border-style: dashed;">Add another session</button>
+<div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 13.5px;">Add to Schedule — Start from a template</b><span class="row" style="gap: 6px; flex-wrap: wrap;"><span class="pill p-mute">Standard 2-Day MUN · 2 days</span><span class="pill p-mute">1-Day Conference</span><span class="pill p-mute">Opening Day</span></span></div>
+</div>
+</div>
+
+<div class="cap"><b>History &amp; viewer · phone</b></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+<div class="row" style="justify-content: space-between;"><b class="serif" style="font-size: 22px;">Announcement History</b><button class="btn sm b-pri">New</button></div>
+<div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 4px;"><div class="row" style="justify-content: space-between;"><b style="font-size: 14px;">Schedule Update</b><span class="pill p-ok">Sent</span></div><span style="font-size: 12px; color: var(--muted);">To: Delegates · UNSC (all) • 46 recipients</span><span style="font-size: 12px; color: var(--muted);">Nov 14 · 45 sent, 1 failed</span></div>
+<div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 4px;"><div class="row" style="justify-content: space-between;"><b style="font-size: 14px;">[Subject]</b><span class="pill p-info">Scheduled · Nov 20</span></div><button class="btn sm b-sec" style="align-self: flex-start; color: var(--red);">Cancel</button></div>
+<div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 4px;"><div class="row" style="justify-content: space-between;"><b style="font-size: 14px;">[Subject]</b><span class="pill p-mute">Draft</span></div><div class="row" style="gap: 6px;"><button class="btn sm b-sec">Edit</button><button class="btn sm b-sec" aria-label="Delete" style="width: 32px; padding: 0; color: var(--red);">×</button></div></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--sh2);"><b style="font-size: 15px;">Schedule Update</b><span style="font-size: 12px; color: var(--muted);">Nov 14, 10:02 · <span class="pill p-ok" style="height: 20px;">Sent</span></span><div style="padding: 10px; border-radius: 10px; background: var(--sunk2); font-size: 12.5px;">Roles: Delegates · Committees: UNSC · Payment: all · Recipients: 46 · ✓ 45 delivered · ✗ 1 failed</div><div class="inp pv" style="height: 34px; font-size: 12.5px;">Search by name, email, or role...</div><span style="font-size: 12.5px;">Nadia Rahman · nadia@school.edu <span class="pill p-info" style="height: 18px;">Delegate</span></span></div>
+</div>
+</div>
+
+<div class="cap"><b>Dialogs &amp; Rules</b></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--sh2);"><b style="font-size: 16px;">Invite Staff Member</b><span style="font-size: 12.5px; color: var(--muted);">Send an invitation to join your conference team. They will receive an email notification.</span><div class="fld"><span class="fl">Email address</span><div class="inp pv">colleague@example.com</div></div><div class="fld"><span class="fl">Role</span><div class="inp">Chair ▾</div></div><span style="font-size: 11.5px; color: var(--muted);">Co-Organizer · Under-Secretary-General · Director · Chair · Vice Chair · Observer · Faculty Advisor</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Send Invitation</button></div></div>
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--sh2);"><b style="font-size: 16px;">Change role?</b><span style="font-size: 13px; line-height: 1.5; color: var(--ink2);">Change [name] from Chair to Director. They will be emailed and notified, and must re-accept before the new role and dashboard take effect. Their access is paused until they accept.</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Update Role</button></div></div>
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 16px;">Rules &amp; Regulations</b><span style="font-size: 12.5px; color: var(--muted);">The conference rulebook — visible to every role (chairs, delegates, and staff).</span><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 3px; border-radius: 10px; background: var(--sunk); font-size: 12.5px;"><span style="height: 30px; border-radius: 8px; background: var(--paper); display: flex; align-items: center; justify-content: center; font-weight: 600;">Write</span><span style="display: flex; align-items: center; justify-content: center;">Upload .md</span><span style="display: flex; align-items: center; justify-content: center;">Import PDF</span></div><div style="height: 90px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; font-family: Newsreader, serif; font-size: 14px; color: var(--muted);"># Rules &amp; Regulations<br>## Code of Conduct<br>## Rules of Procedure …</div><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Update Rules</button></div></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3400}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

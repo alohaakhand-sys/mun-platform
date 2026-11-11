@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Executive Board dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.chipst{display:flex;flex-direction:column;gap:2px;padding:14px 18px;border-radius:14px;background:var(--paper);border:1px solid var(--line)}
+.chipst b{font-size:26px;font-variant-numeric:tabular-nums}
+.chipst span{font-size:12.5px;color:var(--muted)}
+.ring{width:64px;height:64px;border-radius:32px;display:flex;align-items:center;justify-content:center;flex:none}
+.ring i{width:50px;height:50px;border-radius:25px;background:var(--paper);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:700}
+.pb{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.pb i{display:block;height:100%;border-radius:3px;background:var(--seal)}
+.cr{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line2)}
+.av{width:30px;height:30px;border-radius:15px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex:none}
+.sel{display:inline-flex;align-items:center;justify-content:space-between;gap:6px;height:30px;padding:0 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper);font-size:12.5px;min-width:110px}
+.ib{width:30px;height:30px;border-radius:8px;border:0;background:none;color:var(--red);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2140px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">CH05 · Executive Board · /dashboard/eb</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Executive Board dashboard</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Four counts on top (Committees, Delegates, Chairs, Graded %), then each conference in scope with its committees. A committee card shows delegates, chairs and whether a study guide exists; the ring and bar both show grading progress. The chair roster keeps the move-to-another-committee select (only when the scope covers several committees) and Remove, with the same confirmation. "Open Committee" goes to the hub.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div class="frame" style="width: 1440px; height: 1680px;">
+<aside class="side"><div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div><span class="sl">Menu</span><span class="ni">Dashboard</span><span class="ni">My Conferences</span><span class="ni">Documents</span><span class="sl">Executive Board</span><span class="ni on">EB Dashboard</span></aside>
+<main style="flex: 1; padding: 32px 40px; display: flex; flex-direction: column; gap: 22px;">
+<div class="row" style="gap: 16px; align-items: flex-start;"><span style="width: 52px; height: 52px; border-radius: 14px; background: #0E1D2C; color: #7FD3AE; display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span><div class="col" style="gap: 6px;"><span class="pill p-info" style="align-self: flex-start;">Executive Board</span><h1 class="serif" style="margin: 0; font-size: 38px;">Executive Board Dashboard</h1><span style="font-size: 15px; color: var(--muted);">Oversee your committees, monitor grading progress, and manage chairs within your scope.</span></div></div>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;"><div class="chipst"><span>Committees</span><b>4</b></div><div class="chipst"><span>Delegates</span><b>120</b></div><div class="chipst"><span>Chairs</span><b>8</b></div><div class="chipst"><span>Graded</span><b style="color: var(--seal);">68%</b></div></div>
+<div class="row" style="justify-content: space-between; align-items: flex-end; margin-top: 6px;"><div class="col" style="gap: 3px;"><h2 class="serif" style="margin: 0; font-size: 26px;">Dhaka Model United Nations Conference 2026</h2><span style="font-size: 13.5px; color: var(--muted);">Director · All committees</span></div><span class="pill p-mute">Director</span></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+<div class="row" style="gap: 14px;"><span style="width: 40px; height: 40px; border-radius: 11px; background: var(--blueSoft); color: var(--blue); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10M19 21V10M9 21v-6h6v6M2 10l10-7 10 7"/></svg></span><span class="col" style="flex: 1; gap: 6px;"><b style="font-size: 18px;">UNSC</b><span class="row" style="gap: 6px;"><span class="pill p-mute">15 delegates</span><span class="pill p-mute">2 chairs</span><span class="pill p-ok">Guide</span></span></span><span class="ring" style="background: conic-gradient(var(--seal) 0 73%, var(--sunk) 73% 100%);"><i>73%</i></span></div>
+<div class="col" style="gap: 6px;"><div class="row" style="justify-content: space-between; font-size: 13px;"><span style="color: var(--muted);">Grading progress</span><b>11/15</b></div><div class="pb"><i style="width: 73%;"></i></div></div>
+<div class="col"><span style="font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-bottom: 4px;">Chairs</span>
+<div class="cr"><span class="av" style="background: #B8860B;">AK</span><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">[Chair name]</b><span style="font-size: 12px; color: var(--muted);">Chair</span></span><span class="sel">UNSC<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted); width: 14px; height: 14px;"><path d="m6 9 6 6 6-6"/></svg></span><button class="ib" aria-label="Remove chair"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div>
+<div class="cr"><span class="av" style="background: #24384B;">MJ</span><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">[Vice chair name]</b><span style="font-size: 12px; color: var(--muted);">Vice Chair</span></span><span class="sel">UNSC<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted); width: 14px; height: 14px;"><path d="m6 9 6 6 6-6"/></svg></span><button class="ib" aria-label="Remove chair"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div>
+</div>
+<a class="btn b-sec" href="#">Open Committee<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+</div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+<div class="row" style="gap: 14px;"><span style="width: 40px; height: 40px; border-radius: 11px; background: var(--blueSoft); color: var(--blue); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10M19 21V10M9 21v-6h6v6M2 10l10-7 10 7"/></svg></span><span class="col" style="flex: 1; gap: 6px;"><b style="font-size: 18px;">DISEC</b><span class="row" style="gap: 6px;"><span class="pill p-mute">40 delegates</span><span class="pill p-mute">1 chair</span><span class="pill p-wait">No guide</span></span></span><span class="ring" style="background: conic-gradient(var(--blue) 0 35%, var(--sunk) 35% 100%);"><i>35%</i></span></div>
+<div class="col" style="gap: 6px;"><div class="row" style="justify-content: space-between; font-size: 13px;"><span style="color: var(--muted);">Grading progress</span><b>14/40</b></div><div class="pb"><i style="width: 35%; background: var(--blue);"></i></div></div>
+<div class="col"><span style="font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-bottom: 4px;">Chairs</span>
+<div class="cr"><span class="av" style="background: #13895F;">RK</span><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">[Chair name]</b><span style="font-size: 12px; color: var(--muted);">Chair</span></span><span class="sel">DISEC<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted); width: 14px; height: 14px;"><path d="m6 9 6 6 6-6"/></svg></span><button class="ib" aria-label="Remove chair"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div>
+</div>
+<a class="btn b-sec" href="#">Open Committee<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+</div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+<div class="row" style="gap: 14px;"><span style="width: 40px; height: 40px; border-radius: 11px; background: var(--blueSoft); color: var(--blue); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10M19 21V10M9 21v-6h6v6M2 10l10-7 10 7"/></svg></span><span class="col" style="flex: 1; gap: 6px;"><b style="font-size: 18px;">UNHRC</b><span class="row" style="gap: 6px;"><span class="pill p-mute">30 delegates</span><span class="pill p-mute">0 chairs</span><span class="pill p-ok">Guide</span></span></span><span class="ring" style="background: conic-gradient(var(--seal) 0 100%);"><i style="color: var(--seal);">100%</i></span></div>
+<div class="col" style="gap: 6px;"><div class="row" style="justify-content: space-between; font-size: 13px;"><span style="color: var(--muted);">Grading progress</span><b>30/30</b></div><div class="pb"><i style="width: 100%;"></i></div></div>
+<span style="font-size: 13px; color: var(--muted); padding: 8px 0; border-top: 1px solid var(--line2);">No chairs assigned to this committee.</span>
+<a class="btn b-sec" href="#">Open Committee<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a>
+</div>
+</div>
+</main>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>EB · phone</b><span>Counts in a 2×2, committees stack.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<span class="pill p-info" style="align-self: flex-start;">Executive Board</span><b class="serif" style="font-size: 26px; line-height: 1.15;">Executive Board Dashboard</b>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="chipst" style="padding: 10px 12px;"><span>Committees</span><b style="font-size: 20px;">4</b></div><div class="chipst" style="padding: 10px 12px;"><span>Delegates</span><b style="font-size: 20px;">120</b></div><div class="chipst" style="padding: 10px 12px;"><span>Chairs</span><b style="font-size: 20px;">8</b></div><div class="chipst" style="padding: 10px 12px;"><span>Graded</span><b style="font-size: 20px; color: var(--seal);">68%</b></div></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px;"><div class="row"><b style="flex: 1; font-size: 16px;">UNSC</b><span class="ring" style="width: 48px; height: 48px; background: conic-gradient(var(--seal) 0 73%, var(--sunk) 73% 100%);"><i style="width: 38px; height: 38px; font-size: 11px;">73%</i></span></div><span class="row" style="gap: 6px;"><span class="pill p-mute">15 delegates</span><span class="pill p-mute">2 chairs</span><span class="pill p-ok">Guide</span></span><div class="cr"><span class="av" style="background: #B8860B;">AK</span><b style="flex: 1; font-size: 13px;">[Chair name]</b><button class="ib" aria-label="Remove chair"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div><a class="btn sm b-sec" href="#">Open Committee</a></div>
+</div>
+</div>
+
+<div class="cap"><b>Dialog &amp; empty</b></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px; box-shadow: var(--sh2);"><b style="font-size: 17px;">Remove chair?</b><span style="font-size: 13.5px; line-height: 1.55; color: var(--ink2);"><b>[Chair name]</b> will be removed from the committee staff and lose chair access. This cannot be undone — the organizer can re-invite them later.</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm" style="background: var(--red); color: #fff;">Remove</button></div></div>
+<div class="card" style="padding: 22px; border-style: dashed; box-shadow: none; text-align: center; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15.5px;">No Executive Board Assignments</b><span style="font-size: 13px; line-height: 1.5; color: var(--muted);">You don't have any accepted Director or USG roles yet. Once an organizer assigns you, your committees will appear here.</span><a class="btn sm b-sec" href="#" style="align-self: center;">Browse Conferences</a></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2140}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

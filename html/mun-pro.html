@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MUN PRO — Find and host Model UN conferences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+
+/* ---------- 1. Tokens ---------- */
+
+:root{
+  --ink:        #0E1D2C;   /* deep navy — headings, hero slab, footer   */
+  --ink-soft:   #24384B;
+  --muted:      #5E7183;   /* secondary copy                            */
+  --line:       #D8DEE2;   /* hairlines                                 */
+  --page:       #EDF0F0;   /* page canvas                               */
+  --paper:      #FFFFFF;   /* cards                                     */
+  --seal:       #0B6E4F;   /* actions, links — the one accent           */
+  --seal-dark:  #08543D;
+  --signal:     #B03B22;   /* dates only — never anything else          */
+  --sand:       #E7E3D6;   /* placard tint                              */
+
+  --sans: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --serif:'Newsreader', Georgia, 'Times New Roman', serif;
+
+  /* type scale, ~1.25 ratio */
+  --t-xs:  13px;
+  --t-sm:  15px;
+  --t-base:16px;
+  --t-md:  20px;
+  --t-lg:  25px;
+  --t-xl:  31px;
+  --t-2xl: 40px;
+
+  --shell: 1180px;
+  --r:     4px;            /* small radius — documents, not bubbles     */
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  background:var(--page);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:var(--t-base);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3{ font-family:var(--serif); font-weight:500; line-height:1.2; margin:0; letter-spacing:-.01em; }
+
+a{ color:inherit; text-decoration:none; }
+
+img{ max-width:100%; display:block; }
+
+:focus-visible{ outline:2px solid var(--seal); outline-offset:3px; border-radius:2px; }
+
+.shell{ max-width:var(--shell); margin:0 auto; padding:0 24px; }
+
+.skip{ position:absolute; left:-9999px; }
+.skip:focus{ left:16px; top:12px; z-index:99; background:var(--paper); padding:10px 16px; }
+
+
+/* ---------- 2. Header ---------- */
+
+.site-head{
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+}
+
+.head-row{
+  display:flex; align-items:center; gap:24px;
+  height:72px;
+}
+
+.brand{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--serif); font-size:var(--t-md); font-weight:600;
+  white-space:nowrap;
+}
+.brand-mark{
+  width:30px; height:30px; flex:none;
+  background:var(--ink); color:#fff;
+  display:grid; place-items:center;
+  font-family:var(--sans); font-size:12px; font-weight:600;
+  border-radius:50%;
+}
+
+/* search */
+.search{
+  flex:1; min-width:0;
+  display:flex; align-items:center; gap:10px;
+  height:44px; padding:0 16px;
+  background:var(--page);
+  border:1px solid var(--line);
+  border-radius:22px;
+}
+.search:focus-within{ border-color:var(--ink); background:var(--paper); }
+.search svg{ flex:none; color:var(--muted); }
+.search input{
+  flex:1; min-width:0;
+  border:0; background:none; outline:none;
+  font:inherit; font-size:var(--t-sm); color:var(--ink);
+}
+.search input::placeholder{ color:var(--muted); }
+
+/* nav */
+.nav{ display:flex; align-items:center; gap:22px; white-space:nowrap; }
+.nav a{ font-size:var(--t-sm); color:var(--ink-soft); }
+.nav a:hover{ color:var(--seal); }
+.nav .divider{ width:1px; height:22px; background:var(--line); }
+
+.btn{
+  display:inline-block;
+  font:inherit; font-size:var(--t-sm); font-weight:500;
+  padding:10px 20px; border-radius:var(--r);
+  border:1px solid transparent; cursor:pointer;
+}
+.btn-solid{ background:var(--seal); color:#fff; }
+.btn-solid:hover{ background:var(--seal-dark); }
+.btn-line{ background:none; border-color:var(--ink); color:var(--ink); }
+.btn-line:hover{ background:var(--ink); color:#fff; }
+.btn-sm{ padding:8px 15px; }
+.btn-light{ background:#fff; color:var(--ink); }
+.btn-light:hover{ background:var(--sand); }
+
+.burger{ display:none; background:none; border:1px solid var(--line); border-radius:var(--r); padding:9px 11px; cursor:pointer; }
+
+
+/* ---------- 3. Hero carousel ---------- */
+
+.hero{ padding:18px 0 4px; }
+
+.deck{ position:relative; }
+
+.slide{
+  display:none;
+  background:var(--ink); color:#fff;
+  border-radius:var(--r);
+  overflow:hidden;
+}
+.slide.on{ display:flex; flex-direction:row-reverse; align-items:stretch; }
+
+.slide-text{
+  flex:1 1 58%; min-width:0;
+  padding:22px 32px 44px;
+  display:flex; flex-direction:column; justify-content:center;
+}
+
+/* photo half. drop your own jpg into images/ — if the file is missing
+   the striped fallback below shows instead of a broken-image icon. */
+.slide-photo{
+  flex:1 1 42%; min-width:0;
+  min-height:186px;
+  background:var(--ink-soft);
+  background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.05) 0 14px, transparent 14px 28px);
+}
+.slide-photo img{
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center 38%;   /* keeps faces in frame on a wide, short crop */
+}
+
+.slide-kind{
+  font-size:var(--t-xs); color:#93B7A8; letter-spacing:.02em;
+  margin-bottom:8px;
+}
+.slide h1{
+  font-size:var(--t-lg); max-width:16ch; color:#fff;
+}
+.slide p{
+  margin:10px 0 0; max-width:44ch;
+  font-size:var(--t-sm); color:#B7C4CE;
+}
+.slide .actions{ margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; }
+
+/* controls pin to the two bottom corners of the slab.
+   the bar itself ignores clicks so it can span the text column safely. */
+.deck-nav{
+  position:absolute; left:0; right:0; bottom:16px; z-index:2;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 18px 0 32px;
+  pointer-events:none;
+}
+.dots{ display:flex; gap:8px; pointer-events:auto; }
+.dot{
+  width:26px; height:4px; padding:0;
+  border:0; border-radius:2px; background:rgba(255,255,255,.32);
+  cursor:pointer;
+}
+.dot[aria-selected="true"]{ background:#fff; }
+.pager{ display:flex; gap:6px; pointer-events:auto; }
+.num{
+  width:30px; height:30px; padding:0;
+  display:grid; place-items:center;
+  font:inherit; font-size:var(--t-xs); font-weight:500;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.34); border-radius:50%;
+  color:#fff; cursor:pointer;
+}
+.num:hover{ background:rgba(255,255,255,.24); }
+.num[aria-selected="true"]{ background:#fff; color:var(--ink); border-color:#fff; }
+
+
+/* ---------- 4. Section headers ---------- */
+
+.section{ padding:26px 0 30px; }
+.section + .section{ border-top:1px solid var(--line); padding-top:30px; }
+
+.section-head{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:16px; margin-bottom:14px;
+}
+.section-head h2{ font-size:var(--t-lg); }
+.section-head p{ margin:4px 0 0; font-size:var(--t-sm); color:var(--muted); }
+.see-all{ font-size:var(--t-sm); color:var(--seal); font-weight:500; white-space:nowrap; }
+.see-all:hover{ text-decoration:underline; }
+
+
+/* ---------- 5. Event cards ---------- */
+
+.grid-events{
+  display:grid; gap:16px;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+}
+.card:hover{ border-color:var(--ink); }
+
+/* placard stands in for the event photo — swap for <img> when you have one */
+.placard{
+  height:132px;
+  background:var(--ink);
+  display:grid; place-items:center;
+  position:relative;
+}
+.placard span{
+  font-family:var(--serif); font-size:26px; font-weight:600;
+  color:var(--sand); letter-spacing:.04em;
+}
+.placard::before{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:5px;
+  background:var(--seal);
+}
+
+.card-body{ padding:11px 14px 12px; display:flex; flex-direction:column; gap:3px; flex:1; }
+.card-date{ font-size:12px; font-weight:600; color:var(--signal); }
+.card-title{ font-family:var(--serif); font-size:17px; font-weight:500; line-height:1.28; }
+.card-meta{ font-size:13px; color:var(--muted); margin-top:auto; padding-top:5px; }
+.card-price{ color:var(--ink); font-weight:500; }
+
+
+/* ---------- 6. Article cards ---------- */
+
+.grid-articles{
+  display:grid; gap:20px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+/* text on the left, placard on the right.
+   swap `row-reverse` for `row` to put the image on the left instead. */
+.article{ flex-direction:row-reverse; align-items:stretch; }
+
+/* image and text share the card exactly 50 / 50 */
+.article .placard{
+  height:auto; width:auto; flex:1 1 0;
+  background:var(--sand); padding:0 16px;
+}
+.article .card-body{ min-width:0; flex:1 1 0; justify-content:flex-start; }
+.article{ min-height:176px; }
+.article .placard span{ color:var(--ink); font-size:var(--t-md); text-align:center; }
+
+/* the accent rule turns vertical and sits on the inner edge */
+.article .placard::before{
+  background:var(--ink);
+  left:0; right:auto; top:0; bottom:0;
+  width:5px; height:auto;
+}
+
+.article .card-title{ font-size:var(--t-md); }
+
+.byline{
+  display:flex; align-items:center; gap:10px;
+  margin-top:auto; padding-top:14px;
+  border-top:1px solid var(--line);
+}
+.avatar{
+  width:30px; height:30px; flex:none; border-radius:50%;
+  background:var(--ink); color:#fff;
+  display:grid; place-items:center;
+  font-size:12px; font-weight:600;
+}
+.byline-text{ font-size:var(--t-xs); color:var(--muted); line-height:1.35; }
+.byline-text strong{ display:block; color:var(--ink); font-weight:500; font-size:var(--t-sm); }
+
+
+/* ---------- 7. Organiser call to action ---------- */
+
+.organise{
+  background:var(--ink); color:#fff;
+  border-radius:var(--r);
+  padding:44px 48px;
+  display:flex; align-items:center; justify-content:space-between; gap:32px;
+  margin:8px 0 52px;
+}
+.organise h2{ font-size:var(--t-xl); color:#fff; max-width:18ch; }
+.organise p{ margin:12px 0 0; color:#B7C4CE; font-size:var(--t-base); max-width:48ch; }
+
+
+/* ---------- 8. Footer ---------- */
+
+.site-foot{
+  background:var(--paper);
+  border-top:1px solid var(--line);
+  padding:40px 0 32px;
+}
+.foot-row{ display:flex; justify-content:space-between; gap:32px; flex-wrap:wrap; }
+.foot-col h3{ font-family:var(--sans); font-size:var(--t-sm); font-weight:600; margin-bottom:12px; }
+.foot-col ul{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.foot-col a{ font-size:var(--t-sm); color:var(--muted); }
+.foot-col a:hover{ color:var(--seal); }
+.foot-note{
+  margin-top:32px; padding-top:20px; border-top:1px solid var(--line);
+  font-size:var(--t-xs); color:var(--muted);
+}
+
+
+/* ---------- 9. Responsive ---------- */
+
+@media (max-width:1000px){
+  .grid-events{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .nav{ display:none; }
+  .nav.open{
+    display:flex; flex-direction:column; align-items:stretch; gap:14px;
+    position:absolute; top:72px; left:0; right:0; z-index:20;
+    background:var(--paper); border-bottom:1px solid var(--line);
+    padding:20px 24px;
+  }
+  .nav .divider{ display:none; }
+  .burger{ display:block; }
+  .site-head{ position:relative; }
+  .slide.on{ flex-direction:column; }
+  .slide-text{ padding:26px 28px 46px; }
+  .slide-photo{ min-height:180px; flex:none; }
+  .slide h1{ font-size:var(--t-lg); max-width:none; }
+  .deck-nav{ padding:0 16px 0 28px; }
+  .organise{ flex-direction:column; align-items:flex-start; padding:36px 32px; }
+}
+
+@media (max-width:780px){
+  .grid-articles{ grid-template-columns:1fr; }
+}
+
+@media (max-width:620px){
+  .shell{ padding:0 16px; }
+  .search{ display:none; }
+  .grid-events,.grid-articles{ grid-template-columns:1fr; }
+  .slide h1{ font-size:var(--t-lg); }
+  .section-head{ flex-direction:column; align-items:flex-start; gap:6px; }
+  .article .placard{ flex:0 0 40%; padding:0 10px; }
+  .article .placard span{ font-size:var(--t-sm); }
+  .article .card-title{ font-size:17px; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; animation:none !important; }
+}
+
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ======== Header ======== -->
+<header class="site-head">
+  <div class="shell head-row">
+
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">MP</span>
+      MUN PRO
+    </a>
+
+    <form class="search" role="search" onsubmit="return false">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <label class="skip" for="q">Search conferences</label>
+      <input id="q" type="search" placeholder="Search a conference, committee or city">
+    </form>
+
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Open menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+
+    <nav class="nav" id="nav">
+      <a class="btn btn-line btn-sm" href="#organise">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" style="vertical-align:-2px;margin-right:6px"><path d="M12 5v14M5 12h14"/></svg>Create event
+      </a>
+      <a href="#events">Conferences</a>
+      <a href="#articles">Articles</a>
+      <span class="divider" aria-hidden="true"></span>
+      <a href="#login">Log in</a>
+      <a class="btn btn-solid" href="#signup">Sign up</a>
+    </nav>
+
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ======== Hero carousel ======== -->
+<section class="hero shell" aria-label="Featured">
+  <div class="deck" id="deck">
+
+    <article class="slide on">
+      <div class="slide-photo">
+        <img src="images/hero-dhaka-mun.jpg" alt="Delegates in session at Dhaka Model United Nations" onerror="this.remove()">
+      </div>
+      <div class="slide-text">
+        <p class="slide-kind">Featured conference</p>
+        <h1>Dhaka Model United Nations 2026</h1>
+        <p>Nine committees, 800 delegates, three days at the Bangabandhu Conference Centre. Early registration closes 20 September.</p>
+        <div class="actions">
+          <a class="btn btn-light" href="#events">Register now</a>
+          <a class="btn btn-line" href="#events" style="border-color:#5C7185;color:#fff">See committees</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="slide">
+      <div class="slide-photo">
+        <img src="images/hero-position-paper.jpg" alt="A delegate writing notes during committee" onerror="this.remove()">
+      </div>
+      <div class="slide-text">
+        <p class="slide-kind">From the articles</p>
+        <h1>Write a position paper that earns you the floor</h1>
+        <p>Chairs read forty of these a night. Here is the structure that keeps yours out of the discard pile.</p>
+        <div class="actions"><a class="btn btn-light" href="#articles">Read the guide</a></div>
+      </div>
+    </article>
+
+    <article class="slide">
+      <div class="slide-photo">
+        <img src="images/hero-chittagong-mun.jpg" alt="Opening ceremony of Chittagong Model UN" onerror="this.remove()">
+      </div>
+      <div class="slide-text">
+        <p class="slide-kind">Registration open</p>
+        <h1>Chittagong Model UN 2026</h1>
+        <p>A first-timer friendly weekend with a beginner track, free training sessions and a ৳750 delegate fee.</p>
+        <div class="actions"><a class="btn btn-light" href="#events">View details</a></div>
+      </div>
+    </article>
+
+    <article class="slide">
+      <div class="slide-photo">
+        <img src="images/hero-organisers.jpg" alt="Organising team preparing a conference hall" onerror="this.remove()">
+      </div>
+      <div class="slide-text">
+        <p class="slide-kind">For organisers</p>
+        <h1>Run your conference without the spreadsheets</h1>
+        <p>Delegate applications, allocations, payments and certificates in one place. Free until your first paid ticket.</p>
+        <div class="actions"><a class="btn btn-light" href="#organise">Start hosting</a></div>
+      </div>
+    </article>
+
+    <div class="deck-nav">
+      <div class="dots" id="dots" role="tablist" aria-label="Featured slides"></div>
+      <div class="pager" id="pager" role="tablist" aria-label="Slide number"></div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ======== Events ======== -->
+<section class="section shell" id="events">
+  <div class="section-head">
+    <div>
+      <h2>Upcoming conferences</h2>
+      <p>Model UN happening across Bangladesh over the next three months.</p>
+    </div>
+    <a class="see-all" href="#">All conferences</a>
+  </div>
+
+  <div class="grid-events">
+
+    <a class="card" href="#">
+      <div class="placard"><span>UNSC</span></div>
+      <div class="card-body">
+        <p class="card-date">Sat, 12 September</p>
+        <h3 class="card-title">BRAC University MUN</h3>
+        <p class="card-meta">Mohakhali, Dhaka · <span class="card-price">৳1,200</span></p>
+      </div>
+    </a>
+
+    <a class="card" href="#">
+      <div class="placard"><span>UNICEF</span></div>
+      <div class="card-body">
+        <p class="card-date">Fri, 18 September</p>
+        <h3 class="card-title">Dhaka Youth MUN</h3>
+        <p class="card-meta">Gulshan Club · <span class="card-price">Free</span></p>
+      </div>
+    </a>
+
+    <a class="card" href="#">
+      <div class="placard"><span>UNHRC</span></div>
+      <div class="card-body">
+        <p class="card-date">Sun, 27 September</p>
+        <h3 class="card-title">NSU Diplomats Meet</h3>
+        <p class="card-meta">Bashundhara, Dhaka · <span class="card-price">৳900</span></p>
+      </div>
+    </a>
+
+    <a class="card" href="#">
+      <div class="placard"><span>WHO</span></div>
+      <div class="card-body">
+        <p class="card-date">Thu, 2 October</p>
+        <h3 class="card-title">Chittagong Model UN</h3>
+        <p class="card-meta">Agrabad, Chittagong · <span class="card-price">৳750</span></p>
+      </div>
+    </a>
+
+    <a class="card" href="#">
+      <div class="placard"><span>UNEP</span></div>
+      <div class="card-body">
+        <p class="card-date">Sat, 11 October</p>
+        <h3 class="card-title">Rajshahi Model UN</h3>
+        <p class="card-meta">Rajshahi University · <span class="card-price">৳600</span></p>
+      </div>
+    </a>
+
+    <a class="card" href="#">
+      <div class="placard"><span>UNSC</span></div>
+      <div class="card-body">
+        <p class="card-date">Wed, 22 October</p>
+        <h3 class="card-title">Security Council simulation</h3>
+        <p class="card-meta">Online · <span class="card-price">Free</span></p>
+      </div>
+    </a>
+
+    <a class="card" href="#">
+      <div class="placard"><span>ECOSOC</span></div>
+      <div class="card-body">
+        <p class="card-date">Sat, 1 November</p>
+        <h3 class="card-title">Sylhet Diplomacy Fest</h3>
+        <p class="card-meta">Shahjalal University · <span class="card-price">৳850</span></p>
+      </div>
+    </a>
+
+    <a class="card" href="#">
+      <div class="placard"><span>UNGA</span></div>
+      <div class="card-body">
+        <p class="card-date">Fri, 14 November</p>
+        <h3 class="card-title">Winter MUN Summit</h3>
+        <p class="card-meta">Uttara, Dhaka · <span class="card-price">৳1,000</span></p>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+
+<!-- ======== Articles ======== -->
+<section class="section shell" id="articles">
+  <div class="section-head">
+    <div>
+      <h2>Delegate handbook</h2>
+      <p>Preparation guides written by chairs and secretaries-general.</p>
+    </div>
+    <a class="see-all" href="#">All articles</a>
+  </div>
+
+  <div class="grid-articles">
+
+    <a class="card article" href="#">
+      <div class="placard"><span>Position papers</span></div>
+      <div class="card-body">
+        <h3 class="card-title">Write a position paper that earns you the floor</h3>
+        <div class="byline">
+          <span class="avatar" aria-hidden="true">RH</span>
+          <span class="byline-text"><strong>Rafid Hasan</strong>5 min read</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="card article" href="#">
+      <div class="placard"><span>Procedure</span></div>
+      <div class="card-body">
+        <h3 class="card-title">Rules of procedure, explained for first-timers</h3>
+        <div class="byline">
+          <span class="avatar" aria-hidden="true">NJ</span>
+          <span class="byline-text"><strong>Nusrat Jahan</strong>7 min read</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="card article" href="#">
+      <div class="placard"><span>Caucus</span></div>
+      <div class="card-body">
+        <h3 class="card-title">What delegates get wrong in unmoderated caucus</h3>
+        <div class="byline">
+          <span class="avatar" aria-hidden="true">TA</span>
+          <span class="byline-text"><strong>Tanvir Ahmed</strong>4 min read</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="card article" href="#">
+      <div class="placard"><span>Committees</span></div>
+      <div class="card-body">
+        <h3 class="card-title">Picking the right committee for your first conference</h3>
+        <div class="byline">
+          <span class="avatar" aria-hidden="true">SK</span>
+          <span class="byline-text"><strong>Samira Khan</strong>6 min read</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="card article" href="#">
+      <div class="placard"><span>Research</span></div>
+      <div class="card-body">
+        <h3 class="card-title">Research your country in a single evening</h3>
+        <div class="byline">
+          <span class="avatar" aria-hidden="true">AC</span>
+          <span class="byline-text"><strong>Arif Chowdhury</strong>5 min read</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="card article" href="#">
+      <div class="placard"><span>Resolutions</span></div>
+      <div class="card-body">
+        <h3 class="card-title">Draft a resolution that actually passes</h3>
+        <div class="byline">
+          <span class="avatar" aria-hidden="true">MA</span>
+          <span class="byline-text"><strong>Mehjabin Alam</strong>8 min read</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+
+<!-- ======== Organiser CTA ======== -->
+<section class="shell" id="organise">
+  <div class="organise">
+    <div>
+      <h2>Create your own MUN</h2>
+      <p>Open applications, allocate countries, collect delegate fees and issue certificates — all from one dashboard. You pay nothing until you sell a ticket.</p>
+    </div>
+    <a class="btn btn-light" href="#">Start hosting</a>
+  </div>
+</section>
+
+</main>
+
+
+<!-- ======== Footer ======== -->
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-row">
+
+      <div class="foot-col">
+        <h3>For delegates</h3>
+        <ul>
+          <li><a href="#">Browse conferences</a></li>
+          <li><a href="#">Delegate handbook</a></li>
+          <li><a href="#">My registrations</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h3>For organisers</h3>
+        <ul>
+          <li><a href="#">Host a conference</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Organiser guide</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Refunds</a></li>
+        </ul>
+      </div>
+
+    </div>
+    <p class="foot-note">MUN PRO © 2026 · Dhaka, Bangladesh</p>
+  </div>
+</footer>
+
+
+<script>
+(function(){
+
+  /* --- mobile menu --- */
+  var burger = document.getElementById('burger');
+  var nav    = document.getElementById('nav');
+  burger.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+
+  /* --- hero carousel --- */
+  var slides   = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dotBox   = document.getElementById('dots');
+  var pagerBox = document.getElementById('pager');
+  var index    = 0;
+
+  /* both controls are built from the slide count, so adding a fifth
+     <article class="slide"> gives you a fifth dot and a "5" automatically */
+  slides.forEach(function(_, i){
+    var dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.type = 'button';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+    dot.addEventListener('click', function(){ show(i); });
+    dotBox.appendChild(dot);
+
+    var num = document.createElement('button');
+    num.className = 'num';
+    num.type = 'button';
+    num.setAttribute('role', 'tab');
+    num.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    num.textContent = i + 1;
+    num.addEventListener('click', function(){ show(i); });
+    pagerBox.appendChild(num);
+  });
+
+  var dots = Array.prototype.slice.call(dotBox.children);
+  var nums = Array.prototype.slice.call(pagerBox.children);
+
+  function show(i){
+    index = (i + slides.length) % slides.length;
+    slides.forEach(function(s, n){ s.classList.toggle('on', n === index); });
+    dots.forEach(function(d, n){ d.setAttribute('aria-selected', n === index ? 'true' : 'false'); });
+    nums.forEach(function(b, n){ b.setAttribute('aria-selected', n === index ? 'true' : 'false'); });
+  }
+
+  document.getElementById('deck').addEventListener('keydown', function(e){
+    if (e.key === 'ArrowLeft')  show(index - 1);
+    if (e.key === 'ArrowRight') show(index + 1);
+  });
+
+  show(0);
+
+})();
+</script>
+
+</body>
+</html>

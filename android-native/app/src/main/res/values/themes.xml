@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">MUN Pilot</string>
+
+    <color name="splash_bg">#F2F2F7</color>
+    <color name="icon_bg">#0E1D2C</color>
+
+    <style name="Theme.MunPro" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/splash_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.MunPro.Splash" parent="Theme.SplashScreen.IconBackground">
+        <item name="windowSplashScreenBackground">@color/splash_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splashscreen_logo</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/icon_bg</item>
+        <item name="postSplashScreenTheme">@style/Theme.MunPro</item>
+    </style>
+</resources>

@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Messages, shell, network</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dis{background:var(--sunk);color:var(--muted)}
+.b-dan{background:var(--paper);color:var(--red);border-color:var(--line)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni i{width:18px;height:18px;border-radius:5px;border:1.8px solid var(--muted);box-sizing:border-box;flex:none;opacity:.7}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.ni.on i{border-color:var(--seal);opacity:1}
+.uc{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--sunk2)}
+.av{width:36px;height:36px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex:none}
+.main{flex:1;min-width:0;padding:32px 40px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.seg{display:inline-flex;gap:2px;padding:4px;border-radius:12px;background:var(--sunk)}
+.seg span{height:34px;padding:0 14px;display:flex;align-items:center;gap:8px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.seg em{font-style:normal;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:9px;background:var(--sunk2);color:var(--muted)}
+.sel{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--paper);font-size:13.5px;color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.pill i{width:6px;height:6px;border-radius:3px;background:currentColor;display:block}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.cc{padding:20px;display:flex;flex-direction:column;gap:14px;position:relative}
+.meta{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+.meta span{display:flex;align-items:center;gap:6px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tiles div{padding:10px 12px;border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;gap:3px}
+.tiles span{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.tiles b{font-size:14px;font-weight:600}
+.trk{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.trk div{display:flex;flex-direction:column;gap:6px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.trk i{display:block;height:4px;border-radius:2px;background:var(--sunk)}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap}
+.ptabs span{height:34px;padding:0 14px;border-radius:17px;display:flex;align-items:center;font-size:13.5px;font-weight:500;color:var(--ink2);border:1px solid var(--line);background:var(--paper)}
+.ptabs span.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.bn{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:12px}
+.dr{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line2)}
+.prose{font-family:Newsreader,Georgia,serif;font-size:17px;line-height:1.65;color:var(--ink)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label,.fld .fl{font-size:13px;font-weight:600}
+.inp{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--sunk2);font-size:14px;box-sizing:border-box}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:15px;font-size:13px;border:1px solid var(--line);background:var(--paper)}
+.chip.lock{background:var(--sealSoft);border-color:transparent;color:var(--seal);font-weight:600}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+
+.w{--red:#B42318;--redSoft:#FBE7E4;--violet:#6B46C1;--violetSoft:#EEE8FA;--blue:#1F5FBF;--blueSoft:#E5EEFB}
+.w.dark{--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--violet:#B79CF2;--violetSoft:rgba(183,156,242,.16);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14)}
+.lw .lga{fill:#fff}.lw .lgb{fill:#47A481}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.skl{border-radius:8px;background:linear-gradient(90deg,var(--sunk) 0%,var(--sunk2) 50%,var(--sunk) 100%);background-size:200% 100%;animation:skl 1.4s ease-in-out infinite}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:11px;font-size:13.5px;line-height:1.45}
+.a-err{background:var(--redSoft);color:var(--red)}.a-warn{background:var(--amberSoft);color:var(--amber)}.a-ok{background:var(--sealSoft);color:var(--seal)}.a-info{background:var(--blueSoft);color:var(--blue)}
+.ferr{font-size:12.5px;color:var(--red)}
+.t-red{background:var(--redSoft);color:var(--red)}.t-vio{background:var(--violetSoft);color:var(--violet)}.t-blue{background:var(--blueSoft);color:var(--blue)}
+.slab{background:#0E1D2C;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:56px;color:#fff}
+.slab .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%);mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%)}
+.slab .dia{position:absolute;right:-60px;top:-60px;width:320px;height:320px;transform:rotate(45deg);border:1px solid rgba(71,164,129,.35);border-radius:28px}
+.slab .dia2{position:absolute;right:40px;top:40px;width:120px;height:120px;transform:rotate(45deg);background:rgba(71,164,129,.16);border-radius:16px}
+.note{font-size:12.5px;color:var(--muted);line-height:1.5}
+.lab{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.dots{display:flex;gap:6px;align-items:center}.dots i{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.35);display:block}.dots i.on{width:22px;background:#fff}
+.pg{width:30px;height:30px;border-radius:15px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.pg.on{background:#fff;color:#0E1D2C}
+.toast{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;background:var(--ink);color:var(--paper);font-size:13.5px;line-height:1.45;box-shadow:var(--sh2);max-width:380px}
+.w{--purple:#6B46C1;--purpleSoft:#EEE8FA}.w.dark{--purple:#B79CF2;--purpleSoft:rgba(183,156,242,.16)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.wiz{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh1);display:flex;flex-direction:column;overflow:hidden}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:22px 28px;border-bottom:1px solid var(--line2)}
+.st{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--muted);position:relative}
+.st i{width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:700;background:var(--sunk);color:var(--muted);flex:none}
+.st.done i{background:var(--seal);color:var(--sealInk)}
+.st.done{color:var(--ink)}
+.st.on i{background:var(--paper);color:var(--seal);box-shadow:inset 0 0 0 2px var(--seal)}
+.st.on{color:var(--ink);font-weight:600}
+.st span.ln{flex:1;height:2px;border-radius:1px;background:var(--line2);margin:0 4px}
+.st.done span.ln{background:var(--seal)}
+.wb{padding:28px;display:flex;flex-direction:column;gap:20px}
+.wf{padding:18px 28px;border-top:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;background:var(--sunk2)}
+.req{color:var(--signal)}
+.ta{border:1px solid var(--line);border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;overflow:hidden}
+.ta textarea{border:0;background:none;outline:none;resize:none;height:110px;padding:12px 14px;font:14.5px/1.55 Inter,sans-serif;color:var(--ink)}
+.ai{display:flex;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line2);background:var(--paper)}
+.aib{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;background:var(--purpleSoft);color:var(--purple);font-size:12.5px;font-weight:600;border:0}
+.help{font-size:12.5px;color:var(--muted);line-height:1.5}
+.pb{border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.pbh{display:flex;align-items:center;gap:10px}
+.rank{width:26px;height:26px;border-radius:8px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex:none}
+.role{display:flex;align-items:flex-start;gap:14px;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--paper)}
+.role.on{border-color:var(--seal);box-shadow:0 0 0 3px var(--sealSoft)}
+.role.off{opacity:.55;background:var(--sunk2)}
+.role.on .rd{border:6px solid var(--seal)}
+.mstep{height:4px;border-radius:2px;background:var(--sunk);flex:1}
+.mstep.on{background:var(--seal)}
+.sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:var(--glass);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;gap:10px}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0;display:inline-block}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.menu{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh2);padding:6px;display:flex;flex-direction:column}
+.menu span,.menu a{height:36px;display:flex;align-items:center;gap:10px;padding:0 10px;border-radius:8px;font-size:13.5px;color:var(--ink)}
+.dlg{background:var(--paper);border-radius:20px;box-shadow:var(--sh2);display:flex;flex-direction:column;overflow:hidden}
+.dlg .dh{padding:20px 22px 12px;display:flex;flex-direction:column;gap:4px}
+.dlg .dh b{font-size:18px}.dlg .dh span{font-size:13.5px;color:var(--muted)}
+.dlg .db{padding:8px 22px 18px;display:flex;flex-direction:column;gap:12px}
+.dlg .df{padding:14px 22px;border-top:1px solid var(--line2);display:flex;justify-content:flex-end;gap:8px}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:36px 24px}
+.empty .ei{width:48px;height:48px;border-radius:14px;background:var(--sunk2);color:var(--muted);display:flex;align-items:center;justify-content:center}
+.empty b{font-size:16px}.empty span{font-size:14px;color:var(--muted);max-width:360px;line-height:1.5}
+.sec-h{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line2)}
+.sec-h b{font-size:16px}
+.bub{max-width:70%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45}
+.bub.in{background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:6px}
+.bub.out{background:var(--seal);color:var(--sealInk);border-bottom-right-radius:6px;margin-left:auto}
+.tb{display:flex;align-items:center;gap:2px;padding:6px;border-bottom:1px solid var(--line2);background:var(--sunk2);flex-wrap:wrap}
+.tb button{width:32px;height:32px;border:0;background:none;border-radius:7px;color:var(--ink2);display:flex;align-items:center;justify-content:center;font:600 13px Inter,sans-serif;padding:0}
+.tb i{width:1px;height:20px;background:var(--line);margin:0 4px;display:block}
+.fus{background:linear-gradient(#3C3B6E,#3C3B6E) 0 0/45% 54% no-repeat,repeating-linear-gradient(#B22234 0 7.7%,#fff 7.7% 15.4%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.fin{background:linear-gradient(#FF9933 0 33%,#fff 33% 66%,#138808 66%)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3320px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">D10 · Dashboard · Messages states, shell variants, Network &amp; profile states</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Messages, shell and network states</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Messages gets the New Message dialog, the floating panel's new-chat view, group bubbles with sender names, the delivery ticks, presence and every empty line, plus the phone chat screen with a back arrow. The shell gets the notification bell's states (role-change invite, room alert pills, error strip), the live-session pop-ups (bottom-right, 5s), the new rail items (My Pass, Scan Passes, Coupons, Pass Report, Faculty Panel), the co-organizer and App Admin menus, and the organizer home variants. Network and profile add their empty states, confirm dialogs and "Profile not found".</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+<div style="display: flex; flex-direction: column; gap: 40px;">
+
+<div class="cap"><b>Messages · group chat, ticks, New Message dialog</b></div>
+<div class="frame" style="width: 1440px; height: 860px;">
+<aside class="side">
+<div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div>
+<span class="sl">Menu</span>
+<a class="ni" href="#"><i></i>Dashboard</a><a class="ni" href="#"><i></i>My Conferences</a><a class="ni" href="#"><i></i>Documents</a><a class="ni" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni" href="#"><i></i>Network</a><a class="ni" href="#"><i></i>Payments</a><a class="ni" href="#"><i></i>Settings</a>
+<span style="flex: 1;"></span>
+<div class="uc"><span class="av" style="background: #13895F;">NR</span><span class="col"><b style="font-size: 13.5px;">Nadia Rahman</b><span style="font-size: 12px; color: var(--muted);">nadia@school.edu</span></span></div>
+</aside>
+<main class="main" style="padding: 0; flex-direction: row; gap: 0; position: relative;">
+<div style="width: 320px; border-right: 1px solid var(--line); background: var(--paper); display: flex; flex-direction: column;">
+<div class="row" style="padding: 16px; justify-content: space-between;"><b class="serif" style="font-size: 24px;">Messages</b><span class="row" style="gap: 2px;"><button class="ib" aria-label="New group"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></button><button class="ib" aria-label="New message"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button></span></div>
+<div style="padding: 0 16px 12px;"><div class="inp" style="color: var(--muted);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search conversations...</div></div>
+<div class="row" style="padding: 12px 16px; background: var(--sealSoft);"><span class="av" style="background: #24384B;">UN</span><span class="col" style="flex: 1;"><b style="font-size: 14px;">[Group chat name]</b><span style="font-size: 12.5px; color: var(--muted);">[Last message]</span></span></div>
+<div class="row" style="padding: 12px 16px;"><span style="position: relative;"><span class="av" style="background: #1E6FE0;">TA</span><i style="position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; border-radius: 5px; background: #22A06B; box-shadow: 0 0 0 2px var(--paper);"></i></span><span class="col" style="flex: 1;"><b style="font-size: 14px;">Tanvir Ahmed</b><span style="font-size: 12.5px; color: var(--muted);">[Last message]</span></span></div>
+</div>
+<div style="flex: 1; display: flex; flex-direction: column;">
+<div class="row" style="padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--paper);"><span class="av" style="background: #24384B;">UN</span><span class="col"><b style="font-size: 15px;">[Group chat name]</b><span style="font-size: 12.5px; color: var(--muted);">[members line]</span></span></div>
+<div class="col" style="flex: 1; padding: 20px; gap: 12px;">
+<div class="col" style="gap: 3px;"><span style="font-size: 12px; font-weight: 600; color: var(--muted); padding-left: 4px;">Tanvir Ahmed</span><div class="bub in">[Incoming message]</div></div>
+<div class="col" style="gap: 3px;"><span style="font-size: 12px; font-weight: 600; color: var(--muted); padding-left: 4px;">[Member]</span><div class="bub in">[Incoming message]</div></div>
+<div class="col" style="gap: 4px; align-items: flex-end;"><div class="bub out">[Sent — read]</div><span class="row" style="gap: 4px; font-size: 11.5px; color: var(--blue);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="m2 13 4 4 8-10M10 17l1 0 8-10"/></svg></span></div>
+<div class="col" style="gap: 4px; align-items: flex-end;"><div class="bub out">[Sent — delivered]</div><span style="color: var(--muted);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="m5 12 4 4 10-10"/></svg></span></div>
+<div class="col" style="gap: 4px; align-items: flex-end;"><div class="bub out" style="opacity: .7;">[Sending]</div><span style="color: var(--muted);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span></div>
+</div>
+<div style="padding: 14px 20px; border-top: 1px solid var(--line); background: var(--paper);"><div class="inp" style="color: var(--muted);">Type your message...</div></div>
+</div>
+<div class="scrim"></div>
+<div class="dlg" style="position: absolute; left: 50%; top: 110px; transform: translateX(-50%); width: 440px;"><div class="dh"><b>New Message</b></div><div class="db"><div class="inp" style="color: var(--muted);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search users...</div>
+<div class="row" style="padding: 8px; border-radius: 10px; background: var(--sunk2);"><span class="av" style="background: #7B4FD6;">SK</span><span class="col" style="flex: 1;"><b style="font-size: 14px;">[Name]</b><span style="font-size: 12px; color: var(--muted);">Delegate</span></span><span style="font-size: 12.5px; color: var(--muted);">Starting...</span></div>
+<div class="row" style="padding: 8px;"><span class="av" style="background: #B8860B;">MR</span><span class="col" style="flex: 1;"><b style="font-size: 14px;">[Name]</b><span style="font-size: 12px; color: var(--muted);">Organizer</span></span></div></div></div>
+</main>
+</div>
+
+<div class="cap"><b>Shell · bell, live pop-ups, menus</b></div>
+<div class="frame" style="width: 1440px; height: 760px; background: var(--page); padding: 32px; gap: 28px; align-items: flex-start; box-sizing: border-box;">
+<div class="card" style="width: 400px; overflow: hidden; box-shadow: var(--sh2);">
+<div class="sec-h"><b>Notifications</b></div>
+<div style="padding: 10px 14px;"><div class="alert a-err" style="font-size: 12.5px;">Action failed. Check your access and try again.</div></div>
+<div class="col" style="padding: 12px 16px; gap: 10px; border-top: 1px solid var(--line2);"><span style="font-size: 13.5px; line-height: 1.5;">Your role in <b>Dhaka MUN 2026</b> has been updated to <b>Chair</b>. Accept to apply the change.</span><div class="row" style="gap: 8px;"><button class="btn sm b-sec">Decline</button><button class="btn sm b-pri">Accept</button></div></div>
+<div class="row" style="padding: 12px 16px; border-top: 1px solid var(--line2); gap: 8px;"><span class="pill p-info">Info</span><span class="pill p-wait">Warning</span><span class="pill p-bad">Urgent</span><span style="font-size: 12.5px; color: var(--muted);">room alert pills</span></div>
+<div class="col" style="padding: 12px 16px; gap: 8px; border-top: 1px solid var(--line2);"><div class="skl" style="height: 14px; width: 80%;"></div><div class="skl" style="height: 14px; width: 60%;"></div><span class="note">Loading (skeleton) · empty: "No new notifications"</span></div>
+</div>
+<div class="col" style="gap: 12px; width: 380px;">
+<span class="lab">Live-session pop-ups · bottom-right · 5s · click opens the console</span>
+<div class="toast" style="flex-direction: column; gap: 4px;"><span class="row" style="gap: 8px; font-weight: 600;"><i class="flag fjp"></i>Info — Dhaka MUN 2026 (UNSC)</span><span style="opacity: .85;">Japan raised a [point label]</span></div>
+<div class="toast" style="flex-direction: column; gap: 4px; background: #8A5A00;"><span class="row" style="gap: 8px; font-weight: 600;"><i class="flag ffr"></i>Warning — [event] ([committee])</span><span style="opacity: .9;">France proposed: [motion]</span></div>
+<div class="toast" style="flex-direction: column; gap: 4px; background: #B42318;"><span class="row" style="gap: 8px; font-weight: 600;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20L12 3z"/></svg>Urgent — [event] ([committee])</span><span style="opacity: .9;">Voting opened — cast your vote</span></div>
+<span class="note">Other lines: "{country} — {request label}" · "Voting opened — {motion}".</span>
+</div>
+<div class="col" style="gap: 16px;">
+<span class="lab">App Admin account menu</span>
+<div class="menu" style="width: 220px;"><span>My Account</span><span>Admin Dashboard</span><span>System Settings</span><span style="color: var(--red);">Sign out</span></div>
+<span class="lab">Co-organizer sidebar label</span>
+<div class="card" style="padding: 10px; width: 220px; box-sizing: border-box;"><span class="sl" style="padding-top: 4px;">Co-organizer</span><a class="ni" href="#"><i></i>Manage Events</a></div>
+</div>
+</div>
+
+<div class="cap"><b>Network &amp; profile states</b></div>
+<div class="frame" style="width: 1440px; height: 640px; padding: 32px; gap: 24px; align-items: flex-start; box-sizing: border-box;">
+<div class="col" style="gap: 16px; width: 420px;">
+<div class="card empty"><span class="ei"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M19 8v6M16 11h6"/></svg></span><b>No suggestions yet</b><span>Participate in more conferences to discover delegates you may know.</span><a class="btn sm b-pri" href="#">Browse events</a></div>
+<div class="card empty"><span class="ei"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></span><b>No blocked users</b><span>People you block will appear here. You can unblock them anytime.</span></div>
+</div>
+<div class="col" style="gap: 16px; width: 360px;">
+<div class="dlg"><div class="dh"><b>Disconnect</b><span>Remove Tanvir Ahmed from your connections?</span></div><div class="df"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Confirm</button></div></div>
+<div class="dlg"><div class="dh"><b>Unblock</b><span>Unblock [name]?</span></div><div class="df"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-dis" disabled>Working...</button></div></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 8px;"><span class="lab">Public profile buttons</span><div class="row" style="gap: 8px;"><button class="btn sm b-dis" disabled><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M16 11l2 2 4-4"/></svg>Connected</button><button class="btn sm b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="fill: #B8860B; stroke: #B8860B;"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg>Update rating</button></div></div>
+</div>
+<div class="card" style="flex: 1; align-self: stretch; display: flex; align-items: center; justify-content: center;"><div class="empty"><span class="ei" style="width: 64px; height: 64px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px;"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><h2 class="serif" style="margin: 0; font-size: 30px;">Profile not found</h2><span>This user doesn't exist, or their profile is private.</span><button class="btn sm b-sec">Go Back</button></div></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px; width: 390px;">
+<div class="cap"><b>Chat · phone</b><span>Back arrow to the list.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div class="mtop"><button class="ib" aria-label="Back to conversations"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><span class="col" style="flex: 1;"><b style="font-size: 15px;">Tanvir Ahmed</b><span style="font-size: 12px; color: #22A06B;">Online</span></span></div>
+<div class="col" style="flex: 1; padding: 16px; gap: 12px; justify-content: center; align-items: center; color: var(--muted); font-size: 14px;">No messages yet. Say hello!</div>
+<div style="padding: 12px 14px 28px; border-top: 1px solid var(--line); background: var(--paper);"><div class="inp" style="color: var(--muted);">Type your message...</div></div>
+</div>
+
+<div class="cap"><b>Floating panel · new chat</b></div>
+<div class="card" style="overflow: hidden; box-shadow: var(--sh2);"><div class="row" style="padding: 10px 12px; border-bottom: 1px solid var(--line2);"><button class="ib" aria-label="Back"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><b style="flex: 1; font-size: 14.5px;">New Message</b><button class="ib" aria-label="Close"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="col" style="padding: 12px; gap: 8px;"><div class="inp" style="color: var(--muted);">Search users...</div><div class="row" style="padding: 6px;"><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">[Name]</b><span style="font-size: 12px; color: var(--muted);">Chair</span></span><span style="font-size: 12px; color: var(--muted);">Connecting...</span></div></div></div>
+
+<div class="cap"><b>Message empties &amp; presence</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; color: var(--muted);"><span>No conversations yet. Start one!</span><span>No matches.</span><span>No conversations found. <span class="note">(panel)</span></span><span class="row" style="gap: 10px;"><span style="color: #22A06B; font-weight: 600;">Online</span>· Active 5m ago · Offline</span><span>Panel: Active now · Offline · placeholder "Type message..."</span><span>Create Group: Loading users... · Creating...</span></div>
+
+<div class="cap"><b>Chat ⋮ menu</b><span>Decision: give the button real items.</span></div>
+<div class="card" style="overflow: visible; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px;"><div class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">Tanvir Ahmed</b><button class="ib" aria-label="Chat options" style="background: var(--sunk2);">⋮</button></div><div class="menu" style="width: 220px; align-self: flex-end;"><span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>View profile</span><span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M3 3l18 18"/></svg>Mute</span><span style="color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>Block</span></div><span class="note">Group chats: View members · Mute · Leave group.</span></div>
+
+<div class="cap"><b>Achievements · filter with no awards</b><span>Decision: add an empty message.</span></div>
+<div class="card empty" style="padding: 24px;"><span class="ei"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg></span><b>No awards in this filter</b><span>Try another filter, or see everything.</span><a href="#" style="font-size: 13.5px; font-weight: 600;">Show all awards</a></div>
+
+<div class="cap"><b>Rail additions</b></div>
+<div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 2px;"><span class="sl" style="padding-top: 4px;">Delegate portal</span><a class="ni" href="#"><i></i>Requests</a><a class="ni on" href="#"><i></i>My Pass</a><span class="sl">Committee Hub</span><a class="ni" href="#"><i></i>Rules &amp; Regs</a><a class="ni" href="#"><i></i>My Pass</a><a class="ni" href="#"><i></i>Scan Passes</a><span class="sl">Event · Tools</span><a class="ni" href="#"><i></i>Coupons</a><a class="ni" href="#"><i></i>Scan Passes</a><a class="ni" href="#"><i></i>Pass Report</a><a class="ni" href="#"><i></i>Complaints</a><span class="sl">Faculty variant</span><a class="ni" href="#"><i></i>Back to Home</a><span class="sl">Faculty Advisor</span><a class="ni on" href="#"><i></i>Faculty Panel</a></div>
+
+<div class="cap"><b>Home · organizer variants</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="gap: 8px;"><button class="btn sm b-sec">Organizer Dashboard</button><button class="btn sm b-sec">Co-organizer Events</button></div><span class="note">Own organizer / co-organizer — the promo is hidden.</span><div style="height: 1px; background: var(--line2);"></div><span style="font-size: 13.5px; color: var(--muted);">No new recommendations yet.</span><a href="#" style="font-size: 13.5px; font-weight: 600;">Browse all conferences</a></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3320}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

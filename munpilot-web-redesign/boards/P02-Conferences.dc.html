@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Conferences list</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}a:hover{color:#08543D}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--signalSoft:#F8E6E1;--sand:#E7E3D6;--amber:#8A5A00;--amberSoft:#FBF0D9;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 6px 20px rgba(14,29,44,.08);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.78);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--signalSoft:rgba(224,128,101,.14);--sand:#2A3B46;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--sh1:none;--sh2:0 8px 24px rgba(0,0,0,.35);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.80)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:34px;padding:0 13px;font-size:13.5px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.hdr{height:68px;background:var(--glass);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:20px;padding:0 40px;flex:none}
+.search{flex:1;max-width:420px;height:40px;border-radius:20px;background:var(--sunk2);box-shadow:inset 0 0 0 1px var(--line2);display:flex;align-items:center;gap:10px;padding:0 16px;color:var(--muted);font-size:14px;box-sizing:border-box}
+.nav a{font-size:14px;font-weight:500;color:var(--ink2)}
+.nav a.on{color:var(--ink);font-weight:600}
+.shell{max-width:1200px;margin:0 auto;padding:0 40px;box-sizing:border-box;width:100%}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.photo{background:linear-gradient(160deg,#B9CBC4 0%,#DCD8CA 100%)}
+.w.dark .photo{background:linear-gradient(160deg,#2C4A44 0%,#2A3B46 100%)}
+.ec{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh1);color:inherit}
+.ec.hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.ec.hover h3{color:var(--seal)}
+.ec .pl{height:168px;background:#0E1D2C;color:#E7E3D6;display:flex;align-items:center;justify-content:center;position:relative}
+.ec .pl.alt{background:var(--sand);color:#0E1D2C}
+.w.dark .ec .pl.alt{color:#E7E3D6}
+.ec .pl b{font-family:Newsreader,Georgia,serif;font-size:32px;font-weight:500;letter-spacing:.02em}
+.stamp{position:absolute;top:12px;height:24px;padding:0 9px;border-radius:12px;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;background:rgba(255,255,255,.92);color:#0E1D2C;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.ec .bd{padding:16px 18px 0;display:flex;flex-direction:column;gap:6px;flex:1}
+.date{font-size:12.5px;font-weight:600;color:var(--signal)}
+.ec h3{margin:0;font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.01em}
+.meta{font-size:13px;color:var(--muted)}
+.ec .ft{margin-top:12px;padding:12px 18px;border-top:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;font-size:13.5px;font-weight:600;color:var(--seal)}
+.sk{background:linear-gradient(90deg,var(--sunk) 0%,var(--sunk2) 45%,var(--sunk) 90%);background-size:220% 100%;border-radius:6px;animation:skl 1.4s linear infinite}
+@keyframes skl{0%{background-position:120% 0}100%{background-position:-120% 0}}
+.fstub{background:var(--paper);border-top:1px solid var(--line);height:96px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;color:var(--muted);flex:none}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.mh{height:56px;background:var(--glass);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 12px 0 16px;flex:none}
+.ib{width:40px;height:40px;border-radius:10px;border:0;background:none;color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.inp{display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--paper);box-sizing:border-box;color:var(--muted);font-size:15px;box-shadow:var(--sh1)}
+.inp input{flex:1;min-width:0;border:0;background:none;outline:none;font:15px Inter,sans-serif;color:var(--ink);padding:0}
+.empty{background:var(--paper);border:1px dashed var(--line);border-radius:16px;padding:48px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.empty .ei{width:56px;height:56px;border-radius:16px;background:var(--sunk2);color:var(--muted);display:flex;align-items:center;justify-content:center}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2480px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">P02 · Public · /events</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Conferences</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Masthead → result bar → 3-column grid, as today. The masthead gains an on-page search (it drives the same <code>?q=</code> filter as the header); the tally sits beside it. Cards keep every field — format stamp, live countdown, cover or acronym, date, title, place · cheapest current price, "View details". Loading and both empty states are drawn on the right.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div class="frame" style="width: 1440px;">
+<div class="hdr">
+<svg viewBox="0 -100 492 130" width="124" height="33" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<div class="search"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search a conference, committee or city</div>
+<nav class="row nav" style="gap: 24px; margin-left: auto;"><a class="on" href="#">Conferences</a><a href="#">Articles</a></nav>
+<span style="width: 1px; height: 24px; background: var(--line);"></span>
+<a class="btn sm b-sec" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Create event</a>
+<a class="btn sm b-ghost" href="#">Log in</a>
+<a class="btn sm b-pri" href="#">Sign up</a>
+</div>
+
+<div style="background: var(--paper); border-bottom: 1px solid var(--line2); padding: 56px 0 40px;"><div class="shell" style="display: flex; flex-direction: column; gap: 28px;">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
+<div class="col" style="gap: 12px; max-width: 640px;"><span class="kick">Conferences</span><h1 class="serif" style="margin: 0; font-size: 52px; line-height: 1.05;">Model UN conferences</h1><p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--ink2);">Every conference currently taking delegates on MUN Pilot — committees, fees and dates, before you commit a weekend to one.</p></div>
+<div class="col" style="align-items: flex-end; gap: 2px;"><span class="serif" style="font-size: 44px; line-height: 1;">6</span><span style="font-size: 13px; color: var(--muted);">conferences</span></div>
+</div>
+<div class="inp" style="max-width: 640px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input aria-label="Search conferences" placeholder="Search by name, city or committee" value="dhaka"><button class="btn sm b-ghost" aria-label="Clear search" style="width: 34px; padding: 0;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+</div></div>
+
+<div class="shell" style="padding-top: 24px; padding-bottom: 64px; display: flex; flex-direction: column; gap: 20px;">
+<div class="row" style="justify-content: space-between; padding: 12px 16px; border-radius: 12px; background: var(--sealSoft);"><span style="font-size: 14px;">Showing results for <b>"dhaka"</b></span><a href="#" style="font-size: 14px; font-weight: 600;">Clear search</a></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+<a class="ec" href="#"><div class="pl photo"><span class="stamp" style="left: 12px;">In-person</span><span class="stamp" style="right: 12px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>in 12d 4h</span></div><div class="bd"><span class="date">Sat, 15 August</span><h3>Dhaka Model United Nations Conference 2026 (DMUNC '26)</h3><span class="meta">Pan Pacific Sonargaon Dhaka · $15</span></div><div class="ft">View details<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a>
+<a class="ec hover" href="#"><div class="pl alt"><span class="stamp" style="left: 12px;">Online</span><span class="stamp" style="right: 12px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>in 15d 2h</span><b>UNSC</b></div><div class="bd"><span class="date">Sun, 15 November</span><h3>Screens Model UN 2027</h3><span class="meta">Online · Free</span></div><div class="ft">View details<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a>
+<a class="ec" href="#"><div class="pl"><span class="stamp" style="left: 12px;">Hybrid</span><span class="stamp" style="right: 12px; background: #B03B22; color: #fff;"><i style="display: block; width: 6px; height: 6px; border-radius: 3px; background: #fff;"></i>Happening now</span><b>DISEC</b></div><div class="bd"><span class="date">Fri, 30 October</span><h3>[Conference name]</h3><span class="meta">[Venue], Dhaka · $750</span></div><div class="ft">View details<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a>
+<a class="ec" href="#"><div class="pl alt"><span class="stamp" style="left: 12px;">In-person</span><b>MUN</b></div><div class="bd"><span class="date" style="color: var(--muted);">Date to be announced</span><h3>[Conference name]</h3><span class="meta">Venue to be announced</span></div><div class="ft">View details<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a>
+<a class="ec" href="#"><div class="pl photo"><span class="stamp" style="left: 12px;">In-person</span><span class="stamp" style="right: 12px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>in 41d 6h</span></div><div class="bd"><span class="date">Thu, 10 December</span><h3>[Conference name]</h3><span class="meta">[Venue], Dhaka · Free</span></div><div class="ft">View details<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a>
+<a class="ec" href="#"><div class="pl" style="background: #24384B;"><span class="stamp" style="left: 12px;">Online</span><span class="stamp" style="right: 12px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>in 3h 20m</span><b>UNHRC</b></div><div class="bd"><span class="date">Sat, 31 October</span><h3>[Conference name]</h3><span class="meta">Online · $20</span></div><div class="ft">View details<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a>
+</div>
+</div>
+<div class="fstub" style="margin-top: auto;">Mega footer — identical to P01 Home</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Phone · 390</b><span>Masthead, search, one card per row.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mh"><svg viewBox="0 -100 492 130" width="100" height="27" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg><span style="flex: 1;"></span><a class="btn sm b-pri" href="#">Sign up</a><button class="ib" aria-label="Menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+<div style="background: var(--paper); padding: 20px 16px 18px; display: flex; flex-direction: column; gap: 12px; border-bottom: 1px solid var(--line2);">
+<span class="kick">Conferences</span>
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><h1 class="serif" style="margin: 0; font-size: 32px; line-height: 1.05;">Model UN conferences</h1><span style="font-size: 13px; color: var(--muted); white-space: nowrap;">6 found</span></div>
+<div class="inp" style="height: 44px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input aria-label="Search conferences" placeholder="Name, city or committee"></div>
+</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 14px;">
+<a class="ec" href="#"><div class="pl photo" style="height: 140px;"><span class="stamp" style="left: 12px;">In-person</span><span class="stamp" style="right: 12px;">in 12d 4h</span></div><div class="bd" style="padding-bottom: 14px;"><span class="date">Sat, 15 August</span><h3>Dhaka Model United Nations Conference 2026</h3><span class="meta">Pan Pacific Sonargaon Dhaka · $15</span></div></a>
+<a class="ec" href="#"><div class="pl alt" style="height: 140px;"><span class="stamp" style="left: 12px;">Online</span><span class="stamp" style="right: 12px;">in 15d 2h</span><b>UNSC</b></div><div class="bd" style="padding-bottom: 14px;"><span class="date">Sun, 15 November</span><h3>Screens Model UN 2027</h3><span class="meta">Online · Free</span></div></a>
+</div>
+</div>
+
+<div class="cap"><b>Search with no results · phone</b><span>Result bar + the "nothing matches" empty state.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div style="background: var(--paper); padding: 16px; display: flex; flex-direction: column; gap: 12px; border-bottom: 1px solid var(--line2);">
+<div class="inp" style="height: 44px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input aria-label="Search conferences" value="geneva"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></div>
+<div class="row" style="justify-content: space-between; font-size: 13.5px;"><span>Showing results for <b>"geneva"</b></span><a href="#" style="font-weight: 600;">Clear search</a></div>
+</div>
+<div style="padding: 24px 16px;">
+<div class="empty"><span class="ei"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px;"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8.5 11h5"/></svg></span><b style="font-size: 17px;">No conferences found</b><span style="font-size: 14px; line-height: 1.55; color: var(--muted); max-width: 280px;">Nothing matches that search. Try a city, a committee, or clear the search above.</span><a class="btn sm b-sec" href="#" style="margin-top: 6px;">Clear search</a></div>
+</div>
+</div>
+
+<div class="cap"><b>Loading and nothing open · desktop states</b><span>Skeleton cards while loading; tally hidden.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 16px;">
+<div class="ec"><div class="pl sk" style="height: 120px; border-radius: 0;"></div><div class="bd" style="padding-bottom: 16px; gap: 10px;"><i class="sk" style="display: block; width: 55%; height: 12px;"></i><i class="sk" style="display: block; width: 85%; height: 17px;"></i><i class="sk" style="display: block; width: 70%; height: 13px;"></i></div></div>
+<div class="empty" style="padding: 32px 20px;"><span class="ei"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px;"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><b style="font-size: 16px;">No conferences found</b><span style="font-size: 13.5px; line-height: 1.55; color: var(--muted);">There are no conferences taking delegates right now. Check back soon — or host one yourself.</span><a class="btn sm b-pri" href="#" style="margin-top: 6px;">Host a conference</a></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2480}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

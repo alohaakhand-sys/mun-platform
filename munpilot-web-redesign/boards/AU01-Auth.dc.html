@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Log in and sign up</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}a:hover{color:#08543D}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--red:#B42318;--redSoft:#FBE7E4;--sh1:0 1px 2px rgba(14,29,44,.05);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.78);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--sh1:none;--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.80)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.lw .lga{fill:#fff}.lw .lgb{fill:#47A481}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.serif em{font-style:italic;color:#93B7A8}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:34px;padding:0 13px;font-size:13.5px;border-radius:8px}
+.btn.lg{height:48px;padding:0 20px;font-size:15px;border-radius:10px;width:100%}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.hdr{height:68px;background:var(--glass);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:20px;padding:0 40px;flex:none}
+.nav a{font-size:14px;font-weight:500;color:var(--ink2)}
+.split{display:grid;grid-template-columns:1fr 1fr;min-height:820px}
+.formside{background:var(--paper);display:flex;align-items:center;justify-content:center;padding:48px}
+.form{width:400px;display:flex;flex-direction:column;gap:20px}
+.fld{display:flex;flex-direction:column;gap:7px}
+.fld label{font-size:13.5px;font-weight:600}
+.inp{display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;border-radius:11px;border:1px solid var(--line);background:var(--sunk2);box-sizing:border-box;color:var(--muted)}
+.inp input{flex:1;min-width:0;border:0;background:none;outline:none;font:15px Inter,sans-serif;color:var(--ink);padding:0}
+.inp input::placeholder{color:var(--muted)}
+.inp.focus{background:var(--paper);border-color:var(--seal);box-shadow:0 0 0 3px var(--sealSoft)}
+.inp.err{border-color:var(--red);box-shadow:0 0 0 3px var(--redSoft)}
+.div{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--muted)}
+.div::before,.div::after{content:"";flex:1;height:1px;background:var(--line)}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:11px;background:var(--redSoft);color:var(--red);font-size:13.5px;line-height:1.45}
+.slab{background:#0E1D2C;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:56px;color:#fff}
+.slab .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%);mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%)}
+.slab .dia{position:absolute;right:-60px;top:-60px;width:320px;height:320px;transform:rotate(45deg);border:1px solid rgba(71,164,129,.35);border-radius:28px}
+.slab .dia2{position:absolute;right:40px;top:40px;width:120px;height:120px;transform:rotate(45deg);background:rgba(71,164,129,.16);border-radius:16px}
+.avs{display:flex}
+.avs i{width:36px;height:36px;border-radius:18px;border:2px solid #0E1D2C;margin-left:-10px;display:block}
+.avs i:first-child{margin-left:0}
+.qt{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:6px;max-width:440px}
+.fstub{background:var(--paper);border-top:1px solid var(--line);height:72px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);flex:none}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--paper);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.ib{width:40px;height:40px;border-radius:10px;border:0;background:none;color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sh1)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2680px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">AU01 · Auth · /login, /signup, /forgot-password</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Log in, sign up, reset password</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Same split: form on one side, a brand panel on the other (sign-up mirrors it). The off-brand indigo gradient becomes the navy slab with a faint grid and the logo's diamond as a motif; the "10k+ users worldwide" line keeps its avatar stack. Google sign-in uses the real Google mark. Errors sit above the form; busy buttons say "Logging in…", "Creating account…", "Sending link…".</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px;">
+<div class="hdr">
+<svg viewBox="0 -100 492 130" width="124" height="33" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<nav class="row nav" style="gap: 24px; margin-left: auto;"><a href="#">Conferences</a><a href="#">Articles</a></nav>
+<span style="width: 1px; height: 24px; background: var(--line);"></span>
+<a class="btn sm b-ghost" href="#">Log in</a>
+<a class="btn sm b-pri" href="#">Sign up</a>
+</div>
+<div class="split">
+<div class="formside"><form class="form">
+<div class="col" style="gap: 8px;"><h1 class="serif" style="margin: 0; font-size: 40px;">Welcome back</h1><span style="font-size: 15px; color: var(--muted);">Enter your credentials to access your account</span></div>
+<button type="button" class="btn lg b-sec"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Continue with Google</button>
+<div class="div">Or continue with email</div>
+<div class="fld"><label for="l1">Email address</label><div class="inp focus"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><input id="l1" placeholder="m@example.com" value="nadia@school.edu"></div></div>
+<div class="fld"><div class="row" style="justify-content: space-between;"><label for="l2">Password</label><a href="#" style="font-size: 13.5px; font-weight: 600;">Forgot password?</a></div><div class="inp"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><input id="l2" type="password" value="password"><button type="button" class="ib" aria-label="Show password" style="width: 32px; height: 32px; color: var(--muted);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+<button type="button" class="btn lg b-pri">Log in</button>
+<span style="font-size: 14px; color: var(--muted); text-align: center;">Don't have an account? <a href="#" style="font-weight: 600;">Sign up</a></span>
+</form></div>
+<div class="slab"><i class="grid"></i><i class="dia"></i><i class="dia2"></i>
+<svg class="lw" viewBox="0 -100 492 130" width="150" height="40" role="img" aria-label="MUN Pilot" style="position: relative;"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<div class="col" style="gap: 22px; position: relative;">
+<h2 class="serif" style="margin: 0; font-size: 48px; line-height: 1.08; max-width: 520px; color: #fff;">Elevate your MUN experience to the <em>next level.</em></h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #B7C4CE; max-width: 480px;">Join thousands of delegates, chairs, and organizers who trust MUN Pilot to manage their entire Model UN journey.</p>
+<div class="row" style="gap: 14px;"><div class="avs"><i style="background: #13895F;"></i><i style="background: #1E6FE0;"></i><i style="background: #7B4FD6;"></i><i style="background: #B8860B;"></i></div><span style="font-size: 15px; color: #DDE6EC;"><b style="color: #fff;">10k+</b> users worldwide</span></div>
+</div>
+</div>
+</div>
+<div class="fstub">Mega footer — identical to P01 Home</div>
+</div>
+
+<div class="frame" style="width: 1440px;">
+<div class="split" style="min-height: 760px;">
+<div class="slab"><i class="grid"></i><i class="dia"></i><i class="dia2"></i>
+<svg class="lw" viewBox="0 -100 492 130" width="150" height="40" role="img" aria-label="MUN Pilot" style="position: relative;"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<div class="col" style="gap: 22px; position: relative;">
+<h2 class="serif" style="margin: 0; font-size: 48px; line-height: 1.08; max-width: 520px; color: #fff;">Start your journey <em>today.</em></h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #B7C4CE; max-width: 480px;">Create an account to unlock powerful tools for managing your Model UN career, from delegate applications to conference organization.</p>
+<div class="qt"><span style="font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #93B7A8;">One account for every role</span><span style="font-size: 14.5px; line-height: 1.55; color: #DDE6EC;">Apply as a delegate, chair a committee or organise a conference — all from the same sign-in.</span></div>
+</div>
+</div>
+<div class="formside"><form class="form">
+<div class="col" style="gap: 8px;"><h1 class="serif" style="margin: 0; font-size: 40px;">Create an account</h1><span style="font-size: 15px; color: var(--muted);">Enter your details below to get started</span></div>
+<button type="button" class="btn lg b-sec"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Continue with Google</button>
+<div class="div">Or continue with email</div>
+<div class="alert"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Passwords do not match</div>
+<div class="fld"><label for="s1">Email address</label><div class="inp"><input id="s1" placeholder="m@example.com" value="ria.sen@uni.edu"></div></div>
+<div class="fld"><label for="s2">Password</label><div class="inp"><input id="s2" type="password" value="password1"></div></div>
+<div class="fld"><label for="s3">Confirm Password</label><div class="inp err"><input id="s3" type="password" value="password2"></div></div>
+<button type="button" class="btn lg b-pri" disabled style="opacity: .75;">Creating account…</button>
+<span style="font-size: 14px; color: var(--muted); text-align: center;">Already have an account? <a href="#" style="font-weight: 600;">Log in</a></span>
+</form></div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Log in · phone</b><span>Brand band on top, form below — the panel isn't hidden any more.</span></div>
+<div class="ph">
+<div class="bar" style="background: #0E1D2C; color: #fff;">9:41</div>
+<div class="slab" style="padding: 20px 20px 28px; gap: 18px; flex: none; justify-content: flex-start;"><i class="grid"></i><i class="dia2" style="right: -30px; top: -30px;"></i>
+<div class="row" style="justify-content: space-between; position: relative;"><svg class="lw" viewBox="0 -100 492 130" width="104" height="28" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg><button class="ib" aria-label="Close" style="color: #fff;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+<h2 class="serif" style="margin: 0; font-size: 28px; line-height: 1.12; color: #fff; position: relative;">Elevate your MUN experience to the <em>next level.</em></h2>
+<div class="row" style="gap: 10px; position: relative;"><div class="avs"><i style="background: #13895F; width: 26px; height: 26px;"></i><i style="background: #1E6FE0; width: 26px; height: 26px;"></i><i style="background: #7B4FD6; width: 26px; height: 26px;"></i></div><span style="font-size: 13px; color: #DDE6EC;"><b style="color: #fff;">10k+</b> users worldwide</span></div>
+</div>
+<div style="padding: 24px 20px; display: flex; flex-direction: column; gap: 16px;">
+<div class="col" style="gap: 4px;"><h1 class="serif" style="margin: 0; font-size: 30px;">Welcome back</h1><span style="font-size: 14px; color: var(--muted);">Enter your credentials to access your account</span></div>
+<button class="btn lg b-sec"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Continue with Google</button>
+<div class="div">Or continue with email</div>
+<div class="alert"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Failed to login</div>
+<div class="fld"><label for="p1">Email address</label><div class="inp"><input id="p1" placeholder="m@example.com"></div></div>
+<div class="fld"><div class="row" style="justify-content: space-between;"><label for="p2">Password</label><a href="#" style="font-size: 13px; font-weight: 600;">Forgot password?</a></div><div class="inp"><input id="p2" type="password"></div></div>
+<button class="btn lg b-pri" disabled style="opacity: .75;">Logging in…</button>
+</div>
+</div>
+
+<div class="cap"><b>Forgot password · phone</b><span>Request the link, then "Check your inbox" with resend cooldown.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div style="padding: 8px 20px 24px; display: flex; flex-direction: column; gap: 18px;">
+<a href="#" class="row" style="gap: 6px; font-size: 14px; font-weight: 600; color: var(--ink2);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to login</a>
+<span style="width: 52px; height: 52px; border-radius: 16px; background: var(--sealSoft); color: var(--seal); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M17 6l3 3M14 9l2 2"/></svg></span>
+<div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 30px;">Reset your password</h1><span style="font-size: 14.5px; line-height: 1.55; color: var(--muted);">Enter the email associated with your account and we'll send you a reset link.</span></div>
+<div class="fld"><label for="r1">Email address</label><div class="inp focus"><input id="r1" placeholder="m@example.com" value="nadia@school.edu"></div></div>
+<button class="btn lg b-pri">Reset password</button>
+<div style="height: 1px; background: var(--line); margin: 8px 0;"></div>
+<div class="card" style="align-items: center; text-align: center; background: var(--sunk2); box-shadow: none;">
+<span style="width: 52px; height: 52px; border-radius: 26px; background: var(--sealSoft); color: var(--seal); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+<b class="serif" style="font-size: 24px;">Check your inbox</b>
+<span style="font-size: 14px; line-height: 1.55; color: var(--ink2);">[We sent a reset link to nadia@school.edu.]</span>
+<button class="btn b-ghost" disabled style="color: var(--muted);">Resend in 0:42</button>
+<a href="#" style="font-size: 14px; font-weight: 600;">Back to login</a>
+</div>
+</div>
+</div>
+
+<div class="cap"><b>Error messages</b><span>Shown in the red box above the form.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 10px;">
+<div class="alert"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Failed to login with Google</div>
+<div class="alert"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Please enter a valid email address.</div>
+<div class="alert"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Too many attempts. Please try again in a few minutes.</div>
+<div class="alert"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Something went wrong. Please try again.</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2680}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

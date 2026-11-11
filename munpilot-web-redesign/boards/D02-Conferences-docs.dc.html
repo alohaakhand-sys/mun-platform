@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My Conferences and Documents</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dis{background:var(--sunk);color:var(--muted)}
+.b-dan{background:var(--paper);color:var(--red);border-color:var(--line)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni i{width:18px;height:18px;border-radius:5px;border:1.8px solid var(--muted);box-sizing:border-box;flex:none;opacity:.7}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.ni.on i{border-color:var(--seal);opacity:1}
+.uc{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--sunk2)}
+.av{width:36px;height:36px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex:none}
+.main{flex:1;min-width:0;padding:32px 40px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.seg{display:inline-flex;gap:2px;padding:4px;border-radius:12px;background:var(--sunk)}
+.seg span{height:34px;padding:0 14px;display:flex;align-items:center;gap:8px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.seg em{font-style:normal;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:9px;background:var(--sunk2);color:var(--muted)}
+.sel{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--paper);font-size:13.5px;color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.pill i{width:6px;height:6px;border-radius:3px;background:currentColor;display:block}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.cc{padding:20px;display:flex;flex-direction:column;gap:14px;position:relative}
+.meta{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+.meta span{display:flex;align-items:center;gap:6px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tiles div{padding:10px 12px;border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;gap:3px}
+.tiles span{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.tiles b{font-size:14px;font-weight:600}
+.trk{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.trk div{display:flex;flex-direction:column;gap:6px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.trk i{display:block;height:4px;border-radius:2px;background:var(--sunk)}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap}
+.ptabs span{height:34px;padding:0 14px;border-radius:17px;display:flex;align-items:center;font-size:13.5px;font-weight:500;color:var(--ink2);border:1px solid var(--line);background:var(--paper)}
+.ptabs span.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.bn{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:12px}
+.dr{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line2)}
+.prose{font-family:Newsreader,Georgia,serif;font-size:17px;line-height:1.65;color:var(--ink)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label,.fld .fl{font-size:13px;font-weight:600}
+.inp{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--sunk2);font-size:14px;box-sizing:border-box}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:15px;font-size:13px;border:1px solid var(--line);background:var(--paper)}
+.chip.lock{background:var(--sealSoft);border-color:transparent;color:var(--seal);font-weight:600}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3000px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">D02 · Dashboard · /dashboard/conferences and /dashboard/documents</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">My Conferences and Documents</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Conferences keeps My Conferences / Browse with counts, the role filter and sort, and Active &amp; Pending above Past. Cards make the one thing that matters obvious: an unpaid card leads with the fee and "Pay", a pending card shows the Applied → Under Review → Decision tracker, an approved card goes straight to the portal. Documents keeps one card per conference with role-based sub-tabs; the delegate view is shown with the position paper under review and committee docs collecting endorsements. The sidebar here is abbreviated — the full one is on D01.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 1220px;">
+<aside class="side">
+<div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div>
+<span class="sl">Menu</span>
+<a class="ni" href="#"><i></i>Dashboard</a><a class="ni on" href="#"><i></i>My Conferences</a><a class="ni" href="#"><i></i>Documents</a><a class="ni" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni" href="#"><i></i>Network</a><a class="ni" href="#"><i></i>Payments</a><a class="ni" href="#"><i></i>Settings</a>
+<span style="flex: 1;"></span>
+<div class="uc"><span class="av" style="background: #13895F;">NR</span><span class="col"><b style="font-size: 13.5px;">Nadia Rahman</b><span style="font-size: 12px; color: var(--muted);">nadia@school.edu</span></span></div>
+</aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><div class="col" style="gap: 8px;"><span class="kick">My conferences</span><h1 class="serif" style="margin: 0; font-size: 38px;">Conferences</h1><span style="font-size: 15px; color: var(--muted);">Manage your applications or discover new events.</span></div><a class="btn b-sec" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>Organizer</a></div>
+<div class="row" style="justify-content: space-between;"><div class="seg"><span class="on">My Conferences<em>4</em></span><span>Browse<em>12</em></span></div>
+<div class="row" style="gap: 10px;"><span style="font-size: 13px; color: var(--muted);">Filter</span><span class="sel">All Roles<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span><span style="font-size: 13px; color: var(--muted);">Sort</span><span class="sel">Newest First<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span><span style="font-size: 13px; color: var(--muted); margin-left: 6px;">4 applications</span></div></div>
+<div class="row" style="gap: 8px;"><b style="font-size: 17px;">Active &amp; Pending</b><span class="pill p-mute">3</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+<div class="card cc" style="box-shadow: inset 0 0 0 1.5px var(--amber);">
+<div class="row" style="justify-content: space-between; align-items: flex-start;"><b style="font-size: 16.5px; line-height: 1.3;">Dhaka Model United Nations Conference 2026</b><span class="pill p-wait"><i></i>Payment Required</span></div>
+<div class="meta"><span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg>15 Aug 2026</span><span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/></svg>Dhaka</span></div>
+<div style="padding: 14px; border-radius: 12px; background: var(--amberSoft); display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12.5px; color: var(--ink2);">Delegate fee — registration is not confirmed until this is paid</span><div class="row" style="justify-content: space-between; align-items: baseline;"><b style="font-size: 30px; letter-spacing: -.02em;">$12</b><span style="font-size: 12.5px; font-weight: 600; color: var(--amber);">Pay by Nov 10 · 9 days left</span></div><span style="font-size: 12.5px; line-height: 1.45; color: var(--ink2);">Your committee, country and conference portal unlock as soon as payment clears.</span></div>
+<div class="row" style="gap: 8px; margin-top: auto;"><button class="btn b-dis" disabled title="Available once your registration fee is paid" style="flex: 1;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Portal Locked</button><a class="btn b-pri" href="#" style="flex: 1;">Pay $12</a></div>
+</div>
+<div class="card cc" style="box-shadow: var(--sh2);">
+<button class="btn sm b-dan" style="position: absolute; top: -12px; right: 14px; box-shadow: var(--sh1);">Withdraw</button>
+<div class="row" style="justify-content: space-between; align-items: flex-start;"><b style="font-size: 16.5px; line-height: 1.3;">Screens Model UN 2027</b><span class="pill p-wait"><i></i>Pending</span></div>
+<div class="meta"><span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg>15 Nov 2026</span><span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/></svg>Online</span></div>
+<div class="tiles"><div><span>Role &amp; Committee</span><b>Delegate • Pending</b></div><div><span>Assigned Country</span><b style="color: var(--muted);">Pending Assignment</b></div></div>
+<div class="trk"><div style="color: var(--seal);"><i style="background: var(--seal);"></i>Applied</div><div style="color: var(--amber);"><i style="background: var(--amber);"></i>Under Review</div><div><i></i>Decision</div></div>
+<div class="row" style="gap: 8px; margin-top: auto;"><a class="btn b-sec" href="#" style="flex: 1;">View Details</a><a class="btn b-pri" href="#" style="flex: 1;">Go to Portal</a></div>
+</div>
+<div class="card cc">
+<div class="row" style="justify-content: space-between; align-items: flex-start;"><b style="font-size: 16.5px; line-height: 1.3;">[Conference name]</b><span class="pill p-ok"><i></i>Approved</span></div>
+<div class="meta"><span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg>4 Dec 2026</span><span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/></svg>[City]</span></div>
+<div class="tiles"><div><span>Role &amp; Committee</span><b>Delegate • DISEC</b></div><div><span>Assigned Country</span><b class="row" style="gap: 6px;"><i class="flag fbd"></i>Bangladesh</b></div></div>
+<div class="trk"><div style="color: var(--seal);"><i style="background: var(--seal);"></i>Applied</div><div style="color: var(--seal);"><i style="background: var(--seal);"></i>Under Review</div><div style="color: var(--seal);"><i style="background: var(--seal);"></i>Decision</div></div>
+<div class="row" style="gap: 8px; margin-top: auto;"><a class="btn b-sec" href="#" style="flex: 1;">View Details</a><a class="btn b-pri" href="#" style="flex: 1;">Go to Portal</a></div>
+</div>
+</div>
+<div class="row" style="gap: 8px; margin-top: 8px;"><b style="font-size: 17px;">Past Conferences</b><span class="pill p-mute">1</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+<div class="card cc" style="opacity: .92;"><div class="row" style="justify-content: space-between; align-items: flex-start;"><b style="font-size: 16.5px;">[Past conference]</b><span class="pill p-mute">Completed</span></div><div class="meta"><span>12 Mar 2026</span><span>Dhaka</span></div><div class="tiles"><div><span>Role &amp; Committee</span><b>Delegate • UNHRC</b></div><div><span>Assigned Country</span><b class="row" style="gap: 6px;"><i class="flag fjp"></i>Japan</b></div></div><div class="row" style="gap: 8px;"><a class="btn b-sec" href="#" style="flex: 1;">View Details</a><a class="btn b-sec" href="#" style="flex: 1;">Go to Portal</a></div></div>
+<div class="card cc" style="border-style: dashed; box-shadow: none; align-items: center; justify-content: center; text-align: center; gap: 6px; grid-column: span 2;"><b style="font-size: 15px;">Your completed conferences will appear here.</b><span style="font-size: 13px; color: var(--muted);">Rejected and withdrawn applications move here too.</span></div>
+</div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 1300px;">
+<aside class="side">
+<div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div>
+<span class="sl">Menu</span>
+<a class="ni" href="#"><i></i>Dashboard</a><a class="ni" href="#"><i></i>My Conferences</a><a class="ni on" href="#"><i></i>Documents</a><a class="ni" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni" href="#"><i></i>Network</a><a class="ni" href="#"><i></i>Payments</a><a class="ni" href="#"><i></i>Settings</a>
+</aside>
+<main class="main">
+<div class="col" style="gap: 8px;"><h1 class="serif" style="margin: 0; font-size: 38px;">Documents</h1><span style="font-size: 15px; color: var(--muted);">Every document across your conferences — submit and review in one place.</span></div>
+<div class="card" style="overflow: hidden;">
+<div class="row" style="padding: 18px 22px; border-bottom: 1px solid var(--line2); justify-content: space-between;"><div class="col" style="gap: 3px;"><b style="font-size: 17px;">[Conference name]</b><span style="font-size: 13px; color: var(--muted);">Delegate · DISEC</span></div><div class="ptabs"><span class="on">Position Paper</span><span>Study Guide</span><span>Committee Docs</span><span>Rules &amp; Regs</span></div></div>
+<div style="padding: 22px; display: flex; flex-direction: column; gap: 16px;">
+<div class="bn" style="background: var(--blueSoft); color: var(--blue);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div class="col" style="gap: 3px;"><b style="font-size: 14.5px;">Under review by the Chairs</b><span style="font-size: 13.5px; color: var(--ink2);">Your paper has been submitted. You can still edit it until it's graded.</span></div></div>
+<div class="row" style="justify-content: space-between;"><div class="col" style="gap: 2px;"><b style="font-size: 15px;">Your submission</b><span style="font-size: 13px; color: var(--muted);">Submitted Nov 3, 2026 · 1,240 words</span></div><div class="row" style="gap: 8px;"><button class="btn sm b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>.md</button><button class="btn sm b-sec">Edit</button></div></div>
+<div class="prose" style="padding: 20px 24px; border-radius: 12px; background: var(--sunk2); max-height: 150px; overflow: hidden;"><b>[Paper heading]</b><br>[Rendered position paper text…]</div>
+<span style="font-size: 12.5px; color: var(--muted);">Submitted. Only your committee Chairs can read this paper.</span>
+</div>
+</div>
+<div class="card" style="overflow: hidden;">
+<div class="row" style="padding: 18px 22px; border-bottom: 1px solid var(--line2); justify-content: space-between;"><div class="col" style="gap: 3px;"><b style="font-size: 17px;">Dhaka Model United Nations Conference 2026</b><span style="font-size: 13px; color: var(--muted);">Delegate · UNSC</span></div><div class="ptabs"><span>Position Paper</span><span>Study Guide</span><span class="on">Committee Docs</span><span>Rules &amp; Regs</span></div></div>
+<div class="row" style="padding: 16px 22px; justify-content: space-between;"><div class="col" style="gap: 3px;"><b style="font-size: 15.5px;">Committee Documents</b><span style="font-size: 13px; color: var(--muted);">Submit working papers, draft resolutions &amp; amendments to your chair.</span></div><button class="btn sm b-pri"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>New</button></div>
+<div class="bn" style="margin: 0 22px 12px; background: var(--sunk2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--seal);"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/></svg><div class="col" style="gap: 6px; flex: 1;"><b style="font-size: 14px;">[Endorsement request: France · sponsor · Working Paper 1.2]</b><div class="row" style="gap: 8px;"><button class="btn sm b-sec">Decline</button><button class="btn sm b-pri">Accept</button><span style="font-size: 12.5px; font-weight: 600; color: var(--red);">0:12</span></div></div></div>
+<span style="padding: 6px 22px; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);">Your submissions</span>
+<div class="dr"><span class="col" style="flex: 1; gap: 4px;"><span class="row" style="gap: 8px;"><b style="font-size: 14.5px;">Working Paper 1.1</b><span class="pill p-wait">Collecting endorsements</span><span style="font-size: 12.5px; font-weight: 600; color: var(--amber);">1:04</span></span><span style="font-size: 12.5px; color: var(--muted);">Working Paper · Bangladesh · 2m ago · 2 sponsors · 1 signatory</span><span style="font-size: 12.5px; color: var(--ink2);">Waiting on sponsors &amp; signatories to accept — only accepters stay, then it unlocks to introduce.</span></span><button class="btn sm b-sec">Open</button><button class="btn sm b-sec" style="color: var(--purple);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>Convert to Resolution</button></div>
+<div class="dr"><span class="col" style="flex: 1; gap: 4px;"><span class="row" style="gap: 8px;"><b style="font-size: 14.5px;">Draft Resolution 1.0</b><span class="pill p-info">Submitted</span></span><span style="font-size: 12.5px; color: var(--muted);">Draft Resolution · Bangladesh · 1h ago · 3 sponsors · 4 signatories</span></span><button class="btn sm b-sec">Open</button><button class="btn sm b-sec">Edit</button><button class="btn sm b-sec" aria-label="Delete" style="width: 32px; padding: 0; color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button><button class="btn sm b-ghost">View</button></div>
+<span style="padding: 14px 22px 6px; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border-top: 1px solid var(--line2);">Approved in your committee</span>
+<div class="dr" style="border-top: 0;"><span class="col" style="flex: 1; gap: 4px;"><span class="row" style="gap: 8px;"><b style="font-size: 14.5px;">[Approved document]</b><span class="pill p-ok">Approved</span></span><span style="font-size: 12.5px; color: var(--muted);">Amendment · Japan · yesterday</span><span style="font-size: 12.5px; color: var(--ink2);">Chair note: [note]</span></span><button class="btn sm b-sec">Open</button></div>
+</div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Conferences · phone</b><span>Tabs, compact filter, one card per row.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mtop"><button class="ib" aria-label="Open sidebar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><b style="flex: 1; font-size: 16px;">Conferences</b><button class="ib" aria-label="Filter and sort"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M7 12h10M10 18h4"/></svg></button></div>
+<div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 14px;">
+<div class="seg" style="display: grid; grid-template-columns: 1fr 1fr;"><span class="on" style="justify-content: center;">My Conferences<em>4</em></span><span style="justify-content: center;">Browse<em>12</em></span></div>
+<div class="card cc" style="padding: 16px; gap: 12px; box-shadow: inset 0 0 0 1.5px var(--amber);"><div class="row" style="justify-content: space-between; align-items: flex-start;"><b style="font-size: 15.5px;">Dhaka MUN 2026</b><span class="pill p-wait">Payment Required</span></div><div style="padding: 12px; border-radius: 12px; background: var(--amberSoft);" class="row"><b style="font-size: 24px; flex: 1;">$12</b><span style="font-size: 12px; font-weight: 600; color: var(--amber);">Pay by Nov 10</span></div><a class="btn b-pri" href="#">Pay $12</a></div>
+<div class="card cc" style="padding: 16px; gap: 12px;"><div class="row" style="justify-content: space-between;"><b style="font-size: 15.5px;">Screens Model UN 2027</b><span class="pill p-wait">Pending</span></div><div class="trk"><div style="color: var(--seal);"><i style="background: var(--seal);"></i>Applied</div><div style="color: var(--amber);"><i style="background: var(--amber);"></i>Review</div><div><i></i>Decision</div></div><div class="row" style="gap: 8px;"><a class="btn b-sec" href="#" style="flex: 1;">Details</a><button class="btn b-dan" style="flex: 1;">Withdraw</button></div></div>
+</div>
+</div>
+
+<div class="cap"><b>New committee document · phone sheet</b><span>Type, title, sponsors &amp; signatories, body.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="scrim"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; top: 70px; background: var(--paper); border-radius: 24px 24px 0 0; padding: 10px 18px 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden;">
+<i style="width: 40px; height: 5px; border-radius: 3px; background: var(--line); align-self: center;"></i>
+<div class="row" style="justify-content: space-between;"><button class="btn sm b-ghost">Cancel</button><b style="font-size: 16px;">New document</b><button class="btn sm b-pri">Submit</button></div>
+<div class="fld"><span class="fl">Type</span><div class="seg" style="display: grid; grid-template-columns: 1fr 1fr 1fr;"><span class="on" style="justify-content: center; font-size: 12.5px; padding: 0 6px;">Working Paper</span><span style="justify-content: center; font-size: 12.5px; padding: 0 6px;">Draft Res.</span><span style="justify-content: center; font-size: 12.5px; padding: 0 6px;">Amendment</span></div></div>
+<div class="fld"><label for="t1">Title</label><div class="inp"><input id="t1" placeholder="e.g. Working Paper 1.1" style="border: 0; background: none; outline: none; font: 14px Inter, sans-serif; flex: 1; color: var(--ink);"></div></div>
+<div class="fld"><span class="fl">Mark sponsors (optional)</span><span style="font-size: 12px; color: var(--muted);">Co-authors who endorse the text. Your delegation is always a sponsor.</span><div class="row" style="gap: 6px; flex-wrap: wrap;"><span class="chip lock"><i class="flag fbd"></i>Bangladesh</span><span class="chip"><i class="flag ffr"></i>France ×</span><span class="chip" style="color: var(--muted);">+ Add</span></div></div>
+<div class="fld"><span class="fl">Mark signatories (optional)</span><span style="font-size: 12px; color: var(--muted);">Want it debated — no endorsement implied.</span><div class="row" style="gap: 6px;"><span class="chip"><i class="flag fjp"></i>Japan ×</span><span class="chip" style="color: var(--muted);">+ Add</span></div></div>
+<div style="font-size: 12.5px; padding: 10px 12px; border-radius: 10px; background: var(--amberSoft); color: var(--amber);">Each marked delegation gets 90s to accept — only accepters stay on the paper.</div>
+<div style="border: 1px solid var(--line); border-radius: 12px; flex: 1; display: flex; flex-direction: column;"><div class="row" style="gap: 2px; padding: 6px; border-bottom: 1px solid var(--line2); color: var(--ink2);"><b style="width: 30px; text-align: center;">B</b><i style="width: 30px; text-align: center;">I</i><span style="width: 30px; text-align: center; text-decoration: underline;">U</span><span style="flex: 1;"></span><span style="font-size: 12px; font-weight: 600; color: var(--purple);">AI</span></div><span style="padding: 12px; font-size: 14px; color: var(--muted);">[Document body]</span></div>
+</div>
+</div>
+
+<div class="cap"><b>Other tabs &amp; states</b><span>Study guide, rules, chair review, empty, withdraw.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 15px;">Study Guide</b><span style="font-size: 13px; color: var(--muted);">Shared by your committee chair.</span><div class="row" style="padding: 10px 12px; border-radius: 10px; background: var(--sunk2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--seal);"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">UNSC Study Guide</b><span style="font-size: 12px; color: var(--muted);">Markdown · uploaded 2d ago</span></span><button class="btn sm b-sec">.md</button><button class="btn sm b-pri">Read</button></div></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><span class="row" style="gap: 8px;"><b style="font-size: 14.5px;">Working Paper 1.1</b><span class="pill p-info">Submitted</span></span><span style="font-size: 12.5px; color: var(--muted);">Sponsors: Bangladesh, France · Signatories: Japan</span><div style="border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; color: var(--muted); height: 52px;">Optional note to the delegate (shown with the decision)…</div><div class="row" style="gap: 6px;"><button class="btn sm b-pri">Approve</button><button class="btn sm b-sec">Request revision</button><button class="btn sm b-dan">Reject</button></div></div>
+<div class="card" style="padding: 16px; display: flex; gap: 12px; align-items: center;"><span class="col" style="flex: 1; gap: 3px;"><b style="font-size: 14px;">Grade position papers in the committee hub</b><span style="font-size: 12.5px; color: var(--muted);">Open your committee to score and comment on each delegate's paper.</span></span><a class="btn sm b-pri" href="#">Open</a></div>
+<div class="card" style="padding: 22px; border-style: dashed; box-shadow: none; display: flex; flex-direction: column; gap: 6px; align-items: center; text-align: center;"><b style="font-size: 15px;">No conferences yet</b><span style="font-size: 13px; color: var(--muted);">Once you're accepted into a conference, your documents show up here.</span><a href="#" style="font-size: 13.5px; font-weight: 600;">Browse my conferences ›</a></div>
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: var(--sh2);"><b style="font-size: 16px;">Withdraw application?</b><span style="font-size: 13.5px; color: var(--ink2);">Are you sure you want to withdraw your application?</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm" style="background: var(--red); color: #fff;">Withdraw</button></div></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3000}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

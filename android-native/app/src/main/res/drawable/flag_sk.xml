@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): sk.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <path
+        android:fillColor="#EE1C25"
+        android:pathData="M0 0l640 0 0 480-640 0z"/>
+    <path
+        android:fillColor="#0B4EA2"
+        android:pathData="M0 0l640 0 0 320-640 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M0 0l640 0 0 160-640 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M233 370.8c-43-20.7-104.6-61.9-104.6-143.2 0-81.4 4-118.4 4-118.4l201.3 0c0 0 3.9 37 3.9 118.4 0 81.4-61.6 122.4-104.6 143.2"/>
+    <path
+        android:fillColor="#EE1C25"
+        android:pathData="M233 360c-39.5-19-96-56.8-96-131.4 0-74.6 3.6-108.6 3.6-108.6l184.8 0c0 0 3.5 34 3.5 108.6 .1 74.7-56.4 112.4-95.9 131.4"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M241.4 209c10.7 .2 31.6 .6 50.1-5.6 0 0-.4 6.7-.4 14.4 0 7.7 .5 14.4 .5 14.4-17-5.7-38.1-5.8-50.2-5.7l0 41.2-16.8 0 0-41.2c-12-.1-33.1 0-50.1 5.7 0 0 .5-6.7 .5-14.4 0-7.8-.5-14.4-.5-14.4 18.5 6.2 39.4 5.8 50 5.6l0-25.9c-9.7 0-23.7 .4-39.6 5.7 0 0 .5-6.6 .5-14.4 0-7.7-.5-14.4-.5-14.4 15.9 5.3 29.9 5.8 39.6 5.7-.5-16.4-5.3-37-5.3-37 0 0 9.9 .7 13.8 .7 4 0 13.8-.7 13.8-.7 0 0-4.8 20.6-5.3 37 9.7 .1 23.7-.4 39.6-5.7 0 0-.5 6.7-.5 14.4 0 7.8 .5 14.4 .5 14.4-12.8-4.1-26.2-6.1-39.7-5.7l0 26z"/>
+    <path
+        android:fillColor="#0B4EA2"
+        android:pathData="M233 263.3c-19.9 0-30.5 27.5-30.5 27.5 0 0-6-13-22.2-13-11 0-19 9.7-24.2 18.8 20 31.7 51.9 51.3 76.9 63.4 25-12 57-31.7 76.9-63.4-5.2-9-13.2-18.8-24.2-18.8-16.2 0-22.2 13-22.2 13 0 0-10.5-27.5-30.5-27.5"/>
+</vector>

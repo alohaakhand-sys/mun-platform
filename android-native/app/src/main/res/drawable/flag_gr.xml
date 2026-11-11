@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): gr.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <path
+        android:fillColor="#0D5EAF"
+        android:fillType="evenOdd"
+        android:pathData="M0 0l640 0 0 53.3-640 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M0 53.3l640 0 0 53.4-640 0z"/>
+    <path
+        android:fillColor="#0D5EAF"
+        android:fillType="evenOdd"
+        android:pathData="M0 106.7l640 0 0 53.3-640 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M0 160l640 0 0 53.3-640 0z"/>
+    <path
+        android:fillColor="#0D5EAF"
+        android:pathData="M0 0l266.7 0 0 266.7-266.7 0z"/>
+    <path
+        android:fillColor="#0D5EAF"
+        android:fillType="evenOdd"
+        android:pathData="M0 213.3l640 0 0 53.4-640 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M0 266.7l640 0 0 53.3-640 0z"/>
+    <path
+        android:fillColor="#0D5EAF"
+        android:fillType="evenOdd"
+        android:pathData="M0 320l640 0 0 53.3-640 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M0 373.3l640 0 0 53.4-640 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M106.7 0l53.3 0 0 266.7-53.3 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M0 106.7l266.7 0 0 53.3-266.7 0z"/>
+    <path
+        android:fillColor="#0D5EAF"
+        android:pathData="M0 426.7l640 0 0 53.3-640 0z"/>
+</vector>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  button{font:inherit;color:inherit}
+  input,select,textarea{font:inherit}
+  a{color:#a5a8ff}a:hover{color:#c3c5ff}
+  .msr{font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;font-size:22px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;font-feature-settings:'liga';-webkit-font-feature-settings:'liga';font-variation-settings:'opsz' 24}
+  .cc-scroll::-webkit-scrollbar{width:8px}
+  .cc-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:8px}
+  ::placeholder{color:#6b7075}
+  @keyframes ccpanel{from{transform:translateX(24px);opacity:0}to{transform:translateX(0);opacity:1}}
+  @keyframes ccblip{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%,100%{box-shadow:0 0 0 6px rgba(52,211,153,0)}}
+</style>
+</helmet>
+
+<div style="height:100dvh;display:flex;flex-direction:column;background:#0f1012;color:#e6e8eb;font-family:Geist,system-ui,sans-serif;--pri:#8287ff;--panel:#1a1b1f;--row:#25272c;--bd:rgba(255,255,255,.09);--mut:#9aa0a6;--em:#34d399;--am:#fbbf24;--rd:#ef5350;overflow:hidden">
+
+  <!-- ── Top bar ─────────────────────────────────────────── -->
+  <header style="display:flex;align-items:center;gap:14px;height:56px;padding:0 16px;flex:none;border-bottom:1px solid var(--bd)">
+    <span style="font-size:15px;font-weight:600;letter-spacing:.3px;color:#e6e8eb;font-variant-numeric:tabular-nums">{{ clock }}</span>
+    <span style="width:1px;height:20px;background:var(--bd)"></span>
+    <div style="display:flex;flex-direction:column;min-width:0">
+      <span style="font-size:14px;font-weight:600;line-height:1.15;white-space:nowrap">United Nations Security Council</span>
+      <span style="font-size:11px;color:var(--mut);line-height:1.15">Global Youth Diplomacy Conference</span>
+    </div>
+    <span class="msr" style="font-size:18px;color:var(--mut)">info</span>
+    <div style="flex:1"></div>
+    <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:rgba(130,135,255,.14);color:var(--pri);border:1px solid rgba(130,135,255,.28)"><span class="msr" style="font-size:14px">mic</span>Speakers</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:13px">
+      <span style="font-weight:700;color:var(--em);font-variant-numeric:tabular-nums">7</span>
+      <span style="color:var(--mut)">/4</span>
+      <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 6px;border-radius:6px;background:rgba(52,211,153,.12);color:var(--em);border:1px solid rgba(52,211,153,.3)">Quorum</span>
+    </span>
+    <span style="width:1px;height:20px;background:var(--bd)"></span>
+    <button style="display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:9px;background:var(--pri);color:#0f1012;border:none;font-size:13px;font-weight:600;cursor:pointer"><span class="msr" style="font-size:16px">flag</span>Finalize</button>
+  </header>
+
+  <!-- ── Body: stage + right panel ───────────────────────── -->
+  <div style="flex:1;display:flex;min-height:0">
+
+    <!-- Stage -->
+    <main style="flex:1;min-width:0;display:flex;flex-direction:column;padding:12px 12px 0">
+
+      <!-- Video area -->
+      <div style="flex:1;position:relative;border-radius:14px;overflow:hidden;background:radial-gradient(120% 120% at 50% 35%,#31525b 0%,#223a41 55%,#1a2c31 100%);min-height:0">
+
+        <!-- Idle badge / active flag+timer overlay -->
+        <sc-if value="{{ hasFloor }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:11px;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);padding:8px 15px;border-radius:999px;z-index:2">
+            <img src="https://flagcdn.com/w80/{{ spkCode }}.png" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:cover">
+            <span style="font-size:13.5px;font-weight:600">{{ spkCountry }}</span>
+            <span style="width:1px;height:15px;background:rgba(255,255,255,.25)"></span>
+            <span class="msr" style="font-size:15px;color:var(--em)">timer</span>
+            <span style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.5px">{{ timerText }}</span>
+          </div>
+        </sc-if>
+
+        <!-- Mic-muted chip -->
+        <div style="position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:2">
+          <span class="msr" style="font-size:18px;color:#7fd0d8">mic_off</span>
+        </div>
+
+        <!-- Centre subject -->
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+          <sc-if value="{{ hasFloor }}" hint-placeholder-val="{{ true }}">
+            <img src="https://flagcdn.com/w160/{{ spkCode }}.png" alt="" style="width:118px;height:118px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 4px rgba(255,255,255,.12),0 12px 40px rgba(0,0,0,.4)">
+          </sc-if>
+          <sc-if value="{{ noFloor }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;color:rgba(255,255,255,.55)">
+              <span class="msr" style="font-size:52px">mic</span>
+              <span style="font-size:15px;font-weight:600">Floor open — no active speaker</span>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- Caption -->
+        <sc-if value="{{ hasFloor }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;left:16px;bottom:88px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);padding:7px 13px;border-radius:9px;z-index:2">
+            <div style="font-size:14px;font-weight:600;line-height:1.2">{{ spkCountry }}</div>
+            <div style="font-size:11.5px;color:rgba(255,255,255,.65);line-height:1.2">{{ spkOrg }}</div>
+          </div>
+        </sc-if>
+
+        <!-- Floating control bar -->
+        <div style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:9px;z-index:3">
+          <button onClick="{{ toggleMic }}" title="Mic" style="width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:{{ micBtnBg }};color:{{ micBtnFg }}"><span class="msr" style="font-size:22px">{{ micIcon }}</span></button>
+          <button onClick="{{ toggleCam }}" title="Camera" style="width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:{{ camBtnBg }};color:{{ camBtnFg }}"><span class="msr" style="font-size:22px">{{ camIcon }}</span></button>
+          <button title="Present now" style="width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#2a2c31;color:#e6e8eb"><span class="msr" style="font-size:22px">present_to_all</span></button>
+          <button title="Reactions" style="width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#2a2c31;color:#e6e8eb"><span class="msr" style="font-size:22px">mood</span></button>
+          <button title="Captions" onClick="{{ toggleCaptions }}" style="width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:{{ capBtnBg }};color:{{ capBtnFg }}"><span class="msr" style="font-size:22px">closed_caption</span></button>
+          <button title="Raise hand" onClick="{{ toggleHand }}" style="width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:{{ handBtnBg }};color:{{ handBtnFg }}"><span class="msr" style="font-size:22px">front_hand</span></button>
+          <button title="More options" style="width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#2a2c31;color:#e6e8eb"><span class="msr" style="font-size:22px">more_vert</span></button>
+          <button title="Leave" style="width:62px;height:48px;border-radius:999px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:var(--rd);color:#fff"><span class="msr" style="font-size:24px">call_end</span></button>
+        </div>
+
+        <!-- Bottom-right corner: MUN tool launchers -->
+        <div style="position:absolute;right:16px;bottom:24px;display:flex;align-items:center;gap:4px;z-index:3">
+          <button onClick="{{ openChat }}" title="Chat" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;background:transparent;color:#e6e8eb;display:flex;align-items:center;justify-content:center"><span class="msr" style="font-size:22px">chat_bubble</span></button>
+          <button onClick="{{ openTools }}" title="Committee tools" style="position:relative;width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;background:{{ toolsBtnBg }};color:{{ toolsBtnFg }};display:flex;align-items:center;justify-content:center"><span class="msr" style="font-size:22px">apps</span>
+            <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:2px;right:2px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:var(--rd);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ pendingCount }}</span></sc-if>
+          </button>
+          <button onClick="{{ openHost }}" title="Host controls" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;background:transparent;color:#e6e8eb;display:flex;align-items:center;justify-content:center"><span class="msr" style="font-size:20px">lock</span></button>
+        </div>
+      </div>
+
+      <!-- Slim live strip under the video -->
+      <div style="display:flex;align-items:center;gap:14px;height:52px;flex:none;margin:10px 0;padding:0 16px;background:var(--panel);border:1px solid var(--bd);border-radius:12px">
+        <span style="display:inline-flex;align-items:center;gap:8px;flex:none">
+          <span style="width:9px;height:9px;border-radius:50%;background:{{ liveDot }};animation:ccblip 1.6s infinite"></span>
+          <span style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)">Live now</span>
+        </span>
+        <span style="font-size:13.5px;font-weight:600;white-space:nowrap">{{ liveLabel }}</span>
+        <div style="flex:1;min-width:40px;height:6px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden">
+          <div style="height:100%;border-radius:999px;background:var(--em);width:{{ timerPct }}%;transition:width .25s"></div>
+        </div>
+        <span style="font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--mut);flex:none">{{ liveTimer }}</span>
+        <button onClick="{{ onNext }}" style="display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 13px;border-radius:9px;border:1px solid var(--bd);background:var(--row);color:#e6e8eb;font-size:12.5px;font-weight:600;cursor:pointer;flex:none"><span class="msr" style="font-size:16px">skip_next</span>{{ nextLabel }}</button>
+      </div>
+    </main>
+
+    <!-- ── Right panel ──────────────────────────────────── -->
+    <sc-if value="{{ panelOpen }}" hint-placeholder-val="{{ false }}">
+      <aside style="width:404px;flex:none;background:var(--panel);border-left:1px solid var(--bd);display:flex;flex-direction:column;animation:ccpanel .22s ease">
+
+        <!-- Header: tools list vs drilled tool -->
+        <sc-if value="{{ atToolsList }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;padding:16px 18px 10px">
+            <span style="font-size:17px;font-weight:600">Committee tools</span>
+            <div style="flex:1"></div>
+            <button onClick="{{ closePanel }}" style="width:32px;height:32px;border-radius:50%;border:none;background:transparent;color:var(--mut);cursor:pointer;display:flex;align-items:center;justify-content:center"><span class="msr">close</span></button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ atTool }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:10px;padding:14px 14px 12px;border-bottom:1px solid var(--bd)">
+            <button onClick="{{ back }}" title="Back" style="width:34px;height:34px;border-radius:9px;border:none;background:var(--row);color:#e6e8eb;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><span class="msr" style="font-size:20px">arrow_back</span></button>
+            <span style="width:34px;height:34px;border-radius:9px;background:rgba(130,135,255,.15);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none"><span class="msr" style="font-size:19px">{{ toolIcon }}</span></span>
+            <div style="min-width:0">
+              <div style="font-size:15px;font-weight:600;line-height:1.2">{{ toolTitle }}</div>
+              <div style="font-size:11.5px;color:var(--mut);line-height:1.2">{{ toolSub }}</div>
+            </div>
+            <div style="flex:1"></div>
+            <button onClick="{{ closePanel }}" style="width:32px;height:32px;border-radius:50%;border:none;background:transparent;color:var(--mut);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><span class="msr">close</span></button>
+          </div>
+        </sc-if>
+
+        <!-- Scroll body -->
+        <div class="cc-scroll" style="flex:1;overflow-y:auto;padding:14px">
+
+          <!-- LEVEL 0 · tools list -->
+          <sc-if value="{{ atToolsList }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ tools }}" as="t" hint-placeholder-count="7">
+                <button onClick="{{ t.open }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;background:var(--row);border:1px solid var(--bd);border-radius:12px;cursor:pointer">
+                  <span style="width:36px;height:36px;border-radius:10px;background:rgba(130,135,255,.15);color:var(--pri);display:flex;align-items:center;justify-content:center;flex:none"><span class="msr" style="font-size:20px">{{ t.icon }}</span></span>
+                  <span style="flex:1;min-width:0">
+                    <span style="display:block;font-size:14px;font-weight:600;line-height:1.25">{{ t.title }}</span>
+                    <span style="display:block;font-size:11.5px;color:var(--mut);line-height:1.25">{{ t.sub }}</span>
+                  </span>
+                  <sc-if value="{{ t.live }}" hint-placeholder-val="{{ false }}"><span style="width:8px;height:8px;border-radius:50%;background:var(--em);flex:none;animation:ccblip 1.6s infinite"></span></sc-if>
+                  <sc-if value="{{ t.badge }}" hint-placeholder-val="{{ false }}"><span style="min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--rd);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">{{ t.badge }}</span></sc-if>
+                  <span class="msr" style="font-size:20px;color:var(--mut);flex:none">chevron_right</span>
+                </button>
+              </sc-for>
+
+              <div style="margin-top:6px;padding:14px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--bd)">
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:11.5px;margin-bottom:8px"><span style="font-weight:600;color:var(--mut)">Quorum</span><span style="color:var(--mut);font-variant-numeric:tabular-nums">7 / 4</span></div>
+                <div style="height:6px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden"><div style="height:100%;width:100%;background:var(--em);border-radius:999px"></div></div>
+                <button onClick="{{ openProjector }}" style="margin-top:12px;width:100%;height:36px;border-radius:9px;border:1px solid var(--bd);background:transparent;color:var(--pri);font-size:12.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><span class="msr" style="font-size:17px">cast</span>Open projector view</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ROLL CALL -->
+          <sc-if value="{{ showRollcall }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <button style="flex:1;height:34px;border-radius:9px;border:1px solid var(--bd);background:var(--row);color:#e6e8eb;font-size:12.5px;font-weight:600;cursor:pointer">All present</button>
+                <button style="flex:1;height:34px;border-radius:9px;border:1px solid var(--bd);background:transparent;color:var(--mut);font-size:12.5px;font-weight:600;cursor:pointer">All absent</button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;margin-bottom:7px"><span style="color:var(--mut)">7 present / voting</span><span style="display:inline-flex;align-items:center;gap:4px;color:var(--em);font-weight:600"><span class="msr" style="font-size:15px">verified</span>quorum 4</span></div>
+              <div style="height:6px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:14px"><div style="height:100%;width:100%;background:var(--em);border-radius:999px"></div></div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ delegates }}" as="d" hint-placeholder-count="7">
+                  <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:12px;background:var(--row);border:1px solid var(--bd)">
+                    <img src="https://flagcdn.com/w80/{{ d.code }}.png" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;flex:none">
+                    <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:600;line-height:1.2">{{ d.country }}</div><div style="font-size:11px;color:var(--mut);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.org }}</div></div>
+                    <div style="display:flex;align-items:center;gap:4px;flex:none">
+                      <span style="width:24px;height:24px;border-radius:7px;background:rgba(52,211,153,.16);color:var(--em);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">P</span>
+                      <span style="font-size:10.5px;color:var(--mut);font-weight:600">P&amp;V</span>
+                      <span style="font-size:10.5px;color:var(--mut)">Late</span>
+                      <span style="font-size:10.5px;color:var(--mut)">Abs</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- VOTING -->
+          <sc-if value="{{ showVoting }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px">Motion / question</label>
+                <input placeholder="e.g. Draft Resolution 1.1" style="width:100%;height:40px;padding:0 12px;border-radius:9px;background:var(--row);border:1px solid var(--bd);color:#e6e8eb;outline:none">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <div><label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px">Type</label><div style="height:38px;padding:0 12px;border-radius:9px;background:var(--row);border:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;font-size:13px"><span>substantive</span><span class="msr" style="font-size:18px;color:var(--mut)">expand_more</span></div></div>
+                <div><label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px">Threshold</label><div style="height:38px;padding:0 12px;border-radius:9px;background:var(--row);border:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;font-size:13px"><span>simple_majority</span><span class="msr" style="font-size:18px;color:var(--mut)">expand_more</span></div></div>
+              </div>
+              <div><label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px">Mode</label><div style="height:38px;padding:0 12px;border-radius:9px;background:var(--row);border:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;font-size:13px;max-width:160px"><span>tally</span><span class="msr" style="font-size:18px;color:var(--mut)">expand_more</span></div></div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <span style="padding:8px 13px;border-radius:9px;font-size:12.5px;font-weight:600;background:rgba(130,135,255,.16);color:var(--pri);border:1px solid rgba(130,135,255,.3)">Allow abstain</span>
+                <span style="padding:8px 13px;border-radius:9px;font-size:12.5px;font-weight:600;background:var(--row);color:var(--mut);border:1px solid var(--bd)">Division of question</span>
+                <span style="padding:8px 13px;border-radius:9px;font-size:12.5px;font-weight:600;background:var(--row);color:var(--mut);border:1px solid var(--bd)">Security Council (P5 veto)</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding-top:4px">
+                <span style="font-size:12px;color:var(--mut)">7 eligible voters</span>
+                <button style="display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 15px;border-radius:9px;border:none;background:var(--pri);color:#0f1012;font-size:13px;font-weight:600;cursor:pointer"><span class="msr" style="font-size:17px">how_to_vote</span>Open vote</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- SPEAKERS LIST -->
+          <sc-if value="{{ showSpeakers }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:13px;font-weight:600">Speakers List <span style="color:var(--mut)">(0)</span></span>
+                <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut)">Default time <span style="width:48px;height:30px;border-radius:8px;background:var(--row);border:1px solid var(--bd);display:inline-flex;align-items:center;justify-content:center;color:#e6e8eb;font-weight:600">90</span>s</span>
+              </div>
+              <div style="display:flex;gap:8px">
+                <div style="flex:1;height:40px;padding:0 12px;border-radius:9px;background:var(--row);border:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;color:var(--mut);font-size:13px"><span>Add delegate to the list…</span><span class="msr" style="font-size:18px">expand_more</span></div>
+                <button style="width:40px;height:40px;border-radius:9px;border:none;background:var(--pri);color:#0f1012;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><span class="msr" style="font-size:20px">add</span></button>
+              </div>
+              <div style="padding:34px 12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px dashed var(--bd);text-align:center;color:var(--mut);font-size:13px">The speakers list is empty.</div>
+              <div style="padding:14px;border-radius:12px;background:var(--row);border:1px solid var(--bd)">
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--mut);margin-bottom:6px">Yield management · current speaker</div>
+                <div style="font-size:12.5px;color:var(--mut)">{{ spkCountry }} holds the floor — yields to none.</div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- CAUCUS -->
+          <sc-if value="{{ showCaucus }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="padding:15px;border-radius:12px;background:var(--row);border:1px solid var(--bd)">
+                <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;margin-bottom:13px"><span class="msr" style="font-size:18px;color:var(--pri)">groups</span>Moderated Caucus</div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px">Topic</label>
+                <input placeholder="e.g. Funding mechanisms" style="width:100%;height:38px;padding:0 12px;border-radius:9px;background:#1a1b1f;border:1px solid var(--bd);color:#e6e8eb;outline:none;margin-bottom:11px">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">
+                  <div><label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px">Total (min)</label><input value="10" style="width:100%;height:38px;padding:0 12px;border-radius:9px;background:#1a1b1f;border:1px solid var(--bd);color:#e6e8eb;outline:none"></div>
+                  <div><label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px">Speaker (sec)</label><input value="60" style="width:100%;height:38px;padding:0 12px;border-radius:9px;background:#1a1b1f;border:1px solid var(--bd);color:#e6e8eb;outline:none"></div>
+                </div>
+                <button style="width:100%;height:40px;border-radius:9px;border:none;background:rgba(130,135,255,.5);color:#0f1012;font-size:13px;font-weight:600;cursor:pointer">Start moderated caucus</button>
+              </div>
+              <div style="padding:15px;border-radius:12px;background:var(--row);border:1px solid var(--bd)">
+                <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;margin-bottom:13px"><span class="msr" style="font-size:18px;color:var(--pri)">coffee</span>Unmoderated Caucus</div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px">Total (min)</label>
+                <input value="15" style="width:100%;height:38px;padding:0 12px;border-radius:9px;background:#1a1b1f;border:1px solid var(--bd);color:#e6e8eb;outline:none;margin-bottom:13px">
+                <button style="width:100%;height:40px;border-radius:9px;border:none;background:var(--pri);color:#0f1012;font-size:13px;font-weight:600;cursor:pointer">Start unmoderated caucus</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- POINTS & MOTIONS -->
+          <sc-if value="{{ showPoints }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin-bottom:10px"><span class="msr" style="font-size:17px;color:var(--pri)">front_hand</span>Points Queue <span style="min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--pri);color:#0f1012;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">1</span></div>
+                <div style="padding:13px;border-radius:12px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3)">
+                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                    <img src="https://flagcdn.com/w80/kr.png" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;flex:none">
+                    <div style="min-width:0">
+                      <div style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--am)"><span class="msr" style="font-size:15px">shield</span>Personal Privilege <span style="font-size:9px;font-weight:700;text-transform:uppercase;opacity:.8">· interrupts · 12s ago</span></div>
+                      <div style="font-size:11.5px;color:var(--mut)">South Korea · Akhand Digital Dhaka</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:8px">
+                    <button style="flex:1;height:32px;border-radius:8px;border:none;background:var(--pri);color:#0f1012;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px"><span class="msr" style="font-size:15px">check</span>Recognize</button>
+                    <button style="flex:1;height:32px;border-radius:8px;border:1px solid var(--bd);background:transparent;color:var(--mut);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px"><span class="msr" style="font-size:15px">close</span>Dismiss</button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600"><span class="msr" style="font-size:17px;color:var(--pri)">gavel</span>Motions Log</span><button style="height:30px;padding:0 11px;border-radius:8px;border:1px solid var(--bd);background:var(--row);color:#e6e8eb;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px"><span class="msr" style="font-size:15px">add</span>New motion</button></div>
+                <div style="padding:24px 12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px dashed var(--bd);text-align:center;color:var(--mut);font-size:13px">No motions on the floor yet.</div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- MARKING -->
+          <sc-if value="{{ showMarking }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;gap:8px">
+                <div style="flex:1;height:36px;padding:0 12px;border-radius:9px;background:var(--row);border:1px solid var(--bd);display:flex;align-items:center;gap:8px;color:var(--mut);font-size:13px"><span class="msr" style="font-size:17px">search</span>Search…</div>
+                <button style="height:36px;padding:0 12px;border-radius:9px;border:1px solid var(--bd);background:var(--row);color:#e6e8eb;font-size:12.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;flex:none"><span class="msr" style="font-size:16px">star</span>Suggest</button>
+              </div>
+              <div style="font-size:11px;color:var(--mut)">Each criterion scored −100…+100 · day value is the average.</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ marking }}" as="m" hint-placeholder-count="7">
+                  <div style="padding:11px 12px;border-radius:12px;background:var(--row);border:1px solid var(--bd)">
+                    <div style="display:flex;align-items:center;gap:11px">
+                      <img src="https://flagcdn.com/w80/{{ m.code }}.png" alt="" style="width:24px;height:24px;border-radius:50%;object-fit:cover;flex:none">
+                      <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;line-height:1.2">{{ m.country }}</div><div style="font-size:10.5px;color:var(--mut);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.org }}</div></div>
+                      <input value="{{ m.score }}" placeholder="—" style="width:56px;height:32px;text-align:center;border-radius:8px;background:#1a1b1f;border:1px solid var(--bd);color:#e6e8eb;outline:none;flex:none">
+                      <span style="font-size:13px;font-weight:700;color:var(--mut);width:34px;text-align:right;flex:none">{{ m.pct }}</span>
+                      <span class="msr" style="font-size:19px;color:var(--mut);flex:none">expand_more</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-top:7px;padding-left:35px">
+                      <span style="padding:2px 6px;border-radius:6px;background:rgba(52,211,153,.15);color:var(--em);font-size:9px;font-weight:700;text-transform:uppercase">P</span>
+                      <span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--mut)"><span class="msr" style="font-size:12px">mic</span>{{ m.speeches }}</span>
+                      <span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--mut)"><span class="msr" style="font-size:12px">schedule</span>{{ m.time }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- REPORT -->
+          <sc-if value="{{ showReport }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:8px">
+                <button style="flex:1;height:34px;border-radius:9px;border:1px solid var(--bd);background:var(--row);color:#e6e8eb;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px"><span class="msr" style="font-size:15px">refresh</span>Refresh</button>
+                <button style="flex:1;height:34px;border-radius:9px;border:1px solid var(--bd);background:var(--row);color:#e6e8eb;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px"><span class="msr" style="font-size:15px">print</span>Print</button>
+                <button style="flex:1;height:34px;border-radius:9px;border:none;background:var(--pri);color:#0f1012;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px"><span class="msr" style="font-size:15px">download</span>PDF</button>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div style="padding:12px;border-radius:11px;background:var(--row);border:1px solid var(--bd)"><div style="font-size:22px;font-weight:700;color:var(--pri);line-height:1">7</div><div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-top:4px">Delegates</div></div>
+                <div style="padding:12px;border-radius:11px;background:var(--row);border:1px solid var(--bd)"><div style="font-size:22px;font-weight:700;color:var(--pri);line-height:1">7/4</div><div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-top:4px">Present / Quorum</div></div>
+                <div style="padding:12px;border-radius:11px;background:var(--row);border:1px solid var(--bd)"><div style="font-size:22px;font-weight:700;color:var(--pri);line-height:1">7</div><div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-top:4px">Speeches</div></div>
+                <div style="padding:12px;border-radius:11px;background:var(--row);border:1px solid var(--bd)"><div style="font-size:22px;font-weight:700;color:var(--pri);line-height:1">0:07</div><div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-top:4px">Speaking time</div></div>
+              </div>
+              <div style="border-radius:12px;background:var(--row);border:1px solid var(--bd);overflow:hidden">
+                <div style="display:flex;align-items:center;padding:9px 13px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);border-bottom:1px solid var(--bd)"><span style="flex:1">Delegate</span><span style="width:48px;text-align:center">Att</span><span style="width:30px;text-align:center"><span class="msr" style="font-size:14px">mic</span></span><span style="width:44px;text-align:right">Time</span></div>
+                <sc-for list="{{ report }}" as="r" hint-placeholder-count="7">
+                  <div style="display:flex;align-items:center;padding:9px 13px;border-bottom:1px solid var(--bd)">
+                    <span style="flex:1;display:flex;align-items:center;gap:9px;min-width:0"><img src="https://flagcdn.com/w80/{{ r.code }}.png" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex:none"><span style="min-width:0"><span style="display:block;font-size:12.5px;font-weight:600;line-height:1.2">{{ r.country }}</span><span style="display:block;font-size:10px;color:var(--mut);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.org }}</span></span></span>
+                    <span style="width:48px;text-align:center;font-size:11px;color:var(--em);font-weight:600">Present</span>
+                    <span style="width:30px;text-align:center;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums">1</span>
+                    <span style="width:44px;text-align:right;font-size:12px;font-variant-numeric:tabular-nums;color:var(--mut)">{{ r.time }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- CHAT -->
+          <sc-if value="{{ showChat }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="padding:20px 12px;text-align:center;color:var(--mut);font-size:13px;border-radius:12px;background:rgba(255,255,255,.03);border:1px dashed var(--bd)">In-committee messages appear here.</div>
+              <div style="display:flex;gap:8px;margin-top:auto"><input placeholder="Send a message to everyone" style="flex:1;height:40px;padding:0 13px;border-radius:9px;background:var(--row);border:1px solid var(--bd);color:#e6e8eb;outline:none"><button style="width:40px;height:40px;border-radius:9px;border:none;background:var(--pri);color:#0f1012;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none"><span class="msr" style="font-size:20px">send</span></button></div>
+            </div>
+          </sc-if>
+
+          <!-- HOST CONTROLS -->
+          <sc-if value="{{ showHost }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <p style="font-size:12.5px;color:var(--mut);margin:0 0 10px">Keep control of your session. Only the chair sees these.</p>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin:6px 0 2px">Session</div>
+              <sc-for list="{{ hostToggles }}" as="h" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--bd)">
+                  <span style="flex:1;font-size:13.5px;font-weight:500">{{ h.label }}</span>
+                  <span style="width:38px;height:22px;border-radius:999px;background:var(--pri);position:relative;flex:none"><span style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#0f1012"></span></span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+        </div>
+      </aside>
+    </sc-if>
+  </div>
+
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#1a1b1f"/><rect x="30" y="30" width="40" height="40" rx="8" fill="#31525b"/><circle cx="50" cy="50" r="11" fill="#e6e8eb"/><circle cx="50" cy="76" r="4" fill="#8287ff"/></svg>
+  </template>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:800},&quot;scenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;speaking&quot;,&quot;idle&quot;],&quot;default&quot;:&quot;speaking&quot;,&quot;tsType&quot;:&quot;'speaking' | 'idle'&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;startMuted&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;startCamOff&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Session&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const speaking = (this.props.scenario ?? "speaking") !== "idle";
+    this.speakers = [
+      { code: "fr", country: "France", org: "Work" },
+      { code: "cn", country: "China", org: "Dhaka Office Work" },
+      { code: "gb", country: "United Kingdom", org: "Akhand Foundation" },
+    ];
+    this.delegates = [
+      { code: "cn", country: "China", org: "Dhaka Office Work" },
+      { code: "fr", country: "France", org: "Work" },
+      { code: "gb", country: "United Kingdom", org: "Akhand Foundation" },
+      { code: "gb", country: "United Kingdom", org: "Rasel Ashraf" },
+      { code: "kr", country: "South Korea", org: "Akhand Digital Dhaka" },
+      { code: "mt", country: "Malta", org: "Delegate" },
+      { code: "us", country: "United States", org: "Shuriken IT" },
+    ];
+    this.state = {
+      now: Date.now(),
+      micOn: !(this.props.startMuted ?? true),
+      camOn: !(this.props.startCamOff ?? true),
+      handUp: false,
+      captionsOn: false,
+      panel: null,          // null | 'tools' | 'chat' | 'host'
+      tool: null,           // null | rollcall | voting | speakers | caucus | points | marking | report
+      floorActive: speaking,
+      activeIdx: 0,
+      timer: { running: speaking, durationMs: 90000, endsAt: Date.now() + 83000, paused: 83000 },
+    };
+  }
+  componentDidMount() {
+    this._iv = setInterval(() => this.setState({ now: Date.now() }), 400);
+  }
+  componentWillUnmount() { clearInterval(this._iv); }
+
+  remaining() {
+    const t = this.state.timer;
+    return t.running ? Math.max(0, t.endsAt - this.state.now) : t.paused;
+  }
+  fmt(ms) {
+    const s = Math.ceil(ms / 1000);
+    return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+  }
+  clockStr() {
+    const d = new Date(this.state.now);
+    return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+  }
+
+  renderVals() {
+    const s = this.state;
+    const active = s.floorActive ? this.speakers[s.activeIdx] : null;
+    const rem = this.remaining();
+    const t = s.timer;
+    const pct = t.durationMs > 0 ? Math.max(0, (rem / t.durationMs) * 100) : 0;
+    const danger = t.running && rem < 10000;
+
+    const setTimer = (patch) => this.setState({ timer: { ...this.state.timer, ...patch } });
+    const startPause = () => { const r = this.remaining(); if (t.running) setTimer({ running: false, paused: r }); else setTimer({ running: true, endsAt: Date.now() + (r > 0 ? r : t.durationMs) }); };
+    const adjust = (d) => { const r = Math.max(0, this.remaining() + d); if (t.running) setTimer({ endsAt: Date.now() + r }); else setTimer({ paused: r }); };
+    const next = () => {
+      if (s.activeIdx + 1 < this.speakers.length) this.setState({ activeIdx: s.activeIdx + 1, timer: { ...t, running: true, durationMs: 90000, endsAt: Date.now() + 90000, paused: 90000 } });
+      else this.setState({ floorActive: false, timer: { ...t, running: false, paused: 0 } });
+    };
+
+    const openTool = (id) => this.setState({ panel: "tools", tool: id });
+    const meta = {
+      rollcall: { icon: "checklist", title: "Roll Call", sub: "Establish quorum", live: false },
+      voting: { icon: "how_to_vote", title: "Voting", sub: "Motions & resolutions", live: false },
+      speakers: { icon: "mic", title: "Speakers List", sub: "General Speakers List", live: s.floorActive },
+      caucus: { icon: "groups", title: "Caucus", sub: "Moderated & unmoderated", live: false },
+      points: { icon: "front_hand", title: "Points & Motions", sub: "Live raises & motion log", live: false, badge: "1" },
+      marking: { icon: "assignment", title: "Marking", sub: "Daily rubric scoring", live: false },
+      report: { icon: "description", title: "Report", sub: "Participation summary", live: false },
+    };
+    const order = ["rollcall", "voting", "speakers", "caucus", "points", "marking", "report"];
+    const tools = order.map((id) => ({ ...meta[id], id, open: () => openTool(id), badge: id === "points" ? "1" : null }));
+    const tm = s.tool ? meta[s.tool] : null;
+
+    return {
+      clock: this.clockStr(),
+      // video controls
+      micOn: s.micOn, camOn: s.camOn,
+      micIcon: s.micOn ? "mic" : "mic_off", camIcon: s.camOn ? "videocam" : "videocam_off",
+      micBtnBg: s.micOn ? "#2a2c31" : "var(--rd)", micBtnFg: s.micOn ? "#e6e8eb" : "#fff",
+      camBtnBg: s.camOn ? "#2a2c31" : "var(--rd)", camBtnFg: s.camOn ? "#e6e8eb" : "#fff",
+      capBtnBg: s.captionsOn ? "var(--pri)" : "#2a2c31", capBtnFg: s.captionsOn ? "#0f1012" : "#e6e8eb",
+      handBtnBg: s.handUp ? "var(--am)" : "#2a2c31", handBtnFg: s.handUp ? "#0f1012" : "#e6e8eb",
+      toggleMic: () => this.setState({ micOn: !s.micOn }),
+      toggleCam: () => this.setState({ camOn: !s.camOn }),
+      toggleCaptions: () => this.setState({ captionsOn: !s.captionsOn }),
+      toggleHand: () => this.setState({ handUp: !s.handUp }),
+      // stage
+      hasFloor: s.floorActive, noFloor: !s.floorActive,
+      spkCode: active ? active.code : "un", spkCountry: active ? active.country : "", spkOrg: active ? active.org : "",
+      timerText: this.fmt(rem), timerPct: pct,
+      // live strip
+      liveDot: s.floorActive ? "var(--em)" : "#6b7075",
+      liveLabel: s.floorActive ? ("Speaking · " + active.country) : "Floor open — add speakers",
+      liveTimer: s.floorActive ? this.fmt(rem) : "0:00",
+      nextLabel: s.floorActive ? "Next" : "Start",
+      onNext: next,
+      danger,
+      // launchers
+      openTools: () => this.setState({ panel: s.panel === "tools" ? null : "tools", tool: null }),
+      openChat: () => this.setState({ panel: s.panel === "chat" ? null : "chat", tool: null }),
+      openHost: () => this.setState({ panel: s.panel === "host" ? null : "host", tool: null }),
+      closePanel: () => this.setState({ panel: null, tool: null }),
+      back: () => this.setState({ tool: null }),
+      openProjector: () => {},
+      hasPending: true, pendingCount: "1",
+      toolsBtnBg: s.panel === "tools" ? "var(--pri)" : "rgba(255,255,255,.12)",
+      toolsBtnFg: s.panel === "tools" ? "#0f1012" : "#e6e8eb",
+      // panel routing
+      panelOpen: s.panel != null,
+      atToolsList: s.panel === "tools" && !s.tool,
+      atTool: s.panel === "tools" && !!s.tool,
+      showChat: s.panel === "chat",
+      showHost: s.panel === "host",
+      showRollcall: s.tool === "rollcall", showVoting: s.tool === "voting", showSpeakers: s.tool === "speakers",
+      showCaucus: s.tool === "caucus", showPoints: s.tool === "points", showMarking: s.tool === "marking", showReport: s.tool === "report",
+      toolIcon: tm ? tm.icon : "apps", toolTitle: tm ? tm.title : "", toolSub: tm ? tm.sub : "",
+      tools,
+      // data
+      delegates: this.delegates,
+      report: [
+        { code: "cn", country: "China", org: "Dhaka Office Work", time: "0:00" },
+        { code: "fr", country: "France", org: "Work", time: "0:07" },
+        { code: "gb", country: "United Kingdom", org: "Akhand Foundation", time: "0:00" },
+        { code: "gb", country: "United Kingdom", org: "Rasel Ashraf", time: "0:00" },
+        { code: "kr", country: "South Korea", org: "Akhand Digital Dhaka", time: "0:00" },
+        { code: "mt", country: "Malta", org: "Delegate", time: "0:00" },
+        { code: "us", country: "United States", org: "Shuriken IT", time: "0:00" },
+      ],
+      marking: this.delegates.map((d, i) => ({ ...d, score: "", pct: "—", speeches: "1", time: d.country === "France" ? "0:07" : "0:00" })),
+      hostToggles: [
+        { label: "Host management" },
+        { label: "Let delegates share screen" },
+        { label: "Let delegates send reactions" },
+        { label: "Turn on their microphone" },
+        { label: "Turn on their video" },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

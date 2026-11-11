@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Details, committees, partners</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:220px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px 12px;box-sizing:border-box;gap:2px}
+.sl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px}
+.ni{display:flex;align-items:center;height:32px;padding:0 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.main{flex:1;min-width:0;padding:26px 32px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.sc{padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.fld{display:flex;flex-direction:column;gap:5px;min-width:0}
+.fld .fl{font-size:12.5px;font-weight:600}
+.inp{display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);font-size:13.5px;box-sizing:border-box}
+.inp.pv{color:var(--muted)}
+.inp.ro{background:var(--sunk);color:var(--ink2)}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.mt{display:grid;grid-template-columns:1.4fr 120px 1.4fr 90px 36px;gap:10px;align-items:end;padding:10px 0;border-top:1px solid var(--line2)}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.fin{background:linear-gradient(#FF9933 0 33%,#fff 33% 66%,#138808 66%)}
+.fng{background:linear-gradient(90deg,#008751 0 33%,#fff 33% 66%,#008751 66%)}
+.fus{background:linear-gradient(#3C3B6E,#3C3B6E) 0 0/45% 54% no-repeat,repeating-linear-gradient(#B22234 0 7.7%,#fff 7.7% 15.4%)}
+.ring{width:56px;height:56px;border-radius:28px;display:flex;align-items:center;justify-content:center;flex:none}
+.ring i{width:44px;height:44px;border-radius:22px;background:var(--paper);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:700}
+.chip{display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:15px;border:1px solid var(--line);font-size:13px;font-weight:500;background:var(--paper)}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3740px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">OR03 · Organizer · Event Details, Committees, Partners</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Event Details, Committees, Partners</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Event Details stacks its five cards: delegate information (expected delegates calculated from committees), web &amp; social links, optional-module switches, marking templates (pattern, criteria with auto-fill and cap, starter set) and final scoring (chair overall weight, optional conference days). Committees keeps the "choices per applicant" stepper, template-or-scratch creation, seats, difficulty, agendas and the country roster picker. Partners can be reordered by dragging.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 1700px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="sl">Setup</span><span class="ni">Overview</span><span class="ni on">Details</span><span class="ni">Allocation</span><span class="ni">Committees</span><span class="ni">Partners</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between;"><div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 32px;">Event Details</h1><span style="font-size: 14.5px; color: var(--muted);">Extra info, modules, and quick edits for Dhaka Model United Nations Conference 2026.</span></div><button class="btn b-sec">Edit event</button></div>
+<div class="row" style="gap: 8px; padding: 10px 14px; border-radius: 10px; background: var(--sealSoft); color: var(--seal); font-size: 13.5px; font-weight: 600;">✓ Changes saved successfully</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div class="card sc"><div class="col"><b style="font-size: 16px;">Delegate Information</b><span style="font-size: 12.5px; color: var(--muted);">Expected number and type of delegates attending</span></div><div class="fld"><span class="fl">Expected Delegates</span><div class="inp ro">186</div><span style="font-size: 11.5px; color: var(--muted);">Auto-calculated from the sum of all committee capacities</span></div><div class="fld"><span class="fl">Target Audience</span><div class="inp pv">e.g., University Students and School Students</div><span style="font-size: 11.5px; color: var(--muted);">Who should apply for this event</span></div></div>
+<div class="card sc"><div class="col"><b style="font-size: 16px;">Web &amp; Social Media</b><span style="font-size: 12.5px; color: var(--muted);">Links to your event's online presence</span></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="fld"><span class="fl">Website</span><div class="inp pv">https://yourevent.com</div></div><div class="fld"><span class="fl">Contact Email</span><div class="inp pv">organizers@yourevent.com</div></div><div class="fld"><span class="fl">Instagram</span><div class="inp pv">@ handle</div></div><div class="fld"><span class="fl">Twitter/X</span><div class="inp pv">@ handle</div></div><div class="fld"><span class="fl">Facebook</span><div class="inp pv">https://facebook.com/yourpage</div></div><div class="fld"><span class="fl">LinkedIn</span><div class="inp pv">https://linkedin.com/company/yourpage</div></div></div></div>
+</div>
+<div class="card sc"><div class="col"><b style="font-size: 16px;">Optional Modules</b><span style="font-size: 12.5px; color: var(--muted);">Enable extra services for this event. Manage their content under Event → Modules.</span></div><div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;"><div class="row" style="padding: 12px; border-radius: 12px; background: var(--sunk2); align-items: flex-start;"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 13.5px;">Food Coupons</b><span style="font-size: 11.5px; color: var(--muted);">Meal slots and food coupons for delegates</span></span><button class="tg on" aria-label="Food Coupons" aria-pressed="true"></button></div><div class="row" style="padding: 12px; border-radius: 12px; background: var(--sunk2); align-items: flex-start;"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 13.5px;">Transport</b><span style="font-size: 11.5px; color: var(--muted);">Shuttle routes with pickup/dropoff and capacity</span></span><button class="tg on" aria-label="Transport" aria-pressed="true"></button></div><div class="row" style="padding: 12px; border-radius: 12px; background: var(--sunk2); align-items: flex-start;"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 13.5px;">Accommodation</b><span style="font-size: 11.5px; color: var(--muted);">Hotel room blocks and booking requests</span></span><button class="tg" aria-label="Accommodation" aria-pressed="false"></button></div><div class="row" style="padding: 12px; border-radius: 12px; background: var(--sunk2); align-items: flex-start;"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 13.5px;">Dress Code</b><span style="font-size: 11.5px; color: var(--muted);">Attire guidance and reference images</span></span><button class="tg on" aria-label="Dress Code" aria-pressed="true"></button></div></div></div>
+<div class="card sc"><div class="row" style="justify-content: space-between; align-items: flex-start;"><div class="col" style="gap: 3px; max-width: 700px;"><b style="font-size: 16px;">Marking Templates</b><span style="font-size: 12.5px; line-height: 1.5; color: var(--muted);">[Explains the scale for the chosen pattern, how the daily % is averaged and how auto-fill suggests marks from the live floor.]</span></div><div class="fld" style="width: 240px;"><span class="fl">Marking pattern</span><div class="inp">Binary (−1 / 0 / +1) ▾</div><span style="font-size: 11.5px; color: var(--muted);">Chairs score each criterion as −1 / 0 / +1 (fast tally-style).</span></div></div>
+<div class="col">
+<div class="mt" style="border-top: 0;"><div class="fld"><span class="fl">Criterion</span><div class="inp">Debate &amp; Speeches</div></div><div class="fld"><span class="fl">Range</span><div class="inp ro">−1 / 0 / +1</div></div><div class="fld"><span class="fl">Auto-fill from</span><div class="inp">All speeches (GSL + caucus) ▾</div></div><div class="fld"><span class="fl">Cap</span><div class="inp">5</div></div><button class="btn sm b-sec" aria-label="Remove" style="width: 36px; height: 38px; padding: 0; color: var(--red);">×</button></div>
+<div class="mt"><div class="fld"><div class="inp">Diplomacy &amp; Lobbying</div></div><div class="fld"><div class="inp ro">−1 / 0 / +1</div></div><div class="fld"><div class="inp">Manual only ▾</div></div><div></div><button class="btn sm b-sec" aria-label="Remove" style="width: 36px; height: 38px; padding: 0; color: var(--red);">×</button></div>
+<div class="mt"><div class="fld"><div class="inp">Documentation</div></div><div class="fld"><div class="inp ro">−1 / 0 / +1</div></div><div class="fld"><div class="inp">Manual only ▾</div></div><div></div><button class="btn sm b-sec" aria-label="Remove" style="width: 36px; height: 38px; padding: 0; color: var(--red);">×</button></div>
+</div>
+<div class="row" style="justify-content: space-between;"><button class="btn sm b-sec">+ Add template</button><span style="font-size: 12.5px; color: var(--muted);">3 criteria · daily % = average of scored criteria</span></div></div>
+<div class="card sc"><div class="col" style="gap: 3px;"><b style="font-size: 16px;">Final Scoring</b><span style="font-size: 12.5px; line-height: 1.5; color: var(--muted);">[Consistency-first average — a missed day counts as 0% — blended with the chair's final-day overall mark by the weight below.]</span></div>
+<div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px;"><div class="fld"><span class="fl">Chair overall weight · 30%</span><div style="height: 6px; border-radius: 3px; background: var(--sunk); position: relative; margin: 14px 0;"><i style="position: absolute; left: 0; top: 0; bottom: 0; width: 30%; background: var(--seal); border-radius: 3px;"></i><i style="position: absolute; left: 30%; top: 50%; width: 18px; height: 18px; border-radius: 9px; background: var(--paper); box-shadow: 0 0 0 2px var(--seal); transform: translate(-50%, -50%);"></i></div><span style="font-size: 12px; color: var(--muted);">final = 70% computed + 30% chair overall</span></div><div class="fld"><span class="fl">Conference days (optional override)</span><div class="inp pv">Auto-derived from marks — e.g. 2026-07-01, 2026-07-02, 2026-07-03</div><span style="font-size: 11.5px; color: var(--muted);">Leave blank to derive days from marked dates. Set explicit YYYY-MM-DD dates (comma-separated) to count absent days toward consistency.</span></div></div></div>
+<button class="btn b-pri" style="align-self: flex-end;">Save Details</button>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 1100px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="sl">Setup</span><span class="ni">Overview</span><span class="ni">Details</span><span class="ni">Allocation</span><span class="ni on">Committees</span><span class="ni">Partners</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between;"><div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 32px;">Committees</h1><span style="font-size: 14.5px; color: var(--muted);">Build from scratch or start with a premade template — UNSC, UNDP, and more.</span></div><button class="btn b-pri">Create Committee</button></div>
+<div class="card" style="padding: 14px 18px; display: flex; align-items: center; gap: 16px;"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 14.5px;">Committee choices per applicant</b><span style="font-size: 12.5px; color: var(--muted);">How many committees an applicant ranks on the form (each with its own ranked countries). 1 = single committee. Max 4 (you have 4 committees).</span></span><span class="row" style="gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;"><button class="btn sm" aria-label="Fewer choices" style="border-radius: 0; background: var(--sunk2);">−</button><b style="width: 44px; text-align: center;">2</b><button class="btn sm" aria-label="More choices" style="border-radius: 0; background: var(--sunk2);">+</button></span></div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+<div class="card sc"><div class="row" style="justify-content: space-between;"><b style="font-size: 18px;">UNSC</b><span class="row" style="gap: 4px;"><button class="btn sm b-sec" aria-label="Edit" style="width: 32px; padding: 0;">✎</button><button class="btn sm b-sec" aria-label="Delete" style="width: 32px; padding: 0; color: var(--red);">×</button></span></div><span class="row" style="gap: 6px;"><span class="pill p-bad">Advanced</span></span><span style="font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Topic</span><span style="font-size: 13.5px;">[Agenda item]</span><div class="row" style="gap: 14px;"><span class="ring" style="background: conic-gradient(var(--seal) 0 100%);"><i>100%</i></span><span class="col"><b>15 / 15</b><span style="font-size: 12px; color: var(--muted);">Seats · 15 countries</span></span></div><div class="row" style="gap: 4px; flex-wrap: wrap;"><i class="flag fus"></i><i class="flag ffr"></i><i class="flag fjp"></i><i class="flag fde"></i><i class="flag fin"></i><i class="flag fbd"></i><i class="flag fng"></i><span style="font-size: 12px; color: var(--muted);">+8 more</span></div></div>
+<div class="card sc"><div class="row" style="justify-content: space-between;"><b style="font-size: 18px;">DISEC</b><span class="row" style="gap: 4px;"><button class="btn sm b-sec" aria-label="Edit" style="width: 32px; padding: 0;">✎</button><button class="btn sm b-sec" aria-label="Delete" style="width: 32px; padding: 0; color: var(--red);">×</button></span></div><span class="row" style="gap: 6px;"><span class="pill p-mute">Intermediate</span><span class="pill p-ok">Beginner</span></span><span style="font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Agendas</span><span style="font-size: 13.5px;">1. [Agenda] 2. [Agenda]</span><div class="row" style="gap: 14px;"><span class="ring" style="background: conic-gradient(var(--seal) 0 80%, var(--sunk) 80% 100%);"><i>80%</i></span><span class="col"><b>32 / 40</b><span style="font-size: 12px; color: var(--muted);">Seats · 40 countries</span></span></div></div>
+<div class="card sc" style="box-shadow: var(--sh2);"><b style="font-size: 16px;">Pick a Committee Template</b><span style="font-size: 12.5px; color: var(--muted);">Start from a UN-standard committee. You'll be able to edit the name, capacity, and country roster after selecting.</span><div style="padding: 12px; border-radius: 12px; border: 1px solid var(--line2); display: flex; flex-direction: column; gap: 4px;"><span class="row" style="gap: 6px;"><b style="font-size: 13.5px;">United Nations Security Council</b><span class="pill p-info">UNSC</span></span><span style="font-size: 12px; color: var(--muted);">15 countries · [n] blocks</span></div><div style="padding: 12px; border-radius: 12px; border: 1px solid var(--line2); display: flex; flex-direction: column; gap: 4px;"><span class="row" style="gap: 6px;"><b style="font-size: 13.5px;">United Nations Development Programme</b><span class="pill p-info">UNDP</span></span></div><a href="#" style="font-size: 13.5px; font-weight: 600;">Build your own from scratch →</a></div>
+</div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Committee form · phone</b><span>Name, capacity, difficulty, agendas, roster.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div class="scrim"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; top: 60px; background: var(--paper); border-radius: 24px 24px 0 0; padding: 12px 18px; display: flex; flex-direction: column; gap: 12px; overflow: hidden;">
+<i style="width: 40px; height: 5px; border-radius: 3px; background: var(--line); align-self: center;"></i>
+<div class="row" style="justify-content: space-between;"><button class="btn sm" style="background: none;">Cancel</button><b>Customize Template</b><button class="btn sm b-pri">Save Changes</button></div>
+<div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px;"><div class="fld"><span class="fl">Committee Name</span><div class="inp">UNSC</div></div><div class="fld"><span class="fl">Total Capacity</span><div class="inp">15</div></div></div>
+<div class="fld"><span class="fl">Difficulty (pick one or more)</span><div class="row" style="gap: 6px;"><span class="chip">Beginner</span><span class="chip">Intermediate</span><span class="chip on">Advanced</span></div></div>
+<div class="fld"><span class="fl">Topics / Agendas</span><div class="inp pv">Agenda 1 — e.g., Regulating Antibiotic Resistance</div><a href="#" style="font-size: 13px; font-weight: 600;">+ Add agenda</a></div>
+<div class="fld"><div class="row" style="justify-content: space-between;"><span class="fl">Delegation Roster</span><span class="pill p-ok">15 / 15</span></div><div style="border: 1px solid var(--line2); border-radius: 10px; overflow: hidden; font-size: 12.5px;"><div class="row" style="padding: 7px 10px; gap: 8px;"><span style="color: var(--muted); width: 16px;">1</span><i class="flag fus"></i><span style="flex: 1;">United States</span><span style="color: var(--muted);">US</span><span>×</span></div><div class="row" style="padding: 7px 10px; gap: 8px; border-top: 1px solid var(--line2);"><span style="color: var(--muted); width: 16px;">2</span><i class="flag ffr"></i><span style="flex: 1;">France</span><span style="color: var(--muted);">FR</span><span>×</span></div></div><div class="inp pv">Search countries by name or code...</div><span style="font-size: 12px; color: var(--amber);">Capacity reached — remove a country to add another.</span></div>
+</div>
+</div>
+
+<div class="cap"><b>Partners · phone</b><span>Drag to reorder.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div class="row" style="justify-content: space-between;"><b class="serif" style="font-size: 24px;">Event Partners</b><button class="btn sm b-pri">Add Partner</button></div>
+<span style="font-size: 13px; color: var(--muted);">Showcase your sponsors, university partners, and affiliated organizations.</span>
+<div class="card" style="padding: 14px; display: flex; gap: 12px; align-items: center;"><span style="color: var(--muted);">⋮⋮</span><span style="width: 48px; height: 48px; border-radius: 10px; background: var(--sunk2); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--muted);">Logo</span><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 14px;">[Partner name]</b><span style="font-size: 12px; color: var(--muted);">[Description]</span><a href="#" style="font-size: 12px; font-weight: 600;">Visit Site</a></span></div>
+<div class="card" style="padding: 14px; display: flex; gap: 12px; align-items: center; box-shadow: var(--sh2); transform: rotate(-1deg);"><span style="color: var(--muted);">⋮⋮</span><span style="width: 48px; height: 48px; border-radius: 10px; background: var(--sunk2);"></span><span class="col" style="flex: 1;"><b style="font-size: 14px;">[Partner name]</b><span style="font-size: 12px; color: var(--muted);">dragging…</span></span></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px;"><b>Add New Partner</b><div class="fld"><span class="fl">Partner Name</span><div class="inp pv">e.g. Harvard International Relations Council</div></div><div class="fld"><span class="fl">Website URL</span><div class="inp pv">https://</div></div><div class="fld"><span class="fl">Short Description</span><div class="inp pv">A brief sentence about this partner... <span style="margin-left: auto; color: var(--purple); font-weight: 600;">AI</span></div></div><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Add to List</button></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Dialogs &amp; empties</b></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 10px;">
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--sh2);"><b style="font-size: 16px;">Delete Committee</b><span style="font-size: 13px; line-height: 1.5; color: var(--ink2);">Are you sure you want to delete the DISEC committee? 32 delegates are seated in it and will need a new seat. This will remove the committee from the event. This action cannot be undone.</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm" style="background: var(--red); color: #fff;">Delete</button></div></div>
+<div class="card" style="padding: 14px; font-size: 13px; line-height: 1.5; color: var(--ink2);">This event's plan allows 5 committees. Make it Pro, or ask for more room, under Plan.</div>
+<div class="card" style="padding: 18px; border-style: dashed; box-shadow: none; text-align: center;"><b style="font-size: 14.5px;">No Committees Yet</b><div style="font-size: 13px; color: var(--muted); margin-top: 4px;">Pick a UN-standard template like UNSC or UNDP, or build your own from scratch.</div></div>
+<div class="card" style="padding: 14px; text-align: center; font-size: 13px; color: var(--muted);">No marking templates yet. Chairs see “No marking templates defined” until you add one.<div style="margin-top: 8px;"><button class="btn sm b-sec">Add starter set</button></div></div>
+<div class="card" style="padding: 14px; text-align: center; font-size: 13px; color: var(--muted);">No partners added yet.</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3740}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

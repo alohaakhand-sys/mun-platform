@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Financials, Pro, Plan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--gold:#8A6400;--goldSoft:#F8EFD6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--gold:#E9C25A;--goldSoft:rgba(233,194,90,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-gold{background:#8A6400;color:#fff}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:240px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px 12px;box-sizing:border-box;gap:2px}
+.sl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px}
+.ni{display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13.5px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.main{flex:1;min-width:0;padding:28px 36px;display:flex;flex-direction:column;gap:20px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}.p-gold{background:var(--goldSoft);color:var(--gold)}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.fld{display:flex;flex-direction:column;gap:5px;min-width:0}
+.fld .fl{font-size:12.5px;font-weight:600}
+.inp{display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);font-size:13.5px;box-sizing:border-box}
+.inp.pv{color:var(--muted)}
+.inp.lock{opacity:.6}
+.tl{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tl span{height:28px;padding:0 10px;border-radius:14px;display:inline-flex;align-items:center;font-size:12px;font-weight:600;background:var(--sunk2);color:var(--ink2)}
+.tl span.on{background:var(--sealSoft);color:var(--seal);box-shadow:0 0 0 2px var(--seal)}
+.tl i{color:var(--muted);font-style:normal}
+.role{border:1px solid var(--line2);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.stat{padding:18px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-size:28px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--muted)}
+.pb{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.pb i{display:block;height:100%;border-radius:3px;background:var(--seal)}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.tbl th{text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding:10px 16px;background:var(--sunk2);border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 16px;border-bottom:1px solid var(--line2)}
+.tbl tr:last-child td{border-bottom:0}
+.li{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;line-height:1.45;padding:4px 0}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.seg{display:grid;gap:2px;padding:3px;border-radius:10px;background:var(--sunk)}
+.seg span{height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3460px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">OR07 · Organizer · event Financials, Wallet &amp; Payouts, Pro, Plan</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Financials, Pro and Plan</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Event Financials leads with "Roles, Tickets &amp; Schedule": the shared application schedule (early bird, late comer, close) with its live timeline and warnings, then every role with Accept, label and its three prices. Revenue, tickets sold, pending, role tiers and payments follow. Wallet &amp; Payouts, the Pro comparison (Pro is per event) and the event Plan page — features with locks, Go Pro or request, past requests — are on the right and below. The organizer sidebar here is the Event sidebar (full list).</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 1880px;">
+<aside class="side">
+<div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div>
+<span class="ni" style="color: var(--muted); font-size: 12.5px;">← Back to Events</span>
+<div style="margin: 6px 4px; padding: 10px 12px; border-radius: 10px; background: var(--goldSoft); color: var(--gold); font-size: 12.5px; font-weight: 600;">Pro event</div>
+<span class="sl">Setup</span><span class="ni">Overview</span><span class="ni">Details</span><span class="ni">Allocation</span><span class="ni">Committees</span><span class="ni">Partners</span>
+<span class="sl">Content</span><span class="ni">Schedule</span><span class="ni">Announcements</span><span class="ni">Rules &amp; Regs</span>
+<span class="sl">Live MUN</span><span class="ni">Live Control</span>
+<span class="sl">Tools</span><span class="ni">Modules</span><span class="ni">Complaints</span><span class="ni">ID Cards</span><span class="ni">Certificates</span><span class="ni">Theme</span><span class="ni">Results</span>
+<span class="sl">Finances</span><span class="ni on">Financials</span><span class="ni">Plan</span>
+</aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 34px;">Financials</h1><span style="font-size: 14.5px; color: var(--muted);">Dhaka Model United Nations Conference 2026 — revenue and registrations for this event.</span></div><a class="btn b-sec" href="#">Wallet &amp; Payouts</a></div>
+<div class="row" style="gap: 14px; padding: 14px 18px; border-radius: 14px; background: var(--amberSoft); align-items: flex-start;"><span class="col" style="gap: 4px; flex: 1;"><span class="row" style="gap: 8px;"><b style="font-size: 14.5px;">Developer Payment Mode</b><span class="pill" style="background: var(--amber); color: #fff;">ACTIVE</span></span><span style="font-size: 13px; line-height: 1.5; color: var(--ink2);">Simulates payment without Stripe — delegates are marked paid instantly, no card or webhook. For development and demos only. <b>Never enable in production.</b></span></span><button class="tg on" aria-label="Developer Payment Mode" aria-pressed="true"></button></div>
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 18px;">
+<div class="row" style="justify-content: space-between; align-items: flex-start;"><div class="col" style="gap: 4px; max-width: 760px;"><b style="font-size: 18px;">Roles, Tickets &amp; Schedule</b><span style="font-size: 13.5px; line-height: 1.5; color: var(--muted);">Applications open as soon as the event is published and run at the Regular price until they close. Turn on Early bird / Late comer below to add discounted or premium windows shared across every accepted role. Seat limits are per committee.</span></div><span class="col" style="align-items: flex-end; gap: 4px;"><button class="btn b-pri">Save changes</button><span style="font-size: 12px; color: var(--seal);">All changes saved</span></span></div>
+<div style="border-radius: 14px; background: var(--sunk2); padding: 16px; display: flex; flex-direction: column; gap: 14px;">
+<b style="font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Application schedule · shared by all roles</b>
+<div class="tl"><span>Opens now</span><i>→</i><span class="on">Early → 10 Nov</span><i>→</i><span>Regular 10 Nov → 20 Nov</span><i>→</i><span>Late 20 Nov → 1 Dec</span><i>→</i><span>Closes 1 Dec</span></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+<div style="padding: 12px; border-radius: 12px; background: var(--paper); display: flex; flex-direction: column; gap: 10px;"><div class="row"><button class="tg on" aria-label="Early bird" aria-pressed="true"></button><b style="font-size: 14px;">Early bird</b><span style="font-size: 12.5px; color: var(--muted);">· from when applications open</span></div><div class="fld"><span class="fl">Early bird ends</span><div class="inp">10 Nov 2026 · 11:59 PM</div></div></div>
+<div style="padding: 12px; border-radius: 12px; background: var(--paper); display: flex; flex-direction: column; gap: 10px;"><div class="row"><button class="tg on" aria-label="Late comer" aria-pressed="true"></button><b style="font-size: 14px;">Late comer</b><span style="font-size: 12.5px; color: var(--muted);">· its end closes applications</span></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="fld"><span class="fl">Late comer from</span><div class="inp">20 Nov · 12:00 AM</div></div><div class="fld"><span class="fl">Late comer until (closes applications)</span><div class="inp">1 Dec · 11:59 PM</div></div></div></div>
+</div>
+<div class="row" style="gap: 8px; padding: 10px 12px; border-radius: 10px; background: var(--amberSoft); color: var(--amber); font-size: 13px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Late comer must end on or before the event starts.</div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+<div class="role"><div class="row"><button class="tg on" aria-label="Accept Delegate" aria-pressed="true"></button><span class="col" style="flex: 1;"><b style="font-size: 15px;">Delegate</b><span style="font-size: 12.5px; color: var(--muted);">Standard country representative.</span></span><span class="pill p-ok">Now: Early bird · $12</span></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="fld"><span class="fl">Regular price (USD)</span><div class="inp">15</div></div><div class="fld"><span class="fl">Public label (optional)</span><div class="inp">Delegate — standard</div></div><div class="fld"><span class="fl">Early-bird price (USD)</span><div class="inp">12</div></div><div class="fld"><span class="fl">Late-comer price (USD)</span><div class="inp">20</div></div></div></div>
+<div class="role"><div class="row"><button class="tg on" aria-label="Accept Team Delegation Lead" aria-pressed="true"></button><span class="col" style="flex: 1;"><b style="font-size: 15px;">Team Delegation Lead</b><span style="font-size: 12.5px; color: var(--muted);">One application for a group of 3-15 delegates. Priced per member.</span></span><span class="pill p-ok">Now: Early bird · $8</span></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="fld"><span class="fl">Regular price (USD) · per member</span><div class="inp">10</div></div><div class="fld"><span class="fl">Public label (optional)</span><div class="inp pv">Team Delegation Lead</div></div><div class="fld"><span class="fl">Early-bird price (USD) · /member</span><div class="inp">8</div></div><div class="fld"><span class="fl">Late-comer price (USD) · /member</span><div class="inp pv">Defaults to $10</div></div></div></div>
+<div class="role" style="flex-direction: row; align-items: center;"><button class="tg on" aria-label="Accept Head Delegate" aria-pressed="true"></button><span class="col" style="flex: 1;"><b style="font-size: 15px;">Head Delegate</b><span style="font-size: 12.5px; color: var(--muted);">Leads a delegation from one institution.</span></span><span class="pill p-ok">Now: Early bird · $15</span></div>
+<div class="role" style="flex-direction: row; align-items: center;"><button class="tg on" aria-label="Accept Observer" aria-pressed="true"></button><span class="col" style="flex: 1;"><b style="font-size: 15px;">Observer</b><span style="font-size: 12.5px; color: var(--muted);">Attends without voting rights.</span></span><span class="pill p-mute">Now: Free</span></div>
+<div class="role" style="flex-direction: row; align-items: center; opacity: .75;"><button class="tg" aria-label="Accept Faculty Advisor" aria-pressed="false"></button><span class="col" style="flex: 1;"><b style="font-size: 15px;">Faculty Advisor</b><span style="font-size: 12.5px; color: var(--muted);">Supervises a delegation. No committee/country preferences.</span></span></div>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+<div class="card stat" style="background: #0E1D2C; border-color: #0E1D2C; color: #fff;"><span style="color: #B7C4CE;">Event Revenue</span><b>$1,986</b><span style="color: #B7C4CE;">From paid registrations · 3% platform fee · you get $1,926</span></div>
+<div class="card stat"><span>Tickets Sold</span><b>152 <span style="font-size: 16px; color: var(--muted);">/ 186</span></b><div class="pb"><i style="width: 82%;"></i></div></div>
+<div class="card stat"><span>Pending</span><b style="color: var(--amber);">12</b><span>Awaiting payment</span></div>
+</div>
+<div class="col" style="gap: 10px;"><b style="font-size: 16px;">Role Tiers</b><div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;"><div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 6px;"><b>Delegate</b><span style="font-size: 12.5px; color: var(--muted);">15 USD</span><span style="font-size: 12px; color: var(--muted);">Tickets Sold</span><b style="font-size: 20px;">136</b><span style="font-size: 12px; color: var(--muted);">Revenue <b style="color: var(--ink);">2,040 USD</b></span></div><div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 6px;"><b>Head Delegate</b><span style="font-size: 12.5px; color: var(--muted);">18 USD</span><span style="font-size: 12px; color: var(--muted);">Tickets Sold</span><b style="font-size: 20px;">8</b></div><div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 6px;"><b>Observer</b><span style="font-size: 12.5px; color: var(--muted);">Free</span><span style="font-size: 12px; color: var(--muted);">Tickets Sold</span><b style="font-size: 20px;">6</b></div><div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 6px;"><b>Team Delegation Lead</b><span style="font-size: 12.5px; color: var(--muted);">10 USD</span><span style="font-size: 12px; color: var(--muted);">Tickets Sold</span><b style="font-size: 20px;">2</b></div></div></div>
+<div class="card" style="overflow: hidden;"><div class="col" style="padding: 16px; gap: 2px;"><b style="font-size: 16px;">Payments</b><span style="font-size: 13px; color: var(--muted);">Applications with payment status for this event.</span></div><table class="tbl"><thead><tr><th>Applicant</th><th>Tier</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead><tbody><tr><td>Nadia Rahman</td><td>Delegate</td><td>$12</td><td>Nov 2</td><td><span class="pill p-ok">Paid</span></td></tr><tr><td>Tanvir Ahmed</td><td>Head Delegate</td><td>$15</td><td>Nov 3</td><td><span class="pill p-wait">Pending</span></td></tr><tr><td>Ria Sen</td><td>Delegate</td><td>$12</td><td>Oct 30</td><td><span class="pill p-info">Refunded</span></td></tr></tbody></table></div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 900px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="sl">Finances</span><span class="ni">Financials</span><span class="ni on">Plan</span></aside>
+<main class="main">
+<div class="col" style="gap: 6px;"><span class="row" style="gap: 10px;"><h1 class="serif" style="margin: 0; font-size: 34px;">Plan</h1><span class="pill p-mute">Free</span></span><span style="font-size: 14.5px; color: var(--muted);">Pro belongs to this event. It doesn't carry over to your other events.</span></div>
+<div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 18px; align-items: start;">
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 14px;"><b style="font-size: 16px;">This event</b><span style="font-size: 13.5px; color: var(--ink2);">38 of 50 participants · 3 of 5 committees · 7% platform fee on ticket revenue</span><div class="pb"><i style="width: 76%; background: var(--amber);"></i></div>
+<div class="col"><span class="li"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Live video</span><span class="li"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>AI without the daily limit</span><span class="li"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Emails to more than 50 people</span><span class="li"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Ornate Gold certificate</span><span class="li"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Custom theme colour</span></div></div>
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--sh1), inset 0 0 0 2px var(--gold);"><span class="row" style="gap: 8px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--gold);"><path d="M2 8l4 10h12l4-10-6 4-4-7-4 7z"/></svg><b style="font-size: 16px;">Upgrade</b></span><span style="font-size: 13.5px; line-height: 1.5; color: var(--ink2);">Pro: no caps, live video, AI without the daily limit, big email sends, Ornate Gold and a custom colour, at a 3% fee.</span><button class="btn b-gold">Go Pro now · $49</button><div class="row" style="gap: 8px;"><button class="btn sm b-sec">Request Pro</button><button class="btn sm b-sec">Ask for more room</button></div>
+<div style="padding: 14px; border-radius: 12px; background: var(--sunk2); display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 13.5px;">Ask for more room</b><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;"><div class="fld"><span class="fl">Participants</span><div class="inp pv">50</div></div><div class="fld"><span class="fl">Committees</span><div class="inp pv">5</div></div><div class="fld"><span class="fl">Free events</span><div class="inp pv">2</div></div></div><div class="fld"><span class="fl">Why</span><div class="inp pv" style="height: 64px; align-items: flex-start; padding-top: 8px;">Your conference, its size and what you need…</div></div><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Submit</button></div></div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Wallet &amp; Payouts · phone</b><span>Organizer-wide, across events.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<b class="serif" style="font-size: 24px;">Financials &amp; Ticketing</b>
+<div class="inp" style="background: var(--paper);">Dhaka MUN 2026 ▾</div>
+<div class="seg" style="grid-template-columns: repeat(3, 1fr);"><span>Overview</span><span>Payments</span><span class="on">Wallet</span></div>
+<div style="border-radius: 16px; background: #0E1D2C; color: #fff; padding: 18px; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #93B7A8;">Organizer Wallet · Available Balance</span><b class="serif" style="font-size: 38px; color: #fff;">$1,486</b><span style="font-size: 12px; color: #B7C4CE;">$1,986 paid · $60 platform fees · $440 paid out / requested</span><button class="btn" style="background: #47A481; color: #03140C; margin-top: 6px;">Request Payout</button></div>
+<span style="font-size: 12px; line-height: 1.5; color: var(--muted);">Registration fees are collected by the platform. Request a payout and an admin will transfer the funds to your account.</span>
+<b style="font-size: 15px;">Payout History</b>
+<div class="card" style="overflow: hidden;"><div class="row" style="padding: 12px 14px; justify-content: space-between;"><span class="col"><b>$300</b><span style="font-size: 12px; color: var(--muted);">Nov 12</span></span><span class="pill p-wait">Pending</span></div><div class="row" style="padding: 12px 14px; justify-content: space-between; border-top: 1px solid var(--line2);"><span class="col"><b>$140</b><span style="font-size: 12px; color: var(--muted);">Oct 2</span></span><span class="pill p-ok">Paid</span></div><div class="row" style="padding: 12px 14px; justify-content: space-between; border-top: 1px solid var(--line2);"><span class="col"><b>$900</b><span style="font-size: 12px; color: var(--muted);">Sep 18</span></span><span class="pill p-bad">Rejected</span></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Pro · phone</b><span>Free vs Pro, per event.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<span class="row" style="gap: 8px; color: var(--gold);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8l4 10h12l4-10-6 4-4-7-4 7z"/></svg><b class="serif" style="font-size: 26px; color: var(--ink);">MUN Pilot Pro</b></span>
+<span style="font-size: 13.5px; color: var(--muted);">For organizers running bigger conferences. Pro is per event: upgrade the one that needs it.</span>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 2px;"><b>Free</b><span style="font-size: 12px; color: var(--muted); padding-bottom: 4px;">Every event starts here.</span><span class="li" style="font-size: 12.5px;">50 participants and 5 committees per event</span><span class="li" style="font-size: 12.5px;">2 published events at once</span><span class="li" style="font-size: 12.5px;">Live MUN: roll call, speakers, motions, voting (no video)</span><span class="li" style="font-size: 12.5px;">Announcements up to 50 people · 10 AI uses a day</span><span class="li" style="font-size: 12.5px;">2 certificate designs, 4 themes · 7% platform fee</span></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 2px; box-shadow: inset 0 0 0 2px var(--gold);"><b style="color: var(--gold);">Pro · $49 per event</b><span style="font-size: 12px; color: var(--muted); padding-bottom: 4px;">Pay and it's unlocked right away, or send a request for the team to review.</span><span class="li" style="font-size: 12.5px;">No participant or committee caps</span><span class="li" style="font-size: 12.5px;">Live video in sessions and ceremonies</span><span class="li" style="font-size: 12.5px;">AI inside the event without the daily limit</span><span class="li" style="font-size: 12.5px;">Announcements and committee emails to any size</span><span class="li" style="font-size: 12.5px;">Ornate Gold certificate · Custom theme colour</span><span class="li" style="font-size: 12.5px;">Verified organizer badge · 3% platform fee</span></div>
+<b style="font-size: 14.5px;">Your events</b>
+<div class="card" style="padding: 12px 14px; display: flex; align-items: center;"><b style="flex: 1; font-size: 13.5px;">Dhaka MUN 2026</b><span class="pill p-gold">Pro</span></div>
+</div>
+</div>
+
+<div class="cap"><b>States</b><span>Payout dialog, notices, co-organizer.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--sh2);"><b style="font-size: 16px;">Request Payout</b><span style="font-size: 13px; color: var(--ink2);">Available balance: $1,486. An admin will review and transfer the funds.</span><div class="fld"><span class="fl">Amount (USD)</span><div class="inp" style="border-color: var(--red);">2000</div><span style="font-size: 12px; color: var(--red);">Amount exceeds available balance ($1,486).</span></div><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Submit Request</button></div></div>
+<div class="card" style="padding: 14px; background: var(--sealSoft); border-color: transparent; font-size: 13.5px; font-weight: 600; color: var(--seal);">This event is Pro. Everything is unlocked.</div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 14px;">Pro request under review</b><span style="font-size: 12.5px; color: var(--muted);">We'll notify you when the MUN Pilot team decides. Everything in your current plan keeps working.</span></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 14px;">Roles &amp; Schedule</b><span style="font-size: 12.5px; color: var(--muted);">Only the event owner can change prices or see revenue and payouts.</span><div class="inp lock" style="margin-top: 6px;">$15 <svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-left: auto;"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div></div>
+<div class="card" style="padding: 14px; display: flex; align-items: center; gap: 10px;"><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">Pro</b><span style="font-size: 12px; color: var(--muted);">· [admin note]</span></span><span class="pill p-ok">Approved</span></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3460}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

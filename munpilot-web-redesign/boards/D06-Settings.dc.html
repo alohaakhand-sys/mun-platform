@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni i{width:18px;height:18px;border-radius:5px;border:1.8px solid var(--muted);box-sizing:border-box;flex:none;opacity:.7}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.ni.on i{border-color:var(--seal);opacity:1}
+.main{flex:1;min-width:0;padding:32px 40px 0;box-sizing:border-box;display:flex;flex-direction:column;gap:24px;position:relative}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.snav{display:flex;flex-direction:column;gap:2px;width:220px;flex:none}
+.snav a{display:flex;align-items:center;gap:10px;height:42px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.snav a.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:inset 0 0 0 1px var(--line),var(--sh1)}
+.pct{margin-left:auto;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:9px;background:var(--amberSoft);color:var(--amber)}
+.sc{padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+.sch{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.cnt{font-size:12px;font-weight:600;padding:3px 9px;border-radius:10px;background:var(--sunk);color:var(--ink2);display:inline-flex;align-items:center;gap:4px}
+.cnt.ok{background:var(--sealSoft);color:var(--seal)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld label,.fld .fl{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.fld .ck{color:var(--seal)}
+.inp{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--sunk2);font-size:14px;box-sizing:border-box;color:var(--ink)}
+.inp.pv{color:var(--muted)}
+.inp.dis{opacity:.65}
+.savebar{position:sticky;bottom:0;margin:0 -40px;padding:14px 40px;background:var(--glass);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.tg{position:relative;width:44px;height:26px;border-radius:13px;background:var(--line);flex:none;border:0;padding:0}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:21px}
+.tr{display:flex;align-items:center;gap:16px;padding:14px 0;border-top:1px solid var(--line2)}
+.tr:first-child{border-top:0}
+.il{display:flex;align-items:center;gap:8px;padding:6px 8px;margin:-6px -8px;border-radius:8px}
+.il.hov{background:var(--sunk2)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.chips{display:flex;gap:6px;overflow:hidden;padding:0 16px}
+.chips span{height:34px;padding:0 14px;border-radius:17px;display:flex;align-items:center;font-size:13.5px;font-weight:500;color:var(--ink2);background:var(--paper);border:1px solid var(--line);white-space:nowrap;flex:none}
+.chips span.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pop{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh2);padding:20px;display:flex;flex-direction:column;gap:12px}
+.stripe{background:repeating-linear-gradient(135deg,var(--sunk) 0 12px,var(--sunk2) 12px 24px)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2900px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">D06 · Dashboard · /dashboard/settings (and your own profile)</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Settings</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Left nav (Profile with its completion %, Appearance, Notifications, Privacy, Security) beside the content, as today. Profile shows your own profile with inline editing — strength meter, cover and photo, click-to-edit fields, open-to switch, MUN Stats visibility — then the Account, Personal, Professional and Billing cards with filled/total counts and a sticky Save Profile bar. Other tabs are drawn on the phone and on the right. Sidebar abbreviated.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div class="frame" style="width: 1440px; height: 2700px;">
+<aside class="side"><div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div><span class="sl">Menu</span><a class="ni" href="#"><i></i>Dashboard</a><a class="ni" href="#"><i></i>My Conferences</a><a class="ni" href="#"><i></i>Documents</a><a class="ni" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni" href="#"><i></i>Network</a><a class="ni" href="#"><i></i>Payments</a><a class="ni on" href="#"><i></i>Settings</a></aside>
+<main class="main">
+<div class="col" style="gap: 8px;"><h1 class="serif" style="margin: 0; font-size: 38px;">Settings</h1><span style="font-size: 15px; color: var(--muted);">Manage your account, preferences, and security.</span></div>
+<div style="display: flex; gap: 28px; align-items: flex-start;">
+<nav class="snav" style="position: sticky; top: 24px;"><a class="on" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg>Profile<span class="pct">72%</span></a><a href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>Appearance</a><a href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/></svg>Notifications</a><a href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Privacy</a><a href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Security</a></nav>
+<div class="col" style="flex: 1; min-width: 0; gap: 18px;">
+<div class="card" style="overflow: hidden;">
+<div class="stripe" style="height: 150px; position: relative;"><button class="btn sm b-sec" style="position: absolute; right: 14px; top: 14px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Change cover</button></div>
+<div style="padding: 0 24px 22px; display: flex; flex-direction: column; gap: 12px;">
+<div class="row" style="align-items: flex-end; justify-content: space-between; margin-top: -52px;"><span style="position: relative;"><span style="width: 104px; height: 104px; border-radius: 52px; background: #13895F; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 600; box-shadow: 0 0 0 5px var(--paper);">NR</span><button class="ib" aria-label="Change photo" style="position: absolute; right: 2px; bottom: 2px; width: 32px; height: 32px; border-radius: 16px; background: var(--ink); color: var(--paper); box-shadow: 0 0 0 3px var(--paper);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button></span>
+<div class="card" style="padding: 12px 16px; width: 300px; display: flex; flex-direction: column; gap: 8px; box-shadow: none; background: var(--sunk2);"><div class="row" style="justify-content: space-between;"><b style="font-size: 13.5px;">Profile strength</b><span style="font-size: 12.5px; font-weight: 600; color: var(--seal);">Advanced</span></div><div style="height: 6px; border-radius: 3px; background: var(--sunk);"><i style="display: block; width: 72%; height: 100%; border-radius: 3px; background: var(--seal);"></i></div><span style="font-size: 12px; color: var(--muted);">Next: Add your education.</span></div></div>
+<span class="il hov"><b class="serif" style="font-size: 30px;">Nadia Rahman</b><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
+<span class="il" style="border: 1.5px solid var(--seal); background: var(--paper);"><span style="font-size: 15.5px; color: var(--ink); flex: 1;">Delegate · IR student|</span><span style="font-size: 11.5px; color: var(--muted);">Enter to save · Esc to cancel</span></span>
+<div class="row" style="gap: 18px; font-size: 14px; color: var(--ink2);"><span class="il">Dhaka, Bangladesh</span><span class="il">Bangladeshi</span><span class="il" style="color: var(--seal); font-weight: 600;">+ Add phone</span></div>
+<div class="row" style="gap: 12px; padding: 12px 14px; border-radius: 12px; background: var(--sealSoft);"><button class="tg on" aria-label="Open to delegate &amp; chair invitations" aria-pressed="true"></button><b style="font-size: 14px;">Open to delegate &amp; chair invitations</b><span style="font-size: 14px; color: var(--ink2);">UNSC, DISEC, Crisis…</span></div>
+<span class="il" style="font-size: 14.5px; line-height: 1.6; color: var(--ink2);">[Bio — click to edit; AI can help write it.]</span>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+<div class="card sc"><div class="sch"><div class="col" style="gap: 3px;"><b style="font-size: 16px;">MUN Stats</b><span style="font-size: 13px; color: var(--muted);">Visible on your public profile</span></div><div class="row" style="gap: 8px;"><span style="font-size: 13px;">Show publicly</span><button class="tg on" aria-label="Show publicly" aria-pressed="true"></button></div></div><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;"><div style="padding: 12px; border-radius: 12px; background: var(--sunk2);"><b class="serif" style="font-size: 26px;">4</b><div style="font-size: 12px; color: var(--muted);">Conferences</div></div><div style="padding: 12px; border-radius: 12px; background: var(--sunk2);"><b class="serif" style="font-size: 26px;">5</b><div style="font-size: 12px; color: var(--muted);">Blogs</div></div><div style="padding: 12px; border-radius: 12px; background: var(--sunk2);"><b class="serif" style="font-size: 26px;">1</b><div style="font-size: 12px; color: var(--muted);">Awards</div></div></div></div>
+<div class="card sc"><div class="sch"><b style="font-size: 16px;">MUN Experience</b><button class="btn sm b-sec">Add</button></div><span style="font-size: 13.5px; color: var(--muted);">Add conferences chaired, delegations led, society roles.</span><div class="sch"><b style="font-size: 16px;">Education</b><button class="btn sm b-sec">Add</button></div><span style="font-size: 13.5px; color: var(--muted);">Add your school, degree and activities.</span></div>
+</div>
+<div class="card sc"><div class="sch"><div class="col" style="gap: 3px;"><b style="font-size: 16px;">Account</b><span style="font-size: 13px; color: var(--muted);">Your legal name and sign-in email.</span></div><span class="cnt ok"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 12px; height: 12px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg>2/2</span></div>
+<div class="g2"><div class="fld"><label for="a1">First Name <svg class="ico ck" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></label><div class="inp" id="a1">Nadia</div></div><div class="fld"><label for="a2">Last Name <svg class="ico ck" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></label><div class="inp" id="a2">Rahman</div></div><div class="fld" style="grid-column: span 2;"><span class="fl">Email</span><div class="inp dis"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>nadia@school.edu</div><span style="font-size: 12px; color: var(--muted);">Email cannot be changed here.</span></div></div></div>
+<div class="card sc"><div class="sch"><div class="col" style="gap: 3px;"><b style="font-size: 16px;">Personal Details</b><span style="font-size: 13px; color: var(--muted);">Helps organizers know you better.</span></div><span class="cnt">1/2</span></div>
+<div class="g2"><div class="fld"><span class="fl">Date of Birth <svg class="ico ck" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><div class="inp">12 Mar 2005</div></div><div class="fld"><span class="fl">Dietary Preference</span><div class="inp pv" style="justify-content: space-between;">Select dietary preference<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div></div></div></div>
+<div class="card sc"><div class="sch"><div class="col" style="gap: 3px;"><b style="font-size: 16px;">Professional</b><span style="font-size: 13px; color: var(--muted);">Your role, institution, and field.</span></div><span class="cnt">2/3</span></div>
+<div class="g2"><div class="fld"><span class="fl">Occupation</span><div class="inp" style="justify-content: space-between;">Student<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="m6 9 6 6 6-6"/></svg></div></div><div class="fld"><span class="fl">Institution / Organization</span><div class="inp">[Institution]</div></div><div class="fld" style="grid-column: span 2;"><span class="fl">Field of Study / Industry</span><div class="inp pv">e.g. Computer Science</div></div></div></div>
+<div class="card sc"><div class="sch"><div class="col" style="gap: 3px;"><b style="font-size: 16px;">Billing Address</b><span style="font-size: 13px; color: var(--muted);">Used for invoices on paid events.</span></div><span class="cnt">0/6</span></div>
+<div class="g2"><div class="fld"><span class="fl">Invoice Type</span><div class="inp" style="justify-content: space-between;">Individual<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="m6 9 6 6 6-6"/></svg></div></div><div class="fld"><span class="fl">Street and Number</span><div class="inp pv">123 Main St, Apt 4B</div></div><div class="fld"><span class="fl">City</span><div class="inp pv">New York</div></div><div class="fld"><span class="fl">Postal Code</span><div class="inp pv">10001</div></div><div class="fld"><span class="fl">State / Province</span><div class="inp pv">NY</div></div><div class="fld"><span class="fl">Country</span><div class="inp pv">United States</div></div></div></div>
+<div class="savebar"><span class="row" style="gap: 8px; font-size: 13.5px; color: var(--seal); font-weight: 600;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Saved!</span><button class="btn b-pri"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Save Profile</button></div>
+</div>
+</div>
+</main>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Privacy · phone</b><span>Tabs scroll as chips; toggles full width.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mtop"><button class="ib" aria-label="Open sidebar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><b style="flex: 1; font-size: 16px;">Settings</b></div>
+<div style="padding: 14px 0; display: flex; flex-direction: column; gap: 14px;">
+<div class="chips"><span>Profile 72%</span><span>Appearance</span><span>Notifications</span><span class="on">Privacy</span><span>Security</span></div>
+<div class="card sc" style="margin: 0 16px; padding: 18px;"><div class="col" style="gap: 3px;"><b style="font-size: 16px;">Privacy Settings</b><span style="font-size: 13px; color: var(--muted);">Control what other users can see about you.</span></div>
+<div class="col">
+<div class="tr"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 14px;">Public Profile</b><span style="font-size: 12.5px; color: var(--muted);">Allow other delegates to view your profile.</span></span><button class="tg on" aria-label="Public Profile" aria-pressed="true"></button></div>
+<div class="tr"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 14px;">Application History</b><span style="font-size: 12.5px; color: var(--muted);">Show your conference participation history publicly.</span></span><button class="tg" aria-label="Application History" aria-pressed="false"></button></div>
+<div class="tr"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 14px;">MUN Stats</b><span style="font-size: 12.5px; color: var(--muted);">Show your conferences, blogs &amp; awards counts on your public profile.</span></span><button class="tg on" aria-label="MUN Stats" aria-pressed="true"></button></div>
+<div class="tr"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 14px;">Email &amp; phone: only my connections</b><span style="font-size: 12.5px; color: var(--muted);">When on, only people you're connected to can see your email and phone. Organizers of conferences you apply to always see them on your application.</span></span><button class="tg on" aria-label="Email and phone only my connections" aria-pressed="true"></button></div>
+</div>
+<button class="btn b-pri">Save Privacy</button></div>
+</div>
+</div>
+
+<div class="cap"><b>Appearance, Notifications, Security</b><span>Each tab saves on its own.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card sc" style="padding: 18px;"><div class="col" style="gap: 3px;"><b style="font-size: 16px;">Appearance</b><span style="font-size: 13px; color: var(--muted);">Light is default; switch to dark anytime.</span></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div style="border-radius: 12px; box-shadow: inset 0 0 0 2px var(--seal); padding: 8px; display: flex; flex-direction: column; gap: 8px;"><div style="height: 64px; border-radius: 8px; background: #EDF0F0; display: flex; gap: 4px; padding: 6px; box-sizing: border-box;"><i style="width: 22px; border-radius: 4px; background: #fff;"></i><i style="flex: 1; border-radius: 4px; background: #fff;"></i></div><b style="font-size: 13.5px;">Light</b><span style="font-size: 12px; color: var(--muted);">Bright, airy interface. Recommended.</span></div><div style="border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); padding: 8px; display: flex; flex-direction: column; gap: 8px;"><div style="height: 64px; border-radius: 8px; background: #0B1622; display: flex; gap: 4px; padding: 6px; box-sizing: border-box;"><i style="width: 22px; border-radius: 4px; background: #132434;"></i><i style="flex: 1; border-radius: 4px; background: #132434;"></i></div><b style="font-size: 13.5px;">Dark</b><span style="font-size: 12px; color: var(--muted);">Easier on the eyes in low light.</span></div></div><span style="font-size: 12px; color: var(--muted);">Your preference is saved on this device.</span></div>
+<div class="card sc" style="padding: 18px;"><b style="font-size: 16px;">Notification Preferences</b><div style="font-size: 12.5px; line-height: 1.5; padding: 10px 12px; border-radius: 10px; background: var(--blueSoft); color: var(--ink2);">You'll always see updates in your in-app activity feed. These toggles only control email.</div>
+<div class="col"><div class="tr"><span class="col" style="flex: 1;"><b style="font-size: 14px;">Application Approved</b><span style="font-size: 12px; color: var(--muted);">Email when your application gets approved.</span></span><button class="tg on" aria-label="Application Approved" aria-pressed="true"></button></div><div class="tr"><span class="col" style="flex: 1;"><b style="font-size: 14px;">Application Rejected</b><span style="font-size: 12px; color: var(--muted);">Email when your application is rejected.</span></span><button class="tg on" aria-label="Application Rejected" aria-pressed="true"></button></div><div class="tr"><span class="col" style="flex: 1;"><b style="font-size: 14px;">New Events</b><span style="font-size: 12px; color: var(--muted);">Email when new conferences are published.</span></span><button class="tg" aria-label="New Events" aria-pressed="false"></button></div><div class="tr"><span class="col" style="flex: 1;"><b style="font-size: 14px;">Push Notifications</b><span style="font-size: 12px; color: var(--muted);">Browser push notifications for key updates.</span></span><button class="tg" aria-label="Push Notifications" aria-pressed="false"></button></div></div>
+<button class="btn b-pri">Save Preferences</button></div>
+<div class="card sc" style="padding: 18px;"><div class="col" style="gap: 3px;"><b style="font-size: 16px;">Change Password</b><span style="font-size: 13px; color: var(--muted);">Requires current password to verify identity.</span></div><div class="fld"><span class="fl">Current Password</span><div class="inp pv">••••••••</div></div><div class="fld"><span class="fl">New Password</span><div class="inp pv">••••••••</div></div><div class="fld"><span class="fl">Confirm New Password</span><div class="inp pv" style="border-color: var(--red);">••••••••</div><span style="font-size: 12px; color: var(--red);">New passwords do not match.</span></div><div class="row" style="justify-content: space-between;"><span style="font-size: 12.5px; color: var(--red); font-weight: 600;">Failed. Try again.</span><button class="btn b-pri">Update Password</button></div></div>
+<div class="pop"><b style="font-size: 17px;">MUN experience</b><div class="g2"><div class="fld"><span class="fl">Role / title</span><div class="inp pv">Head Delegate</div></div><div class="fld"><span class="fl">Organization</span><div class="inp pv">IUBAT MUN Society</div></div><div class="fld"><span class="fl">Start</span><div class="inp pv">Oct 2024</div></div><div class="fld"><span class="fl">End</span><div class="inp pv dis">Present</div></div></div><div class="row" style="gap: 10px;"><button class="tg on" aria-label="I currently hold this role" aria-pressed="true"></button><span style="font-size: 13.5px;">I currently hold this role</span></div><div class="row" style="gap: 8px; justify-content: space-between;"><button class="btn sm b-sec">Add experience</button><span class="row" style="gap: 8px;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Save</button></span></div></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2900}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

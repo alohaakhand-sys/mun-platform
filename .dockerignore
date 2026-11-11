@@ -1,0 +1,13 @@
+.git
+node_modules
+.next
+android-native
+functions
+plans
+html
+coverage
+*.tsbuildinfo
+.env*
+*-firebase-adminsdk-*.json
+firebase-key.json
+firestore-debug.log

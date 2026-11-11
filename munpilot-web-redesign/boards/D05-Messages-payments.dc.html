@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Messages and Payments</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--sand:#E7E3D6;--online:#22A06B;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--sand:#2A3B46;--online:#3DD68C;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni i{width:18px;height:18px;border-radius:5px;border:1.8px solid var(--muted);box-sizing:border-box;flex:none;opacity:.7}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.ni.on i{border-color:var(--seal);opacity:1}
+.main{flex:1;min-width:0;padding:32px 40px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.av{width:44px;height:44px;border-radius:22px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff;flex:none;position:relative}
+.av .on{position:absolute;right:0;bottom:0;width:11px;height:11px;border-radius:6px;background:var(--online);box-shadow:0 0 0 2px var(--paper)}
+.cr{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.cr.sel{background:var(--sealSoft)}
+.unread{min-width:20px;height:20px;border-radius:10px;background:var(--seal);color:var(--sealInk);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;box-sizing:border-box}
+.chat{flex:1;display:flex;flex-direction:column;gap:10px;padding:20px 24px;background:var(--sunk2);overflow:hidden}
+.bub{max-width:62%;padding:10px 14px;border-radius:16px;font-size:14.5px;line-height:1.5}
+.bub.me{align-self:flex-end;background:var(--seal);color:var(--sealInk);border-bottom-right-radius:5px}
+.bub.them{align-self:flex-start;background:var(--paper);border:1px solid var(--line2);border-bottom-left-radius:5px}
+.sys{align-self:center;font-size:12px;color:var(--muted);background:var(--paper);border:1px solid var(--line2);padding:4px 12px;border-radius:12px}
+.day{align-self:center;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tile{padding:20px;display:flex;align-items:center;gap:16px}
+.ti{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
+.tbl th{text-align:left;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding:12px 20px;background:var(--sunk2);border-bottom:1px solid var(--line)}
+.tbl td{padding:14px 20px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.pop{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh2);padding:20px;display:flex;flex-direction:column;gap:12px}
+.cbx{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);box-sizing:border-box;flex:none;display:flex;align-items:center;justify-content:center}
+.cbx.on{background:var(--seal);border-color:var(--seal);color:var(--sealInk)}
+.inp{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border-radius:10px;border:1px solid var(--line2);background:var(--sunk2);font-size:13.5px;color:var(--muted);box-sizing:border-box}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3000px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">D05 · Dashboard · /dashboard/messages and /dashboard/payments</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Messages and Payments</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Messages keeps the conversation list beside the chat, both dialogs (New Message, Create Group), presence, system notes and read ticks — and finally gets a phone layout: the list is its own screen, a chat opens on top. Payments keeps the three totals, the Transactions table with Pay Now or a printable receipt per row, the highlighted row and the success banner; on phones rows become cards. Sidebar abbreviated.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 880px;">
+<aside class="side"><div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div><span class="sl">Menu</span><a class="ni" href="#"><i></i>Dashboard</a><a class="ni" href="#"><i></i>My Conferences</a><a class="ni" href="#"><i></i>Documents</a><a class="ni" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni" href="#"><i></i>Network</a><a class="ni" href="#"><i></i>Payments</a><a class="ni" href="#"><i></i>Settings</a></aside>
+<main class="main" style="padding: 24px;">
+<div class="card" style="flex: 1; display: flex; overflow: hidden; border-radius: 20px;">
+<div style="width: 340px; border-right: 1px solid var(--line); display: flex; flex-direction: column;">
+<div class="row" style="padding: 18px 16px 12px; justify-content: space-between;"><h1 class="serif" style="margin: 0; font-size: 28px;">Messages</h1><span class="row" style="gap: 2px;"><button class="ib" aria-label="New message"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="ib" aria-label="New group"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></button></span></div>
+<div style="padding: 0 16px 12px;"><div class="inp"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search conversations...</div></div>
+<div class="cr sel"><span class="av" style="background: #1E6FE0;">TA<i class="on"></i></span><span class="col" style="flex: 1; min-width: 0; gap: 3px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">Tanvir Ahmed</b><span style="font-size: 12px; color: var(--muted);">2m</span></span><span style="font-size: 13px; color: var(--ink2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">[Last message]</span></span></div>
+<div class="cr"><span class="av" style="background: #0E1D2C;">UN</span><span class="col" style="flex: 1; min-width: 0; gap: 3px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">[Group name]</b><span style="font-size: 12px; color: var(--muted);">1h</span></span><span class="row" style="justify-content: space-between;"><span style="font-size: 13px; color: var(--ink); font-weight: 600;">[Last message]</span><span class="unread">3</span></span></span></div>
+<div class="cr"><span class="av" style="background: #7B4FD6;">RS<i class="on"></i></span><span class="col" style="flex: 1; min-width: 0; gap: 3px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">Ria Sen</b><span style="font-size: 12px; color: var(--muted);">Mon</span></span><span style="font-size: 13px; color: var(--muted);">No messages yet</span></span></div>
+<div class="cr"><span class="av" style="background: #B8860B;">AK</span><span class="col" style="flex: 1; min-width: 0; gap: 3px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">[Name]</b><span style="font-size: 12px; color: var(--muted);">Oct 20</span></span><span style="font-size: 13px; color: var(--ink2);">[Last message]</span></span></div>
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+<div class="row" style="padding: 14px 20px; border-bottom: 1px solid var(--line2);"><span class="av" style="background: #1E6FE0; width: 40px; height: 40px;">TA<i class="on"></i></span><span class="col" style="flex: 1;"><b style="font-size: 15.5px;">Tanvir Ahmed</b><span style="font-size: 12.5px; color: var(--online); font-weight: 600;">Online</span></span><button class="ib" aria-label="More options"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></div>
+<div class="chat">
+<span class="day">Today</span>
+<span class="sys">[System note]</span>
+<div class="bub them">[Message from Tanvir]<div style="font-size: 11px; color: var(--muted); margin-top: 4px;">9:12 AM</div></div>
+<div class="bub them">[Another message]<div style="font-size: 11px; color: var(--muted); margin-top: 4px;">9:13 AM</div></div>
+<div class="bub me">[My reply]<div class="row" style="gap: 4px; justify-content: flex-end; font-size: 11px; opacity: .9; margin-top: 4px;">9:14 AM<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px; color: #9FD4FF; stroke-width: 2.4;"><path d="M2 12.5l4.5 4.5L15 8M10 16.5l.5.5L21 7"/></svg></div></div>
+</div>
+<div class="row" style="padding: 14px 20px; border-top: 1px solid var(--line2); gap: 10px;"><div style="flex: 1; height: 46px; border-radius: 23px; background: var(--sunk2); border: 1px solid var(--line2); display: flex; align-items: center; padding: 0 18px; font-size: 14.5px; color: var(--muted);">Type your message...</div><button class="ib" aria-label="Send" style="background: var(--seal); color: var(--sealInk); width: 46px; height: 46px; border-radius: 23px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4z"/></svg></button></div>
+</div>
+</div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 900px;">
+<aside class="side"><div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div><span class="sl">Menu</span><a class="ni" href="#"><i></i>Dashboard</a><a class="ni" href="#"><i></i>My Conferences</a><a class="ni" href="#"><i></i>Documents</a><a class="ni" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni" href="#"><i></i>Network</a><a class="ni on" href="#"><i></i>Payments</a><a class="ni" href="#"><i></i>Settings</a></aside>
+<main class="main">
+<div class="col" style="gap: 8px;"><h1 class="serif" style="margin: 0; font-size: 38px;">Payment History</h1><span style="font-size: 15px; color: var(--muted);">Registration fees across all conferences.</span></div>
+<div class="row" style="gap: 12px; padding: 14px 18px; border-radius: 12px; background: var(--sealSoft); color: var(--seal); font-size: 14px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16 10"/></svg><span style="color: var(--ink);"><b>Payment successful.</b> It may take a few seconds to appear below while the payment provider confirms it.</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+<div class="card tile"><span class="ti" style="background: var(--sealSoft); color: var(--seal);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h15v13H5a2 2 0 0 1-2-2V5M16 13h.01"/></svg></span><span class="col"><span style="font-size: 13px; color: var(--muted);">Total Spent</span><b class="serif" style="font-size: 30px;">$47</b></span></div>
+<div class="card tile"><span class="ti" style="background: var(--amberSoft); color: var(--amber);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="col"><span style="font-size: 13px; color: var(--muted);">Pending</span><b class="serif" style="font-size: 30px;">$12</b></span></div>
+<div class="card tile"><span class="ti" style="background: var(--blueSoft); color: var(--blue);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.5 6.2M3 12a9 9 0 0 1 15.5-6.2M21 4v5h-5M3 20v-5h5"/></svg></span><span class="col"><span style="font-size: 13px; color: var(--muted);">Refunded</span><b class="serif" style="font-size: 30px;">$0</b></span></div>
+</div>
+<div class="card" style="overflow: hidden;">
+<div style="padding: 16px 20px; border-bottom: 1px solid var(--line2);"><b style="font-size: 16px;">Transactions</b></div>
+<table class="tbl">
+<thead><tr><th>Event</th><th>Date</th><th>Tier</th><th>Amount</th><th>Status</th><th style="text-align: right;">Receipt</th></tr></thead>
+<tbody>
+<tr style="background: var(--amberSoft);"><td><b style="font-weight: 600;">Dhaka Model United Nations Conference 2026</b><div style="font-size: 12.5px; color: var(--muted);">Delegate</div></td><td style="color: var(--muted);">Nov 2, 2026</td><td>Early bird</td><td><b>$12</b></td><td><span class="pill p-wait">Pending</span></td><td style="text-align: right;"><button class="btn sm b-pri">Pay Now</button></td></tr>
+<tr><td><b style="font-weight: 600;">Screens Model UN 2027</b><div style="font-size: 12.5px; color: var(--muted);">Delegate</div></td><td style="color: var(--muted);">Oct 28, 2026</td><td>Regular</td><td style="color: var(--muted);">Free</td><td><span class="pill p-ok">Paid</span></td><td style="text-align: right;"><button class="btn sm b-sec" aria-label="Print receipt"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Receipt</button></td></tr>
+<tr><td><b style="font-weight: 600;">[Conference name]</b><div style="font-size: 12.5px; color: var(--muted);">Head Delegate</div></td><td style="color: var(--muted);">Mar 3, 2026</td><td>Regular</td><td><b>$35</b></td><td><span class="pill p-ok">Paid</span></td><td style="text-align: right;"><button class="btn sm b-sec" aria-label="Print receipt"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Receipt</button></td></tr>
+</tbody>
+</table>
+</div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Messages list · phone</b><span>New: the list now shows on phones.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mtop"><button class="ib" aria-label="Open sidebar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><b style="flex: 1; font-size: 16px;">Messages</b><button class="ib" aria-label="New group"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></button><button class="ib" aria-label="New message"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
+<div style="padding: 12px 16px;"><div class="inp"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search conversations...</div></div>
+<div class="cr"><span class="av" style="background: #1E6FE0;">TA<i class="on"></i></span><span class="col" style="flex: 1; gap: 3px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">Tanvir Ahmed</b><span style="font-size: 12px; color: var(--muted);">2m</span></span><span style="font-size: 13px; color: var(--ink2);">[Last message]</span></span></div>
+<div class="cr"><span class="av" style="background: #0E1D2C;">UN</span><span class="col" style="flex: 1; gap: 3px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">[Group name]</b><span style="font-size: 12px; color: var(--muted);">1h</span></span><span class="row" style="justify-content: space-between;"><span style="font-size: 13px; font-weight: 600;">[Last message]</span><span class="unread">3</span></span></span></div>
+<div class="cr"><span class="av" style="background: #7B4FD6;">RS<i class="on"></i></span><span class="col" style="flex: 1; gap: 3px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">Ria Sen</b><span style="font-size: 12px; color: var(--muted);">Mon</span></span><span style="font-size: 13px; color: var(--muted);">No messages yet</span></span></div>
+</div>
+
+<div class="cap"><b>Payments · phone</b><span>Rows become cards; Pay Now stays one tap away.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mtop"><button class="ib" aria-label="Open sidebar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><b style="flex: 1; font-size: 16px;">Payment History</b></div>
+<div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;"><div class="card" style="padding: 12px;"><span style="font-size: 11.5px; color: var(--muted);">Total Spent</span><div class="serif" style="font-size: 22px;">$47</div></div><div class="card" style="padding: 12px;"><span style="font-size: 11.5px; color: var(--muted);">Pending</span><div class="serif" style="font-size: 22px;">$12</div></div><div class="card" style="padding: 12px;"><span style="font-size: 11.5px; color: var(--muted);">Refunded</span><div class="serif" style="font-size: 22px;">$0</div></div></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: inset 0 0 0 1.5px var(--amber);"><div class="row" style="justify-content: space-between; align-items: flex-start;"><b style="font-size: 14.5px;">Dhaka Model United Nations Conference 2026</b><span class="pill p-wait">Pending</span></div><span style="font-size: 12.5px; color: var(--muted);">Delegate · Early bird · Nov 2, 2026</span><div class="row" style="justify-content: space-between;"><b style="font-size: 20px;">$12</b><button class="btn sm b-pri">Pay Now</button></div></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">[Conference name]</b><span class="pill p-ok">Paid</span></div><span style="font-size: 12.5px; color: var(--muted);">Head Delegate · Regular · Mar 3, 2026</span><div class="row" style="justify-content: space-between;"><b style="font-size: 20px;">$35</b><button class="btn sm b-sec">Receipt</button></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Create Group, receipt, empty</b><span>Dialog, printable receipt, no history.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="pop"><b style="font-size: 17px;">Create Group</b><div class="inp" style="color: var(--ink);">[Group Name]</div><div class="inp"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search users...</div>
+<div class="row" style="gap: 10px;"><span class="cbx on"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 12px; height: 12px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span class="av" style="width: 30px; height: 30px; font-size: 11px; background: #1E6FE0;">TA</span><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">Tanvir Ahmed</b><span style="font-size: 12px; color: var(--muted);">Delegate</span></span></div>
+<div class="row" style="gap: 10px;"><span class="cbx"></span><span class="av" style="width: 30px; height: 30px; font-size: 11px; background: #7B4FD6;">RS</span><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">Ria Sen</b><span style="font-size: 12px; color: var(--muted);">Head Delegate</span></span></div>
+<div class="row" style="justify-content: space-between;"><span style="font-size: 13px; color: var(--muted);">1 selected</span><button class="btn sm b-pri">Create Group</button></div></div>
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 10px; font-size: 13px;"><div class="row" style="justify-content: space-between;"><b class="serif" style="font-size: 22px;">Payment Receipt</b><b style="font-size: 13px; color: var(--seal);">MUN Pilot</b></div><span style="color: var(--muted);">[Conference name]</span>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; padding: 10px 0; border-top: 1px solid var(--line2); border-bottom: 1px solid var(--line2);"><span style="color: var(--muted);">Receipt No.</span><span>#A1B2C3D4</span><span style="color: var(--muted);">Status</span><span>Paid</span><span style="color: var(--muted);">Applicant</span><span>Nadia Rahman</span><span style="color: var(--muted);">Role</span><span>Head Delegate</span><span style="color: var(--muted);">Event Date</span><span>Mar 3, 2026</span><span style="color: var(--muted);">Issued</span><span>Mar 3, 2026</span></div>
+<div class="row" style="justify-content: space-between;"><span>Regular Registration</span><b>$35</b></div><div class="row" style="justify-content: space-between; font-size: 15px;"><b>Total Paid</b><b>$35</b></div><span style="color: var(--muted); font-size: 11.5px;">Generated by MUN Pilot</span></div>
+<div class="card" style="padding: 20px; border-style: dashed; box-shadow: none; text-align: center; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 15px;">No payment history yet</b><span style="font-size: 13px; color: var(--muted);">Apply to a conference to see your registration fees here.</span></div>
+<div class="card" style="padding: 20px; border-style: dashed; box-shadow: none; text-align: center; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 15px;">Select a conversation</b><span style="font-size: 13px; color: var(--muted);">Choose a chat from the sidebar or start a new one</span></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3000}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

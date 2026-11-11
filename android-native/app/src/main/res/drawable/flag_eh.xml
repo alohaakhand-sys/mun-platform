@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): eh.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <group>
+        <clip-path android:pathData="M-.4 0l641.8 0 0 481.3-641.8 0z"/>
+        <path
+            android:fillColor="#000001"
+            android:fillType="evenOdd"
+            android:pathData="M0 0l640 0 0 240-640 0z"/>
+        <path
+            android:fillColor="#007A3D"
+            android:fillType="evenOdd"
+            android:pathData="M0 240l640 0 0 240-640 0z"/>
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M0 140l640 0 0 200-640 0z"/>
+        <path
+            android:fillColor="#C4111B"
+            android:fillType="evenOdd"
+            android:pathData="M0 0l320 240-320 240z"/>
+        <path
+            android:fillColor="#C4111B"
+            android:fillType="evenOdd"
+            android:pathData="M544 240c0 35.4-28.7 64-64 64-35.4 0-64-28.7-64.1-64 0-35.4 28.7-64 64.1-64 35.4 0 64 28.7 64 64z"/>
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M568 240c0 35.4-28.7 64-64 64-35.4 0-64-28.7-64-64 0-35.4 28.7-64 64-64 35.4 0 64 28.7 64 64z"/>
+        <path
+            android:fillColor="#C4111B"
+            android:fillType="evenOdd"
+            android:pathData="M462.8 278.7l27.3-19.4 27.1 19.7-10.2-32 27.3-19.6-33.6-.2-10.3-32-10.5 31.9-33.6-.2 27 19.9-10.4 32z"/>
+    </group>
+</vector>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): sb.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <group>
+        <clip-path android:pathData="M0 0l640 0 0 480-640 0z"/>
+        <path
+            android:fillColor="#0000D6"
+            android:fillType="evenOdd"
+            android:pathData="M0 475.5l925.7-475.5-925.7 0z"/>
+        <path
+            android:fillColor="#006000"
+            android:fillType="evenOdd"
+            android:pathData="M960 0l-934.5 480 934.5 0z"/>
+        <path
+            android:fillColor="#FFCC00"
+            android:fillType="evenOdd"
+            android:pathData="M960 0l-51.5 0-908.5 455.1 0 24.9 51.5 0 908.5-454.1z"/>
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M66.9 8.5l11.1 32.4 36.1 0-29.2 19.8 11.2 32.2-29.2-19.8-29.1 19.9 11.1-32.3-29.1-19.9 36 0z m179.2 0l11.1 32.4 36.1 0-29.2 19.8 11.2 32.3-29.3-19.9-29.1 20 11.2-32.3-29.3-19.9 36.1 0z m0 135.5l11.1 32.3 36.1 0-29.2 19.9 11.2 32.3-29.2-20-29.1 20 11.2-32.3-29.3-19.9 36.1 0z m-89.1-66.9l11.2 32.2 36 0-29.1 20 11.1 32.2-29.1-19.9-29.2 19.9 11.2-32.2-29.2-20 36.1 0z m-90.1 66.9l11.1 32.3 36.1 0-29.2 19.9 11.2 32.3-29.2-20-29.1 20 11.2-32.3-29.3-19.9 36 0z"/>
+    </group>
+</vector>

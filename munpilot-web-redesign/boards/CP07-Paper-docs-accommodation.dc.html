@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Paper, docs, accommodation</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--orange:#B45309;--orangeSoft:#FCEFE3;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;--glass:rgba(255,255,255,.82);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--orange:#F5A14B;--orangeSoft:rgba(245,161,75,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14;--glass:rgba(19,36,52,.84)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-dis{background:var(--sunk);color:var(--muted)}
+.b-live{background:var(--red);color:#fff}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.top{height:64px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 24px;flex:none}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+.rail{width:240px;flex:none;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px;align-self:flex-start}
+.ni{display:flex;align-items:center;gap:10px;height:38px;padding:0 10px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.stub{width:320px;flex:none;align-self:flex-start;border:1.5px dashed var(--line);border-radius:16px;padding:20px;font-size:13px;color:var(--muted);text-align:center;box-sizing:border-box}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.qr{width:96px;height:96px;border-radius:10px;background:#fff;padding:8px;box-sizing:border-box;box-shadow:inset 0 0 0 1px var(--line);flex:none;background-image:linear-gradient(#0E1D2C 0 0),linear-gradient(#0E1D2C 0 0),linear-gradient(#0E1D2C 0 0),repeating-conic-gradient(#0E1D2C 0 25%,#fff 0 50%);background-size:22px 22px,22px 22px,22px 22px,12px 12px;background-position:8px 8px,66px 8px,8px 66px,0 0;background-repeat:no-repeat,no-repeat,no-repeat,repeat;background-origin:border-box}
+.coupon{display:flex;gap:0;overflow:hidden}
+.coupon .l{flex:1;padding:18px;display:flex;flex-direction:column;gap:8px}
+.coupon .r{width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-left:2px dashed var(--line);background:var(--sunk2);padding:12px 0}
+.meal{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.dh{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cbar{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.cbar i{display:block;height:100%;border-radius:3px;background:var(--seal)}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.tabsc{display:flex;gap:6px;overflow:hidden;padding:10px 16px;background:var(--paper);border-bottom:1px solid var(--line2);flex:none}
+.tabsc span{height:32px;padding:0 13px;border-radius:16px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--ink2);background:var(--sunk2);white-space:nowrap;flex:none}
+.tabsc span.on{background:var(--ink);color:var(--paper)}
+.photo{background:linear-gradient(160deg,#B9CBC4 0%,#DCD8CA 100%)}
+.w.dark .photo{background:linear-gradient(160deg,#2C4A44 0%,#2A3B46 100%)}
+
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dan{background:var(--paper);color:var(--red);border-color:var(--line)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.uc{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--sunk2)}
+.av{width:36px;height:36px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex:none}
+.main{flex:1;min-width:0;padding:32px 40px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px}
+.seg{display:inline-flex;gap:2px;padding:4px;border-radius:12px;background:var(--sunk)}
+.seg span{height:34px;padding:0 14px;display:flex;align-items:center;gap:8px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.seg em{font-style:normal;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:9px;background:var(--sunk2);color:var(--muted)}
+.sel{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--paper);font-size:13.5px;color:var(--ink)}
+.cc{padding:20px;display:flex;flex-direction:column;gap:14px;position:relative}
+.meta{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+.meta span{display:flex;align-items:center;gap:6px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tiles div{padding:10px 12px;border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;gap:3px}
+.tiles span{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.tiles b{font-size:14px;font-weight:600}
+.trk{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.trk div{display:flex;flex-direction:column;gap:6px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.trk i{display:block;height:4px;border-radius:2px;background:var(--sunk)}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap}
+.ptabs span{height:34px;padding:0 14px;border-radius:17px;display:flex;align-items:center;font-size:13.5px;font-weight:500;color:var(--ink2);border:1px solid var(--line);background:var(--paper)}
+.ptabs span.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.bn{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:12px}
+.dr{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line2)}
+.prose{font-family:Newsreader,Georgia,serif;font-size:17px;line-height:1.65;color:var(--ink)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label,.fld .fl{font-size:13px;font-weight:600}
+.inp{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--sunk2);font-size:14px;box-sizing:border-box}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:15px;font-size:13px;border:1px solid var(--line);background:var(--paper)}
+.chip.lock{background:var(--sealSoft);border-color:transparent;color:var(--seal);font-weight:600}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+.w{--red:#B42318;--redSoft:#FBE7E4;--violet:#6B46C1;--violetSoft:#EEE8FA;--blue:#1F5FBF;--blueSoft:#E5EEFB}
+.w.dark{--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--violet:#B79CF2;--violetSoft:rgba(183,156,242,.16);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14)}
+.lw .lga{fill:#fff}.lw .lgb{fill:#47A481}
+.skl{border-radius:8px;background:linear-gradient(90deg,var(--sunk) 0%,var(--sunk2) 50%,var(--sunk) 100%);background-size:200% 100%;animation:skl 1.4s ease-in-out infinite}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:11px;font-size:13.5px;line-height:1.45}
+.a-err{background:var(--redSoft);color:var(--red)}.a-warn{background:var(--amberSoft);color:var(--amber)}.a-ok{background:var(--sealSoft);color:var(--seal)}.a-info{background:var(--blueSoft);color:var(--blue)}
+.ferr{font-size:12.5px;color:var(--red)}
+.t-red{background:var(--redSoft);color:var(--red)}.t-vio{background:var(--violetSoft);color:var(--violet)}.t-blue{background:var(--blueSoft);color:var(--blue)}
+.slab{background:#0E1D2C;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:56px;color:#fff}
+.slab .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%);mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%)}
+.slab .dia{position:absolute;right:-60px;top:-60px;width:320px;height:320px;transform:rotate(45deg);border:1px solid rgba(71,164,129,.35);border-radius:28px}
+.slab .dia2{position:absolute;right:40px;top:40px;width:120px;height:120px;transform:rotate(45deg);background:rgba(71,164,129,.16);border-radius:16px}
+.note{font-size:12.5px;color:var(--muted);line-height:1.5}
+.lab{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.dots{display:flex;gap:6px;align-items:center}.dots i{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.35);display:block}.dots i.on{width:22px;background:#fff}
+.pg{width:30px;height:30px;border-radius:15px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.pg.on{background:#fff;color:#0E1D2C}
+.toast{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;background:var(--ink);color:var(--paper);font-size:13.5px;line-height:1.45;box-shadow:var(--sh2);max-width:380px}
+.w{--purple:#6B46C1;--purpleSoft:#EEE8FA}.w.dark{--purple:#B79CF2;--purpleSoft:rgba(183,156,242,.16)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.wiz{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh1);display:flex;flex-direction:column;overflow:hidden}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:22px 28px;border-bottom:1px solid var(--line2)}
+.st{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--muted);position:relative}
+.st i{width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:700;background:var(--sunk);color:var(--muted);flex:none}
+.st.done i{background:var(--seal);color:var(--sealInk)}
+.st.done{color:var(--ink)}
+.st.on i{background:var(--paper);color:var(--seal);box-shadow:inset 0 0 0 2px var(--seal)}
+.st.on{color:var(--ink);font-weight:600}
+.st span.ln{flex:1;height:2px;border-radius:1px;background:var(--line2);margin:0 4px}
+.st.done span.ln{background:var(--seal)}
+.wb{padding:28px;display:flex;flex-direction:column;gap:20px}
+.wf{padding:18px 28px;border-top:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;background:var(--sunk2)}
+.req{color:var(--signal)}
+.ta{border:1px solid var(--line);border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;overflow:hidden}
+.ta textarea{border:0;background:none;outline:none;resize:none;height:110px;padding:12px 14px;font:14.5px/1.55 Inter,sans-serif;color:var(--ink)}
+.ai{display:flex;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line2);background:var(--paper)}
+.aib{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;background:var(--purpleSoft);color:var(--purple);font-size:12.5px;font-weight:600;border:0}
+.help{font-size:12.5px;color:var(--muted);line-height:1.5}
+.pb{border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.pbh{display:flex;align-items:center;gap:10px}
+.rank{width:26px;height:26px;border-radius:8px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex:none}
+.role{display:flex;align-items:flex-start;gap:14px;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--paper)}
+.role.on{border-color:var(--seal);box-shadow:0 0 0 3px var(--sealSoft)}
+.role.off{opacity:.55;background:var(--sunk2)}
+.role.on .rd{border:6px solid var(--seal)}
+.mstep{height:4px;border-radius:2px;background:var(--sunk);flex:1}
+.mstep.on{background:var(--seal)}
+.sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:var(--glass);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;gap:10px}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0;display:inline-block}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.menu{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh2);padding:6px;display:flex;flex-direction:column}
+.menu span,.menu a{height:36px;display:flex;align-items:center;gap:10px;padding:0 10px;border-radius:8px;font-size:13.5px;color:var(--ink)}
+.dlg{background:var(--paper);border-radius:20px;box-shadow:var(--sh2);display:flex;flex-direction:column;overflow:hidden}
+.dlg .dh{padding:20px 22px 12px;display:flex;flex-direction:column;gap:4px}
+.dlg .dh b{font-size:18px}.dlg .dh span{font-size:13.5px;color:var(--muted)}
+.dlg .db{padding:8px 22px 18px;display:flex;flex-direction:column;gap:12px}
+.dlg .df{padding:14px 22px;border-top:1px solid var(--line2);display:flex;justify-content:flex-end;gap:8px}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:36px 24px}
+.empty .ei{width:48px;height:48px;border-radius:14px;background:var(--sunk2);color:var(--muted);display:flex;align-items:center;justify-content:center}
+.empty b{font-size:16px}.empty span{font-size:14px;color:var(--muted);max-width:360px;line-height:1.5}
+.sec-h{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line2)}
+.sec-h b{font-size:16px}
+.bub{max-width:70%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45}
+.bub.in{background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:6px}
+.bub.out{background:var(--seal);color:var(--sealInk);border-bottom-right-radius:6px;margin-left:auto}
+.tb{display:flex;align-items:center;gap:2px;padding:6px;border-bottom:1px solid var(--line2);background:var(--sunk2);flex-wrap:wrap}
+.tb button{width:32px;height:32px;border:0;background:none;border-radius:7px;color:var(--ink2);display:flex;align-items:center;justify-content:center;font:600 13px Inter,sans-serif;padding:0}
+.tb i{width:1px;height:20px;background:var(--line);margin:0 4px;display:block}
+.fus{background:linear-gradient(#3C3B6E,#3C3B6E) 0 0/45% 54% no-repeat,repeating-linear-gradient(#B22234 0 7.7%,#fff 7.7% 15.4%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.fin{background:linear-gradient(#FF9933 0 33%,#fff 33% 66%,#138808 66%)}
+.qrl{width:256px;height:256px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);flex:none;background-image:radial-gradient(#fff 0 0),linear-gradient(#0E1D2C 0 0),radial-gradient(#fff 0 0),linear-gradient(#0E1D2C 0 0),radial-gradient(#fff 0 0),linear-gradient(#0E1D2C 0 0),repeating-conic-gradient(#0E1D2C 0 25%,#fff 0 50%),repeating-conic-gradient(#fff 0 25%,#0E1D2C 0 50%);background-size:40px 40px,56px 56px,40px 40px,56px 56px,40px 40px,56px 56px,16px 16px,28px 28px;background-position:24px 24px,16px 16px,192px 24px,184px 16px,24px 192px,16px 184px,0 0,4px 4px;background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat,repeat;background-clip:content-box;padding:16px;box-sizing:border-box}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:12px;height:44px;border-top:1px solid var(--line2);font-size:14px}
+.prow.used{opacity:.5}.prow.used b{text-decoration:line-through}
+.cert{aspect-ratio:1.414/1;background:#fff;color:#0E1D2C;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;border-radius:6px;box-shadow:var(--sh1)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3170px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">CP07 · Portal · ?tab=documents — position paper editor, review banners, Rules &amp; Study Guide · ?tab=accommodation states</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Position paper, documents and accommodation</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">The portal's Documents tab has three sub-tabs: Position Paper, Study Guide, Rules &amp; Regs (no Committee Docs here). The paper editor offers Write, Upload .md and Import PDF, with a character / word count, Submit or Update, and every error. Three review banners show the chair's decision, with an optional quote. Rules and the Study Guide get their file rows, reader, PDF variant, loading and empty states. Accommodation shows Pending / Confirmed / Rejected status cards; once a request exists, the block grid is replaced by the status card.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+<div style="display: flex; flex-direction: column; gap: 40px;">
+
+<div class="cap"><b>Position paper · Write · first time</b></div>
+<div class="frame" style="width: 1440px; height: 900px;">
+<div class="top"><span class="mark"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12Z" fill="#47A481"/></svg></span><b style="font-size: 15px;">Dhaka Model United Nations Conference 2026</b><span style="flex: 1;"></span><button class="btn b-live">Live MUN</button></div>
+<div style="display: flex; gap: 20px; padding: 20px 24px; flex: 1;">
+<nav class="rail"><span class="ni">Overview</span><span class="ni on">Documents</span><span class="ni">Announcements</span><span class="ni">Schedule</span><span class="ni">Requests</span><span class="ni">My Pass</span><span class="ni">Food</span><span class="ni">Transport</span><span class="ni">Accommodation</span><span class="ni">Dress Code</span></nav>
+<main style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div class="ptabs"><span class="on">Position Paper</span><span>Study Guide</span><span>Rules &amp; Regs</span></div>
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 14px;">
+<div class="col" style="gap: 4px;"><b style="font-size: 18px;">Position Paper</b><span style="font-size: 13.5px; color: var(--muted);">Write in markdown, upload a .md file, or import a PDF (text is extracted; the file isn't stored).</span></div>
+<div class="seg" style="align-self: flex-start;"><span class="on">Write</span><span>Upload .md</span><span>Import PDF</span></div>
+<div style="border: 1px solid var(--line); border-radius: 12px; overflow: hidden;"><div class="tb"><button aria-label="Bold">B</button><button aria-label="Italic" style="font-style: italic;">I</button><button aria-label="Underline" style="text-decoration: underline;">U</button><i></i><span class="aib">AI</span></div><div style="padding: 16px 18px; height: 300px; font-size: 14.5px; color: var(--muted); line-height: 1.6;">Write your position paper… use the toolbar or Ctrl+B / Ctrl+I / Ctrl+U</div></div>
+<div class="alert a-err">Position paper is empty.</div>
+<div class="row" style="justify-content: space-between;"><span style="font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums;">0 chars · 0 words</span><button class="btn b-pri">Submit Paper</button></div>
+</div>
+</main>
+<div class="stub">Committee Chat + Members — same as CP01</div>
+</div>
+</div>
+
+<div class="cap"><b>Review banners · editing a submission</b></div>
+<div class="frame" style="width: 1440px; height: 860px;">
+<div class="top"><span class="mark"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12Z" fill="#47A481"/></svg></span><b style="font-size: 15px;">Dhaka Model United Nations Conference 2026</b><span style="flex: 1;"></span><button class="btn b-live">Live MUN</button></div>
+<div style="display: flex; gap: 20px; padding: 20px 24px; flex: 1;">
+<nav class="rail"><span class="ni">Overview</span><span class="ni on">Documents</span><span class="ni">Announcements</span><span class="ni">Schedule</span><span class="ni">Requests</span><span class="ni">My Pass</span><span class="ni">Food</span><span class="ni">Transport</span><span class="ni">Accommodation</span><span class="ni">Dress Code</span></nav>
+<main style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+<div class="ptabs"><span class="on">Position Paper</span><span>Study Guide</span><span>Rules &amp; Regs</span></div>
+<div class="bn" style="background: var(--sealSoft); color: var(--seal);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg><div class="col" style="gap: 3px;"><b style="font-size: 14.5px;">Position paper approved</b><span style="font-size: 13.5px; color: var(--ink2);">The Chairs approved your paper.</span></div></div>
+<div class="bn" style="background: var(--amberSoft); color: var(--amber);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg><div class="col" style="gap: 3px;"><b style="font-size: 14.5px;">Revision requested</b><span style="font-size: 13.5px; color: var(--ink2);">The Chairs asked for changes. Edit and resubmit.</span><span style="font-size: 13.5px; font-style: italic; color: var(--ink2);">“[Chair feedback]”</span></div></div>
+<div class="bn" style="background: var(--redSoft); color: var(--red);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V4h12l-2 4 2 4H4"/></svg><div class="col" style="gap: 3px;"><b style="font-size: 14.5px;">Plagiarism concern flagged</b><span style="font-size: 13.5px; color: var(--ink2);">The Chairs flagged a concern. Review the feedback and resubmit.</span></div></div>
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 12px;">
+<div class="col" style="gap: 4px;"><b style="font-size: 18px;">Position Paper</b><span style="font-size: 13.5px; color: var(--muted);">Editing your submission — save to update what the Chairs see.</span></div>
+<div style="border: 1px solid var(--line); border-radius: 12px; overflow: hidden;"><div class="tb"><button aria-label="Bold">B</button><button aria-label="Italic" style="font-style: italic;">I</button><button aria-label="Underline" style="text-decoration: underline;">U</button><i></i><span class="aib">AI</span></div><div class="prose" style="padding: 16px 18px; height: 110px; overflow: hidden;">[Their paper…]</div></div>
+<div class="row" style="justify-content: space-between;"><span style="font-size: 12.5px; color: var(--muted);">7,412 chars · 1,240 words</span><span class="row" style="gap: 8px;"><button class="btn b-ghost">Cancel</button><button class="btn b-pri">Update Paper</button></span></div>
+</div>
+</main>
+<div class="stub">Committee Chat + Members — same as CP01</div>
+</div>
+</div>
+
+<div class="cap"><b>Rules &amp; Regs · Study Guide (PDF, open)</b></div>
+<div class="frame" style="width: 1440px; height: 760px;">
+<div class="top"><span class="mark"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12Z" fill="#47A481"/></svg></span><b style="font-size: 15px;">Dhaka Model United Nations Conference 2026</b><span style="flex: 1;"></span><button class="btn b-live">Live MUN</button></div>
+<div style="display: flex; gap: 20px; padding: 20px 24px; flex: 1;">
+<nav class="rail"><span class="ni">Overview</span><span class="ni on">Documents</span><span class="ni">Announcements</span><span class="ni">Schedule</span><span class="ni">Requests</span><span class="ni">My Pass</span><span class="ni">Food</span><span class="ni">Transport</span><span class="ni">Accommodation</span><span class="ni">Dress Code</span></nav>
+<main style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+<div class="ptabs"><span>Position Paper</span><span>Study Guide</span><span class="on">Rules &amp; Regs</span></div>
+<div class="card" style="overflow: hidden;"><div class="col" style="padding: 18px 20px 6px; gap: 3px;"><b style="font-size: 16px;">Rules &amp; Regulations</b><span style="font-size: 13px; color: var(--muted);">Published by the conference organizers.</span></div>
+<div class="dr" style="margin: 10px 20px 18px; border: 1px solid var(--line); border-radius: 12px;"><span class="col" style="flex: 1;"><b style="font-size: 14.5px;">Rules &amp; Regulations</b><span style="font-size: 12.5px; color: var(--muted);">Markdown · updated 2 days ago</span></span><button class="btn sm b-sec">.md</button><button class="btn sm b-sec">Read</button></div></div>
+<div class="ptabs"><span>Position Paper</span><span class="on">Study Guide</span><span>Rules &amp; Regs</span></div>
+<div class="card" style="overflow: hidden;"><div class="dr" style="margin: 18px 20px 12px; border: 1px solid var(--line); border-radius: 12px;"><span style="width: 40px; height: 40px; border-radius: 10px; background: var(--redSoft); color: var(--red); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;">PDF</span><span class="col" style="flex: 1;"><b style="font-size: 14.5px;">UNSC Study Guide</b><span style="font-size: 12.5px; color: var(--muted);">PDF · uploaded 5 days ago</span></span><button class="btn sm b-sec">Save</button><button class="btn sm b-sec">Open</button></div>
+<div class="prose" style="margin: 0 20px 20px; padding: 18px 22px; border-radius: 12px; background: var(--sunk2); height: 120px; overflow: hidden;">[Expanded study guide reader — "Hide" collapses it]</div></div>
+</main>
+<div class="stub">Committee Chat + Members — same as CP01</div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px; width: 390px;">
+<div class="cap"><b>Upload .md · Import PDF</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div style="padding: 22px; border: 2px dashed var(--line); border-radius: 12px; text-align: center; display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 14px;">Click to upload a .md file</b><span style="font-size: 12.5px; color: var(--muted);">Markdown or plain text · max 2MB</span></div>
+<div style="padding: 22px; border: 2px dashed var(--line); border-radius: 12px; text-align: center; display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 14px;">Click to import a PDF</b><span style="font-size: 12.5px; color: var(--muted);">Text is extracted to markdown. The PDF itself is discarded · max 20MB</span></div>
+<div class="col" style="gap: 6px;"><div style="height: 6px; border-radius: 3px; background: var(--sunk);"><i style="display: block; width: 55%; height: 100%; border-radius: 3px; background: var(--seal);"></i></div><span style="font-size: 12.5px; color: var(--muted);">Extracting text…</span></div>
+</div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 6px;"><span class="lab">Errors (red strip)</span><span class="ferr">Only .md or plain text files accepted.</span><span class="ferr">File must be under 2MB.</span><span class="ferr">Only PDF files accepted.</span><span class="ferr">PDF must be under 20MB.</span><span class="ferr">Failed to extract PDF text: [msg]</span><span class="ferr">Save failed: [msg]</span></div>
+<div class="card" style="padding: 16px; font-size: 13.5px; color: var(--muted);">Submitted. Only your committee Chairs can read this paper. <span class="note" style="display: block;">Description when submitted</span></div>
+
+<div class="cap"><b>Documents · loading and empty</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px;"><div class="skl" style="height: 54px;"></div><span class="note">"Loading rules & regulations…" / "Loading study guide…" → skeleton row</span></div>
+<div class="card empty"><span class="lab">Rules &amp; Regulations · The conference rulebook.</span><b>No rules published yet</b><span>The organizer will publish the rulebook here — check back later.</span></div>
+<div class="card empty"><span class="lab">Study Guide · Background reading for your committee.</span><b>No study guide yet</b><span>Your chair will upload it here — check back later.</span></div>
+
+<div class="cap"><b>Accommodation · status cards</b><span>Only the status card shows once a request exists.</span></div>
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 8px;"><span class="pill p-wait" style="align-self: flex-start;">Pending Review</span><span style="font-size: 14px; line-height: 1.5;">Your request for <b>[Block name]</b> is pending. The organizer will review shortly.</span></div>
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 8px;"><span class="pill p-ok" style="align-self: flex-start;">Confirmed</span><span style="font-size: 14px; line-height: 1.5;">Your request for <b>[Block name]</b> is confirmed.</span></div>
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 8px;"><span class="pill p-bad" style="align-self: flex-start;">Rejected</span><span style="font-size: 14px; line-height: 1.5;">Your request for <b>[Block name]</b> is rejected.</span></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px;"><button class="btn sm b-dis" disabled style="align-self: flex-start;">Requesting...</button><span class="ferr">Failed to submit request. Please try again.</span></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3170}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

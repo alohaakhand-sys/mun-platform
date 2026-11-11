@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): tv.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <path
+        android:fillColor="#009FCA"
+        android:pathData="M0 0l640 0 0 480-640 0z"/>
+    <path
+        android:fillColor="#FFF40D"
+        android:fillType="evenOdd"
+        android:pathData="M593.3 122.7l27.7 0-22.3 15.2 8.5 24.7-22.3-15.3-22.2 15.3 8.5-24.7-22.3-15.2 27.5 0 8.5-24.7z m-69.2 196.8l27.6 0-22.3 15.2 8.5 24.7-22.3-15.3-22.3 15.3 8.6-24.7-22.3-15.2 27.4 0 8.5-24.7z m69.2-44.6l27.7 0-22.3 15.2 8.5 24.7-22.3-15.3-22.2 15.3 8.5-24.7-22.3-15.2 27.5 0 8.5-24.7z m-297.5 142.8l27.6 0-22.4 15.1 8.6 24.6-22.3-15.2-22.3 15.2 8.6-24.6-22.4-15.3 27.6 0 8.5-24.6z m62.6-76.5l-27.6 0 22.3-15.3-8.5-24.6 22.3 15.2 22.3-15.2-8.6 24.6 22.3 15.3-27.5 0-8.5 24.6z m81.3-112.5l-27.7 0 22.3-15.2-8.5-24.7 22.3 15.3 22.3-15.3-8.6 24.7 22.3 15.2-27.5 0-8.5 24.7z m68.3-23.3l-27.6 0 22.4-15.3-8.6-24.6 22.3 15.2 22.3-15.2-8.6 24.6 22.4 15.3-27.6 0-8.5 24.6z m-68.3 194.6l-27.7 0 22.3-15.2-8.3-24.8 22.3 15.2 22.3-15.2-8.6 24.7 22.3 15.2-27.5 0-8.5 24.7z m-81.3 19.9l-27.6 0 22.3-15.2-8.5-24.7 22.3 15.2 22.3-15.2-8.6 24.6 22.4 15.4-27.5 0-8.5 24.7z"/>
+    <path
+        android:fillColor="#012169"
+        android:pathData="M0 0l320 0 0 240-320 0z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M37.5 0l122 90.5 121.5-90.5 39 0 0 31-120 89.5 120 89 0 30.5-40 0-120-89.5-119.5 89.5-40.5 0 0-30 119.5-89-119.5-89 0-32z"/>
+    <path
+        android:fillColor="#C8102E"
+        android:pathData="M212 140.5l108 79.5 0 20-135.5-99.5z m-92 10l3 17.5-96 72-27 0z m200-150.5l0 1.5-124.5 94 1-22 98.5-73.5z m-320 0l119.5 88-30 0-89.5-67z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M120.5 0l0 240 80 0 0-240z m-120.5 80l0 80 320 0 0-80z"/>
+    <path
+        android:fillColor="#C8102E"
+        android:pathData="M0 96.5l0 48 320 0 0-48z m136.5-96.5l0 240 48 0 0-240z"/>
+</vector>

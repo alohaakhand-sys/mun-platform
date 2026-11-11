@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Web foundations</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F}a:hover{color:#08543D}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--slab:#0E1D2C;--slabDim:#B7C4CE;--slabKind:#93B7A8;--seal:#0B6E4F;--sealDark:#08543D;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--sand:#E7E3D6;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 6px 20px rgba(14,29,44,.08);--logo:#0B6E4F;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--slab:#17293A;--slabDim:#B7C4CE;--slabKind:#93B7A8;--seal:#47A481;--sealDark:#5EBD99;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--sand:#2A3B46;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--sh1:0 0 0 1px rgba(0,0,0,0);--sh2:0 8px 24px rgba(0,0,0,.35);--logo:#47A481}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.sec{display:flex;flex-direction:column;gap:20px}
+.sh{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.sh h2{margin:0;font-size:30px}
+.sh span{font-size:14px;color:var(--muted)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh1)}
+.lab{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.sw{display:flex;flex-direction:column;gap:8px}
+.sw i{display:block;height:64px;border-radius:10px;box-shadow:inset 0 0 0 1px rgba(14,29,44,.08)}
+.sw b{font-size:13px;font-weight:600}
+.sw span{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.btn.lg{height:48px;padding:0 22px;font-size:15px;border-radius:10px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-soft{background:var(--sealSoft);color:var(--seal)}
+.b-dan{background:var(--red);color:#fff}
+.w.dark .b-dan{color:#2A0904}
+.b-dis{background:var(--sunk);color:var(--muted)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld label,.fld .fl{font-size:13px;font-weight:600;color:var(--ink)}
+.inp{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);box-sizing:border-box;color:var(--muted);font-size:14px}
+.inp input{flex:1;min-width:0;border:0;background:none;outline:none;font:14px Inter,sans-serif;color:var(--ink);padding:0}
+.inp input::placeholder{color:var(--muted)}
+.inp.focus{background:var(--paper);border-color:var(--seal);box-shadow:0 0 0 3px var(--sealSoft)}
+.inp.err{border-color:var(--red);box-shadow:0 0 0 3px var(--redSoft)}
+.help{font-size:12.5px;color:var(--muted)}
+.help.err{color:var(--red)}
+.pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill i{width:6px;height:6px;border-radius:3px;background:currentColor}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}.p-live{background:var(--red);color:#fff}
+.w.dark .p-live{color:#2A0904}
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--line)}
+.tabs span{padding:10px 0;font-size:14px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs span.on{color:var(--ink);font-weight:600;border-color:var(--seal)}
+.seg{display:inline-flex;gap:2px;padding:3px;border-radius:10px;background:var(--sunk)}
+.seg span{height:30px;padding:0 14px;display:flex;align-items:center;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
+.tbl th{text-align:left;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.03em;text-transform:uppercase;padding:10px 16px;background:var(--sunk2);border-bottom:1px solid var(--line)}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.av{width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex:none}
+.flag{width:22px;height:15px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.cbx{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);background:var(--paper);display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;flex:none}
+.cbx.on{background:var(--seal);border-color:var(--seal);color:var(--sealInk)}
+.rad{width:18px;height:18px;border-radius:9px;border:1.5px solid var(--line);box-sizing:border-box;flex:none;display:inline-block}
+.rad.on{border:5px solid var(--seal)}
+.stat{display:flex;flex-direction:column;gap:6px;padding:18px 20px}
+.stat .n{font-size:30px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .d{font-size:12.5px;font-weight:600}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.mute{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+.skl{background:linear-gradient(90deg,var(--sunk) 0%,var(--sunk2) 45%,var(--sunk) 90%);background-size:220% 100%;border-radius:6px;animation:skl 1.4s linear infinite}
+@keyframes skl{0%{background-position:120% 0}100%{background-position:-120% 0}}
+.pl-mun{fill:#0E1D2C;animation:mpb 1.6s ease-in-out infinite}.pl-pilot{fill:#0B6E4F;animation:mpb 1.6s ease-in-out .2s infinite}.pl-dot{fill:#0E1D2C}.pl-shadow{fill:#0E1D2C}
+.pd-mun{fill:#EDF2F5;animation:mpb 1.6s ease-in-out infinite}.pd-pilot{fill:#47A481;animation:mpb 1.6s ease-in-out .2s infinite}.pd-dot{fill:#EDF2F5}.pd-shadow{fill:#EDF2F5}
+.pl-dot,.pd-dot{transform-box:fill-box;transform-origin:center;animation:mph 1.6s cubic-bezier(.45,0,.25,1) infinite}
+.pl-shadow,.pd-shadow{transform-box:fill-box;transform-origin:center;animation:mps 1.6s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes mpb{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes mph{0%,100%{transform:translateY(0) rotate(0)}12%{transform:translateY(2px) scale(1.08,.9)}50%{transform:translateY(-26px) rotate(180deg)}88%{transform:translateY(0) rotate(360deg)}}
+@keyframes mps{0%,100%,88%{transform:scaleX(1);opacity:.14}50%{transform:scaleX(.45);opacity:.05}}
+@media (prefers-reduced-motion:reduce){.skl,.pl-mun,.pl-pilot,.pl-dot,.pl-shadow,.pd-mun,.pd-pilot,.pd-dot,.pd-shadow{animation:none}}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 1440px; height: 3720px; box-sizing: border-box; padding: 72px 80px; background: var(--page); display: flex; flex-direction: column; gap: 64px;">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 48px;">
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 860px;">
+<span class="kick">MUN Pilot web · foundations</span>
+<h1 class="serif" style="margin: 0; font-size: 56px; line-height: 1.05;">Same layout, same colours — a calmer, sharper surface.</h1>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--ink2);">Every page keeps where things are today. What changes: one type system (Newsreader for display, Inter for the interface), softer 10–14px corners instead of 4px, quieter borders, real status colours, every table, form, empty and loading state designed — and a proper phone layout for every page. Live MUN is out of scope.</p>
+</div>
+<svg viewBox="0 -100 492 130" width="260" height="69" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.970 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.050Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+</div>
+
+<div class="sec">
+<div class="sh"><h2 class="serif">Colour</h2><span>Unchanged from today's press-sheet tokens. Status colours added for badges only.</span></div>
+<div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 16px;">
+<div class="sw"><i style="background: var(--page);"></i><b>Page</b><span>#EDF0F0 · #0B1622</span></div>
+<div class="sw"><i style="background: var(--paper);"></i><b>Paper</b><span>#FFFFFF · #132434</span></div>
+<div class="sw"><i style="background: var(--sunk);"></i><b>Sunk</b><span>#E3E8EA · #1B2E3E</span></div>
+<div class="sw"><i style="background: var(--line);"></i><b>Line</b><span>#D8DEE2 · #24384B</span></div>
+<div class="sw"><i style="background: var(--ink);"></i><b>Ink</b><span>#0E1D2C · #EDF2F5</span></div>
+<div class="sw"><i style="background: var(--muted);"></i><b>Muted</b><span>#56697B · #93A6B5</span></div>
+<div class="sw"><i style="background: #0E1D2C;"></i><b>Slab (navy)</b><span>#0E1D2C · #17293A</span></div>
+<div class="sw"><i style="background: #E7E3D6;"></i><b>Sand</b><span>#E7E3D6 · #2A3B46</span></div>
+<div class="sw"><i style="background: var(--seal);"></i><b>Seal — the accent</b><span>#0B6E4F · #47A481</span></div>
+<div class="sw"><i style="background: var(--sealSoft);"></i><b>Seal soft</b><span>selected, success fill</span></div>
+<div class="sw"><i style="background: var(--signal);"></i><b>Signal</b><span>dates only · #B03B22</span></div>
+<div class="sw"><i style="background: var(--amber);"></i><b>Amber</b><span>pending · status only</span></div>
+<div class="sw"><i style="background: var(--red);"></i><b>Red</b><span>rejected · destructive</span></div>
+<div class="sw"><i style="background: var(--blue);"></i><b>Blue</b><span>info · status only</span></div>
+<div class="sw"><i style="background: var(--sunk2);"></i><b>Sunk 2</b><span>table head, hover</span></div>
+<div class="sw"><i style="background: var(--line2);"></i><b>Line 2</b><span>row dividers</span></div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px;">
+<div class="sec">
+<div class="sh"><h2 class="serif">Type</h2><span>Serif for display only. Inter runs the interface.</span></div>
+<div class="card" style="padding: 8px 24px;">
+<div class="row" style="padding: 14px 0; border-bottom: 1px solid var(--line2);"><span class="lab" style="width: 140px;">Display 48</span><span class="serif" style="font-size: 48px; line-height: 1.05;">Model UN, organised.</span></div>
+<div class="row" style="padding: 14px 0; border-bottom: 1px solid var(--line2);"><span class="lab" style="width: 140px;">Title 32</span><span class="serif" style="font-size: 32px;">Upcoming conferences</span></div>
+<div class="row" style="padding: 14px 0; border-bottom: 1px solid var(--line2);"><span class="lab" style="width: 140px;">Page H1 · 26</span><span style="font-size: 26px; font-weight: 600; letter-spacing: -.02em;">Applications</span></div>
+<div class="row" style="padding: 14px 0; border-bottom: 1px solid var(--line2);"><span class="lab" style="width: 140px;">Section · 18</span><span style="font-size: 18px; font-weight: 600;">Recent activity</span></div>
+<div class="row" style="padding: 14px 0; border-bottom: 1px solid var(--line2);"><span class="lab" style="width: 140px;">Body · 15</span><span style="font-size: 15px; line-height: 1.6;">Delegates apply, organisers allocate, chairs mark.</span></div>
+<div class="row" style="padding: 14px 0; border-bottom: 1px solid var(--line2);"><span class="lab" style="width: 140px;">UI · 14</span><span style="font-size: 14px;">Table cells, inputs, buttons, navigation</span></div>
+<div class="row" style="padding: 14px 0;"><span class="lab" style="width: 140px;">Meta · 12.5</span><span style="font-size: 12.5px; color: var(--muted);">Updated 2 min ago · 148 delegates</span></div>
+</div>
+</div>
+<div class="sec">
+<div class="sh"><h2 class="serif">Shape &amp; depth</h2><span>4px everywhere → a small, consistent scale.</span></div>
+<div class="card" style="padding: 24px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+<div class="col" style="gap: 8px;"><div style="height: 72px; border-radius: 8px; background: var(--sunk);"></div><b style="font-size: 13px;">8 · controls</b><span class="help">buttons sm, chips</span></div>
+<div class="col" style="gap: 8px;"><div style="height: 72px; border-radius: 10px; background: var(--sunk);"></div><b style="font-size: 13px;">10 · inputs</b><span class="help">buttons, fields</span></div>
+<div class="col" style="gap: 8px;"><div style="height: 72px; border-radius: 14px; background: var(--sunk);"></div><b style="font-size: 13px;">14 · cards</b><span class="help">cards, dialogs, panels</span></div>
+<div class="col" style="gap: 8px;"><div style="height: 72px; border-radius: 14px; background: var(--paper); border: 1px solid var(--line);"></div><b style="font-size: 13px;">Flat</b><span class="help">most cards: 1px line</span></div>
+<div class="col" style="gap: 8px;"><div style="height: 72px; border-radius: 14px; background: var(--paper); border: 1px solid var(--line); box-shadow: var(--sh1);"></div><b style="font-size: 13px;">Raised</b><span class="help">interactive cards</span></div>
+<div class="col" style="gap: 8px;"><div style="height: 72px; border-radius: 14px; background: var(--paper); border: 1px solid var(--line); box-shadow: var(--sh2);"></div><b style="font-size: 13px;">Overlay</b><span class="help">menus, dialogs only</span></div>
+</div>
+<div class="card" style="padding: 20px 24px; display: flex; flex-direction: column; gap: 10px;">
+<span class="lab">Spacing — 4pt grid</span>
+<div class="row" style="align-items: flex-end; gap: 16px;"><div class="col" style="gap: 6px; align-items: center;"><i style="display: block; width: 4px; height: 4px; background: var(--seal);"></i><span class="help">4</span></div><div class="col" style="gap: 6px; align-items: center;"><i style="display: block; width: 8px; height: 8px; background: var(--seal);"></i><span class="help">8</span></div><div class="col" style="gap: 6px; align-items: center;"><i style="display: block; width: 12px; height: 12px; background: var(--seal);"></i><span class="help">12</span></div><div class="col" style="gap: 6px; align-items: center;"><i style="display: block; width: 16px; height: 16px; background: var(--seal);"></i><span class="help">16</span></div><div class="col" style="gap: 6px; align-items: center;"><i style="display: block; width: 24px; height: 24px; background: var(--seal);"></i><span class="help">24</span></div><div class="col" style="gap: 6px; align-items: center;"><i style="display: block; width: 32px; height: 32px; background: var(--seal);"></i><span class="help">32</span></div><div class="col" style="gap: 6px; align-items: center;"><i style="display: block; width: 48px; height: 48px; background: var(--seal);"></i><span class="help">48</span></div><div class="col" style="gap: 6px; align-items: center;"><i style="display: block; width: 64px; height: 64px; background: var(--seal);"></i><span class="help">64</span></div></div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sh"><h2 class="serif">Controls</h2><span>40px default height, 32px in dense tables, 48px for hero calls to action.</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px;">
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+<span class="lab">Buttons</span>
+<div class="row" style="flex-wrap: wrap;"><button class="btn b-pri"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Create event</button><button class="btn b-sec">Secondary</button><button class="btn b-soft">Soft</button><button class="btn b-ghost">Ghost</button><button class="btn b-dan">Delete</button><button class="btn b-dis" disabled>Disabled</button></div>
+<div class="row" style="flex-wrap: wrap;"><button class="btn lg b-pri">Register now</button><button class="btn b-pri" disabled style="opacity: .75;">Saving…</button><button class="btn sm b-sec">Small</button><button class="btn sm b-sec" aria-label="More actions" style="width: 32px; padding: 0;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></button></div>
+<div class="row" style="padding: 16px; border-radius: 12px; background: #0E1D2C; gap: 10px;"><button class="btn" style="background: #fff; color: #0E1D2C;">On slab — light</button><button class="btn" style="background: none; border-color: #5C7185; color: #fff;">On slab — outline</button></div>
+</div>
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<span class="lab">Fields</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+<div class="fld"><label for="f1">Event name</label><div class="inp"><input id="f1" value="Dhaka MUN 2026"></div></div>
+<div class="fld"><label for="f2">Search</label><div class="inp focus"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="f2" placeholder="Conference, committee or city"></div></div>
+<div class="fld"><span class="fl">Committee</span><div class="inp" style="color: var(--ink);"><span style="flex: 1;">UNSC</span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="m6 9 6 6 6-6"/></svg></div></div>
+<div class="fld"><label for="f4">Email</label><div class="inp err"><input id="f4" value="nadia@"></div><span class="help err">Enter a valid email address.</span></div>
+</div>
+<div class="row" style="gap: 28px; flex-wrap: wrap;"><span class="row" style="gap: 8px; font-size: 14px;"><span class="cbx on"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 12px; height: 12px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>Checkbox</span><span class="row" style="gap: 8px; font-size: 14px;"><span class="rad on"></span>Radio</span><span class="row" style="gap: 8px; font-size: 14px;"><button class="tg on" aria-label="Switch on" aria-pressed="true"></button>Switch</span><span class="row" style="gap: 8px; font-size: 14px;"><button class="tg" aria-label="Switch off" aria-pressed="false"></button>Off</span></div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sh"><h2 class="serif">Status, navigation, data</h2><span>One badge set across delegates, organisers and admin.</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px;">
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 22px;">
+<span class="lab">Badges</span>
+<div class="row" style="flex-wrap: wrap; gap: 8px;"><span class="pill p-ok"><i></i>Approved</span><span class="pill p-ok"><i></i>Paid</span><span class="pill p-wait"><i></i>Pending</span><span class="pill p-wait"><i></i>Waitlisted</span><span class="pill p-bad"><i></i>Rejected</span><span class="pill p-info"><i></i>Under review</span><span class="pill p-mute">Draft</span><span class="pill p-mute">Past</span><span class="pill p-live"><i></i>Live</span><span class="pill p-info">Co-organiser</span></div>
+<span class="lab">Tabs</span>
+<div class="tabs"><span class="on">Overview</span><span>Applications</span><span>Committees</span><span>Staff</span><span>Settings</span></div>
+<div class="row" style="justify-content: space-between;"><div class="seg"><span class="on">All</span><span>Following</span><span>Mine</span></div><div class="row" style="gap: 6px; font-size: 13px;"><span class="mute">Dashboard</span><span class="mute">/</span><span class="mute">Dhaka MUN</span><span class="mute">/</span><b style="font-weight: 600;">Applications</b></div></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-content: start;">
+<div class="card stat"><span class="lab">Applications</span><span class="n">148</span><span class="d" style="color: var(--seal);">+12 this week</span></div>
+<div class="card stat"><span class="lab">Revenue</span><span class="n">$1,986</span><span class="d mute">$240 pending</span></div>
+<div class="card stat"><span class="lab">Seats filled</span><span class="n">82%</span><div style="height: 6px; border-radius: 3px; background: var(--sunk);"><i style="display: block; width: 82%; height: 100%; border-radius: 3px; background: var(--seal);"></i></div></div>
+<div class="card" style="grid-column: span 3; padding: 28px; display: flex; gap: 20px; align-items: center;"><span style="width: 52px; height: 52px; border-radius: 14px; background: var(--sunk); color: var(--muted); display: flex; align-items: center; justify-content: center; flex: none;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><div class="col" style="gap: 4px; flex: 1;"><b style="font-size: 15px;">No conferences yet</b><span class="help" style="font-size: 14px;">Empty states say what's missing and offer the one next step.</span></div><button class="btn b-pri">Browse conferences</button></div>
+</div>
+</div>
+<div class="card" style="overflow: hidden;">
+<table class="tbl">
+<thead><tr><th style="width: 36px;"><span class="cbx"></span></th><th>Delegate</th><th>Committee</th><th>Country</th><th>Applied</th><th>Payment</th><th>Status</th><th style="text-align: right;">Actions</th></tr></thead>
+<tbody>
+<tr><td><span class="cbx"></span></td><td><span class="row" style="gap: 10px;"><span class="av" style="background: #13895F;">NR</span><span class="col"><b style="font-weight: 600;">Nadia Rahman</b><span class="help">nadia@school.edu</span></span></span></td><td>UNSC</td><td><span class="row" style="gap: 8px;"><span class="flag" style="background: linear-gradient(#fff 0 33%, #0039A6 33% 66%, #D52B1E 66%);"></span>Russia</span></td><td class="mute num">2 Nov</td><td><span class="pill p-ok"><i></i>Paid</span></td><td><span class="pill p-ok"><i></i>Approved</span></td><td style="text-align: right;"><button class="btn sm b-ghost">View</button></td></tr>
+<tr style="background: var(--sunk2);"><td><span class="cbx on"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 12px; height: 12px; stroke-width: 3;"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span></td><td><span class="row" style="gap: 10px;"><span class="av" style="background: #1E6FE0;">TA</span><span class="col"><b style="font-weight: 600;">Tanvir Ahmed</b><span class="help">tanvir@mail.com</span></span></span></td><td>UNHRC</td><td class="mute">— unassigned</td><td class="mute num">3 Nov</td><td><span class="pill p-wait"><i></i>Pending</span></td><td><span class="pill p-info"><i></i>Under review</span></td><td style="text-align: right;"><span class="row" style="gap: 6px; justify-content: flex-end;"><button class="btn sm b-sec">Reject</button><button class="btn sm b-pri">Approve</button></span></td></tr>
+<tr><td><span class="cbx"></span></td><td><span class="row" style="gap: 10px;"><span class="av" style="background: #7B4FD6;">RS</span><span class="col"><b style="font-weight: 600;">Ria Sen</b><span class="help">ria.sen@uni.edu</span></span></span></td><td>DISEC</td><td><span class="row" style="gap: 8px;"><span class="flag" style="background: linear-gradient(90deg, #FF9933 0 0, #FF9933 0), linear-gradient(#FF9933 0 33%, #fff 33% 66%, #138808 66%);"></span>India</span></td><td class="mute num">30 Oct</td><td><span class="pill p-mute">Free</span></td><td><span class="pill p-bad"><i></i>Rejected</span></td><td style="text-align: right;"><button class="btn sm b-ghost">View</button></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="sec">
+<div class="sh"><h2 class="serif">Loading</h2><span>No spinners anywhere. The logo preloader for whole-app loads; skeletons everywhere else.</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 24px;">
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<span class="lab">Preloader — munpilot-preloader.svg</span>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+<div style="height: 220px; border-radius: 12px; background: #EDF0F0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;"><svg viewBox="0 -130 492 160" width="190" height="62" role="img" aria-label="Loading MUN Pilot"><path class="pl-mun" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.530Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/>
+  <path class="pl-pilot" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.790 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/>
+  <ellipse class="pl-shadow" cx="331.1" cy="-66" rx="10" ry="2.2"/>
+  <path class="pl-dot" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg></div>
+<div style="height: 220px; border-radius: 12px; background: #0B1622; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;"><svg viewBox="0 -130 492 160" width="190" height="62" role="img" aria-label="Loading MUN Pilot"><path class="pd-mun" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.530Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/>
+  <path class="pd-pilot" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.790 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/>
+  <ellipse class="pd-shadow" cx="331.1" cy="-66" rx="10" ry="2.2"/>
+  <path class="pd-dot" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg></div>
+</div>
+<span class="help" style="font-size: 13.5px; line-height: 1.55;">The diamond dots the "i": it hops and turns once every 1.6s while "mun" and "pilot" breathe. Used only while the whole app boots — first visit, the dashboard's sign-in check, the app-return hand-off. Centered on the page background, nothing else on screen. Reduced-motion users get the still logo.</span>
+</div>
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<span class="lab">Skeletons — shimmer left to right, same shapes as the real content</span>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div style="border: 1px solid var(--line2); border-radius: 14px; overflow: hidden;"><i class="skl" style="display: block; height: 96px; border-radius: 0;"></i><div style="padding: 14px; display: flex; flex-direction: column; gap: 9px;"><i class="skl" style="display: block; width: 45%; height: 11px;"></i><i class="skl" style="display: block; width: 90%; height: 15px;"></i><i class="skl" style="display: block; width: 65%; height: 11px;"></i></div></div>
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<div class="row"><i class="skl" style="display: block; width: 36px; height: 36px; border-radius: 18px; flex: none;"></i><div class="col" style="gap: 7px; flex: 1;"><i class="skl" style="display: block; width: 70%; height: 12px;"></i><i class="skl" style="display: block; width: 45%; height: 10px;"></i></div></div>
+<div class="row"><i class="skl" style="display: block; width: 36px; height: 36px; border-radius: 18px; flex: none;"></i><div class="col" style="gap: 7px; flex: 1;"><i class="skl" style="display: block; width: 60%; height: 12px;"></i><i class="skl" style="display: block; width: 35%; height: 10px;"></i></div></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div style="border: 1px solid var(--line2); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px;"><i class="skl" style="display: block; width: 60%; height: 10px;"></i><i class="skl" style="display: block; width: 45%; height: 22px;"></i></div><div style="border: 1px solid var(--line2); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px;"><i class="skl" style="display: block; width: 60%; height: 10px;"></i><i class="skl" style="display: block; width: 45%; height: 22px;"></i></div></div>
+</div>
+</div>
+<div style="border: 1px solid var(--line2); border-radius: 12px; overflow: hidden;">
+<div class="row" style="padding: 12px 16px; background: var(--sunk2); gap: 24px;"><i class="skl" style="display: block; width: 90px; height: 10px;"></i><i class="skl" style="display: block; width: 70px; height: 10px;"></i><i class="skl" style="display: block; width: 60px; height: 10px;"></i><i class="skl" style="display: block; width: 60px; height: 10px; margin-left: auto;"></i></div>
+<div class="row" style="padding: 14px 16px; gap: 24px; border-top: 1px solid var(--line2);"><i class="skl" style="display: block; width: 160px; height: 12px;"></i><i class="skl" style="display: block; width: 80px; height: 12px;"></i><i class="skl" style="display: block; width: 70px; height: 20px; border-radius: 10px;"></i><i class="skl" style="display: block; width: 64px; height: 28px; border-radius: 8px; margin-left: auto;"></i></div>
+<div class="row" style="padding: 14px 16px; gap: 24px; border-top: 1px solid var(--line2);"><i class="skl" style="display: block; width: 130px; height: 12px;"></i><i class="skl" style="display: block; width: 90px; height: 12px;"></i><i class="skl" style="display: block; width: 70px; height: 20px; border-radius: 10px;"></i><i class="skl" style="display: block; width: 64px; height: 28px; border-radius: 8px; margin-left: auto;"></i></div>
+</div>
+<div class="row" style="gap: 10px; flex-wrap: wrap;"><button class="btn b-pri" disabled style="opacity: .75;">Saving…</button><span class="help" style="font-size: 13.5px; line-height: 1.5; flex: 1; min-width: 240px;">Busy buttons don't spin: they say what's happening ("Saving…", "Sending…", "Redirecting to payment…") and stay disabled until done.</span></div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sh"><h2 class="serif">Page rules</h2><span>Every page is drawn at 1440 and 390, and follows these.</span></div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Sidebar → drawer</b><span class="help" style="font-size: 13.5px; line-height: 1.5;">Below 1024 the dashboard sidebar becomes a top bar with a menu button and a slide-in drawer. Same sections, same order.</span></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Tables → row cards</b><span class="help" style="font-size: 13.5px; line-height: 1.5;">On phones each row becomes a card: name and status on top, two meta lines, actions in a ••• menu. No sideways scrolling.</span></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Tabs scroll, actions stick</b><span class="help" style="font-size: 13.5px; line-height: 1.5;">Tab rows scroll horizontally. A form's primary action sits in a sticky bar at the bottom of the screen.</span></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Dialogs → sheets</b><span class="help" style="font-size: 13.5px; line-height: 1.5;">Centered dialogs on desktop open as bottom sheets on phones, with the confirm button full width.</span></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Glass sticky header</b><span class="help" style="font-size: 13.5px; line-height: 1.5;">Public header, dashboard top bar and portal top bar stay on top, frosted: paper at 78% with a 16px blur.</span></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Grey and white bands</b><span class="help" style="font-size: 13.5px; line-height: 1.5;">Long public pages alternate the grey page and full-width white bands, so the page never reads as one grey sheet.</span></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Light by default</b><span class="help" style="font-size: 13.5px; line-height: 1.5;">Navy is kept for the hero and the organiser band. Search and inputs rest on a light fill with a hairline; card covers without a photo use sand.</span></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 15px;">Hover &amp; focus</b><span class="help" style="font-size: 13.5px; line-height: 1.5;">Clickable cards lift 4px with the overlay shadow and the title turns green. Focus is always a green ring, never just a colour change.</span></div>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":3720}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

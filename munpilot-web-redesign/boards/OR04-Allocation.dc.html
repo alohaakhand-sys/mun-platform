@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Allocation</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-dis{background:var(--sunk);color:var(--muted)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:220px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px 12px;box-sizing:border-box;gap:2px}
+.sl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px}
+.ni{display:flex;align-items:center;height:32px;padding:0 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.main{flex:1;min-width:0;padding:26px 32px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.ptabs{display:flex;gap:6px;padding:4px;border-radius:12px;background:var(--sunk);align-self:flex-start}
+.ptabs span{height:34px;padding:0 14px;border-radius:9px;display:flex;align-items:center;font-size:13.5px;font-weight:500;color:var(--ink2)}
+.ptabs span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.tbl th{text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding:10px 16px;background:var(--sunk2);border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 16px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.av{width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex:none}
+.inp{display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);font-size:13.5px;box-sizing:border-box}
+.inp.pv{color:var(--muted)}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.ctab{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.ctab span{padding:10px 14px;font-size:13.5px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:6px}
+.ctab span.on{color:var(--ink);font-weight:600;border-color:var(--seal)}
+.ar{display:grid;grid-template-columns:1.3fr 1.6fr 220px;gap:16px;align-items:center;padding:14px 18px;border-top:1px solid var(--line2)}
+.pb{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.pb i{display:block;height:100%;border-radius:3px;background:var(--seal)}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3000px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">OR04 · Organizer · /allocation — Applications, Country Assignment, Migration, Capacity &amp; Waitlist (Invitation = Staff, OR05)</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Allocation</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">One page, five tabs. Applications is a searchable table where Approve opens the applicant sheet (OR02) and unpaid rows can't be approved. Country Assignment counts down to the assignment deadline, flags past-event conflicts and saves per committee. Migration reviews delegate move requests (with the swap deadline) and lets the organizer move anyone directly. Capacity &amp; Waitlist shows fill per committee and offers freed seats for 48 hours.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 880px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="sl">Setup</span><span class="ni">Overview</span><span class="ni">Details</span><span class="ni on">Allocation</span><span class="ni">Committees</span><span class="ni">Partners</span></aside>
+<main class="main">
+<div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 32px;">Allocation</h1><span style="font-size: 14.5px; color: var(--muted);">Review applications, assign countries, and manage committee capacity &amp; staff.</span></div>
+<div class="ptabs"><span class="on">Applications</span><span>Country Assignment</span><span>Migration</span><span>Capacity &amp; Waitlist</span><span>Invitation</span></div>
+<div class="row" style="gap: 10px;"><div class="inp pv" style="width: 320px; background: var(--paper);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search applicants...</div><div class="inp" style="width: 160px; background: var(--paper);">All Status ▾</div></div>
+<div class="card" style="overflow: hidden;"><table class="tbl"><thead><tr><th>Applicant</th><th>Role</th><th>Pref. Committee</th><th>Status</th><th style="text-align: right;">Actions</th></tr></thead><tbody>
+<tr style="background: var(--sealSoft);"><td><span class="row" style="gap: 10px;"><span class="av" style="background: #1E6FE0;">T</span><span class="col"><b>Tanvir Ahmed</b><span style="font-size: 12px; color: var(--muted);">tanvir@mail.com</span></span></span></td><td>Delegate</td><td>DISEC <span style="color: var(--muted);">+1</span></td><td><span class="pill p-wait">pending</span></td><td style="text-align: right;"><span class="row" style="gap: 6px; justify-content: flex-end;"><button class="btn sm b-sec">Reject</button><button class="btn sm b-pri">Approve</button></span></td></tr>
+<tr><td><span class="row" style="gap: 10px;"><span class="av" style="background: #7B4FD6;">R</span><span class="col"><b>Ria Sen</b><span style="font-size: 12px; color: var(--muted);">ria.sen@uni.edu</span></span></span></td><td>Head Delegate</td><td>UNHRC</td><td><span class="col" style="gap: 4px;"><span class="pill p-wait">pending</span><span style="font-size: 11.5px; color: var(--amber);">Awaiting payment</span></span></td><td style="text-align: right;"><span class="row" style="gap: 6px; justify-content: flex-end;"><button class="btn sm b-sec">Reject</button><button class="btn sm b-dis" disabled>Unpaid</button></span></td></tr>
+<tr><td><span class="row" style="gap: 10px;"><span class="av" style="background: #13895F;">N</span><span class="col"><b>Nadia Rahman</b><span style="font-size: 12px; color: var(--muted);">nadia@school.edu</span></span></span></td><td>Delegate</td><td>UNSC</td><td><span class="pill p-ok">approved</span></td><td></td></tr>
+<tr><td><span class="row" style="gap: 10px;"><span class="av" style="background: #56697B;">U</span><span class="col"><b>Unknown Delegate</b><span style="font-size: 12px; color: var(--muted);">No email</span></span></span></td><td>Observer</td><td style="color: var(--muted);">N/A</td><td><span class="pill p-bad">rejected</span></td><td></td></tr>
+</tbody></table></div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 900px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="sl">Setup</span><span class="ni on">Allocation</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-start;"><div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 32px;">Country Assignments</h1><span style="font-size: 14.5px; color: var(--muted);">Assign countries to applicants manually or use AI auto-assignment.</span></div><div class="card" style="padding: 12px 18px; display: flex; flex-direction: column; align-items: flex-end; box-shadow: var(--sh1), inset 0 0 0 1.5px var(--red);"><span style="font-size: 11.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Assignment Deadline</span><b style="font-size: 28px; font-variant-numeric: tabular-nums; color: var(--red);">00:42:18</b></div></div>
+<div class="row" style="gap: 10px; padding: 12px 14px; border-radius: 12px; background: var(--redSoft); font-size: 13.5px; align-items: flex-start;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--red); margin-top: 1px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>1 hour until AI auto-assigns</b> — Please lock in any manual assignments before the deadline.</span></div>
+<div class="card" style="overflow: hidden;">
+<div class="row" style="padding: 14px 18px; justify-content: space-between;"><span class="col"><b style="font-size: 16px;">Delegation Matrix</b><span style="font-size: 12.5px; color: var(--muted);">7 applicants need assignment.</span></span><button class="btn b-pri">Save Assignments</button></div>
+<div class="ctab" style="padding: 0 10px;"><span class="on">UNSC <span class="pill p-wait" style="height: 20px;">2</span></span><span>DISEC <span class="pill p-wait" style="height: 20px;">4</span></span><span>UNHRC <span class="pill p-wait" style="height: 20px;">1</span></span><span>WHO</span></div>
+<div class="ar" style="border-top: 0;"><span class="col" style="gap: 3px;"><span class="row" style="gap: 6px;"><b>Nadia Rahman</b><span class="pill p-ok" style="height: 20px;">Assigned</span></span><span style="font-size: 12px; color: var(--muted);">nadia@school.edu</span></span><span style="font-size: 12.5px; color: var(--ink2);">Preferences: Bangladesh, Japan, France · Experience: [summary]</span><div class="inp" style="background: var(--paper);"><i class="flag fbd"></i>Bangladesh ▾</div></div>
+<div class="ar" style="background: var(--amberSoft);"><span class="col" style="gap: 3px;"><span class="row" style="gap: 6px;"><b>[Applicant]</b><span class="pill p-wait" style="height: 20px;" title="Held at [event] on [date]">Conflict</span></span><span style="font-size: 12px; color: var(--muted);">[email]</span></span><span style="font-size: 12.5px; color: var(--ink2);">Preferences: France, Germany · Experience: [summary]</span><div class="inp" style="background: var(--paper); border-color: var(--amber);"><i class="flag ffr"></i>France ▾</div></div>
+<div class="ar"><span class="col" style="gap: 3px;"><b>[Applicant]</b><span style="font-size: 12px; color: var(--muted);">[email]</span></span><span style="font-size: 12.5px; color: var(--ink2);">Preferences: Japan · Experience: —</span><div class="inp pv" style="background: var(--paper);">Assign Country ▾</div></div>
+</div>
+<div class="row" style="gap: 12px; padding: 14px 16px; border-radius: 12px; background: var(--blueSoft); font-size: 13px; align-items: flex-start;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--blue); margin-top: 1px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span><b>Conflict Detection System Active</b> — The system automatically cross-references an applicant's past events. If they are assigned a country they have represented before, a yellow conflict warning will appear.</span></div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Migration · phone</b><span>Requests, then awaiting swap.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<b class="serif" style="font-size: 24px;">Migration Requests</b>
+<span style="font-size: 12.5px; color: var(--muted);">Delegates asking to move committee/country. Approving a move into a taken seat offers a swap to its current holder.</span>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 3px; border-radius: 10px; background: var(--sunk); font-size: 13px;"><span style="height: 32px; border-radius: 8px; background: var(--paper); display: flex; align-items: center; justify-content: center; font-weight: 600;">Requests</span><span style="display: flex; align-items: center; justify-content: center;">Direct Migration</span></div>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Needs review (1)</span>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px;"><b>Nadia Rahman</b><span class="row" style="gap: 6px; font-size: 13px;">UNSC / <i class="flag fbd"></i> → DISEC / <i class="flag fjp"></i></span><span style="font-size: 13px; color: var(--ink2); font-style: italic;">"[Reason]"</span><div class="row" style="gap: 8px;"><span style="font-size: 12.5px;">Swap deadline (hrs)</span><div class="inp" style="width: 64px; height: 32px;">48</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><button class="btn sm b-sec">Reject</button><button class="btn sm b-pri">Approve</button></div></div>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Awaiting swap (1)</span>
+<div class="card" style="padding: 14px; display: flex; align-items: center; gap: 10px;"><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 13.5px;">Ria Sen → current delegate</b><span style="font-size: 12px; color: var(--muted);">UNHRC / JP ↔ DISEC / FR</span></span><span class="pill p-wait">31h left</span></div>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">History (4)</span>
+<div class="row" style="gap: 6px; flex-wrap: wrap;"><span class="pill p-ok">Completed</span><span class="pill p-bad">Rejected</span><span class="pill p-mute">Cancelled</span><span class="pill p-bad">Failed</span></div>
+</div>
+</div>
+
+<div class="cap"><b>Capacity &amp; Waitlist · phone</b></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<b class="serif" style="font-size: 24px;">Committee Capacity &amp; Waitlist</b>
+<span style="font-size: 12.5px; color: var(--muted);">Live fill rates (approved delegates) and waitlists. Capacity is set per committee on the <a href="#">Committees</a> page.</span>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 6px;"><div class="row" style="justify-content: space-between;"><b>UNSC</b><span class="pill p-bad" style="height: 20px;">FULL</span></div><b style="font-size: 18px;">15 / 15</b><div class="pb"><i style="width: 100%; background: var(--red);"></i></div><span style="font-size: 11.5px; color: var(--muted);">0 seats remaining</span></div><div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 6px;"><b>DISEC</b><b style="font-size: 18px;">32 / 40</b><div class="pb"><i style="width: 80%;"></i></div><span style="font-size: 11.5px; color: var(--muted);">8 seats remaining</span></div></div>
+<div class="card" style="overflow: hidden;"><div class="row" style="padding: 12px 14px; justify-content: space-between;"><b style="font-size: 14px;">UNSC Waitlist</b><span class="pill p-wait">3 waiting</span></div>
+<div class="row" style="padding: 10px 14px; border-top: 1px solid var(--line2);"><span style="width: 18px; color: var(--muted); font-size: 12.5px;">1</span><span class="col" style="flex: 1;"><b style="font-size: 13px;">[Applicant]</b><span style="font-size: 11.5px; color: var(--muted);">Applied Nov 2</span></span><span class="pill p-info">Offered (48h)</span></div>
+<div class="row" style="padding: 10px 14px; border-top: 1px solid var(--line2);"><span style="width: 18px; color: var(--muted); font-size: 12.5px;">2</span><span class="col" style="flex: 1;"><b style="font-size: 13px;">[Applicant]</b><span style="font-size: 11.5px; color: var(--muted);">Applied Nov 4</span></span><button class="btn sm b-pri">Offer Seat</button></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Move a delegate · dialog</b><span>Direct Migration.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--sh2);"><b style="font-size: 16px;">Move Nadia Rahman</b><span style="font-size: 12.5px; color: var(--muted);">Currently UNSC / Bangladesh</span><div class="inp">DISEC ▾</div><div class="inp"><i class="flag fjp"></i>Japan ▾</div><div style="padding: 10px 12px; border-radius: 10px; background: var(--amberSoft); font-size: 12.5px;">Seat held by Ria Sen — they'll be swapped into UNSC / Bangladesh.</div><div class="inp pv">Reason (optional) — Shown to the delegate in their notification.</div><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Swap</button></div></div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--seal); font-weight: 600; background: var(--sealSoft); border-color: transparent;">Nadia Rahman moved to DISEC / Japan (swapped).</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted); text-align: center;">No applications found matching your filters.</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--ink2); background: var(--blueSoft); border-color: transparent;"><b>AI Assignment in progress...</b> Manual edits are temporarily disabled.</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3000}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Public home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}a:hover{color:#08543D}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--sand:#E7E3D6;--amber:#8A5A00;--amberSoft:#FBF0D9;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 6px 20px rgba(14,29,44,.08);--logo:#0B6E4F;--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--sand:#2A3B46;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--sh1:none;--sh2:0 8px 24px rgba(0,0,0,.35);--logo:#47A481;--canvas:#060D14}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:34px;padding:0 13px;font-size:13.5px;border-radius:8px}
+.btn.lg{height:48px;padding:0 22px;font-size:15px;border-radius:10px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.mute{color:var(--muted)}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.w{--glass:rgba(255,255,255,.78)}.w.dark{--glass:rgba(19,36,52,.80)}
+.ec.hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.ec.hover h3{color:var(--seal)}
+.ec.hover .pl{background-size:110%}
+.hdr{height:68px;background:var(--glass);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:20px;padding:0 40px;flex:none}
+.search{flex:1;max-width:420px;height:40px;border-radius:20px;background:var(--sunk2);box-shadow:inset 0 0 0 1px var(--line2);display:flex;align-items:center;gap:10px;padding:0 16px;color:var(--muted);font-size:14px;box-sizing:border-box}
+.search.focus{background:var(--paper);box-shadow:inset 0 0 0 1px var(--seal),0 0 0 4px var(--sealSoft);color:var(--ink)}
+.photo{background:linear-gradient(160deg,#B9CBC4 0%,#DCD8CA 100%);position:relative}
+.w.dark .photo{background:linear-gradient(160deg,#2C4A44 0%,#2A3B46 100%)}
+.photo .pk{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:rgba(14,29,44,.55)}
+.w.dark .photo .pk{color:rgba(237,242,245,.5)}
+.ec .pl.alt{background:var(--sand);color:#0E1D2C}
+.w.dark .ec .pl.alt{color:#E7E3D6}
+.nav a{font-size:14px;font-weight:500;color:var(--ink2)}
+.shell{max-width:1200px;margin:0 auto;padding:0 40px;box-sizing:border-box;width:100%}
+.sech{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.sech h2{margin:0;font-size:32px}
+.sech p{margin:6px 0 0;font-size:15px;color:var(--muted)}
+.ec{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh1)}
+.ec .pl{height:150px;background:#0E1D2C;color:#E7E3D6;display:flex;align-items:center;justify-content:center;position:relative}
+.ec .pl b{font-family:Newsreader,Georgia,serif;font-size:30px;font-weight:500;letter-spacing:.02em}
+.ec .bd{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
+.date{font-size:12.5px;font-weight:600;color:var(--signal)}
+.ec h3{margin:0;font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.01em}
+.meta{font-size:13px;color:var(--muted)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.t-ok{background:var(--sealSoft);color:var(--seal)}.t-wait{background:var(--amberSoft);color:var(--amber)}.t-mute{background:var(--sunk);color:var(--ink2)}
+.t-ok i,.t-wait i{width:6px;height:6px;border-radius:3px;background:currentColor;display:block}
+.ac{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);box-shadow:var(--sh1)}
+.ac .tx{padding:22px;display:flex;flex-direction:column;gap:10px}
+.ac h3{margin:0;font-size:21px;line-height:1.25}
+.ac .pl{background:var(--sand);display:flex;align-items:center;justify-content:center;font-family:Newsreader,Georgia,serif;font-size:22px;color:#0E1D2C}
+.w.dark .ac .pl{color:#E7E3D6}
+.av{width:28px;height:28px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex:none}
+.foot a{font-size:14px;color:var(--ink2)}
+.foot b{font-size:13px;font-weight:600}
+.chip{height:34px;padding:0 14px;border-radius:17px;border:1px solid var(--line);background:var(--paper);display:inline-flex;align-items:center;font-size:13.5px;font-weight:500;color:var(--ink2);white-space:nowrap;flex:none;box-sizing:border-box}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.stripe{background:repeating-linear-gradient(135deg,#17293A 0 14px,#1D3244 14px 28px)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.mh{height:56px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 12px 0 16px;flex:none}
+.ib{width:40px;height:40px;border-radius:10px;border:0;background:none;color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.mf{background:var(--paper);border-top:1px solid var(--line);position:relative;overflow:hidden;margin-top:auto}
+.mf-cols b{font-size:12.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.mf-cols a{font-size:15px;color:var(--ink2)}
+.mf-app{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:14px;border:1px solid var(--line);background:var(--sunk2);max-width:320px;text-decoration:none}
+.mf-appi{width:36px;height:36px;border-radius:10px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;flex:none}
+.mf-soc{width:40px;height:40px;border-radius:20px;box-shadow:var(--sh1);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink2);background:var(--paper);flex:none}
+.mf-card{background:var(--sunk2);border:1px solid var(--line2);border-radius:16px;padding:18px 20px 8px;display:flex;flex-direction:column;gap:6px}
+.mf-li{display:flex;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--line2);text-decoration:none}
+.mf-date{width:48px;height:48px;border-radius:12px;background:var(--paper);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--signal);flex:none;box-sizing:border-box}
+.mf-date b{font-size:18px;color:var(--ink);letter-spacing:0;line-height:1}
+.mf-art{width:64px;height:48px;border-radius:10px;background:var(--sand);display:flex;align-items:center;justify-content:center;font-family:Newsreader,Georgia,serif;font-size:13px;color:#0E1D2C;flex:none}
+.w.dark .mf-art{color:#E7E3D6}
+.seg{display:inline-flex;gap:2px;padding:3px;border-radius:10px;background:var(--sunk)}
+.seg button{height:30px;padding:0 12px;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:8px;background:none;font:500 13px Inter,sans-serif;color:var(--ink2)}
+.seg button.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.mf-mark{height:170px;margin-top:44px;padding:0 40px;box-sizing:border-box}
+.mf-mark .lga,.mf-mark .lgb{fill:var(--ink);opacity:.06}
+.mf-acc{border-top:1px solid var(--line)}
+.mf-ah{display:flex;align-items:center;justify-content:space-between;height:48px;border-bottom:1px solid var(--line2);color:var(--ink)}
+.mf-ah b{font-size:15px;font-weight:600}
+.mf-soc .bk{fill:#0E1D2C}.w.dark .mf-soc .bk{fill:#EDF2F5}
+.mf-soc:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3640px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">P01 · Public · Home</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Home — munpilot.com</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Same order as today: header → featured carousel → upcoming conferences → delegate handbook → "Create your own MUN" band → footer. The hero now carries the facts people decide on (dates, place, fee, deadline); cards show whether applications are open; the empty grid on /events gets real loading and empty states. Header is frosted glass and stays on top while scrolling; sections alternate grey and white bands; the organiser band stays navy; the second conference card is drawn in its hover state (lift, title turns green).</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div class="frame" style="width: 1440px;">
+<div class="hdr">
+<svg viewBox="0 -100 492 130" width="124" height="33" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<div class="search"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search a conference, committee or city<span style="margin-left: auto; font-size: 12px; padding: 2px 6px; border-radius: 5px; background: var(--paper); border: 1px solid var(--line);">/</span></div>
+<nav class="row nav" style="gap: 24px; margin-left: auto;"><a href="#">Conferences</a><a href="#">Articles</a></nav>
+<span style="width: 1px; height: 24px; background: var(--line);"></span>
+<a class="btn sm b-sec" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Create event</a>
+<a class="btn sm b-ghost" href="#">Log in</a>
+<a class="btn sm b-pri" href="#">Sign up</a>
+</div>
+
+<div style="padding: 32px 0 0;"><div class="shell">
+<div style="border-radius: 18px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: #0E1D2C; min-height: 420px;">
+<div style="padding: 48px; display: flex; flex-direction: column; gap: 18px; color: #fff;">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #93B7A8;">Featured conference</span>
+<h2 class="serif" style="margin: 0; font-size: 46px; line-height: 1.05; color: #fff;">Dhaka Model United Nations Conference 2026</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #B7C4CE; max-width: 460px;">[Event tagline from the organiser.] Applications close [date].</p>
+<div class="row" style="gap: 8px; flex-wrap: wrap;"><span class="tag" style="background: rgba(255,255,255,.1); color: #fff;">Sat, 15 August</span><span class="tag" style="background: rgba(255,255,255,.1); color: #fff;">Pan Pacific Sonargaon, Dhaka</span><span class="tag" style="background: rgba(255,255,255,.1); color: #fff;">From $15</span></div>
+<div class="row" style="margin-top: auto; gap: 10px;"><a class="btn lg" href="#" style="background: #fff; color: #0E1D2C;">Register now</a><a class="btn lg" href="#" style="background: none; border-color: #5C7185; color: #fff;">See committees</a></div>
+</div>
+<div class="photo">
+<span class="pk"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px;"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg>[Event cover photo]</span>
+<div class="row" style="position: absolute; left: 24px; right: 24px; bottom: 24px; justify-content: space-between;"><div class="row" style="gap: 6px;"><i style="display: block; width: 28px; height: 4px; border-radius: 2px; background: #fff;"></i><i style="display: block; width: 14px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.35);"></i><i style="display: block; width: 14px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.35);"></i><i style="display: block; width: 14px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.35);"></i></div><div class="row" style="gap: 8px;"><button class="btn sm" aria-label="Previous" style="width: 36px; padding: 0; border-radius: 18px; background: rgba(255,255,255,.14); color: #fff;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><button class="btn sm" aria-label="Next" style="width: 36px; padding: 0; border-radius: 18px; background: #fff; color: #0E1D2C;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div></div>
+</div>
+</div>
+</div></div>
+
+<div style="margin-top: 56px; padding: 56px 0; background: var(--paper); border-top: 1px solid var(--line2); border-bottom: 1px solid var(--line2);"><div class="shell" style="display: flex; flex-direction: column; gap: 24px;">
+<div class="sech"><div><h2 class="serif">Upcoming conferences</h2><p>Model UN opening its doors over the coming weeks.</p></div><a href="#" class="row" style="gap: 6px; font-size: 14px; font-weight: 600;">All conferences<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;">
+<a class="ec" href="#" style="color: inherit;"><div class="pl alt"><b>UNSC</b><span class="tag t-ok" style="position: absolute; top: 12px; left: 12px; background: #E0EFE8; color: #0B6E4F;"><i></i>Applications open</span></div><div class="bd"><span class="date">Sun, 15 November</span><h3>Screens Model UN 2027</h3><span class="meta">Online · Free</span></div></a>
+<a class="ec hover" href="#" style="color: inherit;"><div class="pl photo"><span class="tag" style="position: absolute; top: 12px; left: 12px; background: #FBF0D9; color: #8A5A00;">Early bird · ends 10 Nov</span></div><div class="bd"><span class="date">Sat, 15 August</span><h3>Dhaka Model United Nations Conference 2026 (DMUNC '26)</h3><span class="meta">Pan Pacific Sonargaon Dhaka · $15</span></div></a>
+<a class="ec" href="#" style="color: inherit;"><div class="pl" style="background: #24384B;"><b>DISEC</b></div><div class="bd"><span class="date">Fri, 4 December</span><h3>[Conference name]</h3><span class="meta">[City] · [Fee]</span></div></a>
+<a class="ec" href="#" style="color: inherit;"><div class="pl photo"></div><div class="bd"><span class="date">Thu, 14 January</span><h3>[Conference name]</h3><span class="meta">[City] · [Fee]</span></div></a>
+</div>
+</div></div>
+
+<div style="padding: 56px 0 0;"><div class="shell" style="display: flex; flex-direction: column; gap: 24px;">
+<div class="sech"><div><h2 class="serif">Delegate handbook</h2><p>Preparation guides written by chairs and secretaries-general.</p></div><a href="#" class="row" style="gap: 6px; font-size: 14px; font-weight: 600;">All articles<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;">
+<a class="ac" href="#" style="color: inherit;"><div class="tx"><span class="tag t-mute" style="align-self: flex-start;">Caucus</span><h3 class="serif">Surviving your first unmoderated caucus</h3><div class="row" style="gap: 10px; margin-top: auto;"><span class="av" style="background: #13895F;">MS</span><span class="col"><b style="font-size: 13px; font-weight: 600;">MUN Pilot Screens</b><span class="meta" style="font-size: 12px;">Delegate · 3 min read</span></span></div></div><div class="pl">Caucus</div></a>
+<a class="ac" href="#" style="color: inherit;"><div class="tx"><span class="tag t-mute" style="align-self: flex-start;">Position papers</span><h3 class="serif">Write a position paper that earns you the floor</h3><div class="row" style="gap: 10px; margin-top: auto;"><span class="av" style="background: #1E6FE0;">MS</span><span class="col"><b style="font-size: 13px; font-weight: 600;">MUN Pilot Screens</b><span class="meta" style="font-size: 12px;">Chair · 5 min read</span></span></div></div><div class="pl">Position papers</div></a>
+</div>
+</div></div>
+
+<div style="padding: 64px 0;"><div class="shell">
+<div style="border-radius: 18px; background: #0E1D2C; padding: 44px 48px; display: flex; align-items: center; gap: 48px;">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 12px;"><span class="kick" style="color: #93B7A8;">For organisers</span><h2 class="serif" style="margin: 0; font-size: 36px; color: #fff;">Create your own MUN</h2><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #B7C4CE; max-width: 560px;">Open applications, allocate countries, collect delegate fees, run the floor live and issue certificates — all from one dashboard.</p></div>
+<div style="display: grid; grid-template-columns: repeat(3, 130px); gap: 12px; color: #B7C4CE; font-size: 13px;"><span class="col" style="gap: 4px; padding: 14px; border-radius: 12px; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);"><b style="font-size: 15px; color: #fff;">Allocation</b>countries &amp; seats</span><span class="col" style="gap: 4px; padding: 14px; border-radius: 12px; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);"><b style="font-size: 15px; color: #fff;">Live MUN</b>floor &amp; voting</span><span class="col" style="gap: 4px; padding: 14px; border-radius: 12px; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);"><b style="font-size: 15px; color: #fff;">Certificates</b>after results</span></div>
+<a class="btn lg" href="#" style="background: #fff; color: #0E1D2C;">Start hosting</a>
+</div>
+</div></div>
+
+<footer class="mf">
+<div class="shell" style="padding-top: 64px; display: flex; flex-direction: column; gap: 48px; position: relative; z-index: 1;">
+<div style="display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 2fr); gap: 64px;">
+<div class="col" style="gap: 20px;">
+<svg viewBox="0 -100 492 130" width="150" height="40" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink2); max-width: 320px;">The platform for running and attending Model UN conferences — from the first application to the last certificate.</p>
+<div class="row" style="gap: 10px;"><a class="btn sm b-pri" href="#">Start hosting</a><a class="btn sm b-sec" href="#">Browse conferences</a></div>
+<a class="mf-app" href="#"><span class="mf-appi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span><span class="col" style="gap: 1px;"><span style="font-size: 11.5px; color: var(--muted);">Get the app</span><b style="font-size: 14px; font-weight: 600; color: var(--ink);">MUN Pilot for Android</b></span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-left: auto; color: var(--muted);"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+<div class="row" style="gap: 8px;">
+<a class="mf-soc" href="#" aria-label="X"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path class="bk" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
+<a class="mf-soc" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><defs><linearGradient id="igg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".3" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset=".85" stop-color="#962FBF"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient></defs><rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="url(#igg)"/><rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.3" cy="7.7" r="1.05" fill="#fff"/></svg></a>
+<a class="mf-soc" href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="4" fill="#0A66C2"/><rect x="5.6" y="9.6" width="2.8" height="8.4" fill="#fff"/><circle cx="7" cy="6.6" r="1.65" fill="#fff"/><path fill="#fff" d="M10.6 9.6h2.7v1.2c.4-.75 1.4-1.4 2.8-1.4 2.4 0 3.1 1.5 3.1 3.7V18h-2.8v-4.3c0-1-.25-1.9-1.35-1.9s-1.65.8-1.65 1.9V18h-2.8z"/></svg></a>
+<a class="mf-soc" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="1" y="4.5" width="22" height="15" rx="4.5" fill="#FF0000"/><path d="M9.8 8.6v6.8l5.9-3.4z" fill="#fff"/></svg></a>
+<a class="mf-soc" href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path class="bk" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px;" class="mf-cols">
+<div class="col" style="gap: 14px;"><b>For delegates</b><a href="#">Browse conferences</a><a href="#">Delegate handbook</a><a href="#">My registrations</a></div>
+<div class="col" style="gap: 14px;"><b>For organisers</b><a href="#">Host a conference</a><a href="#">Pricing</a><a href="#">Organiser guide</a></div>
+<div class="col" style="gap: 14px;"><b>Company</b><a href="#">About</a><a href="#">Contact</a><a href="#">Blog</a></div>
+<div class="col" style="gap: 14px;"><b>Legal</b><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Refunds</a></div>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px;">
+<div class="mf-card">
+<div class="row" style="justify-content: space-between;"><b style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);">Next conferences</b><a href="#" style="font-size: 13px; font-weight: 600;">See all</a></div>
+<a class="mf-li" href="#"><span class="mf-date"><b>15</b>NOV</span><span class="col" style="gap: 2px; min-width: 0;"><b style="font-size: 14.5px; font-weight: 600; color: var(--ink);">Screens Model UN 2027</b><span style="font-size: 13px; color: var(--muted);">Online · Free</span></span></a>
+<a class="mf-li" href="#"><span class="mf-date"><b>15</b>AUG</span><span class="col" style="gap: 2px; min-width: 0;"><b style="font-size: 14.5px; font-weight: 600; color: var(--ink);">Dhaka Model United Nations Conference 2026</b><span style="font-size: 13px; color: var(--muted);">Pan Pacific Sonargaon Dhaka · $15</span></span></a>
+</div>
+<div class="mf-card">
+<div class="row" style="justify-content: space-between;"><b style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);">From the handbook</b><a href="#" style="font-size: 13px; font-weight: 600;">All articles</a></div>
+<a class="mf-li" href="#"><span class="mf-art">Caucus</span><span class="col" style="gap: 2px; min-width: 0;"><b class="serif" style="font-size: 16px; color: var(--ink);">Surviving your first unmoderated caucus</b><span style="font-size: 13px; color: var(--muted);">3 min read</span></span></a>
+<a class="mf-li" href="#"><span class="mf-art">Papers</span><span class="col" style="gap: 2px; min-width: 0;"><b class="serif" style="font-size: 16px; color: var(--ink);">Write a position paper that earns you the floor</b><span style="font-size: 13px; color: var(--muted);">5 min read</span></span></a>
+</div>
+</div>
+<div class="row" style="justify-content: space-between; border-top: 1px solid var(--line); padding: 22px 0 0; font-size: 13px; color: var(--muted);">
+<span>© 2026 MUN Pilot · Dhaka, Bangladesh</span>
+<div class="row" style="gap: 16px;">
+<div class="seg" role="group" aria-label="Theme"><button class="on" aria-pressed="true"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Light</button><button aria-pressed="false"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Dark</button></div>
+<a class="btn sm b-sec" href="#top"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>Back to top</a>
+</div>
+</div>
+</div>
+<div class="mf-mark" aria-hidden="true"><svg viewBox="0 -100 492 130" width="100%" height="100%" preserveAspectRatio="xMidYMin slice"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg></div>
+</footer>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Phone · 390</b><span>Top of page, then the cards.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mh"><svg viewBox="0 -100 492 130" width="100" height="27" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg><span style="flex: 1;"></span><button class="ib" aria-label="Search"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button><a class="btn sm b-pri" href="#">Sign up</a><button class="ib" aria-label="Menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 20px; overflow: hidden;">
+<div style="border-radius: 16px; overflow: hidden; background: #0E1D2C;"><div class="photo" style="height: 150px;"></div><div style="padding: 20px; display: flex; flex-direction: column; gap: 12px; color: #fff;"><span style="font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #93B7A8;">Featured conference</span><h2 class="serif" style="margin: 0; font-size: 28px; line-height: 1.1; color: #fff;">Dhaka Model United Nations Conference 2026</h2><div class="row" style="gap: 6px; flex-wrap: wrap;"><span class="tag" style="background: rgba(255,255,255,.1); color: #fff;">15–17 Aug</span><span class="tag" style="background: rgba(255,255,255,.1); color: #fff;">Dhaka</span><span class="tag" style="background: rgba(255,255,255,.1); color: #fff;">From $15</span></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><a class="btn" href="#" style="background: #fff; color: #0E1D2C;">Register</a><a class="btn" href="#" style="background: none; border-color: #5C7185; color: #fff;">Committees</a></div></div></div>
+<div class="row" style="justify-content: center; gap: 6px;"><i style="display: block; width: 20px; height: 4px; border-radius: 2px; background: var(--ink);"></i><i style="display: block; width: 8px; height: 4px; border-radius: 2px; background: var(--line);"></i><i style="display: block; width: 8px; height: 4px; border-radius: 2px; background: var(--line);"></i><i style="display: block; width: 8px; height: 4px; border-radius: 2px; background: var(--line);"></i></div>
+<div class="sech"><h2 class="serif" style="font-size: 24px;">Upcoming conferences</h2><a href="#" style="font-size: 13.5px; font-weight: 600;">All</a></div>
+<a class="ec" href="#" style="color: inherit; flex-direction: row;"><div class="pl alt" style="width: 112px; height: auto; flex: none;"><b style="font-size: 18px;">UNSC</b></div><div class="bd" style="padding: 12px 14px;"><span class="date">Sun, 15 November</span><h3 style="font-size: 15px;">Screens Model UN 2027</h3><span class="meta">Online · Free</span></div></a>
+</div>
+</div>
+
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mh" style="gap: 10px;"><button class="ib" aria-label="Close menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button><b style="font-size: 16px; flex: 1;">Menu</b></div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+<div class="search" style="max-width: none;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Conference, committee or city</div>
+<div style="background: var(--paper); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;">
+<a href="#" class="row" style="height: 52px; padding: 0 16px; color: var(--ink); font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--line2);">Conferences<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-left: auto; color: var(--muted);"><path d="m9 18 6-6-6-6"/></svg></a>
+<a href="#" class="row" style="height: 52px; padding: 0 16px; color: var(--ink); font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--line2);">Articles<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-left: auto; color: var(--muted);"><path d="m9 18 6-6-6-6"/></svg></a>
+<a href="#" class="row" style="height: 52px; padding: 0 16px; color: var(--ink); font-size: 15px; font-weight: 500;">Create event<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-left: auto; color: var(--muted);"><path d="m9 18 6-6-6-6"/></svg></a>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><a class="btn b-sec" href="#">Log in</a><a class="btn b-pri" href="#">Sign up</a></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px 12px; padding: 8px 4px;" class="foot">
+<div class="col" style="gap: 10px;"><b>For delegates</b><a href="#">Browse conferences</a><a href="#">Delegate handbook</a><a href="#">My registrations</a></div>
+<div class="col" style="gap: 10px;"><b>For organisers</b><a href="#">Host a conference</a><a href="#">Pricing</a><a href="#">Organiser guide</a></div>
+<div class="col" style="gap: 10px;"><b>Company</b><a href="#">About</a><a href="#">Contact</a><a href="#">Blog</a></div>
+<div class="col" style="gap: 10px;"><b>Legal</b><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Refunds</a></div>
+</div>
+</div>
+</div>
+
+<div class="cap"><b>Footer on phone</b><span>Link groups fold into an accordion; app, socials and theme stay visible.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mf" style="flex: 1; border-top: 0; padding: 0;">
+<div style="padding: 24px 20px 0; display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 1;">
+<svg viewBox="0 -100 492 130" width="120" height="32" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<p style="margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink2);">The platform for running and attending Model UN conferences.</p>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><a class="btn sm b-pri" href="#">Start hosting</a><a class="btn sm b-sec" href="#">Conferences</a></div>
+<a class="mf-app" href="#"><span class="mf-appi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span><span class="col" style="gap: 1px;"><span style="font-size: 11.5px; color: var(--muted);">Get the app</span><b style="font-size: 14px; font-weight: 600; color: var(--ink);">MUN Pilot for Android</b></span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-left: auto; color: var(--muted);"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+<div class="mf-acc">
+<div class="mf-ah"><b>For delegates</b><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg></div>
+<div class="col mf-cols" style="gap: 12px; padding: 0 0 14px;"><a href="#">Browse conferences</a><a href="#">Delegate handbook</a><a href="#">My registrations</a></div>
+<div class="mf-ah"><b>For organisers</b><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+<div class="mf-ah"><b>Company</b><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+<div class="mf-ah"><b>Legal</b><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+</div>
+<div class="row" style="gap: 8px;">
+<a class="mf-soc" href="#" aria-label="X"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path class="bk" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
+<a class="mf-soc" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><defs><linearGradient id="igg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".3" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset=".85" stop-color="#962FBF"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient></defs><rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="url(#igg)"/><rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.3" cy="7.7" r="1.05" fill="#fff"/></svg></a>
+<a class="mf-soc" href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="4" fill="#0A66C2"/><rect x="5.6" y="9.6" width="2.8" height="8.4" fill="#fff"/><circle cx="7" cy="6.6" r="1.65" fill="#fff"/><path fill="#fff" d="M10.6 9.6h2.7v1.2c.4-.75 1.4-1.4 2.8-1.4 2.4 0 3.1 1.5 3.1 3.7V18h-2.8v-4.3c0-1-.25-1.9-1.35-1.9s-1.65.8-1.65 1.9V18h-2.8z"/></svg></a>
+<a class="mf-soc" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="1" y="4.5" width="22" height="15" rx="4.5" fill="#FF0000"/><path d="M9.8 8.6v6.8l5.9-3.4z" fill="#fff"/></svg></a>
+<span style="flex: 1;"></span>
+<div class="seg" role="group" aria-label="Theme"><button class="on" aria-label="Light theme" aria-pressed="true" style="padding: 0 9px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg></button><button aria-label="Dark theme" aria-pressed="false" style="padding: 0 9px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div>
+</div>
+<span style="font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px;">© 2026 MUN Pilot · Dhaka, Bangladesh</span>
+</div>
+<div class="mf-mark" aria-hidden="true" style="height: 84px; margin-top: 12px;"><svg viewBox="0 -100 492 130" width="100%" height="100%" preserveAspectRatio="xMidYMin slice"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg></div>
+</div>
+</div>
+<div class="cap"><b>Header search — focused</b><span>Lighter at rest; on focus a seal ring and a clear Enter hint. Enter opens Conferences filtered by the term, as today.</span></div>
+<div style="width: 390px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px;">
+<div class="search" style="max-width: none;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search a conference, committee or city</div>
+<div class="search focus" style="max-width: none;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--seal);"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span style="flex: 1;">unsc dhaka</span><span style="font-size: 12px; color: var(--muted);">Enter ↵</span></div>
+<span style="font-size: 12.5px; color: var(--muted);">At rest: light fill + hairline. Focused: white, seal ring.</span>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3640}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Approvals, money, complaints</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--gold:#8A6400;--goldSoft:#F8EFD6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--gold:#E9C25A;--goldSoft:rgba(233,194,90,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dan{background:var(--red);color:#fff}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:236px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px 12px;box-sizing:border-box;gap:2px}
+.ni{display:flex;align-items:center;height:34px;padding:0 10px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--redSoft);color:var(--red);font-weight:600}
+.main{flex:1;min-width:0;padding:28px 32px;display:flex;flex-direction:column;gap:18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}.p-gold{background:var(--goldSoft);color:var(--gold)}
+.p-out{background:var(--paper);color:var(--ink2);box-shadow:inset 0 0 0 1px var(--line)}
+.stat{padding:18px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-family:Newsreader,Georgia,serif;font-size:34px;font-weight:500;line-height:1.05}
+.stat span{font-size:12.5px;color:var(--muted)}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.tbl th{text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding:10px 16px;background:var(--sunk2);border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 16px;border-bottom:1px solid var(--line2)}
+.tbl tr:last-child td{border-bottom:0}
+.av{width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex:none}
+.inp{display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);font-size:13.5px;box-sizing:border-box}
+.inp.pv{color:var(--muted)}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.seg{display:grid;gap:2px;padding:3px;border-radius:10px;background:var(--sunk)}
+.seg span{height:34px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld .fl{font-size:12.5px;font-weight:600}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+.menu{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh2);padding:6px;display:flex;flex-direction:column;width:200px}
+.menu span{height:34px;display:flex;align-items:center;gap:8px;padding:0 10px;border-radius:8px;font-size:13.5px}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3420px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">AD02 · App Admin · Applications, Plans &amp; revenue, Payments, Complaints</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Approvals, money and escalations</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Applications holds organizer requests, event upgrade requests and recent decisions. Plans &amp; revenue totals Pro, ticket and fee income per event (developer-mode payments left out) and records refunds. Payments picks the gateway — Stripe, ZiniPay or Developer — shows which credentials are present, and settles organizer payouts. Complaints is the Level 3 queue with the full trail, reassign and final resolve / reject.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 860px;">
+<aside class="side"><div style="padding: 4px 10px 10px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni">Overview</span><span class="ni">Users</span><span class="ni">Events</span><span class="ni">Live Sessions</span><span class="ni on">Applications</span><span class="ni">Plans &amp; Revenue</span><span class="ni">Payments</span><span class="ni">Complaints</span></aside>
+<main class="main">
+<div class="card" style="overflow: hidden;"><div style="padding: 16px 18px;"><b style="font-size: 16px;">Organizer Applications</b><div style="font-size: 13px; color: var(--muted);">Approve grants the Organizer role.</div></div>
+<table class="tbl"><thead><tr><th>Applicant</th><th>Organization</th><th>Experience</th><th style="text-align: right;">Actions</th></tr></thead><tbody>
+<tr><td><span class="col"><b>[Applicant]</b><span style="font-size: 12px; color: var(--muted);">applicant@school.edu</span></span></td><td>[Organization]</td><td style="color: var(--ink2); max-width: 420px;">[Experience they wrote]</td><td style="text-align: right;"><span class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec" style="color: var(--red);">Reject</button><button class="btn sm b-pri">Approve</button></span></td></tr>
+</tbody></table></div>
+<div class="card" style="overflow: hidden;"><div style="padding: 16px 18px;"><b style="font-size: 16px;">Upgrade requests</b></div>
+<table class="tbl"><thead><tr><th>Event</th><th>Asks for</th><th>Why</th><th style="text-align: right;">Actions</th></tr></thead><tbody>
+<tr><td><span class="col"><b>Dhaka MUN 2026</b><span style="font-size: 12px; color: var(--muted);">[Organizer] · Nov 1</span></span></td><td><span class="pill p-gold">Pro</span></td><td style="color: var(--ink2);">[Their message]</td><td style="text-align: right;"><button class="btn sm b-pri">Review</button></td></tr>
+<tr><td><span class="col"><b>[Event]</b><span style="font-size: 12px; color: var(--muted);">[Organizer] · Oct 30</span></span></td><td><span class="pill p-info">More room</span></td><td style="color: var(--ink2);">[Their message]</td><td style="text-align: right;"><button class="btn sm b-pri">Review</button></td></tr>
+</tbody></table></div>
+<div class="card" style="overflow: hidden;"><div style="padding: 16px 18px;"><b style="font-size: 16px;">Recent decisions</b></div>
+<div class="row" style="padding: 11px 18px; border-top: 1px solid var(--line2); font-size: 13.5px;"><span style="flex: 1;"><b>[Event]</b> · Pro request</span><span style="color: var(--muted); font-size: 12.5px;">Oct 28</span><span class="pill p-ok">Approved</span></div>
+<div class="row" style="padding: 11px 18px; border-top: 1px solid var(--line2); font-size: 13.5px;"><span style="flex: 1;"><b>[Applicant]</b> · Organizer application</span><span style="color: var(--muted); font-size: 12.5px;">Oct 26</span><span class="pill p-bad">Declined</span></div>
+</div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 980px;">
+<aside class="side"><div style="padding: 4px 10px 10px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni">Applications</span><span class="ni on">Plans &amp; Revenue</span><span class="ni">Payments</span></aside>
+<main class="main">
+<div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 34px;">Plans &amp; revenue</h1><span style="font-size: 14.5px; color: var(--muted);">Which events are Pro and how, what they paid, ticket revenue and the platform's fee.</span></div>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;"><div class="card stat"><span>Pro revenue</span><b>$1,470</b></div><div class="card stat"><span>Ticket revenue</span><b>$22,300</b></div><div class="card stat"><span>Platform fees</span><b>$1,115</b></div><div class="card stat"><span>Pro · custom · Free</span><b>14 · 3 · 115</b></div></div>
+<div class="card" style="overflow: hidden;"><div class="row" style="padding: 14px 18px; justify-content: space-between;"><span class="col"><b style="font-size: 16px;">Events</b><span style="font-size: 12.5px; color: var(--muted);">Developer Payment Mode payments are left out of every total.</span></span><span class="row" style="gap: 10px;"><div class="seg" style="grid-template-columns: repeat(4, auto);"><span class="on" style="padding: 0 12px;">all</span><span style="padding: 0 12px;">pro</span><span style="padding: 0 12px;">custom</span><span style="padding: 0 12px;">free</span></div><div class="inp pv" style="width: 220px; background: var(--paper);">Search events</div></span></div>
+<table class="tbl"><thead><tr><th>Event</th><th>Plan</th><th>Use</th><th>Pro paid</th><th>Tickets</th><th>Fee</th><th style="text-align: right;">Actions</th></tr></thead><tbody>
+<tr><td><b>Dhaka MUN 2026</b></td><td><span class="col" style="gap: 3px;"><span class="pill p-gold" style="align-self: flex-start;">Pro</span><span style="font-size: 11.5px; color: var(--muted);">Paid · Stripe</span></span></td><td style="font-size: 12.5px; color: var(--ink2);">186 / ∞ people<br>6 / ∞ committees</td><td>$49.00</td><td>$9,300</td><td>$465</td><td style="text-align: right;"><span class="row" style="gap: 6px; justify-content: flex-end;"><button class="btn sm b-sec">Plan</button><button class="btn sm b-sec">Payments</button></span></td></tr>
+<tr><td><b>[Event]</b></td><td><span class="col" style="gap: 3px;"><span class="pill p-info" style="align-self: flex-start;">Custom</span><span style="font-size: 11.5px; color: var(--muted);">Request</span></span></td><td style="font-size: 12.5px; color: var(--ink2);">88 / 120 people<br>4 / 5 committees</td><td>—</td><td>$2,100</td><td>$105</td><td style="text-align: right;"><span class="row" style="gap: 6px; justify-content: flex-end;"><button class="btn sm b-sec">Plan</button><button class="btn sm b-sec">Payments</button></span></td></tr>
+<tr><td><b>[Event]</b></td><td><span class="col" style="gap: 3px;"><span class="pill p-out" style="align-self: flex-start;">Free</span></span></td><td style="font-size: 12.5px;"><span style="color: var(--red); font-weight: 600;">50 / 50 people</span><br><span style="color: var(--ink2);">2 / 3 committees</span></td><td>—</td><td>$0</td><td>$0</td><td style="text-align: right;"><span class="row" style="gap: 6px; justify-content: flex-end;"><button class="btn sm b-sec">Plan</button><button class="btn sm b-sec">Payments</button></span></td></tr>
+</tbody></table></div>
+<div class="scrim" style="left: 236px;"></div>
+<div class="card" style="position: absolute; right: 60px; top: 300px; width: 560px; box-shadow: var(--sh2); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 12px;">
+<div class="col"><b style="font-size: 18px;">Payments · Dhaka MUN 2026</b></div>
+<div class="inp pv">Refund note (optional)</div>
+<div class="row" style="padding: 10px 12px; border: 1px solid var(--line2); border-radius: 10px; font-size: 13.5px;"><span class="col" style="flex: 1;"><b>Nadia Rahman</b><span style="font-size: 12px; color: var(--muted);">$50.00 · Stripe · Oct 14</span></span><button class="btn sm b-sec" style="color: var(--red);">Refund</button></div>
+<div class="row" style="padding: 10px 12px; border: 1px solid var(--line2); border-radius: 10px; font-size: 13.5px;"><span class="col" style="flex: 1;"><b>[Participant]</b><span style="font-size: 12px; color: var(--muted);">$50.00 · Stripe · Oct 12</span></span><span class="pill p-mute">Refunded</span></div>
+<div style="padding: 10px 12px; border-radius: 10px; background: var(--amberSoft); color: var(--amber); font-size: 12.5px; line-height: 1.5;">Record a refund of $50.00 for Nadia Rahman? Send the money back in the gateway first.</div>
+</div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 1060px;">
+<aside class="side"><div style="padding: 4px 10px 10px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni">Plans &amp; Revenue</span><span class="ni on">Payments</span><span class="ni">Complaints</span></aside>
+<main class="main">
+<div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 34px;">Payments</h1><span style="font-size: 14.5px; color: var(--muted);">Gateway mode, credentials and organizer payouts.</span></div>
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 14px;"><b style="font-size: 16px;">Payment Mode</b>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+<div style="padding: 14px; border-radius: 12px; border: 2px solid var(--seal); background: var(--sealSoft); display: flex; flex-direction: column; gap: 6px;"><span class="row" style="justify-content: space-between;"><b>Stripe</b><span class="pill" style="background: var(--seal); color: var(--sealInk);">ACTIVE</span></span><span style="font-size: 12.5px; color: var(--ink2);">Cards, USD. Hosted Checkout + signed webhook.</span><span class="pill p-ok" style="align-self: flex-start;">Credentials present</span></div>
+<div style="padding: 14px; border-radius: 12px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px;"><b>ZiniPay</b><span style="font-size: 12.5px; color: var(--ink2);">bKash / Nagad, BDT. Hosted invoice + verify.</span><span class="pill p-wait" style="align-self: flex-start;">API key missing</span></div>
+<div style="padding: 14px; border-radius: 12px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px;"><b>Developer</b><span style="font-size: 12.5px; color: var(--ink2);">No gateway — marks registrations paid instantly.</span><span class="pill p-bad" style="align-self: flex-start;">ALLOW_DEV_PAYMENTS not enabled</span></div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end;"><div class="fld"><span class="fl">Amount multiplier <span style="font-weight: 400; color: var(--muted);">(ZiniPay)</span></span><div class="inp">120</div></div><div class="fld"><span class="fl">Charge currency</span><div class="inp">BDT</div></div><button class="btn b-pri">Save payment mode</button></div>
+<span style="font-size: 12.5px; color: var(--muted);">Platform fee: 5% (configure in System Settings → Pricing).</span>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><span class="row" style="justify-content: space-between;"><b>Stripe</b><span class="pill p-ok">Ready end to end</span></span><span class="row" style="gap: 6px; flex-wrap: wrap;"><span class="pill p-ok">Secret Key · Set</span><span class="pill p-ok">Webhook Secret · Set</span><span class="pill p-ok">Publishable Key · Set</span></span></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><span class="row" style="justify-content: space-between;"><b>ZiniPay</b><span class="pill p-wait">Not fully configured</span></span><span class="row" style="gap: 6px;"><span class="pill p-bad">API key · Missing</span></span><span style="font-size: 12px; color: var(--muted);">[Sandbox note]</span></div>
+</div>
+<div class="card" style="overflow: hidden;"><div class="row" style="padding: 14px 18px; justify-content: space-between;"><b style="font-size: 16px;">Organizer Payout Requests</b><span class="pill p-wait">1 pending</span></div>
+<div style="padding: 14px 18px; border-top: 1px solid var(--line2); display: flex; flex-direction: column; gap: 10px;">
+<span class="row" style="justify-content: space-between;"><span class="col"><b style="font-size: 15px;">[Organizer] — $300.00</b><span style="font-size: 12.5px; color: var(--muted);">org@school.edu · Nov 12</span></span></span>
+<span style="font-size: 12.5px; color: var(--ink2); padding: 8px 10px; border-radius: 8px; background: var(--sunk2);">Earned $8,835 (paid $9,300 − fees $465) · available for this request $8,535</span>
+<div class="row" style="gap: 10px;"><div class="inp pv" style="flex: 1;">Transaction reference</div><div class="inp pv" style="flex: 1;">Note to the organizer</div><button class="btn sm b-sec" style="color: var(--red);">Reject</button><button class="btn sm b-pri">Mark Paid</button></div>
+</div></div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Complaints · phone</b><span>Level 3 queue · Active / Resolved.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<span class="pill p-bad" style="align-self: flex-start;">System Admin</span>
+<b class="serif" style="font-size: 24px;">Final Escalations (Level 3)</b>
+<div class="seg" style="grid-template-columns: 1fr 1fr;"><span class="on">Level 3 queue</span><span>All complaints</span></div>
+<div class="seg" style="grid-template-columns: 1fr 1fr;"><span class="on">Active</span><span>Resolved</span></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 9px;">
+<span class="row" style="gap: 6px; flex-wrap: wrap;"><span class="pill p-mute">[Type]</span><span class="pill p-bad">Level 3</span><span class="pill p-wait">escalated</span></span>
+<b style="font-size: 15px;">[Subject]</b><span style="font-size: 12px; color: var(--muted);">Nov 1, 2026</span>
+<span style="font-size: 13px; color: var(--ink2); line-height: 1.5;">[Description]</span>
+<button class="btn sm b-sec" style="align-self: flex-start;">View Full Trail</button>
+<div class="inp pv" style="height: 72px; align-items: flex-start; padding-top: 10px;">Enter final resolution or rejection reason...</div>
+<span class="row" style="gap: 6px; font-size: 12px; color: var(--seal); font-weight: 600;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg>Writing help</span>
+<div class="row" style="gap: 8px;"><div class="inp pv" style="flex: 1;">Reassign to (member email)</div><button class="btn sm b-sec">Reassign</button></div>
+<div class="row" style="gap: 8px;"><button class="btn sm b-sec" style="flex: 1; color: var(--red);">Final Reject</button><button class="btn sm b-pri" style="flex: 1;">Final Resolve</button></div>
+</div>
+</div>
+</div>
+
+<div class="cap"><b>Full Escalation Trail</b></div>
+<div class="card" style="width: 390px; padding: 18px; box-shadow: var(--sh2); display: flex; flex-direction: column; gap: 12px; box-sizing: border-box;">
+<b style="font-size: 16px;">Full Escalation Trail</b>
+<div style="display: flex; flex-direction: column; gap: 0; border-left: 2px solid var(--line); margin-left: 6px;">
+<span class="col" style="padding: 0 0 12px 14px; position: relative;"><span style="position: absolute; left: -6px; top: 3px; width: 10px; height: 10px; border-radius: 5px; background: var(--muted);"></span><b style="font-size: 13px;">Level 1 · [handler]</b><span style="font-size: 12px; color: var(--muted);">[note] · Oct 29</span></span>
+<span class="col" style="padding: 0 0 12px 14px; position: relative;"><span style="position: absolute; left: -6px; top: 3px; width: 10px; height: 10px; border-radius: 5px; background: var(--amber);"></span><b style="font-size: 13px;">Level 2 · [handler]</b><span style="font-size: 12px; color: var(--muted);">[note] · Oct 31</span></span>
+<span class="col" style="padding: 0 0 0 14px; position: relative;"><span style="position: absolute; left: -6px; top: 3px; width: 10px; height: 10px; border-radius: 5px; background: var(--red);"></span><b style="font-size: 13px;">Level 3 · App Admin</b><span style="font-size: 12px; color: var(--muted);">Waiting</span></span>
+</div>
+</div>
+<div class="card" style="width: 390px; padding: 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 13px;">Final Resolution:</b><span style="font-size: 13px; color: var(--ink2); padding: 10px; border-radius: 8px; background: var(--sealSoft);">[Resolution text]</span></div>
+
+<div class="cap"><b>States</b></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 10px;">
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--amber); background: var(--amberSoft); border-color: transparent;">Selected mode isn't usable</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--seal);">Saved — live within a minute</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--red);">MORE THAN EARNED</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted); text-align: center;">No pending organizer applications.</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted); text-align: center;">No pending upgrade requests.</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted); text-align: center;">Nothing decided yet.</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted); text-align: center;">No payout requests.</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3420}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

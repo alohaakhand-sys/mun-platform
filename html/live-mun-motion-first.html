@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live MUN — motion-first UI mockup</title>
+<style>
+/* ───────────────────────────────────────────────────────────────────────────
+   Palette taken from the committee room, not from UI convention:
+   ink = the chamber at night, paper = the placard, brass = the gavel.
+   BRASS IS RATIONED. It marks the open gate and the one live action. Nothing else.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root{
+  --ink:#12141A;
+  --slate:#1B1F29;
+  --slate-hi:#232837;
+  --edge:#2E3547;
+  --edge-soft:#232936;
+  --paper:#E8E4DA;
+  --paper-dim:#9AA0AE;
+  --paper-faint:#646C7E;
+  --brass:#C8A344;
+  --brass-dim:#8A7231;
+  --signal:#6FA8A0;
+  --halt:#B4544A;
+
+  --mono: ui-monospace,"SFMono-Regular","Cascadia Mono",Menlo,Consolas,monospace;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+
+  --r:10px;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--mono);
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 64px;
+}
+
+/* Utility type roles ------------------------------------------------------- */
+.eyebrow{
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--paper-faint);
+  font-weight:600;
+}
+.said{ font-family:var(--serif); }
+.num{ font-variant-numeric:tabular-nums; }
+
+/* ── Preview control bar: deliberately NOT part of the design ─────────────── */
+.preview{
+  border-bottom:1px dashed var(--edge);
+  background:#0C0E13;
+  padding:14px 20px;
+}
+.preview-in{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.preview-label{
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--paper-faint);border:1px dashed var(--edge);
+  padding:4px 8px;border-radius:4px;
+}
+.states{display:flex;flex-wrap:wrap;gap:6px}
+.state-btn{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  background:transparent;color:var(--paper-dim);
+  border:1px solid var(--edge);border-radius:6px;
+  padding:6px 10px;cursor:pointer;
+  transition:border-color .15s, color .15s, background .15s;
+}
+.state-btn:hover{color:var(--paper);border-color:var(--paper-faint)}
+.state-btn[aria-pressed="true"]{
+  background:var(--paper);color:var(--ink);border-color:var(--paper);font-weight:700;
+}
+.state-btn:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+
+/* ── Page shell ───────────────────────────────────────────────────────────── */
+.wrap{max-width:1320px;margin:0 auto;padding:0 20px}
+.masthead{padding:36px 0 22px}
+.masthead h1{
+  font-family:var(--serif);
+  font-size:clamp(26px,3.4vw,40px);
+  line-height:1.1;margin:0 0 10px;font-weight:400;letter-spacing:-.01em;
+}
+.masthead p{
+  margin:0;max-width:60ch;color:var(--paper-dim);
+  font-size:13.5px;line-height:1.65;
+}
+.masthead b{color:var(--paper);font-weight:600}
+
+/* ── The shared strip: one truth, both screens ───────────────────────────── */
+.headline-strip{
+  border:1px solid var(--edge);border-radius:var(--r);
+  background:linear-gradient(180deg,var(--slate-hi),var(--slate));
+  padding:13px 18px;margin-bottom:8px;
+  display:flex;gap:18px;align-items:baseline;flex-wrap:wrap;
+}
+.headline-strip .topic{font-family:var(--serif);font-size:17px;flex:1;min-width:220px}
+.headline-strip .topic em{color:var(--paper-faint);font-style:normal}
+
+.sync-note{
+  text-align:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--paper-faint);margin:0 0 18px;
+}
+
+/* ── Two panes ────────────────────────────────────────────────────────────── */
+.panes{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start}
+@media (max-width:960px){.panes{grid-template-columns:1fr}}
+
+.pane{border:1px solid var(--edge);border-radius:var(--r);background:var(--slate);overflow:hidden;position:relative}
+.pane-head{
+  padding:9px 16px;border-bottom:1px solid var(--edge-soft);
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  background:#171B24;
+}
+.pane-body{padding:18px 16px}
+
+/* ── CHAIR: the procedural ladder ─────────────────────────────────────────── */
+.ladder{display:flex;gap:2px;margin-bottom:18px;flex-wrap:wrap}
+.rung{
+  flex:1;min-width:52px;border-top:2px solid var(--edge);
+  padding-top:7px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--paper-faint);transition:color .2s,border-color .2s;
+}
+.rung[data-on="done"]{border-top-color:var(--paper-faint);color:var(--paper-dim)}
+.rung[data-on="now"]{border-top-color:var(--brass);color:var(--brass);font-weight:700}
+
+/* three zones */
+.zones{display:grid;grid-template-columns:auto 1fr auto;gap:0;border:1px solid var(--edge);border-radius:8px;overflow:hidden}
+@media (max-width:720px){.zones{grid-template-columns:1fr}}
+.zone{padding:15px 16px;background:#161A23}
+.zone + .zone{border-left:1px solid var(--edge-soft)}
+@media (max-width:720px){.zone + .zone{border-left:none;border-top:1px solid var(--edge-soft)}}
+
+.zone-step{min-width:132px}
+.zone-step .n{font-family:var(--serif);font-size:29px;line-height:1;display:block;margin-bottom:5px}
+.zone-step .of{font-size:10px;color:var(--paper-faint);letter-spacing:.1em}
+
+/* the gate zone — the part that does not exist today */
+.zone-gate{background:#181D27}
+.zone-gate[data-open="yes"]{
+  background:linear-gradient(180deg,rgba(200,163,68,.09),rgba(200,163,68,.02));
+  box-shadow:inset 3px 0 0 var(--brass);
+}
+.gate-line{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:5px 0 9px}
+.gate-name{font-size:15px;font-weight:700;letter-spacing:.01em}
+.zone-gate[data-open="yes"] .gate-name{color:var(--brass)}
+.clock{
+  font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
+  color:var(--paper);background:#0E1118;border:1px solid var(--edge);
+  padding:1px 8px;border-radius:5px;
+}
+.clock[data-low="yes"]{color:var(--halt);border-color:var(--halt)}
+.gate-counts{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--paper-dim)}
+.gate-counts b{color:var(--paper);font-weight:700}
+
+.zone-next{min-width:198px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+.btn{
+  font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+  padding:11px 14px;border-radius:7px;cursor:pointer;text-align:left;
+  border:1px solid var(--edge);background:#0E1118;color:var(--paper);
+  transition:border-color .15s,background .15s,transform .1s;
+  width:100%;
+}
+.btn:hover{border-color:var(--paper-faint)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+/* THE one live action. Brass appears here and on the open gate. Nowhere else. */
+.btn-primary{
+  background:var(--brass);color:#17130A;border-color:var(--brass);font-weight:700;
+}
+.btn-primary:hover{background:#D7B252;border-color:#D7B252}
+.btn-ghost{font-size:11px;padding:8px 12px;color:var(--paper-dim);background:transparent}
+.btn-override{border-style:dashed;color:var(--paper-faint);font-size:11px;padding:8px 12px;background:transparent}
+.btn-override:hover{color:var(--halt);border-color:var(--halt)}
+
+/* ── DELEGATE: the floor card ─────────────────────────────────────────────── */
+.floor-card{border:1px solid var(--edge);border-radius:8px;background:#161A23;padding:17px 16px}
+.floor-card[data-open="yes"]{
+  border-color:var(--brass-dim);
+  background:linear-gradient(180deg,rgba(200,163,68,.09),rgba(200,163,68,.015));
+}
+.fc-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:4px}
+.fc-name{font-size:15px;font-weight:700}
+.floor-card[data-open="yes"] .fc-name{color:var(--brass)}
+.fc-sub{font-size:12px;color:var(--paper-dim);margin:0 0 14px;line-height:1.55}
+.fc-sub .said{font-size:14px;color:var(--paper)}
+
+.ballot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+
+/* The risk: absence is legible. Locked rows stay on screen with their reason. */
+.locked{margin-top:16px;border-top:1px solid var(--edge-soft);padding-top:13px}
+.locked-h{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:9px}
+.lrow{display:flex;gap:9px;padding:6px 0;align-items:flex-start}
+.lrow + .lrow{border-top:1px solid #1E2330}
+.lrow .k{
+  font-size:11.5px;color:var(--paper-dim);min-width:104px;flex-shrink:0;
+  text-decoration:line-through;text-decoration-color:var(--paper-faint);
+}
+.lrow .why{font-size:11.5px;color:var(--paper-faint);line-height:1.5}
+
+.speaking{
+  display:flex;gap:11px;align-items:center;
+  border:1px solid var(--edge);border-radius:7px;background:#0E1118;
+  padding:11px 13px;margin-bottom:14px;
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--halt);flex-shrink:0}
+.speaking .who{font-family:var(--serif);font-size:16px;flex:1}
+
+/* ── Gate chooser: the dynamic menu, rebuilt ──────────────────────────────── */
+.chooser{
+  position:absolute;inset:0;background:rgba(10,12,17,.96);
+  padding:20px 18px;overflow:auto;
+}
+.chooser[hidden]{display:none}
+.chooser h3{margin:0 0 3px;font-size:13px;letter-spacing:.03em}
+.chooser .lede{margin:0 0 16px;font-size:11.5px;color:var(--paper-faint)}
+.opt{border:1px solid var(--edge);border-radius:7px;padding:12px 13px;margin-bottom:8px;background:#141821}
+.opt[data-sel="yes"]{border-color:var(--brass);background:rgba(200,163,68,.07)}
+.opt-h{display:flex;gap:9px;align-items:center;font-size:12.5px;font-weight:700;cursor:pointer}
+.radio{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--paper-faint);flex-shrink:0}
+.opt[data-sel="yes"] .radio{border-color:var(--brass);background:var(--brass);box-shadow:inset 0 0 0 2.5px #141821}
+.opt-note{font-size:11px;color:var(--paper-faint);margin:5px 0 0 21px}
+.types{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 0 21px}
+.type{
+  font-size:11px;padding:5px 9px;border-radius:5px;cursor:pointer;
+  border:1px solid var(--edge);background:#0E1118;color:var(--paper-dim);
+  transition:border-color .15s,color .15s;
+}
+.type:hover{color:var(--paper)}
+.type[data-on="yes"]{border-color:var(--brass);color:var(--brass);background:rgba(200,163,68,.08)}
+.type:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.chooser-foot{display:flex;gap:9px;align-items:center;margin-top:15px;flex-wrap:wrap}
+.win{
+  font-family:var(--mono);font-size:12px;width:74px;
+  background:#0E1118;border:1px solid var(--edge);color:var(--paper);
+  padding:9px 10px;border-radius:6px;
+}
+
+/* ── Notes ────────────────────────────────────────────────────────────────── */
+.notes{margin-top:38px;border-top:1px solid var(--edge);padding-top:26px}
+.notes h2{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 16px}
+.note-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:16px}
+.note{border-left:2px solid var(--edge);padding-left:14px}
+.note h4{margin:0 0 6px;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass)}
+.note p{margin:0;font-size:12.5px;color:var(--paper-dim);line-height:1.65}
+.note code{background:#0E1118;border:1px solid var(--edge);padding:1px 4px;border-radius:3px;font-size:11.5px;color:var(--paper)}
+
+/* Both screens flip together — the one orchestrated moment, and it is the argument. */
+@keyframes settle{from{opacity:.25;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.flip{animation:settle .26s ease-out}
+@media (prefers-reduced-motion:reduce){
+  .flip{animation:none}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Preview control: dashed + monospace so it never reads as part of the design -->
+<div class="preview">
+  <div class="preview-in">
+    <span class="preview-label">Mockup · click a gate</span>
+    <div class="states" id="states"></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <h1>One gate. Two screens. No guessing.</h1>
+    <p>The chair opens a gate; the gate decides what every delegate may do. Both panes below are
+    rendered from a <b>single</b> gate object by one resolver — the same contract as
+    <b>capabilitiesFor()</b>. Change the gate and watch both screens move together.</p>
+  </header>
+
+  <div class="headline-strip">
+    <span class="eyebrow">Agenda</span>
+    <span class="topic" id="topic"></span>
+    <span class="eyebrow">Sitting</span>
+    <span class="clock num">1:12:40</span>
+  </div>
+  <p class="sync-note">↓ both panes below read the same gate ↓</p>
+
+  <div class="panes">
+
+    <!-- ══ CHAIR ══════════════════════════════════════════════════════════ -->
+    <section class="pane">
+      <div class="pane-head">
+        <span class="eyebrow">Chair · console</span>
+        <span class="eyebrow" id="chairRole">Kenya · Chair</span>
+      </div>
+      <div class="pane-body">
+
+        <!-- A sitting genuinely IS ordered, so a step rail carries real information. -->
+        <div class="ladder" id="ladder"></div>
+
+        <div class="zones" id="zones">
+          <div class="zone zone-step">
+            <span class="eyebrow">Step</span>
+            <span class="n said" id="stepName"></span>
+            <span class="of num" id="stepOf"></span>
+          </div>
+
+          <div class="zone zone-gate" id="zoneGate">
+            <span class="eyebrow">Gate · what delegates can do</span>
+            <div class="gate-line">
+              <span class="gate-name" id="gateName"></span>
+              <span class="clock num" id="gateClock" hidden></span>
+            </div>
+            <div class="gate-counts" id="gateCounts"></div>
+            <button class="btn btn-ghost" style="margin-top:12px;width:auto" id="openChooser">Change gate ▾</button>
+          </div>
+
+          <div class="zone zone-next">
+            <span class="eyebrow">Next</span>
+            <button class="btn btn-primary" id="nextBtn"></button>
+            <button class="btn btn-override">Chair override ▾</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- The dynamic menu, rebuilt: choosing a gate IS choosing delegate permission. -->
+      <div class="chooser" id="chooser" hidden>
+        <h3>Open the floor for…</h3>
+        <p class="lede">Whatever you pick here is what every delegate sees. Nothing else is clickable for them.</p>
+
+        <div class="opt" data-sel="yes">
+          <div class="opt-h"><span class="radio"></span> Motions</div>
+          <p class="opt-note">Tick the types that are in order right now.</p>
+          <div class="types" id="typeList"></div>
+        </div>
+        <div class="opt"><div class="opt-h"><span class="radio"></span> Speakers signup</div>
+          <p class="opt-note">Delegates add themselves. Ignoring keeps them off the list.</p></div>
+        <div class="opt"><div class="opt-h"><span class="radio"></span> Roll call</div>
+          <p class="opt-note">Delegates declare their own status. No answer resolves on close.</p></div>
+        <div class="opt"><div class="opt-h"><span class="radio"></span> Points only</div>
+          <p class="opt-note">For while a delegate holds the floor.</p></div>
+        <div class="opt"><div class="opt-h"><span class="radio"></span> Nothing</div>
+          <p class="opt-note">Locks the floor. Use it while you think.</p></div>
+
+        <div class="chooser-foot">
+          <span class="eyebrow">Window</span>
+          <input class="win num" value="90s" aria-label="Gate window in seconds">
+          <button class="btn btn-primary" style="width:auto" id="closeChooser">Open floor</button>
+          <button class="btn btn-ghost" style="width:auto" id="cancelChooser">Cancel</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ DELEGATE ═══════════════════════════════════════════════════════ -->
+    <section class="pane">
+      <div class="pane-head">
+        <span class="eyebrow">Delegate · floor card</span>
+        <span class="eyebrow">France · present</span>
+      </div>
+      <div class="pane-body">
+        <div id="speakingSlot"></div>
+        <div class="floor-card" id="floorCard">
+          <div class="fc-top">
+            <span class="fc-name" id="fcName"></span>
+            <span class="clock num" id="fcClock" hidden></span>
+          </div>
+          <p class="fc-sub" id="fcSub"></p>
+          <div id="fcAction"></div>
+
+          <div class="locked" id="lockedWrap">
+            <div class="locked-h">Not available right now</div>
+            <div id="lockedList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="notes">
+    <h2>What the mockup is arguing</h2>
+    <div class="note-grid">
+      <div class="note">
+        <h4>One gate, not four derivations</h4>
+        <p>Both panes call one resolver over one <code>floorGate</code> field. Permission stops being
+        derived, so <code>flowModel</code>, <code>motionFloor</code>, <code>useFloorController</code>
+        and the projector can keep driving display without ever disagreeing about what is allowed.</p>
+      </div>
+      <div class="note">
+        <h4>The gate zone is the missing piece</h4>
+        <p>Today the chair can never see what they have allowed. The middle zone is that answer, and it
+        never collapses — unlike the current bar, which hides itself after six seconds.</p>
+      </div>
+      <div class="note">
+        <h4>Locked rows stay on screen</h4>
+        <p>Most interfaces hide what you cannot do. In parliamentary procedure, knowing <em>why</em> you
+        are out of order is the skill being taught. Every reason shown here is a real
+        <code>lockReason</code> string from the shipped resolver.</p>
+      </div>
+      <div class="note">
+        <h4>Exactly one live action</h4>
+        <p>Brass marks the open gate and the single action available. The delegate never has to choose
+        between four buttons that lead to the same form — the problem the current console has.</p>
+      </div>
+      <div class="note">
+        <h4>Windows close themselves</h4>
+        <p>Each gate carries <code>endsAt</code>. The client locks at the deadline and rules reject writes
+        past it, so a sleeping chair laptop cannot leave a window open. No scheduled function, no Blaze.</p>
+      </div>
+      <div class="note">
+        <h4>Serif speaks, mono reports</h4>
+        <p>Anything the committee says — the agenda topic, a motion, the country holding the floor — is
+        set in serif. Anything the system knows — gate, timers, counts, status — is monospace.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ────────────────────────────────────────────────────────────────────────────
+   A direct port of src/lib/services/floorGate.ts — same field names, same
+   lockReason copy. The mockup demonstrates the single-source-of-truth claim
+   rather than asserting it: both panes below render from capabilitiesFor().
+   ──────────────────────────────────────────────────────────────────────────── */
+
+const MOTION_LABEL = {
+  set_agenda:"Set the agenda", open_gsl:"Open the Speakers List",
+  mod_caucus:"Moderated caucus", unmod_caucus:"Unmoderated caucus",
+  extend_caucus:"Extend the caucus", introduce_document:"Introduce a document",
+  move_to_voting:"Move to voting", suspend:"Suspend", adjourn:"Adjourn",
+};
+const ALL_TYPES = Object.keys(MOTION_LABEL);
+
+const STEPS = ["Roll call","Agenda","Speakers","Motion","Caucus","Voting","Closing"];
+
+/* Each preview state = one gate + the room's live numbers. */
+const STATES = [
+  { id:"locked", btn:"Locked", step:1,
+    gate:{kind:"locked", allowsPoints:false, secs:null},
+    counts:[["Present","18 / 24"],["Quorum","met"]],
+    next:"Open roll call" },
+
+  { id:"roll_call", btn:"Roll call", step:0,
+    gate:{kind:"roll_call", allowsPoints:false, secs:42},
+    counts:[["Answered","18 / 24"],["Present","11"],["Present & voting","7"]],
+    next:"Close roll call" },
+
+  { id:"motions_agenda", btn:"Motions · agenda only", step:1,
+    gate:{kind:"motions", motionTypes:["set_agenda"], allowsPoints:false, secs:80,
+          label:"Motions · agenda only"},
+    counts:[["Proposed","2"],["Seconded","1"]],
+    next:"Recognize France" },
+
+  { id:"motions_open", btn:"Motions · open", step:3,
+    gate:{kind:"motions", allowsPoints:true, secs:90,
+          motionTypes:["mod_caucus","unmod_caucus","extend_caucus","introduce_document","move_to_voting","adjourn"]},
+    counts:[["Proposed","4"],["Seconded","3"],["Top motion","Mod caucus"]],
+    next:"Recognize Brazil" },
+
+  { id:"signup", btn:"Speakers signup", step:2,
+    gate:{kind:"signup", signupFor:"gsl", allowsPoints:false, secs:35},
+    counts:[["Signed up","9"],["Speaking time","90s"]],
+    next:"Close signup & start" },
+
+  { id:"debate", btn:"Debate", step:2,
+    gate:{kind:"debate", allowsPoints:true, secs:null},
+    counts:[["Speaking","France"],["Remaining","1:12"],["List","8 left"]],
+    next:"Next speaker",
+    speaking:{country:"France", left:"1:12"} },
+
+  { id:"voting", btn:"Voting", step:5,
+    gate:{kind:"voting", allowsPoints:false, secs:48},
+    counts:[["Cast","14 / 18"],["Threshold","Simple majority"]],
+    next:"Close & record" },
+];
+
+const NOT_SEATED = "You are not marked present. Ask the chair to seat you.";
+
+/** Port of capabilitiesFor(). Delegate here is seated, so the seating branches are elided. */
+function capabilitiesFor(gate){
+  const kind = gate.kind;
+  const closedCopy = "The chair has not opened the floor for this.";
+  const r = {};
+
+  const canDeclareAttendance = kind === "roll_call";
+  if(!canDeclareAttendance) r.canDeclareAttendance = "Roll call is not open.";
+
+  const types = kind === "motions" ? (gate.motionTypes || []) : [];
+  const canProposeMotion = kind === "motions" && types.length > 0;
+  if(!canProposeMotion){
+    r.canProposeMotion =
+      kind === "debate"  ? "Motions are out of order while a delegate holds the floor."
+    : kind === "voting"  ? "Motions reopen once the chair records the result."
+    : closedCopy;
+  }
+
+  const canSecondMotion = kind === "motions";
+  if(!canSecondMotion) r.canSecondMotion = closedCopy;
+
+  const canRaisePoint = gate.allowsPoints && kind !== "locked";
+  if(!canRaisePoint) r.canRaisePoint = "The chair has closed the floor to points.";
+
+  const canJoinSignup = kind === "signup" ? (gate.signupFor || "gsl") : false;
+  if(!canJoinSignup) r.canJoinSignup = closedCopy;
+
+  const canCastBallot = kind === "voting";
+  if(!canCastBallot) r.canCastBallot = "No vote is open.";
+
+  const canRequestFloor = kind !== "locked" && kind !== "voting";
+  if(!canRequestFloor) r.canRequestFloor = kind === "voting" ? "A vote is running." : closedCopy;
+
+  return { canDeclareAttendance, canProposeMotion, proposableMotionTypes: types,
+           canSecondMotion, canRaisePoint, canJoinSignup, canCastBallot,
+           canRequestFloor, effectiveKind: kind, lockReason: r };
+}
+
+function gateHeadline(gate){
+  if(gate.label) return gate.label;
+  switch(gate.kind){
+    case "roll_call": return "Roll call is open";
+    case "motions":   return "The floor is open for motions";
+    case "signup":    return gate.signupFor === "caucus"
+                        ? "Caucus speakers list is open" : "Speakers list is open";
+    case "debate":    return "A delegate has the floor";
+    case "voting":    return "A vote is running";
+    default:          return "The floor is closed";
+  }
+}
+
+/* Delegate-facing copy per gate: the sentence, then the single live action. */
+const DELEGATE_COPY = {
+  locked:    { sub:"The chair has the floor. Nothing to do right now." },
+  roll_call: { sub:"Declare your status before the timer ends. No answer is resolved for you on close — <b>absent</b> if you are offline, <b>abstain</b> if you are here but silent.",
+               actions:[["Present","primary"],["Present and voting","primary"]] },
+  motions:   { sub:"", actions:[["Propose a motion","primary"]] },
+  signup:    { sub:"Add yourself to speak, or ignore this to stay off the list.",
+               actions:[["Add me to the list","primary"]], after:"You are #4 · 9 signed up" },
+  debate:    { sub:"", actions:[["Raise a point ▾","primary"]] },
+  voting:    { sub:'<span class="said">Motion to open the Speakers List</span>',
+               ballot:true },
+};
+
+const KEY_LABEL = {
+  canDeclareAttendance:"Roll call", canProposeMotion:"Motions", canSecondMotion:"Second",
+  canRaisePoint:"Points", canJoinSignup:"Speakers list", canCastBallot:"Vote",
+  canRequestFloor:"Ask to speak",
+};
+const KEY_ORDER = ["canProposeMotion","canSecondMotion","canRaisePoint","canJoinSignup",
+                   "canCastBallot","canRequestFloor","canDeclareAttendance"];
+
+const TOPICS = {
+  roll_call:"<em>No topic adopted yet</em>",
+  locked:"<em>No topic adopted yet</em>",
+  motions_agenda:"<em>No topic adopted yet</em>",
+};
+const ADOPTED = "Regulating autonomous weapons systems";
+
+let current = STATES[2];
+const $ = (id) => document.getElementById(id);
+
+/* State switcher -------------------------------------------------------- */
+$("states").innerHTML = STATES.map(s =>
+  `<button class="state-btn" data-id="${s.id}" aria-pressed="false">${s.btn}</button>`).join("");
+$("states").addEventListener("click", e => {
+  const b = e.target.closest(".state-btn"); if(!b) return;
+  current = STATES.find(s => s.id === b.dataset.id);
+  render(true);
+});
+
+$("openChooser").addEventListener("click", () => {
+  // Open it showing what is actually in force, so the chooser reads as editing state, not authoring it.
+  const live = current.gate.motionTypes || [];
+  document.querySelectorAll("#typeList .type").forEach(b => {
+    b.dataset.on = live.includes(b.dataset.t) ? "yes" : "no";
+  });
+  $("chooser").hidden = false;
+});
+$("closeChooser").addEventListener("click", () => $("chooser").hidden = true);
+$("cancelChooser").addEventListener("click", () => $("chooser").hidden = true);
+
+$("typeList").innerHTML = ALL_TYPES.map(t =>
+  `<button class="type" data-t="${t}" data-on="no">${MOTION_LABEL[t]}</button>`).join("");
+$("typeList").addEventListener("click", e => {
+  const b = e.target.closest(".type"); if(!b) return;
+  b.dataset.on = b.dataset.on === "yes" ? "no" : "yes";
+});
+
+function fmt(s){ return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); }
+
+function render(animate){
+  const s = current, gate = s.gate, cap = capabilitiesFor(gate);
+  const open = gate.kind !== "locked";
+
+  document.querySelectorAll(".state-btn").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.id === s.id)));
+
+  $("topic").innerHTML = TOPICS[s.id] || ADOPTED;
+
+  /* Ladder ------------------------------------------------------------- */
+  $("ladder").innerHTML = STEPS.map((label,i) =>
+    `<div class="rung" data-on="${i < s.step ? "done" : i === s.step ? "now" : "next"}">${label}</div>`
+  ).join("");
+
+  /* Chair zones -------------------------------------------------------- */
+  $("stepName").textContent = STEPS[s.step];
+  $("stepOf").textContent   = `${s.step + 1} of ${STEPS.length}`;
+  $("zoneGate").dataset.open = open ? "yes" : "no";
+  $("gateName").textContent  = gateHeadline(gate);
+  $("gateCounts").innerHTML  = s.counts
+    .map(([k,v]) => `<span>${k} <b>${v}</b></span>`).join("");
+  $("nextBtn").textContent   = s.next;
+
+  const gc = $("gateClock");
+  gc.hidden = gate.secs == null;
+  if(gate.secs != null){ gc.textContent = fmt(gate.secs); gc.dataset.low = gate.secs <= 45 ? "yes":"no"; }
+
+  /* Delegate ----------------------------------------------------------- */
+  $("speakingSlot").innerHTML = s.speaking
+    ? `<div class="speaking"><span class="dot"></span>
+         <span class="who">${s.speaking.country} is speaking</span>
+         <span class="clock num">${s.speaking.left}</span></div>`
+    : "";
+
+  const copy = DELEGATE_COPY[gate.kind] || {};
+  $("floorCard").dataset.open = open ? "yes" : "no";
+  $("fcName").textContent = gateHeadline(gate);
+
+  const fcc = $("fcClock");
+  fcc.hidden = gate.secs == null;
+  if(gate.secs != null){ fcc.textContent = fmt(gate.secs); fcc.dataset.low = gate.secs <= 45 ? "yes":"no"; }
+
+  /* The motions gate names its restriction in the delegate's own words. */
+  let sub = copy.sub || "";
+  if(gate.kind === "motions"){
+    const t = cap.proposableMotionTypes;
+    sub = t.length === 1
+      ? `Only one motion is in order: <span class="said">${MOTION_LABEL[t[0]]}</span>.`
+      : `${t.length} motion types are in order: ${t.map(x => MOTION_LABEL[x]).join(" · ")}.`;
+  }
+  if(gate.kind === "debate") sub = "You may interrupt only with a point.";
+  $("fcSub").innerHTML = sub;
+
+  /* Exactly one live action — or the ballot, which is one decision. */
+  if(copy.ballot){
+    $("fcAction").innerHTML =
+      `<div class="ballot">
+         <button class="btn btn-primary" style="text-align:center">Yes</button>
+         <button class="btn" style="text-align:center">No</button>
+         <button class="btn" style="text-align:center">Abstain</button>
+       </div>`;
+  } else if(copy.actions){
+    $("fcAction").innerHTML = copy.actions
+      .map(([label]) => `<button class="btn btn-primary" style="margin-bottom:7px">${label}</button>`)
+      .join("") + (copy.after ? `<p class="fc-sub" style="margin:9px 0 0">${copy.after}</p>` : "");
+  } else {
+    $("fcAction").innerHTML = "";
+  }
+
+  /* The risk: absence stays legible, with the reason. */
+  const locked = KEY_ORDER.filter(k => cap.lockReason[k]);
+  $("lockedWrap").hidden = locked.length === 0;
+  $("lockedList").innerHTML = locked.map(k =>
+    `<div class="lrow"><span class="k">${KEY_LABEL[k]}</span>
+       <span class="why">${cap.lockReason[k]}</span></div>`).join("");
+
+  if(animate){
+    [$("zones"), $("floorCard")].forEach(el => {
+      el.classList.remove("flip"); void el.offsetWidth; el.classList.add("flip");
+    });
+  }
+}
+
+render(false);
+</script>
+</body>
+</html>

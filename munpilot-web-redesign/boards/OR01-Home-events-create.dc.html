@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Organizer home and events</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--gold:#8A6400;--goldSoft:#F8EFD6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--gold:#E9C25A;--goldSoft:rgba(233,194,90,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:240px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px 12px;box-sizing:border-box;gap:2px}
+.sl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px}
+.ni{display:flex;align-items:center;height:36px;padding:0 10px;border-radius:9px;font-size:13.5px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.main{flex:1;min-width:0;padding:30px 36px;display:flex;flex-direction:column;gap:20px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.stat{padding:18px;display:flex;flex-direction:column;gap:6px}
+.stat b{font-family:Newsreader,Georgia,serif;font-size:36px;font-weight:500;line-height:1}
+.it{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.tbl th{text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding:10px 16px;background:var(--sunk2);border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 16px;border-bottom:1px solid var(--line2)}
+.tbl tr:last-child td{border-bottom:0}
+.ec{overflow:hidden;display:flex;flex-direction:column}
+.ec .cv{height:130px;position:relative;background:linear-gradient(160deg,#B9CBC4,#DCD8CA)}
+.w.dark .ec .cv{background:linear-gradient(160deg,#2C4A44,#2A3B46)}
+.ec .cv.nv{background:#0E1D2C}
+.stamp{position:absolute;height:22px;padding:0 8px;border-radius:11px;display:inline-flex;align-items:center;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.92);color:#0E1D2C}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld .fl{font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px}
+.inp{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);font-size:13.5px;box-sizing:border-box}
+.inp.pv{color:var(--muted)}
+.inp.err{border-color:var(--red)}
+.seg{display:grid;gap:2px;padding:3px;border-radius:10px;background:var(--sunk)}
+.seg span{height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.map{border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(0deg,rgba(14,29,44,.04),rgba(14,29,44,.04)),repeating-linear-gradient(90deg,#E9EEEC 0 38px,#DDE5E2 38px 40px),repeating-linear-gradient(0deg,#E9EEEC 0 38px,#DDE5E2 38px 40px);background-blend-mode:multiply}
+.w.dark .map{background:repeating-linear-gradient(90deg,#1B2E3E 0 38px,#24384B 38px 40px),repeating-linear-gradient(0deg,#1B2E3E 0 38px,#24384B 38px 40px);background-blend-mode:normal}
+.pin{position:absolute;left:50%;top:44%;transform:translate(-50%,-100%);color:var(--red)}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2980px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">OR01 · Organizer · /dashboard/organizer, /organizer/events, Create / Edit event</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Organizer home, Manage Events, Create event</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Organizer home keeps the four totals, Events at a Glance, Applications by Role and Your Events. Manage Events keeps the chips, All / Published / Drafts, search and event cards (Draft / Published, Co-organizer, format, committees, delegates). Create event keeps every field in order — cover, host, name, date and time with time zone and optional end, format, venue search with a draggable map pin (or meeting link), visibility and an AI-assisted description — and notes that it saves as a draft.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 1060px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni" style="color: var(--muted); font-size: 12.5px;">← Back to Dashboard</span><span class="sl">Organizer</span><span class="ni on">Manage Events</span><span class="ni">Financials</span><span class="ni">MUN Pilot Pro</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between;"><h1 class="serif" style="margin: 0; font-size: 34px;">Organizer Dashboard</h1><button class="btn b-pri"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>New Event</button></div>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+<div class="card stat"><span class="it" style="background: var(--sunk); color: var(--ink2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><b>3</b><span style="font-size: 13px; color: var(--muted);">Total Events</span></div>
+<div class="card stat"><span class="it" style="background: var(--sealSoft); color: var(--seal);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16 10"/></svg></span><b>2</b><span style="font-size: 13px; color: var(--muted);">Published</span></div>
+<div class="card stat"><span class="it" style="background: var(--blueSoft); color: var(--blue);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span><b>186</b><span style="font-size: 13px; color: var(--muted);">Total Applications</span></div>
+<div class="card stat"><span class="it" style="background: var(--purpleSoft); color: var(--purple);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7 13.5 15.5l-5-5L2 17M16 7h6v6"/></svg></span><b>152</b><span style="font-size: 13px; color: var(--muted);">Approved</span></div>
+</div>
+<div style="display: grid; grid-template-columns: 300px 1fr; gap: 18px; align-items: start;">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;"><b style="font-size: 16px;">Events at a Glance</b><div class="row" style="justify-content: space-between; font-size: 14px;"><span>Published</span><b>2</b></div><div class="row" style="justify-content: space-between; font-size: 14px;"><span>Drafts</span><b>1</b></div><div class="row" style="justify-content: space-between; font-size: 14px;"><span>Approval Rate</span><b style="color: var(--seal);">82%</b></div></div>
+<div class="card" style="overflow: hidden;"><div style="padding: 16px 18px;"><b style="font-size: 16px;">Applications by Role</b></div><table class="tbl"><thead><tr><th>Role</th><th>Total</th><th>Approved</th><th>Pending</th></tr></thead><tbody><tr><td>Delegate</td><td>160</td><td>136</td><td>24</td></tr><tr><td>Head Delegate</td><td>12</td><td>8</td><td>4</td></tr><tr><td>Observer</td><td>8</td><td>6</td><td>2</td></tr><tr><td>Faculty Advisor</td><td>6</td><td>2</td><td>4</td></tr></tbody></table></div>
+</div>
+<div class="row" style="justify-content: space-between;"><b style="font-size: 17px;">Your Events</b><a href="#" style="font-size: 13.5px; font-weight: 600;">View all 3 events</a></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div class="card" style="padding: 16px 18px; display: flex; align-items: center; gap: 14px;"><span class="col" style="flex: 1; gap: 3px;"><b style="font-size: 15px;">Dhaka Model United Nations Conference 2026</b><span style="font-size: 12.5px; color: var(--muted);">15 Aug 2026 · Dhaka</span></span><span class="pill p-ok">Published</span><a class="btn sm b-sec" href="#">Manage</a></div>
+<div class="card" style="padding: 16px 18px; display: flex; align-items: center; gap: 14px;"><span class="col" style="flex: 1; gap: 3px;"><b style="font-size: 15px;">[Event name]</b><span style="font-size: 12.5px; color: var(--muted);">[Date] · [City]</span></span><span class="pill p-mute">Draft</span><a class="btn sm b-sec" href="#">Manage</a></div>
+</div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 1060px;">
+<aside class="side"><div style="padding: 4px 10px 8px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="sl">Organizer</span><span class="ni on">Manage Events</span><span class="ni">Financials</span><span class="ni">MUN Pilot Pro</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between;"><div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 34px;">Manage Events</h1><span style="font-size: 14.5px; color: var(--muted);">Create and manage your Model UN conferences.</span></div><button class="btn b-pri">Create Event</button></div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;"><div class="card ec"><div class="cv"><span class="stamp" style="right: 10px; top: 10px; background: #E0EFE8; color: #0B6E4F;">Published</span><span class="stamp" style="left: 10px; bottom: 10px;">In-person</span></div><div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 16px;">Dhaka MUN 2026</b><span style="font-size: 12.5px; color: var(--muted);">15 Aug 2026 · Dhaka</span><span class="row" style="gap: 6px;"><span class="pill p-mute">4 Committees</span><span class="pill p-mute">186</span></span></div></div><div class="card ec"><div class="cv nv"><span class="stamp" style="right: 10px; top: 10px;">Draft</span><span class="stamp" style="left: 10px; top: 10px; background: #E5EEFB; color: #1F5FBF;">Co-organizer</span></div><div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 16px;">[Event]</b><span style="font-size: 12.5px; color: var(--muted);">Date TBA · Location TBA</span></div></div><div class="card ec" style="border-style: dashed; box-shadow: none; align-items: center; justify-content: center; text-align: center; gap: 6px; padding: 20px;"><b style="font-size: 14.5px;">No events match your filters</b><a href="#" style="font-size: 13px; font-weight: 600;">Clear filters</a></div></div>
+<div class="scrim"></div>
+<div class="card" style="position: absolute; left: 50%; top: 40px; transform: translateX(-50%); width: 600px; box-shadow: var(--sh2); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;">
+<div class="row" style="padding: 16px 20px; justify-content: space-between; border-bottom: 1px solid var(--line2);"><b style="font-size: 18px;">Create event</b><button class="btn sm b-sec" aria-label="Close" style="width: 32px; padding: 0;">×</button></div>
+<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 14px;">
+<div style="height: 120px; border-radius: 12px; background: var(--sunk2); border: 1.5px dashed var(--line); position: relative;"><span class="stamp" style="right: 10px; bottom: 10px; background: var(--ink); color: var(--paper);">+ Add</span></div>
+<div class="row" style="gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--sunk2);"><span style="width: 28px; height: 28px; border-radius: 14px; background: #13895F; color: #fff; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center;">NR</span><span style="font-size: 13px;"><b>Nadia</b> <span style="color: var(--muted);">Host — Your profile</span></span></div>
+<div class="inp" style="height: 46px; font-family: Newsreader, serif; font-size: 20px; background: var(--paper);">Dhaka Model United Nations Conference 2026</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;"><div class="fld"><span class="fl">Start date</span><div class="inp">15 Aug 2026</div></div><div class="fld"><span class="fl">Start time</span><div class="inp">9:00 AM</div></div><div class="fld"><span class="fl">Time zone</span><div class="inp">Asia/Dhaka</div></div></div>
+<a href="#" style="font-size: 13px; font-weight: 600;">+ End date and time</a>
+<div class="fld"><span class="fl">Is it in person or virtual?</span><div class="seg" style="grid-template-columns: repeat(3, 1fr);"><span class="on">In person</span><span>Virtual</span><span>Hybrid</span></div></div>
+<div class="fld"><span class="fl">Location</span><div class="inp" style="background: var(--paper);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Pan Pacific Sonargaon Dhaka, 107 Kazi Nazrul Islam Ave</div><span style="font-size: 12px; color: var(--seal); font-weight: 600;">Location pinned with map coordinates</span></div>
+<div class="map" style="height: 120px;"><svg class="pin" viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></div>
+<span style="font-size: 12px; color: var(--muted);">Drag the pin or click the map to fine-tune the exact spot.</span>
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;"><div class="fld"><span class="fl">Who can see it?</span><div class="inp">Public ▾</div></div><div class="fld"><span class="fl">Description</span><div class="inp pv">What are the details? <span style="margin-left: auto; color: var(--purple); font-weight: 600;">AI</span></div></div></div>
+</div>
+<div class="row" style="padding: 14px 20px; border-top: 1px solid var(--line2); justify-content: space-between; background: var(--sunk2);"><span style="font-size: 12px; color: var(--muted); max-width: 330px;">Saved as a draft. Add committees, tickets &amp; schedule from the event page to publish.</span><button class="btn b-pri">Create event</button></div>
+</div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Manage Events · phone</b></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div class="row" style="justify-content: space-between;"><b class="serif" style="font-size: 26px;">Manage Events</b><button class="btn sm b-pri">Create</button></div>
+<div class="row" style="gap: 6px;"><span class="pill p-mute">3 Total Events</span><span class="pill p-ok">2 Published</span><span class="pill p-wait">1 Draft</span></div>
+<div class="seg" style="grid-template-columns: repeat(3, 1fr);"><span class="on">All</span><span>Published</span><span>Drafts</span></div>
+<div class="inp pv" style="background: var(--paper);">Search events...</div>
+<div class="card ec"><div class="cv" style="height: 110px;"><span class="stamp" style="right: 10px; top: 10px; background: #E0EFE8; color: #0B6E4F;">Published</span><span class="stamp" style="left: 10px; bottom: 10px;">In-person</span></div><div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;"><b>Dhaka MUN 2026</b><span style="font-size: 12px; color: var(--muted);">15 Aug 2026 · Dhaka</span><a href="#" style="font-size: 13px; font-weight: 600;">Manage Conference ›</a></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Venue search · phone sheet</b><span>Google Maps results, then the pin.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+<div class="inp" style="background: var(--paper); border-color: var(--seal); box-shadow: 0 0 0 3px var(--sealSoft);">Pan Pacific Sonargaon<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-left: auto; color: var(--seal);"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+<div class="card" style="overflow: hidden;"><div class="row" style="padding: 10px 14px; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--muted);">Results<span>×</span></div>
+<div class="row" style="padding: 10px 14px; border-top: 1px solid var(--line2); align-items: flex-start; background: var(--sealSoft);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--seal); margin-top: 2px;"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/></svg><span class="col" style="gap: 2px;"><b style="font-size: 13.5px;">Pan Pacific Sonargaon Dhaka</b><span style="font-size: 12px; color: var(--muted);">107 Kazi Nazrul Islam Ave, Dhaka</span><span style="font-size: 11.5px; color: var(--gold);">★ 4.5 (3,210) · Hotel</span></span></div>
+<div class="row" style="padding: 10px 14px; border-top: 1px solid var(--line2); align-items: flex-start;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted); margin-top: 2px;"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/></svg><span class="col" style="gap: 2px;"><b style="font-size: 13.5px;">[Place]</b><span style="font-size: 12px; color: var(--muted);">[Address]</span></span></div></div>
+<div class="map" style="height: 260px;"><svg class="pin" viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></div>
+<span style="font-size: 12px; color: var(--muted);">Drag the pin or click the map to fine-tune the exact spot.</span>
+</div>
+</div>
+
+<div class="cap"><b>States &amp; errors</b></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 10px;">
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 6px;"><div class="inp err">9:00 AM · 1 Nov 2026</div><span style="font-size: 12px; color: var(--red);">An event must not have a start time in the past.</span></div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted);">Virtual → field becomes <b style="color: var(--ink);">Meeting link (optional)</b></div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted);">Search states: "Searching Google Maps…" · "No places found. Refine your search or type the address manually." · "Press Enter to search."</div>
+<div class="card" style="padding: 20px; border-style: dashed; box-shadow: none; text-align: center; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 15px;">No events yet</b><span style="font-size: 13px; color: var(--muted);">Start by creating your first Model United Nations conference. It only takes a minute.</span><button class="btn sm b-pri" style="align-self: center;">Create Your First Event</button></div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted); text-align: center;">No applications across your events yet.</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2980}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

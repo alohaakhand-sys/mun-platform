@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "mun-platform-saas",
+    "new": "mun-platform-saas",
+    "old": "mun-saas"
+  }
+}

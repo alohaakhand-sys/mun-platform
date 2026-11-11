@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Profile owner sections</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dis{background:var(--sunk);color:var(--muted)}
+.b-dan{background:var(--paper);color:var(--red);border-color:var(--line)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni i{width:18px;height:18px;border-radius:5px;border:1.8px solid var(--muted);box-sizing:border-box;flex:none;opacity:.7}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.ni.on i{border-color:var(--seal);opacity:1}
+.uc{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--sunk2)}
+.av{width:36px;height:36px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex:none}
+.main{flex:1;min-width:0;padding:32px 40px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.seg{display:inline-flex;gap:2px;padding:4px;border-radius:12px;background:var(--sunk)}
+.seg span{height:34px;padding:0 14px;display:flex;align-items:center;gap:8px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.seg em{font-style:normal;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:9px;background:var(--sunk2);color:var(--muted)}
+.sel{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--paper);font-size:13.5px;color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.pill i{width:6px;height:6px;border-radius:3px;background:currentColor;display:block}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}
+.cc{padding:20px;display:flex;flex-direction:column;gap:14px;position:relative}
+.meta{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+.meta span{display:flex;align-items:center;gap:6px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tiles div{padding:10px 12px;border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;gap:3px}
+.tiles span{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.tiles b{font-size:14px;font-weight:600}
+.trk{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.trk div{display:flex;flex-direction:column;gap:6px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.trk i{display:block;height:4px;border-radius:2px;background:var(--sunk)}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap}
+.ptabs span{height:34px;padding:0 14px;border-radius:17px;display:flex;align-items:center;font-size:13.5px;font-weight:500;color:var(--ink2);border:1px solid var(--line);background:var(--paper)}
+.ptabs span.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.bn{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:12px}
+.dr{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line2)}
+.prose{font-family:Newsreader,Georgia,serif;font-size:17px;line-height:1.65;color:var(--ink)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label,.fld .fl{font-size:13px;font-weight:600}
+.inp{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--sunk2);font-size:14px;box-sizing:border-box}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:15px;font-size:13px;border:1px solid var(--line);background:var(--paper)}
+.chip.lock{background:var(--sealSoft);border-color:transparent;color:var(--seal);font-weight:600}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+
+.w{--red:#B42318;--redSoft:#FBE7E4;--violet:#6B46C1;--violetSoft:#EEE8FA;--blue:#1F5FBF;--blueSoft:#E5EEFB}
+.w.dark{--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--violet:#B79CF2;--violetSoft:rgba(183,156,242,.16);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14)}
+.lw .lga{fill:#fff}.lw .lgb{fill:#47A481}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.skl{border-radius:8px;background:linear-gradient(90deg,var(--sunk) 0%,var(--sunk2) 50%,var(--sunk) 100%);background-size:200% 100%;animation:skl 1.4s ease-in-out infinite}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:11px;font-size:13.5px;line-height:1.45}
+.a-err{background:var(--redSoft);color:var(--red)}.a-warn{background:var(--amberSoft);color:var(--amber)}.a-ok{background:var(--sealSoft);color:var(--seal)}.a-info{background:var(--blueSoft);color:var(--blue)}
+.ferr{font-size:12.5px;color:var(--red)}
+.t-red{background:var(--redSoft);color:var(--red)}.t-vio{background:var(--violetSoft);color:var(--violet)}.t-blue{background:var(--blueSoft);color:var(--blue)}
+.slab{background:#0E1D2C;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:56px;color:#fff}
+.slab .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%);mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 70%)}
+.slab .dia{position:absolute;right:-60px;top:-60px;width:320px;height:320px;transform:rotate(45deg);border:1px solid rgba(71,164,129,.35);border-radius:28px}
+.slab .dia2{position:absolute;right:40px;top:40px;width:120px;height:120px;transform:rotate(45deg);background:rgba(71,164,129,.16);border-radius:16px}
+.note{font-size:12.5px;color:var(--muted);line-height:1.5}
+.lab{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.dots{display:flex;gap:6px;align-items:center}.dots i{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.35);display:block}.dots i.on{width:22px;background:#fff}
+.pg{width:30px;height:30px;border-radius:15px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.pg.on{background:#fff;color:#0E1D2C}
+.toast{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;background:var(--ink);color:var(--paper);font-size:13.5px;line-height:1.45;box-shadow:var(--sh2);max-width:380px}
+.w{--purple:#6B46C1;--purpleSoft:#EEE8FA}.w.dark{--purple:#B79CF2;--purpleSoft:rgba(183,156,242,.16)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.wiz{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh1);display:flex;flex-direction:column;overflow:hidden}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:22px 28px;border-bottom:1px solid var(--line2)}
+.st{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--muted);position:relative}
+.st i{width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:700;background:var(--sunk);color:var(--muted);flex:none}
+.st.done i{background:var(--seal);color:var(--sealInk)}
+.st.done{color:var(--ink)}
+.st.on i{background:var(--paper);color:var(--seal);box-shadow:inset 0 0 0 2px var(--seal)}
+.st.on{color:var(--ink);font-weight:600}
+.st span.ln{flex:1;height:2px;border-radius:1px;background:var(--line2);margin:0 4px}
+.st.done span.ln{background:var(--seal)}
+.wb{padding:28px;display:flex;flex-direction:column;gap:20px}
+.wf{padding:18px 28px;border-top:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;background:var(--sunk2)}
+.req{color:var(--signal)}
+.ta{border:1px solid var(--line);border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;overflow:hidden}
+.ta textarea{border:0;background:none;outline:none;resize:none;height:110px;padding:12px 14px;font:14.5px/1.55 Inter,sans-serif;color:var(--ink)}
+.ai{display:flex;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line2);background:var(--paper)}
+.aib{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;background:var(--purpleSoft);color:var(--purple);font-size:12.5px;font-weight:600;border:0}
+.help{font-size:12.5px;color:var(--muted);line-height:1.5}
+.pb{border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.pbh{display:flex;align-items:center;gap:10px}
+.rank{width:26px;height:26px;border-radius:8px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex:none}
+.role{display:flex;align-items:flex-start;gap:14px;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--paper)}
+.role.on{border-color:var(--seal);box-shadow:0 0 0 3px var(--sealSoft)}
+.role.off{opacity:.55;background:var(--sunk2)}
+.role.on .rd{border:6px solid var(--seal)}
+.mstep{height:4px;border-radius:2px;background:var(--sunk);flex:1}
+.mstep.on{background:var(--seal)}
+.sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:var(--glass);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;gap:10px}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0;display:inline-block}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.menu{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh2);padding:6px;display:flex;flex-direction:column}
+.menu span,.menu a{height:36px;display:flex;align-items:center;gap:10px;padding:0 10px;border-radius:8px;font-size:13.5px;color:var(--ink)}
+.dlg{background:var(--paper);border-radius:20px;box-shadow:var(--sh2);display:flex;flex-direction:column;overflow:hidden}
+.dlg .dh{padding:20px 22px 12px;display:flex;flex-direction:column;gap:4px}
+.dlg .dh b{font-size:18px}.dlg .dh span{font-size:13.5px;color:var(--muted)}
+.dlg .db{padding:8px 22px 18px;display:flex;flex-direction:column;gap:12px}
+.dlg .df{padding:14px 22px;border-top:1px solid var(--line2);display:flex;justify-content:flex-end;gap:8px}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:36px 24px}
+.empty .ei{width:48px;height:48px;border-radius:14px;background:var(--sunk2);color:var(--muted);display:flex;align-items:center;justify-content:center}
+.empty b{font-size:16px}.empty span{font-size:14px;color:var(--muted);max-width:360px;line-height:1.5}
+.sec-h{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line2)}
+.sec-h b{font-size:16px}
+.bub{max-width:70%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45}
+.bub.in{background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:6px}
+.bub.out{background:var(--seal);color:var(--sealInk);border-bottom-right-radius:6px;margin-left:auto}
+.tb{display:flex;align-items:center;gap:2px;padding:6px;border-bottom:1px solid var(--line2);background:var(--sunk2);flex-wrap:wrap}
+.tb button{width:32px;height:32px;border:0;background:none;border-radius:7px;color:var(--ink2);display:flex;align-items:center;justify-content:center;font:600 13px Inter,sans-serif;padding:0}
+.tb i{width:1px;height:20px;background:var(--line);margin:0 4px;display:block}
+.fus{background:linear-gradient(#3C3B6E,#3C3B6E) 0 0/45% 54% no-repeat,repeating-linear-gradient(#B22234 0 7.7%,#fff 7.7% 15.4%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.fin{background:linear-gradient(#FF9933 0 33%,#fff 33% 66%,#138808 66%)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2620px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">D09 · Dashboard · /dashboard/settings › Profile — owner sections and dialogs</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Profile: owner sections</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">The rest of the owner's own profile below the D06 header. Honors &amp; Awards (verified event results plus manual ones), MUN experience, Education, Skills &amp; Interests with endorsements, Recommendations with the pending-approval box and Received / Given tabs, Recent Activity, and Contact &amp; Social with inline fields. Three edit dialogs (Honors &amp; awards, Education, MUN experience), the inline-edit states and the Security errors complete it.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+<div style="display: flex; flex-direction: column; gap: 40px;">
+
+<div class="cap"><b>Owner sections · desktop</b><span>Below the profile header, strength meter and Account / Personal / Professional / Billing cards on D06.</span></div>
+<div class="frame" style="width: 1440px; height: 1160px;">
+<aside class="side">
+<div style="padding: 6px 10px 12px;"><b class="serif" style="font-size: 20px;">munpilot</b></div>
+<span class="sl">Menu</span>
+<a class="ni" href="#"><i></i>Dashboard</a><a class="ni" href="#"><i></i>My Conferences</a><a class="ni" href="#"><i></i>Documents</a><a class="ni" href="#"><i></i>My Blogs</a><a class="ni" href="#"><i></i>Achievements</a><a class="ni" href="#"><i></i>Network</a><a class="ni" href="#"><i></i>Payments</a><a class="ni on" href="#"><i></i>Settings</a>
+<span style="flex: 1;"></span>
+<div class="uc"><span class="av" style="background: #13895F;">NR</span><span class="col"><b style="font-size: 13.5px;">Nadia Rahman</b><span style="font-size: 12px; color: var(--muted);">nadia@school.edu</span></span></div>
+</aside>
+<main class="main">
+<div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: start;">
+<div class="col" style="gap: 20px;">
+
+<div class="card" style="overflow: hidden;"><div class="sec-h"><b>Honors &amp; Awards</b><a href="#" style="font-size: 13.5px; font-weight: 600;">Edit</a></div>
+<div class="dr" style="border-top: 0;"><span style="width: 36px; height: 36px; border-radius: 10px; background: var(--goldSoft, #F8EFD6); color: #8A6400; display: flex; align-items: center; justify-content: center;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg></span><span class="col" style="flex: 1;"><b style="font-size: 14.5px;">Best Delegate — UNSC</b><span style="font-size: 12.5px; color: var(--muted);">MUN result · verified</span></span></div>
+<div class="dr"><span style="width: 36px; height: 36px; border-radius: 10px; background: var(--sunk2); color: var(--muted); display: flex; align-items: center; justify-content: center;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg></span><span class="col" style="flex: 1;"><b style="font-size: 14.5px;">[Manual award title]</b><span style="font-size: 12.5px; color: var(--muted);">[Issuer] · Jan 2026</span></span></div>
+</div>
+
+<div class="card" style="overflow: hidden;"><div class="sec-h"><b>MUN experience</b><a href="#" style="font-size: 13.5px; font-weight: 600;">Edit</a></div>
+<div class="dr" style="border-top: 0; align-items: flex-start;"><span style="width: 40px; height: 40px; border-radius: 10px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">IM</span><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 14.5px;">Head Delegate</b><span style="font-size: 13.5px;">IUBAT MUN Society</span><span style="font-size: 12.5px; color: var(--muted);">Oct 2024 – Present · Dhaka</span><span style="font-size: 13.5px; color: var(--ink2); margin-top: 4px;">[What they did in this role]</span></span></div>
+</div>
+
+<div class="card" style="overflow: hidden;"><div class="sec-h"><b>Education</b><a href="#" style="font-size: 13.5px; font-weight: 600;">Edit</a></div>
+<div class="dr" style="border-top: 0; align-items: flex-start;"><span style="width: 40px; height: 40px; border-radius: 10px; background: var(--sunk2); color: var(--muted); display: flex; align-items: center; justify-content: center;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5"/></svg></span><span class="col" style="flex: 1; gap: 2px;"><b style="font-size: 14.5px;">[School]</b><span style="font-size: 13.5px;">BSc, Civil Engineering</span><span style="font-size: 12.5px; color: var(--muted);">2019 – 2023</span><span style="font-size: 13px; color: var(--ink2);">Activities: MUN Society (President), Debate Club</span></span></div>
+</div>
+
+<div class="card" style="overflow: hidden;"><div class="sec-h"><b>Recommendations</b></div>
+<div style="margin: 14px 18px; padding: 14px; border-radius: 12px; background: var(--amberSoft); display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 13.5px; color: var(--amber);">Pending approval (1)</b>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: none;"><div class="row" style="gap: 10px;"><span class="av" style="background: #1E6FE0; width: 32px; height: 32px;">TA</span><span class="col"><a href="#" style="font-size: 14px; font-weight: 600;">Tanvir Ahmed</a><span style="font-size: 12px; color: var(--muted);">[relationship] · [headline]</span></span></div><span style="font-size: 13.5px; line-height: 1.5; color: var(--ink2);">[Recommendation text]</span><div class="row" style="gap: 8px;"><button class="btn sm b-pri">Approve</button><button class="btn sm b-sec">Hide</button></div></div>
+</div>
+<div style="padding: 0 18px 16px;"><div class="seg"><span class="on">Received (3)</span><span>Given (1)</span></div></div>
+</div>
+</div>
+
+<div class="col" style="gap: 20px;">
+<div class="card" style="overflow: hidden;"><div class="sec-h"><b>Skills &amp; Interests</b><a href="#" style="font-size: 13.5px; font-weight: 600;">Edit</a></div>
+<div class="col" style="padding: 14px 18px; gap: 10px;">
+<div class="row" style="justify-content: space-between; font-size: 14px;"><b style="font-weight: 600;">Diplomacy</b><span style="font-size: 12.5px; color: var(--muted);">Endorsed by 4</span></div>
+<div class="row" style="justify-content: space-between; font-size: 14px;"><b style="font-weight: 600;">Public Speaking</b><span style="font-size: 12.5px; color: var(--muted);">No endorsements yet</span></div>
+<div class="row" style="gap: 6px; flex-wrap: wrap; margin-top: 4px;"><span class="pill p-mute">✦ Foreign Policy</span><span class="pill p-mute">✦ Crisis</span></div>
+</div></div>
+
+<div class="card" style="overflow: hidden;"><div class="sec-h"><b>MUN Stats</b><span style="font-size: 12.5px; color: var(--muted);">Private to you</span></div><div style="padding: 14px 18px; font-size: 13px; color: var(--muted);">[Stats as on D06, shown only to the owner when visibility is off]</div></div>
+
+<div class="card" style="overflow: hidden;"><div class="sec-h"><b>Recent Activity</b></div>
+<div class="dr" style="border-top: 0;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg><span style="flex: 1; font-size: 13.5px;">[action] <b>Dhaka MUN 2026</b></span><span style="font-size: 12px; color: var(--muted);">2 days ago</span></div>
+<div class="dr"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg><span style="flex: 1; font-size: 13.5px;">[action] <b>[target]</b></span><span style="font-size: 12px; color: var(--muted);">recently</span></div>
+</div>
+
+<div class="card" style="overflow: hidden;"><div class="sec-h"><b>Contact &amp; Social</b></div>
+<div class="col" style="padding: 6px 18px 14px;">
+<div class="row" style="justify-content: space-between; height: 44px; border-bottom: 1px solid var(--line2); font-size: 13.5px;"><span style="color: var(--muted);">Email</span><span>nadia@school.edu</span></div>
+<div class="row" style="justify-content: space-between; height: 44px; border-bottom: 1px solid var(--line2); font-size: 13.5px;"><span style="color: var(--muted);">Phone</span><a href="#" style="font-weight: 600;">+ Add phone</a></div>
+<div class="row" style="justify-content: space-between; height: 44px; border-bottom: 1px solid var(--line2); font-size: 13.5px;"><span style="color: var(--muted);">Instagram</span><span>@nadia.r</span></div>
+<div class="row" style="justify-content: space-between; height: 44px; border-bottom: 1px solid var(--line2); font-size: 13.5px;"><span style="color: var(--muted);">LinkedIn</span><span style="color: var(--muted);">Not linked</span></div>
+<div class="row" style="justify-content: space-between; height: 44px; font-size: 13.5px;"><span style="color: var(--muted);">TikTok</span><span style="color: var(--muted);">Not linked</span></div>
+</div></div>
+</div>
+</div>
+</main>
+</div>
+
+<div class="cap"><b>Edit dialogs</b><span>Honors &amp; awards · Education (wide) · MUN experience.</span></div>
+<div class="frame" style="width: 1440px; height: 900px; padding: 40px; gap: 24px; align-items: flex-start; box-sizing: border-box; background: rgba(14,29,44,.38);">
+<div class="dlg" style="width: 380px;"><div class="dh"><b>Honors &amp; awards</b><span>Add awards earned outside this platform. Awards from events you competed in appear automatically.</span></div>
+<div class="db"><div style="padding: 12px; border: 1px solid var(--line); border-radius: 12px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="justify-content: space-between;"><span class="lab">Award</span><button class="ib" aria-label="Remove award" style="width: 28px; height: 28px; color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div><div class="fld"><label>Title</label><div class="inp" style="color: var(--muted);">Best Delegate — UNSC</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="fld"><label>Issuer</label><div class="inp" style="color: var(--muted);">BUP MUN</div></div><div class="fld"><label>Date</label><div class="inp" style="color: var(--muted);">Jan 2026</div></div></div></div>
+<button class="btn sm b-sec" style="align-self: flex-start;">+ Add award</button><span class="ferr">Could not save. Try again.</span></div>
+<div class="df"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Save</button></div></div>
+
+<div class="dlg" style="width: 520px;"><div class="dh"><b>Education</b></div>
+<div class="db"><div style="padding: 12px; border: 1px solid var(--line); border-radius: 12px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="justify-content: space-between;"><span class="lab">Entry</span><button class="ib" aria-label="Remove entry" style="width: 28px; height: 28px; color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div><div class="fld"><label>School</label><div class="inp" style="color: var(--muted);">University name</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="fld"><label>Degree</label><div class="inp" style="color: var(--muted);">BSc</div></div><div class="fld"><label>Field</label><div class="inp" style="color: var(--muted);">Civil Engineering</div></div><div class="fld"><label>Start year</label><div class="inp" style="color: var(--muted);">2019</div></div><div class="fld"><label>End year</label><div class="inp" style="color: var(--muted);">2023</div></div></div><div class="fld"><label>Activities</label><div class="inp" style="color: var(--muted);">MUN Society (President), Debate Club</div></div></div>
+<button class="btn sm b-sec" style="align-self: flex-start;">+ Add education</button></div>
+<div class="df"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Save</button></div></div>
+
+<div class="dlg" style="width: 420px;"><div class="dh"><b>MUN experience</b><span>Conferences chaired, society roles, delegations led.</span></div>
+<div class="db"><div style="padding: 12px; border: 1px solid var(--line); border-radius: 12px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="justify-content: space-between;"><span class="lab">Entry</span><button class="ib" aria-label="Remove entry" style="width: 28px; height: 28px; color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div><div class="fld"><label>Role / title</label><div class="inp" style="color: var(--muted);">Head Delegate</div></div><div class="fld"><label>Organization</label><div class="inp" style="color: var(--muted);">IUBAT MUN Society</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="fld"><label>Start</label><div class="inp" style="color: var(--muted);">Oct 2024</div></div><div class="fld"><label>End</label><div class="inp" style="background: var(--sunk); color: var(--muted);">Present</div></div></div><div class="fld"><label>Location</label><div class="inp" style="color: var(--muted);">Dhaka</div></div><span class="row" style="gap: 8px; font-size: 13px;"><span class="tg on"></span>I currently hold this role</span><div class="ta" style="background: var(--paper);"><div style="height: 56px; padding: 10px 12px; font-size: 13.5px; color: var(--muted);">What you did in this role…</div><div class="ai"><span class="aib">AI</span></div></div></div>
+<button class="btn sm b-sec" style="align-self: flex-start;">+ Add experience</button></div>
+<div class="df"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Save</button></div></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px; width: 390px;">
+<div class="cap"><b>Inline-edit states</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div class="row" style="justify-content: space-between; padding: 8px 10px; border-radius: 8px; background: var(--sunk2); font-size: 14px;"><span>[Field value]</span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></div><span class="note">Hover → pencil</span>
+<a href="#" style="font-size: 14px; font-weight: 600;">+ [placeholder]</a><span class="note">Empty field</span>
+<div class="fld"><div class="inp" style="background: var(--paper); border-color: var(--seal); box-shadow: 0 0 0 3px var(--sealSoft);">@nadia.r</div><span class="note">Enter to save · Esc to cancel</span></div>
+<div class="fld"><div class="inp" style="height: 96px; align-items: flex-start; padding-top: 10px; background: var(--paper); border-color: var(--seal);">[Bio — 5-row textarea]</div><div class="ai" style="border: 1px solid var(--line2); border-radius: 0 0 10px 10px;"><span class="aib">AI</span></div><span class="note">Click away to save · Esc to cancel</span></div>
+<div class="row" style="gap: 10px; font-size: 13px;"><span style="color: var(--muted);">Saving…</span><span style="color: var(--seal); font-weight: 600;">✓</span><span class="ferr">Could not save. Try again.</span></div>
+</div>
+
+<div class="cap"><b>Skills &amp; Interests · edit mode</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div class="fld"><label>Skills</label><div class="inp" style="flex-wrap: wrap; height: auto; min-height: 42px; padding: 6px 8px;"><span class="chip">Diplomacy ✕</span><span style="color: var(--muted);">Diplomacy, Public Speaking…</span></div></div>
+<div class="fld"><label>Interests</label><div class="inp" style="color: var(--muted);">Foreign Policy, Crisis…</div></div>
+<div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-pri">Save</button></div>
+</div>
+
+<div class="cap"><b>Empty lines</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; color: var(--muted);">
+<span>Awards you win in events appear here automatically. Add others manually.</span>
+<span>No manual awards yet.</span>
+<span>No education yet. Add your first entry.</span>
+<span>No experience yet. Add your first entry.</span>
+<span>Add skills so peers can endorse them.</span>
+<span>No recommendations yet. · No recommendations given yet.</span>
+</div>
+
+<div class="cap"><b>Security · password errors</b></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+<div class="alert a-err">Password must be at least 6 characters.</div>
+<div class="alert a-err">Current password is incorrect.</div>
+<div class="alert a-err">New password is too weak.</div>
+<div class="alert a-err">Failed to update password. Try again.</div>
+<div class="alert a-ok">Saved!</div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2620}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

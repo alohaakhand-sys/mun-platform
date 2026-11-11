@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>About and Contact</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}a:hover{color:#08543D}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 6px 20px rgba(14,29,44,.08);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.78);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--sand:#2A3B46;--sh1:none;--sh2:0 8px 24px rgba(0,0,0,.35);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.80)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.serif em{font-style:italic;color:var(--seal)}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:34px;padding:0 13px;font-size:13.5px;border-radius:8px}
+.btn.lg{height:48px;padding:0 22px;font-size:15px;border-radius:10px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.hdr{height:68px;background:var(--glass);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:20px;padding:0 40px;flex:none}
+.nav a{font-size:14px;font-weight:500;color:var(--ink2)}
+.shell{max-width:1200px;margin:0 auto;padding:0 40px;box-sizing:border-box;width:100%}
+.band{background:var(--paper);border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:15px;font-size:13px;font-weight:500;white-space:nowrap;flex:none;background:var(--paper);border:1px solid var(--line);color:var(--ink2)}
+.badge{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:14px;font-size:12.5px;font-weight:600;background:var(--sealSoft);color:var(--seal);align-self:flex-start}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sh1)}
+.icn{width:40px;height:40px;border-radius:12px;background:var(--sealSoft);color:var(--seal);display:flex;align-items:center;justify-content:center;flex:none}
+.h2{margin:0;font-size:40px;line-height:1.1}
+.p{margin:0;font-size:16px;line-height:1.65;color:var(--ink2)}
+.fstub{background:var(--paper);border-top:1px solid var(--line);height:96px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);flex:none}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld>label,.fld>.fl{font-size:13.5px;font-weight:600}
+.inp{display:flex;align-items:center;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--sunk2);box-sizing:border-box}
+.inp input{flex:1;min-width:0;border:0;background:none;outline:none;font:14.5px Inter,sans-serif;color:var(--ink);padding:0}
+.inp input::placeholder,.ta::placeholder{color:var(--muted)}
+.ta{border:1px solid var(--line);border-radius:12px;background:var(--sunk2);outline:none;resize:none;height:140px;padding:12px 14px;font:14.5px/1.55 Inter,sans-serif;color:var(--ink);box-sizing:border-box;width:100%}
+.chip{height:34px;padding:0 14px;border-radius:17px;border:1px solid var(--line);background:var(--paper);display:inline-flex;align-items:center;font:500 13.5px Inter,sans-serif;color:var(--ink2);flex:none}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.faq{border-bottom:1px solid var(--line)}
+.faq .q{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0;font-size:16px;font-weight:600}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.mh{height:56px;background:var(--glass);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 12px 0 16px;flex:none}
+.ib{width:40px;height:40px;border-radius:10px;border:0;background:none;color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none;padding:0}
+.av{width:64px;height:64px;border-radius:32px;background:var(--sand);display:flex;align-items:center;justify-content:center;font-family:Newsreader,Georgia,serif;font-size:28px;color:#0E1D2C;flex:none}
+.w.dark .av{color:#E7E3D6}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 4900px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">P06 · Public · /about and /contact</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">About and Contact</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Both pages leave the old indigo glass and glow blobs and join the paper look. Section order and copy are kept: About = hero, stats, mission, values, journey, crew, careers; Contact = hero, four channel cards, message form with sidebar, FAQ. The gradient words become italic serif in the seal green.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px;">
+<div class="hdr">
+<svg viewBox="0 -100 492 130" width="124" height="33" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg>
+<nav class="row nav" style="gap: 24px; margin-left: auto;"><a href="#">Conferences</a><a href="#">Articles</a></nav>
+<span style="width: 1px; height: 24px; background: var(--line);"></span>
+<a class="btn sm b-ghost" href="#">Log in</a>
+<a class="btn sm b-pri" href="#">Sign up</a>
+</div>
+<div class="band" style="border-top: 0; padding: 80px 0 64px;"><div class="shell col" style="gap: 20px; align-items: center; text-align: center;">
+<span class="badge" style="align-self: center;">About MUN Pilot</span>
+<h1 class="serif" style="margin: 0; font-size: 64px; line-height: 1.04; max-width: 900px;">We're building the <em>operating system</em> for Model UN</h1>
+<p class="p" style="font-size: 18px; max-width: 640px;">One workspace where delegates discover conferences, chairs run debate, and organizers orchestrate the world's most ambitious MUN events.</p>
+<div class="row" style="gap: 8px; justify-content: center;"><span class="tag">Built by delegates</span><span class="tag">Trusted by 340+ conferences</span><span class="tag">Open roadmap</span><span class="tag">Privacy-first</span></div>
+</div></div>
+<div class="shell" style="padding-top: 48px;"><div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+<div class="card"><span class="serif" style="font-size: 44px; line-height: 1;">12K+</span><span style="font-size: 14px; color: var(--muted);">Active delegates</span></div>
+<div class="card"><span class="serif" style="font-size: 44px; line-height: 1;">340+</span><span style="font-size: 14px; color: var(--muted);">Conferences run</span></div>
+<div class="card"><span class="serif" style="font-size: 44px; line-height: 1;">85</span><span style="font-size: 14px; color: var(--muted);">Countries served</span></div>
+<div class="card"><span class="serif" style="font-size: 44px; line-height: 1;">99.9%</span><span style="font-size: 14px; color: var(--muted);">Platform uptime</span></div>
+</div></div>
+<div class="shell" style="padding-top: 72px;"><div style="display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: center;">
+<div class="col" style="gap: 16px;"><span class="badge">Our Mission</span><h2 class="serif h2">Make great MUN <em>accessible everywhere</em></h2><p class="p">[Mission paragraph: tooling shouldn't gatekeep Model UN — infrastructure so any school or organizer can run a conference, and any delegate can find one.]</p><div class="row" style="gap: 10px;"><a class="btn lg b-pri" href="#">Explore conferences</a><a class="btn lg b-sec" href="#">Talk to us</a></div></div>
+<div class="card" style="gap: 0; padding: 8px 24px;">
+<div class="row" style="padding: 18px 0; border-bottom: 1px solid var(--line2); align-items: flex-start;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><span class="col" style="gap: 3px;"><b style="font-size: 15.5px;">Global reach</b><span style="font-size: 14px; color: var(--muted);">From Dhaka to Buenos Aires — one platform.</span></span></div>
+<div class="row" style="padding: 18px 0; border-bottom: 1px solid var(--line2); align-items: flex-start;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span><span class="col" style="gap: 3px;"><b style="font-size: 15.5px;">Built with delegates</b><span style="font-size: 14px; color: var(--muted);">Every feature road-tested at real conferences.</span></span></div>
+<div class="row" style="padding: 18px 0; align-items: flex-start;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span class="col" style="gap: 3px;"><b style="font-size: 15.5px;">Privacy as a principle</b><span style="font-size: 14px; color: var(--muted);">Your data is never sold. Period.</span></span></div>
+</div>
+</div></div>
+<div class="band" style="margin-top: 72px; padding: 64px 0;"><div class="shell col" style="gap: 28px;">
+<div class="col" style="gap: 8px;"><h2 class="serif h2">What we <em>stand for</em></h2><p class="p">Four principles that shape every decision we make.</p></div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+<div class="card" style="background: var(--sunk2); box-shadow: none;"><span class="serif" style="font-size: 28px; color: var(--seal);">01</span><b style="font-size: 16px;">Diplomacy first</b><span style="font-size: 14px; line-height: 1.55; color: var(--ink2);">Every feature is shaped by real delegates, chairs, and organizers — never by guesswork.</span></div>
+<div class="card" style="background: var(--sunk2); box-shadow: none;"><span class="serif" style="font-size: 28px; color: var(--seal);">02</span><b style="font-size: 16px;">Craft over scale</b><span style="font-size: 14px; line-height: 1.55; color: var(--ink2);">We'd rather ship one polished feature than ten half-baked ones.</span></div>
+<div class="card" style="background: var(--sunk2); box-shadow: none;"><span class="serif" style="font-size: 28px; color: var(--seal);">03</span><b style="font-size: 16px;">Trust by default</b><span style="font-size: 14px; line-height: 1.55; color: var(--ink2);">Privacy, security, and transparency aren't add-ons. They're the foundation.</span></div>
+<div class="card" style="background: var(--sunk2); box-shadow: none;"><span class="serif" style="font-size: 28px; color: var(--seal);">04</span><b style="font-size: 16px;">Move with purpose</b><span style="font-size: 14px; line-height: 1.55; color: var(--ink2);">Fast where speed matters. Slow where craft matters. Always intentional.</span></div>
+</div>
+</div></div>
+<div class="shell col" style="padding-top: 64px; gap: 28px;">
+<h2 class="serif h2">The <em>journey</em></h2>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; position: relative;">
+<i style="position: absolute; left: 0; right: 0; top: 11px; height: 2px; background: var(--line);"></i>
+<div class="col" style="gap: 10px; padding-right: 24px; position: relative;"><i style="width: 24px; height: 24px; border-radius: 12px; background: var(--paper); box-shadow: inset 0 0 0 6px var(--seal);"></i><span class="serif" style="font-size: 26px;">2023</span><b style="font-size: 15.5px;">First gavel</b><span style="font-size: 14px; line-height: 1.55; color: var(--ink2);">Founder team meets at a university MUN — frustrated by spreadsheets and broken portals.</span></div>
+<div class="col" style="gap: 10px; padding-right: 24px; position: relative;"><i style="width: 24px; height: 24px; border-radius: 12px; background: var(--paper); box-shadow: inset 0 0 0 6px var(--seal);"></i><span class="serif" style="font-size: 26px;">2024</span><b style="font-size: 15.5px;">Private beta</b><span style="font-size: 14px; line-height: 1.55; color: var(--ink2);">Six pilot conferences. 800 delegates. First chair tools shipped.</span></div>
+<div class="col" style="gap: 10px; padding-right: 24px; position: relative;"><i style="width: 24px; height: 24px; border-radius: 12px; background: var(--paper); box-shadow: inset 0 0 0 6px var(--seal);"></i><span class="serif" style="font-size: 26px;">2025</span><b style="font-size: 15.5px;">Public launch</b><span style="font-size: 14px; line-height: 1.55; color: var(--ink2);">Self-serve organizer suite, ticketing, allocations, position papers.</span></div>
+<div class="col" style="gap: 10px; position: relative;"><i style="width: 24px; height: 24px; border-radius: 12px; background: var(--seal);"></i><span class="serif" style="font-size: 26px;">2026</span><b style="font-size: 15.5px;">Global rollout</b><span style="font-size: 14px; line-height: 1.55; color: var(--ink2);">12K+ delegates across 85 countries. Pro tier and AI assignments shipping.</span></div>
+</div>
+</div>
+<div class="shell col" style="padding-top: 72px; gap: 28px;">
+<div class="col" style="gap: 8px;"><h2 class="serif h2">The <em>crew</em></h2><p class="p">A small, senior team of ex-delegates and engineers — distributed across five timezones.</p></div>
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px;">
+<div class="card" style="align-items: center; text-align: center;"><span class="av">S</span><b style="font-size: 15px;">Shuvo</b><span style="font-size: 13px; color: var(--muted);">Founder &amp; Engineer</span></div>
+<div class="card" style="align-items: center; text-align: center;"><span class="av">A</span><b style="font-size: 15px;">Ari</b><span style="font-size: 13px; color: var(--muted);">Design Lead</span></div>
+<div class="card" style="align-items: center; text-align: center;"><span class="av">M</span><b style="font-size: 15px;">Mira</b><span style="font-size: 13px; color: var(--muted);">Head of Delegate Success</span></div>
+<div class="card" style="align-items: center; text-align: center;"><span class="av">K</span><b style="font-size: 15px;">Kenji</b><span style="font-size: 13px; color: var(--muted);">Chair Tools</span></div>
+<div class="card" style="align-items: center; text-align: center;"><span class="av">L</span><b style="font-size: 15px;">Lara</b><span style="font-size: 13px; color: var(--muted);">Organizer Partnerships</span></div>
+<div class="card" style="align-items: center; text-align: center;"><span class="av">Y</span><b style="font-size: 15px;">Yusuf</b><span style="font-size: 13px; color: var(--muted);">Infrastructure</span></div>
+</div>
+</div>
+<div class="shell" style="padding: 56px 40px 72px;"><div style="border-radius: 18px; background: #0E1D2C; padding: 40px 48px; display: flex; align-items: center; gap: 40px;"><div class="col" style="gap: 10px; flex: 1;"><h2 class="serif" style="margin: 0; font-size: 34px; color: #fff;">Want to join the crew?</h2><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #B7C4CE;">We hire diplomats first, engineers second. If you've gaveled a committee and shipped code, we want to talk.</p></div><a class="btn lg" href="#" style="background: #fff; color: #0E1D2C;">See open roles</a></div></div>
+<div class="fstub">Mega footer — identical to P01 Home</div>
+</div>
+
+<div class="frame" style="width: 1440px;">
+<div class="band" style="border-top: 0; padding: 72px 0 56px;"><div class="shell col" style="gap: 18px; align-items: center; text-align: center;">
+<span class="badge" style="align-self: center;">We'd love to hear from you</span>
+<h1 class="serif" style="margin: 0; font-size: 64px; line-height: 1.04;">Get in <em>touch</em></h1>
+<p class="p" style="font-size: 18px; max-width: 620px;">Questions, partnerships, press, or just to say hi — pick a channel below or drop us a message. A human always replies.</p>
+</div></div>
+<div class="shell" style="padding-top: 40px;"><div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+<a class="card" href="#" style="color: inherit;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></span><b style="font-size: 16px;">Help &amp; Support</b><span style="font-size: 14px; line-height: 1.5; color: var(--muted);">Trouble with your account, applications, or payments?</span><span style="font-size: 14px; font-weight: 600; color: var(--seal);">support@munplatform.app</span><span style="font-size: 12px; font-weight: 600; color: var(--muted); padding: 4px 8px; border-radius: 8px; background: var(--sunk2); align-self: flex-start;">Avg. reply: 4 hrs</span></a>
+<a class="card" href="#" style="color: inherit;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><b style="font-size: 16px;">Conference Organizers</b><span style="font-size: 14px; line-height: 1.5; color: var(--muted);">Run a conference? Pro plans, custom rollouts, partnerships.</span><span style="font-size: 14px; font-weight: 600; color: var(--seal);">organizers@munplatform.app</span><span style="font-size: 12px; font-weight: 600; color: var(--muted); padding: 4px 8px; border-radius: 8px; background: var(--sunk2); align-self: flex-start;">Avg. reply: same day</span></a>
+<a class="card" href="#" style="color: inherit;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h12v16H6a2 2 0 0 1-2-2zM16 8h4v10a2 2 0 0 1-2 2M8 8h4M8 12h4"/></svg></span><b style="font-size: 16px;">Press &amp; Media</b><span style="font-size: 14px; line-height: 1.5; color: var(--muted);">Stories, quotes, interviews, press kit requests.</span><span style="font-size: 14px; font-weight: 600; color: var(--seal);">press@munplatform.app</span><span style="font-size: 12px; font-weight: 600; color: var(--muted); padding: 4px 8px; border-radius: 8px; background: var(--sunk2); align-self: flex-start;">Press kit available</span></a>
+<a class="card" href="#" style="color: inherit;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><b style="font-size: 16px;">General Inquiries</b><span style="font-size: 14px; line-height: 1.5; color: var(--muted);">Anything else? We read every email.</span><span style="font-size: 14px; font-weight: 600; color: var(--seal);">hello@munplatform.app</span><span style="font-size: 12px; font-weight: 600; color: var(--muted); padding: 4px 8px; border-radius: 8px; background: var(--sunk2); align-self: flex-start;">Personal reply</span></a>
+</div></div>
+<div class="shell" style="padding-top: 48px;"><div style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px;">
+<form class="card" style="padding: 32px; gap: 18px;"><div class="col" style="gap: 4px;"><h2 class="serif" style="margin: 0; font-size: 30px;">Send us a message</h2><span style="font-size: 14.5px; color: var(--muted);">We typically reply within one business day.</span></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;"><div class="fld"><label for="c1">Your name</label><div class="inp"><input id="c1" placeholder="Jane Delegate"></div></div><div class="fld"><label for="c2">Email <span style="color: var(--signal);">*</span></label><div class="inp"><input id="c2" placeholder="jane@example.com"></div></div></div>
+<div class="fld"><span class="fl">Topic</span><div class="row" style="gap: 8px;" role="group" aria-label="Topic"><button type="button" class="chip on" aria-pressed="true">General</button><button type="button" class="chip" aria-pressed="false">Support</button><button type="button" class="chip" aria-pressed="false">Organizer</button><button type="button" class="chip" aria-pressed="false">Press</button></div></div>
+<div class="fld"><label for="c3">Message <span style="color: var(--signal);">*</span></label><textarea id="c3" class="ta" placeholder="Tell us what's on your mind..."></textarea></div>
+<div class="row" style="justify-content: space-between;"><span style="font-size: 13px; color: var(--muted);">By submitting, you agree to our <a href="#">Privacy Policy</a>.</span><button type="button" class="btn lg b-pri">Send message</button></div>
+</form>
+<div class="col" style="gap: 16px;">
+<div class="card" style="gap: 0; padding: 8px 24px;">
+<div class="row" style="padding: 18px 0; border-bottom: 1px solid var(--line2); align-items: flex-start;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="col" style="gap: 3px;"><b style="font-size: 15px;">Headquarters</b><span style="font-size: 14px; color: var(--ink2);">Dhaka, Bangladesh</span><span style="font-size: 13px; color: var(--muted);">Remote-first · 5 timezones</span></span></div>
+<div class="row" style="padding: 18px 0; border-bottom: 1px solid var(--line2); align-items: flex-start;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="col" style="gap: 3px;"><b style="font-size: 15px;">Enterprise sales</b><a href="#" style="font-size: 14px;">+880 1000 000000</a><span style="font-size: 13px; color: var(--muted);">Mon–Fri, business hours</span></span></div>
+<div class="row" style="padding: 18px 0; align-items: flex-start;"><span class="icn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="col" style="gap: 3px;"><b style="font-size: 15px;">Response time</b><span style="font-size: 14px; color: var(--ink2);">Under 4 hours</span><span style="font-size: 13px; color: var(--muted);">During business hours</span></span></div>
+</div>
+<div class="card"><b style="font-size: 15px;">Follow along</b><div class="row" style="gap: 8px;"><a class="btn sm b-sec" href="#" aria-label="X"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="var(--ink)" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>Twitter</a><a class="btn sm b-sec" href="#">Instagram</a><a class="btn sm b-sec" href="#">LinkedIn</a><a class="btn sm b-sec" href="#">GitHub</a></div></div>
+</div>
+</div></div>
+<div class="shell col" style="padding: 64px 40px 72px; gap: 8px; max-width: 880px;">
+<h2 class="serif h2" style="margin-bottom: 12px;">Common <em>questions</em></h2>
+<div class="faq" style="border-top: 1px solid var(--line);"><div class="q">How fast do you reply to support tickets?<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></div><p class="p" style="font-size: 15px; padding-bottom: 18px;">[Answer: under 4 hours, Mon–Fri 9am–7pm GMT+6; live-conference issues within 30 minutes.]</p></div>
+<div class="faq"><div class="q">Do you offer custom plans for large conferences?<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></div></div>
+<div class="faq"><div class="q">Can I report a security vulnerability?<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></div></div>
+<div class="faq"><div class="q">Where can I find press kit assets?<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></div></div>
+</div>
+<div class="fstub">Mega footer — identical to P01 Home</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>About · phone</b><span>Hero, stats as a 2×2 grid.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mh"><b class="serif" style="font-size: 18px; flex: 1;">About</b><button class="ib" aria-label="Menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+<div style="background: var(--paper); padding: 28px 20px; display: flex; flex-direction: column; gap: 14px; border-bottom: 1px solid var(--line2);"><span class="badge">About MUN Pilot</span><h1 class="serif" style="margin: 0; font-size: 36px; line-height: 1.06;">We're building the <em>operating system</em> for Model UN</h1><p class="p" style="font-size: 15px;">One workspace where delegates discover conferences, chairs run debate, and organizers orchestrate the world's most ambitious MUN events.</p></div>
+<div style="padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+<div class="card" style="padding: 16px;"><span class="serif" style="font-size: 32px; line-height: 1;">12K+</span><span style="font-size: 13px; color: var(--muted);">Active delegates</span></div>
+<div class="card" style="padding: 16px;"><span class="serif" style="font-size: 32px; line-height: 1;">340+</span><span style="font-size: 13px; color: var(--muted);">Conferences run</span></div>
+<div class="card" style="padding: 16px;"><span class="serif" style="font-size: 32px; line-height: 1;">85</span><span style="font-size: 13px; color: var(--muted);">Countries served</span></div>
+<div class="card" style="padding: 16px;"><span class="serif" style="font-size: 32px; line-height: 1;">99.9%</span><span style="font-size: 13px; color: var(--muted);">Platform uptime</span></div>
+</div>
+</div>
+
+<div class="cap"><b>Contact · phone</b><span>Form first; topic chips; sent state.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mh"><b class="serif" style="font-size: 18px; flex: 1;">Contact</b><button class="ib" aria-label="Menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 14px;">
+<div class="card" style="padding: 18px; gap: 14px;"><h2 class="serif" style="margin: 0; font-size: 24px;">Send us a message</h2>
+<div class="fld"><label for="m1">Your name</label><div class="inp"><input id="m1" placeholder="Jane Delegate"></div></div>
+<div class="fld"><label for="m2">Email <span style="color: var(--signal);">*</span></label><div class="inp"><input id="m2" value="nadia@school.edu"></div></div>
+<div class="row" style="gap: 6px; flex-wrap: wrap;"><button class="chip">General</button><button class="chip on">Support</button><button class="chip">Organizer</button><button class="chip">Press</button></div>
+<div class="fld"><label for="m3">Message <span style="color: var(--signal);">*</span></label><textarea id="m3" class="ta" style="height: 110px;">[Message]</textarea></div>
+<div class="row" style="gap: 10px; padding: 12px 14px; border-radius: 12px; background: var(--sealSoft); color: var(--seal); font-size: 14px; font-weight: 600;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Thanks! We'll reply within one business day.</div>
+<button class="btn lg b-pri" disabled style="opacity: .6;">Send message</button>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":4900}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

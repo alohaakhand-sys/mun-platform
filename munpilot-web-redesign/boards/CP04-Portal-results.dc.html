@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Results and certificate</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--gold:#B8860B;--goldSoft:#F8EFD6;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;--glass:rgba(255,255,255,.82);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--gold:#E9C25A;--goldSoft:rgba(233,194,90,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14;--glass:rgba(19,36,52,.84)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-live{background:var(--red);color:#fff}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.top{height:64px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 24px;flex:none}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+.rail{width:240px;flex:none;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px;align-self:flex-start}
+.ni{display:flex;align-items:center;gap:10px;height:38px;padding:0 10px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.stub{width:320px;flex:none;align-self:flex-start;border:1.5px dashed var(--line);border-radius:16px;padding:20px;font-size:13px;color:var(--muted);text-align:center;box-sizing:border-box}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-mute{background:var(--sunk);color:var(--ink2)}.p-gold{background:var(--goldSoft);color:var(--gold)}
+.pb{height:10px;border-radius:5px;background:var(--sunk);overflow:hidden}
+.pb i{display:block;height:100%;border-radius:5px;background:var(--seal)}
+.crit{padding:14px 16px;border-radius:12px;border:1px solid var(--line2);display:flex;flex-direction:column;gap:4px}
+.crit b.v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.mk{display:inline-flex;height:20px;padding:0 6px;border-radius:6px;font-size:11.5px;font-weight:700;align-items:center}
+.day{display:grid;grid-template-columns:110px 1fr 90px;gap:14px;align-items:center;font-size:13.5px;padding:8px 0;border-top:1px solid var(--line2)}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.tbl th{text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding:10px 14px;background:var(--sunk2);border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 14px;border-bottom:1px solid var(--line2)}
+.tbl tr.me td{background:var(--sealSoft)}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.rk{width:26px;height:26px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
+.cert{background:#FBFAF6;border-radius:6px;padding:40px 56px;color:#0E1D2C;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:inset 0 0 0 10px #FBFAF6,inset 0 0 0 12px #0B6E4F,inset 0 0 0 16px #FBFAF6,inset 0 0 0 17px #B8860B}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.tabsc{display:flex;gap:6px;overflow:hidden;padding:10px 16px;background:var(--paper);border-bottom:1px solid var(--line2);flex:none}
+.tabsc span{height:32px;padding:0 13px;border-radius:16px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--ink2);background:var(--sunk2);white-space:nowrap;flex:none}
+.tabsc span.on{background:var(--ink);color:var(--paper)}
+.st{padding:12px;border-radius:12px;background:var(--sunk2);display:flex;flex-direction:column;gap:2px}
+.st b{font-size:22px;font-variant-numeric:tabular-nums}
+.st span{font-size:11.5px;color:var(--muted)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3200px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">CP04 · Conference portal · Results, Certificates, Session Report</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Results, certificate, session report</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Results reads top-down like a report card: the final % (Published or Provisional) with how it was computed, per-criterion averages with their marks, chair feedback, the daily breakdown, and — when the chair publishes standings — your rank and the committee board with your row highlighted. The certificate preview keeps its exact wording with Print and Download PDF. The session report keeps every participation count for a chosen day.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 1700px;">
+<div class="top"><span class="mark"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12Z" fill="#47A481"/></svg></span><b style="font-size: 15px;">Dhaka Model United Nations Conference 2026</b><span style="flex: 1;"></span><button class="btn b-live">Live MUN</button></div>
+<div style="display: flex; gap: 20px; padding: 20px 24px; flex: 1;">
+<nav class="rail"><span class="ni">Overview</span><span class="ni">Documents</span><span class="ni">Session Report</span><span class="ni">Certificates</span><span class="ni on">Results</span></nav>
+<main style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+<div class="card" style="padding: 24px; display: flex; gap: 32px; align-items: center;">
+<div style="width: 150px; height: 150px; border-radius: 75px; background: conic-gradient(var(--seal) 0 82%, var(--sunk) 82% 100%); display: flex; align-items: center; justify-content: center; flex: none;"><div style="width: 122px; height: 122px; border-radius: 61px; background: var(--paper); display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-size: 12px; color: var(--muted);">Final</span><b class="serif" style="font-size: 40px; line-height: 1;">82%</b></div></div>
+<div class="col" style="gap: 10px; flex: 1;"><div class="row" style="gap: 10px;"><b style="font-size: 20px;">Your Final Score</b><span class="pill p-ok">Published</span></div><span style="font-size: 14px; color: var(--muted);">Graded by your committee chair.</span><div class="pb"><i style="width: 82%;"></i></div><span style="font-size: 13.5px; color: var(--ink2);">Computed 78% · Chair overall 90 · blended 30% · present 3/3 days</span></div>
+</div>
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 14px;">
+<b style="font-size: 16px;">By criterion</b>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+<div class="crit"><span style="font-size: 13px; color: var(--muted);">[Criterion — e.g. Speeches]</span><b class="v" style="color: var(--seal);">+42</b><span style="font-size: 12px; color: var(--muted);">avg / day · 6 marks</span><div class="row" style="gap: 4px; flex-wrap: wrap;"><span class="mk p-ok">+40</span><span class="mk p-ok">+50</span><span class="mk p-ok">+35</span><a href="#" style="font-size: 12px; font-weight: 600;">show marks</a></div></div>
+<div class="crit"><span style="font-size: 13px; color: var(--muted);">[Criterion]</span><b class="v" style="color: var(--seal);">+18</b><span style="font-size: 12px; color: var(--muted);">avg / day · 4 marks</span></div>
+<div class="crit"><span style="font-size: 13px; color: var(--muted);">[Criterion]</span><b class="v" style="color: var(--red);">−6</b><span style="font-size: 12px; color: var(--muted);">avg / day · 2 marks</span></div>
+<div class="crit"><span style="font-size: 13px; color: var(--muted);">[Criterion]</span><b class="v" style="color: var(--muted);">—</b><span style="font-size: 12px; color: var(--muted);">avg / day · 0 marks</span></div>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 10px;"><span class="row" style="gap: 8px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--gold);"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><b style="font-size: 16px;">Chair Feedback</b></span><span class="serif" style="font-size: 18px; line-height: 1.55; font-style: italic; color: var(--ink2);">"[Latest daily feedback from the chair.]"</span></div>
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 16px; margin-bottom: 6px;">Daily breakdown</b><div class="day" style="border-top: 0;"><span>15 Aug</span><div class="pb"><i style="width: 80%;"></i></div><b>80%</b></div><div class="day"><span>16 Aug</span><div class="pb"><i style="width: 76%;"></i></div><b>76%</b></div><div class="day"><span>17 Aug</span><div class="pb"><i style="width: 0;"></i></div><span style="color: var(--muted);">not counted</span></div></div>
+</div>
+<div class="card" style="overflow: hidden;">
+<div class="row" style="padding: 20px 22px; gap: 20px;"><div class="col" style="gap: 3px; flex: 1;"><b style="font-size: 16px;">Committee Standing</b><span style="font-size: 13px; color: var(--muted);">published by your chair · Full committee board below.</span></div><div class="row" style="gap: 6px; align-items: baseline;"><b class="serif" style="font-size: 40px; line-height: 1;">#2</b><span style="font-size: 14px; color: var(--muted);">of 15</span></div></div>
+<table class="tbl"><thead><tr><th style="width: 50px;">#</th><th>Delegate</th><th>Days</th><th>Computed</th><th>Final</th></tr></thead><tbody>
+<tr><td><span class="rk" style="background: var(--goldSoft); color: var(--gold);">1</span></td><td><span class="row" style="gap: 8px;"><i class="flag ffr"></i><b>France</b><span style="color: var(--muted);">[Name]</span></span></td><td>3/3</td><td>84%</td><td><span class="row" style="gap: 8px;"><b>88%</b><div class="pb" style="width: 120px; height: 6px;"><i style="width: 88%;"></i></div></span></td></tr>
+<tr class="me"><td><span class="rk" style="background: var(--sunk); color: var(--ink2);">2</span></td><td><span class="row" style="gap: 8px;"><i class="flag fbd"></i><b>Bangladesh</b><span class="pill p-ok" style="height: 18px;">you</span><span style="color: var(--muted);">Nadia Rahman</span></span></td><td>3/3</td><td>78%</td><td><span class="row" style="gap: 8px;"><b>82%</b><div class="pb" style="width: 120px; height: 6px;"><i style="width: 82%;"></i></div></span></td></tr>
+<tr><td><span class="rk" style="background: var(--orangeSoft, #FCEFE3); color: #B45309;">3</span></td><td><span class="row" style="gap: 8px;"><i class="flag fjp"></i><b>Japan</b><span style="color: var(--muted);">[Name]</span></span></td><td>2/3</td><td>74%</td><td><span class="row" style="gap: 8px;"><b>74%</b><div class="pb" style="width: 120px; height: 6px;"><i style="width: 74%;"></i></div></span></td></tr>
+<tr><td><span class="rk" style="color: var(--muted);">4</span></td><td><span class="row" style="gap: 8px;"><i class="flag fde"></i><b>Germany</b><span style="color: var(--muted);">[Name]</span></span></td><td>3/3</td><td>70%</td><td><span class="row" style="gap: 8px;"><b>71%</b><div class="pb" style="width: 120px; height: 6px;"><i style="width: 71%;"></i></div></span></td></tr>
+</tbody></table>
+</div>
+</main>
+<div class="stub">Committee Chat + Members<br>— same as CP01</div>
+</div>
+</div>
+
+<div class="frame" style="width: 1440px; height: 860px;">
+<div class="top"><span class="mark"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12Z" fill="#47A481"/></svg></span><b style="font-size: 15px;">Dhaka Model United Nations Conference 2026</b><span style="flex: 1;"></span><button class="btn b-live">Live MUN</button></div>
+<div style="display: flex; gap: 20px; padding: 20px 24px; flex: 1;">
+<nav class="rail"><span class="ni">Overview</span><span class="ni">Session Report</span><span class="ni on">Certificates</span><span class="ni">Results</span></nav>
+<main style="flex: 1; min-width: 0;">
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 18px;">
+<div class="row" style="justify-content: space-between;"><div class="col" style="gap: 4px;"><b style="font-size: 17px;">Recognition &amp; Awards</b><span style="font-size: 13.5px; color: var(--muted);">Download your official certificate of participation.</span></div><div class="row" style="gap: 8px;"><button class="btn b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print Certificate</button><button class="btn b-pri"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download PDF</button></div></div>
+<div class="cert"><b class="serif" style="font-size: 44px; margin-top: 6px;">Certificate of Participation</b><span class="serif" style="font-size: 17px; font-style: italic; color: #56697B;">This is to certify that</span><b class="serif" style="font-size: 38px; border-bottom: 1px solid #D8DEE2; padding: 0 40px 6px;">Nadia Rahman</b><span style="font-size: 15px; line-height: 1.6; color: #24384B; max-width: 620px;">has successfully participated as a Delegate representing Bangladesh in the UNSC committee during the Dhaka Model United Nations Conference 2026</span>
+<div class="row" style="gap: 80px; margin-top: 28px; font-size: 12.5px; color: #56697B;"><span class="col" style="gap: 4px; align-items: center;"><i style="width: 140px; height: 1px; background: #0E1D2C;"></i>Secretary General</span><span class="col" style="gap: 4px; align-items: center;"><b style="color: #0E1D2C;">17 August 2026</b>Dated</span><span class="col" style="gap: 4px; align-items: center;"><i style="width: 140px; height: 1px; background: #0E1D2C;"></i>Organizing Chair</span></div></div>
+</div>
+</main>
+<div class="stub">Committee Chat + Members<br>— same as CP01</div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Session Report · phone</b><span>Pick a day; every participation count.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div class="tabsc"><span>Overview</span><span class="on">Session Report</span><span>Certificates</span><span>Results</span></div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div class="row" style="justify-content: space-between;"><div class="col"><b class="serif" style="font-size: 24px;">Session Report</b><span style="font-size: 12.5px; color: var(--muted);">UNSC · 15 Aug 2026</span></div><span class="row" style="gap: 6px;"><button class="btn sm b-sec">Print</button><button class="btn sm b-sec">Download</button></span></div>
+<div class="row" style="gap: 8px; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--paper); font-size: 13.5px;"><span style="color: var(--muted);">Session day</span><b style="margin-left: auto;">15 Aug 2026</b></div>
+<div class="card" style="padding: 14px; display: flex; align-items: center; gap: 10px;"><i class="flag fbd" style="width: 30px; height: 20px;"></i><b style="flex: 1;">Bangladesh</b><span class="pill p-ok">Attendance: P&amp;V</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+<div class="st"><b>4</b><span>Speeches</span></div><div class="st"><b>6:40</b><span>Speaking time</span></div><div class="st"><b>2</b><span>Caucus speeches</span></div>
+<div class="st"><b>1</b><span>Point of Order</span></div><div class="st"><b>3</b><span>Point of Information</span></div><div class="st"><b>0</b><span>Point of Personal Privilege</span></div>
+<div class="st"><b>0</b><span>Point of Parl. Inquiry</span></div><div class="st"><b>2</b><span>Motions raised</span></div><div class="st"><b>5</b><span>Votes cast</span></div>
+</div>
+<span style="font-size: 13px; color: var(--ink2);">Yielded to: France, Japan</span>
+</div>
+</div>
+
+<div class="cap"><b>Results · phone</b><span>Ring, then criteria and standing.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div class="tabsc"><span>Session Report</span><span>Certificates</span><span class="on">Results</span></div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;"><div style="width: 120px; height: 120px; border-radius: 60px; background: conic-gradient(var(--seal) 0 82%, var(--sunk) 82% 100%); display: flex; align-items: center; justify-content: center;"><div style="width: 96px; height: 96px; border-radius: 48px; background: var(--paper); display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-size: 11px; color: var(--muted);">Final</span><b class="serif" style="font-size: 32px; line-height: 1;">82%</b></div></div><span class="row" style="gap: 8px;"><b>Your Final Score</b><span class="pill p-ok">Published</span></span><span style="font-size: 12.5px; color: var(--muted);">Computed 78% · Chair overall 90 · present 3/3 days</span></div>
+<div class="card" style="padding: 16px; display: flex; align-items: center; gap: 12px;"><b class="serif" style="font-size: 34px;">#2</b><span class="col"><b style="font-size: 14px;">Committee Standing</b><span style="font-size: 12.5px; color: var(--muted);">of 15 · published by your chair</span></span></div>
+<div class="crit" style="background: var(--paper);"><span style="font-size: 13px; color: var(--muted);">[Criterion]</span><b class="v" style="color: var(--seal);">+42</b><span style="font-size: 12px; color: var(--muted);">avg / day · 6 marks</span></div>
+</div>
+</div>
+
+<div class="cap"><b>Not yet available</b><span>Locked certificate, unpublished results, rank-only.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center;"><span style="width: 52px; height: 52px; border-radius: 26px; background: var(--sunk2); color: var(--muted); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><b style="font-size: 16px;">Certificate Not Yet Available</b><span style="font-size: 13.5px; line-height: 1.5; color: var(--muted);">Your certificate unlocks once the organizer approves the committee results. Check back after the conference wraps up.</span></div>
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center;"><b style="font-size: 16px;">Results Not Yet Published</b><span style="font-size: 13.5px; line-height: 1.5; color: var(--muted);">Your chair hasn't submitted scores yet. Check back after the conference.</span></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 6px;"><div class="row" style="gap: 8px;"><b>Your Final Score</b><span class="pill p-wait">Provisional</span></div><span style="font-size: 13px; color: var(--muted);">Aggregate so far — your chair hasn't published the final yet.</span></div>
+<div class="card" style="padding: 16px; font-size: 13.5px; color: var(--ink2);">Your chair published placements only — other delegates' scores stay private.</div>
+<div class="card" style="padding: 16px; font-size: 13.5px; color: var(--muted); text-align: center; border-style: dashed; box-shadow: none;">No participation recorded yet.</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3200}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

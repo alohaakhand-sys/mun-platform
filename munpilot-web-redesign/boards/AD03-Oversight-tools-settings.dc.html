@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Oversight, tools, settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--gold:#8A6400;--goldSoft:#F8EFD6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--gold:#E9C25A;--goldSoft:rgba(233,194,90,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dan{background:var(--red);color:#fff}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:236px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:14px 12px;box-sizing:border-box;gap:2px}
+.ni{display:flex;align-items:center;height:34px;padding:0 10px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--redSoft);color:var(--red);font-weight:600}
+.main{flex:1;min-width:0;padding:28px 32px;display:flex;flex-direction:column;gap:18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}.p-gold{background:var(--goldSoft);color:var(--gold)}
+.p-out{background:var(--paper);color:var(--ink2);box-shadow:inset 0 0 0 1px var(--line)}
+.stat{padding:18px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-family:Newsreader,Georgia,serif;font-size:34px;font-weight:500;line-height:1.05}
+.stat span{font-size:12.5px;color:var(--muted)}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.tbl th{text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding:10px 16px;background:var(--sunk2);border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 16px;border-bottom:1px solid var(--line2)}
+.tbl tr:last-child td{border-bottom:0}
+.av{width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex:none}
+.inp{display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--sunk2);font-size:13.5px;box-sizing:border-box}
+.inp.pv{color:var(--muted)}
+.tg{position:relative;width:40px;height:24px;border-radius:12px;background:var(--line);flex:none;border:0;padding:0}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tg.on{background:var(--seal)}.tg.on::after{left:18px}
+.seg{display:grid;gap:2px;padding:3px;border-radius:10px;background:var(--sunk)}
+.seg span{height:34px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld .fl{font-size:12.5px;font-weight:600}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+.menu{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh2);padding:6px;display:flex;flex-direction:column;width:200px}
+.menu span{height:34px;display:flex;align-items:center;gap:8px;padding:0 10px;border-radius:8px;font-size:13.5px}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.skl{border-radius:8px;background:linear-gradient(90deg,var(--sunk) 0%,var(--sunk2) 50%,var(--sunk) 100%);background-size:200% 100%;animation:skl 1.4s ease-in-out infinite}@keyframes skl{0%{background-position:100% 0}100%{background-position:-100% 0}}@media (prefers-reduced-motion:reduce){.skl{animation:none}}
+.fjp{background:radial-gradient(circle at 50% 50%,#BC002D 0 28%,transparent 29%),#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3960px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">AD03 · App Admin · Live Sessions, Tools, Audit Logs, Settings, Moderation, Test allocation</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Oversight, tools and settings</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Live Sessions lists every committee sitting running now, with Observe, Force stop and Reset. Tools sends bell + phone notifications, exports CSVs, shows the published Android build and the server's scheduled jobs. Audit Logs is the immutable action record with before / after. Settings keeps its three tabs — General, Pricing, Maintenance — plus the two repair cards. Moderation and the dev-only Test allocation panel close the section.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 760px;">
+<aside class="side"><div style="padding: 4px 10px 10px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni">Events</span><span class="ni on">Live Sessions</span><span class="ni">Applications</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 34px;">Live Sessions</h1><span style="font-size: 14.5px; color: var(--muted);">Every committee session running right now, across all events.</span><span style="font-size: 12.5px; color: var(--muted);">[Note: Observe watches silently]</span></div><button class="btn sm b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></svg>Refresh</button></div>
+<span style="font-size: 12.5px; color: var(--muted);">3 running · auto-refreshes every 60s</span>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 16px;">UNSC</b><span class="row" style="gap: 6px;"><span class="pill p-info">GSL</span><span class="pill" style="background: var(--red); color: #fff;"><span style="width: 6px; height: 6px; border-radius: 3px; background: #fff;"></span>On air</span></span></span><span style="font-size: 13px; color: var(--ink2);">Dhaka MUN 2026 · Day 2</span><span style="font-size: 12.5px; color: var(--muted);">14/15 present · Speaking: Japan · 15 countries</span><div class="row" style="gap: 8px;"><button class="btn sm b-pri" style="flex: 1;">Observe</button><button class="btn sm b-sec" style="color: var(--red);">Force stop</button><button class="btn sm b-sec">Reset</button></div></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 16px;">[Committee]</b><span class="pill p-wait">Mod caucus</span></span><span style="font-size: 13px; color: var(--ink2);">[Event] · Day 1</span><span style="font-size: 12.5px; color: var(--muted);">32/40 present · Speaking: — · 40 countries</span><div class="row" style="gap: 8px;"><button class="btn sm b-pri" style="flex: 1;">Observe</button><button class="btn sm b-sec" style="color: var(--red);">Force stop</button><button class="btn sm b-sec">Reset</button></div></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 16px;">[Committee]</b><span class="pill p-mute">Roll call</span></span><span style="font-size: 13px; color: var(--ink2);">[Event] · Day 1</span><span style="font-size: 12.5px; color: var(--muted);">0/22 present · Speaking: — · 22 countries</span><div class="row" style="gap: 8px;"><button class="btn sm b-pri" style="flex: 1;">Observe</button><button class="btn sm b-sec" style="color: var(--red);">Force stop</button><button class="btn sm b-sec">Reset</button></div></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;"><div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><div class="skl" style="height: 18px; width: 50%;"></div><div class="skl" style="height: 12px; width: 70%;"></div><div class="skl" style="height: 32px;"></div></div><div class="card" style="padding: 20px; grid-column: span 2; display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--muted);">Empty state: No sessions running</div></div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 980px;">
+<aside class="side"><div style="padding: 4px 10px 10px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni">Moderation</span><span class="ni on">Tools</span><span class="ni">Audit Logs</span></aside>
+<main class="main">
+<div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 34px;">Tools</h1><span style="font-size: 14.5px; color: var(--muted);">Notify members, export data, and see the published app.</span></div>
+<div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; align-items: start;">
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 12px;"><b style="font-size: 16px;">Send a notification</b><span style="font-size: 13px; color: var(--muted);">Shows in the bell on the website and as a phone alert. Up to 2,000 people per send.</span>
+<div class="seg" style="grid-template-columns: repeat(3, 1fr);"><span>Event owners</span><span class="on">One event</span><span>Everyone</span></div>
+<div class="fld"><span class="fl">Event ID</span><div class="inp pv">[event id]</div></div>
+<div class="fld"><span class="fl row" style="justify-content: space-between;">Title</span><div class="inp pv">Title</div></div>
+<div class="fld"><span class="fl row" style="justify-content: space-between;">Message</span><div class="inp pv" style="height: 80px; align-items: flex-start; padding-top: 10px;">Message</div></div>
+<div class="fld"><span class="fl">Link (optional)</span><div class="inp pv">/dashboard/organizer/pro</div></div>
+<button class="btn b-pri" style="align-self: flex-start;">Send</button>
+</div>
+<div class="col" style="gap: 16px;">
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 16px;">Export CSV</b><span style="font-size: 13px; color: var(--muted);">Up to 5,000 rows each. Every export is written to the audit log.</span><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><button class="btn sm b-sec">Members</button><button class="btn sm b-sec">Payments</button><button class="btn sm b-sec">Payouts</button><button class="btn sm b-sec">Event plans</button></div></div>
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 8px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 16px;">Android app</b><span class="pill p-ok">1.4.0</span></span><span style="font-size: 12.5px; color: var(--muted);">build [code] · [date]</span><span style="font-size: 13px; color: var(--ink2);">[Release notes]</span></div>
+<div class="card" style="overflow: hidden;"><div style="padding: 16px 18px 10px;"><b style="font-size: 16px;">Scheduled jobs</b><div style="font-size: 13px; color: var(--muted);">Run by the server's scheduler (Coolify), each with the CRON_SECRET.</div></div>
+<div class="row" style="padding: 9px 18px; border-top: 1px solid var(--line2); font-size: 13px;"><span style="flex: 1; font-family: ui-monospace, monospace;">close-stale-sittings</span><span class="pill p-mute">daily</span></div>
+<div class="row" style="padding: 9px 18px; border-top: 1px solid var(--line2); font-size: 13px;"><span style="flex: 1; font-family: ui-monospace, monospace;">scheduled-announcements</span><span class="pill p-mute">15 min</span></div>
+<div class="row" style="padding: 9px 18px; border-top: 1px solid var(--line2); font-size: 13px;"><span style="flex: 1; font-family: ui-monospace, monospace;">waitlist-offers</span><span class="pill p-mute">hourly</span></div>
+<div class="row" style="padding: 9px 18px; border-top: 1px solid var(--line2); font-size: 13px;"><span style="flex: 1; font-family: ui-monospace, monospace;">complaint-sla</span><span class="pill p-mute">6 h</span></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 820px;">
+<aside class="side"><div style="padding: 4px 10px 10px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni">Tools</span><span class="ni on">Audit Logs</span><span class="ni">Settings</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 34px;">Audit Logs</h1><span style="font-size: 14.5px; color: var(--muted);">Immutable record of critical system actions.</span></div><span class="row" style="gap: 10px;"><span class="row" style="gap: 8px; font-size: 13px;"><button class="tg on" aria-label="Live Monitoring" aria-pressed="true"></button>Live Monitoring</span><button class="btn sm b-sec">Export CSV</button></span></div>
+<div class="row" style="gap: 10px;"><span style="font-size: 13px; font-weight: 600;">Filter by Action:</span><div class="inp" style="width: 240px; background: var(--paper);">All Actions ▾</div><button class="btn sm b-sec">Refresh</button></div>
+<div class="card" style="overflow: hidden;"><table class="tbl"><thead><tr><th>Timestamp</th><th>Actor</th><th>Action</th><th>Target</th><th>Details</th></tr></thead><tbody>
+<tr style="background: var(--sunk2);"><td style="font-size: 12.5px;">Nov 1, 2026 14:02</td><td>[Admin]</td><td><span class="pill p-mute" style="font-family: ui-monospace, monospace; font-size: 11.5px;">[action_type]</span></td><td style="font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted);">events/a1b2…</td><td><button class="btn sm b-ghost">Hide ▴</button></td></tr>
+<tr><td colspan="5" style="background: var(--sunk2);"><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="col" style="gap: 4px;"><span style="font-size: 11px; font-weight: 700; color: var(--red); letter-spacing: .06em;">BEFORE</span><pre style="margin: 0; padding: 10px; border-radius: 8px; background: var(--paper); border: 1px solid var(--line); font-size: 12px; color: var(--ink2);">{ "plan": "free" }</pre></div><div class="col" style="gap: 4px;"><span style="font-size: 11px; font-weight: 700; color: var(--seal); letter-spacing: .06em;">AFTER</span><pre style="margin: 0; padding: 10px; border-radius: 8px; background: var(--paper); border: 1px solid var(--line); font-size: 12px; color: var(--ink2);">{ "plan": "pro" }</pre></div></div></td></tr>
+<tr><td style="font-size: 12.5px;">Nov 1, 2026 13:40</td><td>[Admin]</td><td><span class="pill p-mute" style="font-family: ui-monospace, monospace; font-size: 11.5px;">[action_type]</span></td><td style="font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted);">users/x9y8…</td><td><button class="btn sm b-ghost">Show ▾</button></td></tr>
+<tr><td style="font-size: 12.5px;">Oct 31, 2026 18:11</td><td>[Organizer]</td><td><span class="pill p-mute" style="font-family: ui-monospace, monospace; font-size: 11.5px;">[action_type]</span></td><td style="font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted);">[target]</td><td><button class="btn sm b-ghost">Show ▾</button></td></tr>
+</tbody></table><div style="padding: 12px; text-align: center; border-top: 1px solid var(--line2);"><button class="btn sm b-sec">Load More</button></div></div>
+</main>
+</div>
+
+<div class="frame" style="width: 1440px; height: 900px;">
+<aside class="side"><div style="padding: 4px 10px 10px;"><b class="serif" style="font-size: 19px;">munpilot</b></div><span class="ni">Audit Logs</span><span class="ni on">Settings</span></aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;"><div class="col" style="gap: 6px;"><h1 class="serif" style="margin: 0; font-size: 34px;">System Settings</h1><span style="font-size: 14.5px; color: var(--muted);">Configure global platform behavior.</span></div><span class="pill p-ok">Saved</span></div>
+<div class="seg" style="grid-template-columns: repeat(3, 140px); align-self: flex-start;"><span>General</span><span class="on">Pricing</span><span>Maintenance</span></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 16px;"><b style="font-size: 16px;">Pricing &amp; Limits</b>
+<div class="col" style="gap: 8px;"><span class="fl" style="font-size: 13px; font-weight: 600;">Platform Fee Percentage (5%)</span><div style="position: relative; height: 6px; border-radius: 3px; background: var(--sunk);"><div style="width: 33%; height: 6px; border-radius: 3px; background: var(--seal);"></div><span style="position: absolute; left: calc(33% - 9px); top: -6px; width: 18px; height: 18px; border-radius: 9px; background: var(--paper); box-shadow: 0 0 0 2px var(--seal);"></span></div><span class="row" style="justify-content: space-between; font-size: 11.5px; color: var(--muted);"><span>0%</span><span>15%</span></span></div>
+<div style="height: 1px; background: var(--line2);"></div>
+<b style="font-size: 14.5px;">Pro events &amp; Free limits</b>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+<div class="fld"><span class="fl">Pro price per event (USD)</span><div class="inp">49</div></div>
+<div class="fld"><span class="fl">Pro events' platform fee (%)</span><div class="inp">5</div></div>
+<div class="fld"><span class="fl">Free: participants per event</span><div class="inp">50</div></div>
+<div class="fld"><span class="fl">Free: committees per event</span><div class="inp">3</div></div>
+<div class="fld"><span class="fl">Free: published events at once</span><div class="inp">2</div></div>
+<div class="fld"><span class="fl">AI uses per person per day</span><div class="inp">10</div></div>
+</div>
+<button class="btn b-pri" style="align-self: flex-start;">Save Changes</button>
+</div>
+</main>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Moderation · phone</b><span>Newest 50 per type.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<b class="serif" style="font-size: 26px;">Moderation</b>
+<span style="font-size: 12.5px; color: var(--muted);">Blog posts, comments, ratings, recommendations and endorsements.</span>
+<div class="row" style="gap: 6px; overflow: hidden;"><span class="pill" style="background: var(--ink); color: var(--paper);">articles</span><span class="pill p-out">ratings</span><span class="pill p-out">recommendations</span><span class="pill p-out">endorsements</span></div>
+<div class="row" style="gap: 8px;"><div class="inp pv" style="flex: 1; background: var(--paper);">Author uid (optional)</div><button class="btn sm b-sec">Show</button></div>
+<span style="font-size: 12px; color: var(--muted);">Newest 50.</span>
+<div class="card" style="overflow: hidden;">
+<div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;"><span class="col"><b style="font-size: 14px;">[Article title]</b><span style="font-size: 12px; color: var(--muted);">[Author] · Oct 30 · published</span></span><div class="row" style="gap: 6px;"><button class="btn sm b-sec">Comments</button><button class="btn sm b-sec">Unpublish</button><button class="btn sm b-sec" style="color: var(--red);">Delete</button></div></div>
+<div style="padding: 12px 14px; border-top: 1px solid var(--line2); display: flex; flex-direction: column; gap: 8px;"><span class="col"><b style="font-size: 14px;">[Article title]</b><span style="font-size: 12px; color: var(--muted);">[Author] · Oct 28 · published</span></span><div class="row" style="gap: 6px;"><button class="btn sm b-sec">Comments</button><button class="btn sm b-sec">Unpublish</button><button class="btn sm b-sec" style="color: var(--red);">Delete</button></div></div>
+</div>
+<div class="card" style="padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 11.5px; font-weight: 600; color: var(--muted);">ratings tab row</span><span class="col"><b style="font-size: 14px;">[Rater] → [Member]</b><span style="font-size: 12px; color: var(--muted);">[rating] · [comment]</span></span><div class="row" style="gap: 6px;"><button class="btn sm b-sec">Hide</button><button class="btn sm b-sec" style="color: var(--red);">Delete</button></div></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--sh2);"><span style="font-size: 13.5px;">Unpublish this article?</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Cancel</button><button class="btn sm b-dan">Unpublish</button></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Settings · General &amp; Maintenance · phone</b><span>Plus the two repair cards.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div class="seg" style="grid-template-columns: repeat(3, 1fr);"><span>General</span><span>Pricing</span><span class="on">Maintenance</span></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 11.5px; font-weight: 600; color: var(--muted);">General tab</span><div class="fld"><span class="fl">Support Email</span><div class="inp">support@munpilot.com</div><span style="font-size: 11.5px; color: var(--muted);">[Hint: shown as Support in the profile menu]</span></div><button class="btn sm b-pri" style="align-self: flex-start;">Save Changes</button></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14.5px;">Maintenance Mode</b><button class="tg" aria-label="Maintenance Mode" aria-pressed="false"></button></span><div class="inp pv" style="height: 64px; align-items: flex-start; padding-top: 10px;">[Maintenance message]</div><button class="btn sm b-pri" style="align-self: flex-start;">Save Maintenance Settings</button></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 14.5px;">Repair marking records</b><button class="btn sm b-sec" style="align-self: flex-start;">Run repair</button><span style="font-size: 12px; color: var(--muted);">412 records checked, 3 repaired…</span><div style="height: 6px; border-radius: 3px; background: var(--sunk);"><div style="width: 62%; height: 6px; border-radius: 3px; background: var(--seal);"></div></div></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 14.5px;">Build event membership</b><button class="btn sm b-sec" style="align-self: flex-start;">Build membership</button><span style="font-size: 12px; color: var(--muted);">18 events, 940 members…</span></div>
+</div>
+</div>
+
+<div class="cap"><b>Test allocation dialog</b><span>From Events → Manage Event. Dev test only.</span></div>
+<div class="card" style="width: 390px; padding: 18px; box-shadow: var(--sh2); display: flex; flex-direction: column; gap: 12px; box-sizing: border-box;">
+<div class="col"><b style="font-size: 16px;">Test allocation</b><span style="font-size: 12.5px; color: var(--muted);">Place a user straight into a committee and country for testing. Event a1b2c3d4.</span></div>
+<div style="padding: 12px; border-radius: 12px; background: var(--amberSoft); display: flex; flex-direction: column; gap: 8px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 13.5px; color: var(--amber);">Dev Allocate — Delegates</b><span class="pill" style="background: var(--amber); color: #fff;">dev test only</span></span><span style="font-size: 12px; color: var(--amber); line-height: 1.5;">[Description: skips review and fee (devPaid) · temporary]</span></div>
+<div class="inp pv" style="background: var(--paper);">Search by name or email</div>
+<div style="padding: 10px; border: 1px solid var(--line2); border-radius: 10px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 13.5px;">Nadia Rahman</b><div class="row" style="gap: 6px;"><div class="inp" style="flex: 1; height: 34px;">UNSC ▾</div><div class="inp" style="flex: 1; height: 34px;"><span class="fjp" style="width: 18px; height: 12px; border-radius: 2px; flex: none;"></span>Japan ▾</div></div><button class="btn sm b-pri">Allocate</button></div>
+<div style="padding: 10px; border: 1px solid var(--line2); border-radius: 10px; display: flex; align-items: center; justify-content: space-between;"><b style="font-size: 13.5px;">[User]</b><span class="pill p-ok">Allocated</span></div>
+</div>
+
+<div class="cap"><b>States</b></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 10px;">
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--seal);">Sent to 1,284 people.</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--amber); background: var(--amberSoft); border-color: transparent;">[Quota error message]</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted); text-align: center;">No audit logs found.</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted); text-align: center;">Nothing here.</div>
+<div class="card" style="padding: 14px; font-size: 13px; color: var(--muted); text-align: center;">No release published.</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3960}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

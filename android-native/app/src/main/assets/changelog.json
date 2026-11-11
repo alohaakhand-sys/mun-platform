@@ -1,0 +1,85 @@
+[
+  {
+    "versionCode": 6,
+    "versionName": "1.5.0",
+    "date": "2026-11-01",
+    "notes": [
+      "My pass: one QR code for every meal, coupon, check-in and ride at your conference. It shows even without internet.",
+      "See what your pass holds: your meals and coupons, and which ones you've already used.",
+      "Scan passes: organizers, and staff they allow, scan passes with the camera. Each meal or coupon can only be handed out once.",
+      "Meals: choose who gets each one and how many times.",
+      "Pro events: coupons such as welcome kits, gifts and drinks, daily check-in, bus boarding, QR codes on ID cards, and a list of who has what.",
+      "The verified badge now goes to organizers of a Pro event, and the app shows a notice during maintenance."
+    ]
+  },
+  {
+    "versionCode": 5,
+    "versionName": "1.4.0",
+    "date": "2026-10-30",
+    "notes": [
+      "Organize from your phone: create and edit events with a map pin, publish them, and see what needs you.",
+      "Allocation: review applications, place delegates in a committee and country, and manage the countries per committee.",
+      "Set up committees, details, marking, partners, staff, the schedule, announcements and the rules.",
+      "Modules and tools: meals, transport, rooms, dress code, complaints, results, certificates, ID cards and your event's colour.",
+      "Financials: tickets with early-bird and late prices, the application schedule, your event's money and your wallet with payouts.",
+      "Pro is now per event: upgrade one event for live video, no caps and more, or ask the MUN Pilot team.",
+      "Image uploads now need you to be signed in."
+    ]
+  },
+  {
+    "versionCode": 4,
+    "versionName": "1.3.0",
+    "date": "2026-10-29",
+    "notes": [
+      "Conferences: your conferences and Browse with filters, a portal home for each conference, your team, and payments with receipts.",
+      "Documents in one place: your position paper, the study guide, committee papers and the rules.",
+      "Help desk: send a request to your chair, follow it, and request a committee or country move.",
+      "Meals, transport, results and your certificate, with real QR codes for coupons and boarding.",
+      "Chair hub: mark the day, see the motion log, grade position papers and keep private notes.",
+      "Chairs can answer requests, write and publish the study guide, publish standings, send awards and post room alerts from the phone.",
+      "Executive Board: oversee your committees and move or remove chairs. Observers get a read-only view.",
+      "Settings: notifications, privacy and your account in the app."
+    ]
+  },
+  {
+    "versionCode": 3,
+    "versionName": "1.2.0",
+    "date": "2026-10-29",
+    "notes": [
+      "New tabs: Home, Conferences, Messages, Network and Profile.",
+      "Home shows your stats, the conference to continue, recommended conferences and recent activity.",
+      "Notifications in one place: updates, staff invitations (accept or decline here) and room alerts, which also pop up over any screen.",
+      "Network: discover people, connect, disconnect, block and unblock; full public profiles with ratings, endorsements and recommendations.",
+      "Messages: chat with anyone and in groups, see who's online and when your message was read, search in a chat, and find your committee chat, dais threads and announcements in one list.",
+      "Blogs: read the delegate handbook, join the discussion, and write your own posts with AI help on the text you select.",
+      "Edit your whole profile from the app: photo, cover, intro, experience, education, awards, skills and account details.",
+      "Your email and phone are now private: choose whether everyone or only your connections can see them.",
+      "Faster and lighter: what you've loaded is kept on the phone and refreshed only when needed. Pull down to refresh."
+    ]
+  },
+  {
+    "versionCode": 2,
+    "versionName": "1.1.0",
+    "date": "2026-10-29",
+    "notes": [
+      "In-app updates: the app checks for a new version every 15 minutes, notifies you, and installs it from Settings.",
+      "What's New in Settings lists every change, version by version.",
+      "Conference alerts (allocations, migrations, endorsements) now arrive as phone notifications, not only in the app.",
+      "Settings shows when notifications are off and takes you straight to turn them on.",
+      "Smaller download: one APK per phone type."
+    ]
+  },
+  {
+    "versionCode": 1,
+    "versionName": "1.0.0",
+    "date": "2026-10-28",
+    "notes": [
+      "MUN Pilot redesign: new look, new name and icon.",
+      "Messages tab with dais threads from each sitting.",
+      "Sign in or sign up with Google; connect Google from Settings.",
+      "Edit your profile from the app.",
+      "Vector country flags everywhere.",
+      "Chair session menu, console light and dark, room board and ceremony layouts."
+    ]
+  }
+]

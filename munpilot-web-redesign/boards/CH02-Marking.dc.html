@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marking matrix</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--gold:#B8860B;--goldSoft:#F8EFD6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;--glass:rgba(255,255,255,.82);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--gold:#E9C25A;--goldSoft:rgba(233,194,90,.16);--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14;--glass:rgba(19,36,52,.84)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-live{background:var(--red);color:#fff}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.top{height:64px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 24px;flex:none}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+.rail{width:200px;flex:none;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px;align-self:flex-start}
+.ni{display:flex;align-items:center;gap:10px;height:36px;padding:0 10px;border-radius:9px;font-size:13.5px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.tile{padding:16px;display:flex;flex-direction:column;gap:4px}
+.tile b{font-size:26px;font-variant-numeric:tabular-nums}
+.tile span{font-size:12.5px;color:var(--muted)}
+.sel{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--paper);font-size:13px}
+.tgl{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--paper);font-size:13px;font-weight:500}
+.tgl.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.mx{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.mx th{text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.03em;padding:10px 12px;background:var(--sunk2);border-bottom:1px solid var(--line);white-space:nowrap}
+.mx th small{display:block;font-weight:500;letter-spacing:0;text-transform:none;font-size:11px;opacity:.8}
+.mx td{padding:8px 12px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.mx td.dl{position:sticky;left:0;background:var(--paper);box-shadow:1px 0 0 var(--line2);min-width:220px}
+.mx tr.ft td{background:var(--sunk2);font-weight:600;font-size:12.5px}
+.bsel{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.bsel span{width:30px;height:28px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:var(--muted);border-left:1px solid var(--line2)}
+.bsel span:first-child{border-left:0}
+.bsel span.neg{background:var(--red);color:#fff}
+.bsel span.zero{background:var(--sunk);color:var(--ink)}
+.bsel span.pos{background:var(--seal);color:var(--sealInk)}
+.att{display:inline-flex;align-items:center;height:18px;padding:0 6px;border-radius:9px;font-size:10.5px;font-weight:700}
+.pc{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:var(--muted)}
+.pbar{display:flex;align-items:center;gap:8px}
+.pbar i{display:block;height:6px;border-radius:3px;background:var(--sunk);width:70px;overflow:hidden}
+.pbar i b{display:block;height:100%;border-radius:3px}
+.flag{width:20px;height:14px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.fin{background:linear-gradient(#FF9933 0 33%,#fff 33% 66%,#138808 66%)}
+.fng{background:linear-gradient(90deg,#008751 0 33%,#fff 33% 66%,#008751 66%)}
+.mchip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:12px;font-size:12px;font-weight:700}
+.sheet{position:absolute;top:0;right:0;bottom:0;width:580px;background:var(--paper);box-shadow:var(--sh2);border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.30)}
+.dayb{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:12px;border:1px solid var(--line2);min-width:120px}
+.dayb.on{box-shadow:inset 0 0 0 2px var(--seal);border-color:transparent}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.tabsc{display:flex;gap:6px;overflow:hidden;padding:10px 16px;background:var(--paper);border-bottom:1px solid var(--line2);flex:none}
+.tabsc span{height:32px;padding:0 13px;border-radius:16px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--ink2);background:var(--sunk2);white-space:nowrap;flex:none}
+.tabsc span.on{background:var(--ink);color:var(--paper)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2860px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">CH02 · Chair hub · Marking</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Daily Marking Matrix and delegate record</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">Four tiles answer "how far along am I today". The toolbar keeps Apply suggestions, the day stepper, sort, Unscored only and search. The matrix keeps the sticky delegate column (flag, country, name, attendance, floor chips), one column per criterion with its scale, Daily % and the Committee mean row. Binary marks are a −1 / 0 / +1 segmented control; decimal marks a ±100 input; multi-mark cells open the record. The right-hand sheet keeps every section: day by day, the selected day's criteria, On the floor, how the final was computed, and private feedback. Right rail hidden at this width.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 1000px;">
+<div class="top"><span class="mark"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12Z" fill="#47A481"/></svg></span><b style="font-size: 15px;">Dhaka MUN 2026 · UNSC</b><span style="flex: 1;"></span><button class="btn b-live">Live MUN</button></div>
+<div style="display: flex; gap: 20px; padding: 20px 24px; flex: 1; min-height: 0;">
+<nav class="rail"><span class="ni">Overview</span><span class="ni on">Marking</span><span class="ni">Motion Log</span><span class="ni">Papers</span><span class="ni">Requests</span><span class="ni">Study Guide</span><span class="ni">Awards &amp; Results</span><span class="ni">Room Alert</span><span class="ni">Rules &amp; Regs</span></nav>
+<main style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+<div class="card tile"><span>Scored today</span><b>11/15</b><span>4 left</span></div>
+<div class="card tile"><span>Committee average</span><b style="color: var(--seal);">76%</b><span>of the delegates scored today</span></div>
+<div class="card tile"><span>Present</span><b>14/15</b><span>1 absent</span></div>
+<div class="card tile"><span>Criteria filled</span><b>44/60</b><span>4 criteria × 15 delegates</span></div>
+</div>
+<div class="card" style="overflow: hidden; flex: 1; display: flex; flex-direction: column;">
+<div class="row" style="padding: 16px 18px; gap: 14px; border-bottom: 1px solid var(--line2); flex-wrap: wrap;">
+<div class="col" style="gap: 2px; flex: 1; min-width: 220px;"><b style="font-size: 16px;">Daily Marking Matrix</b><span style="font-size: 12.5px; color: var(--muted);">Scoring on −1 / 0 / +1 · tap a delegate for their full record</span></div>
+<button class="btn sm" style="background: var(--goldSoft); color: var(--gold);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg>Apply suggestions</button>
+<span class="row" style="gap: 4px;"><button class="btn sm b-sec" title="Previous day" aria-label="Previous day" style="width: 32px; padding: 0;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><span class="sel" style="font-weight: 600;">15 Aug 2026</span><button class="btn sm b-sec" title="Next day" aria-label="Next day" style="width: 32px; padding: 0;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></span>
+<span class="sel">Sort: country<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
+<span class="tgl">Unscored only</span>
+<span class="sel" style="width: 160px; color: var(--muted);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search...</span>
+</div>
+<div style="overflow: hidden;">
+<table class="mx">
+<thead><tr><th>Delegate / Country</th><th>[Criterion 1]<small>−1 / 0 / +1</small></th><th>[Criterion 2]<small>−1 / 0 / +1</small></th><th>[Criterion 3]<small>−1 / 0 / +1</small></th><th>[Criterion 4]<small>−1 / 0 / +1</small></th><th>Daily %</th></tr></thead>
+<tbody>
+<tr><td class="dl"><span class="row" style="gap: 10px;"><i class="flag fbd"></i><span class="col" style="gap: 2px;"><b>Bangladesh ›</b><span style="font-size: 12px; color: var(--muted);">Nadia Rahman</span><span class="row" style="gap: 6px;"><span class="att p-ok" style="background: var(--sealSoft); color: var(--seal);">P&amp;V</span><span class="pc">GSL 2</span><span class="pc">Pts 1</span></span></span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span class="pos">+1</span></span></td><td><span class="bsel"><span>−1</span><span class="zero">0</span><span>+1</span></span></td><td><span class="mchip" style="background: var(--sealSoft); color: var(--seal);">+0.7 ·3</span></td><td><span class="bsel"><span>−1</span><span>0</span><span class="pos">+1</span></span></td><td><span class="pbar"><i><b style="width: 82%; background: var(--seal);"></b></i><b>82%</b></span></td></tr>
+<tr><td class="dl"><span class="row" style="gap: 10px;"><i class="flag ffr"></i><span class="col" style="gap: 2px;"><b>France ›</b><span style="font-size: 12px; color: var(--muted);">[Name]</span><span class="row" style="gap: 6px;"><span class="att" style="background: var(--sealSoft); color: var(--seal);">Present</span><span class="pc">GSL 1</span></span></span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span class="pos">+1</span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span class="pos">+1</span></span></td><td><span class="bsel"><span>−1</span><span class="zero">0</span><span>+1</span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span class="pos">+1</span></span></td><td><span class="pbar"><i><b style="width: 88%; background: var(--seal);"></b></i><b>88%</b></span></td></tr>
+<tr style="background: var(--amberSoft);"><td class="dl" style="background: var(--amberSoft);"><span class="row" style="gap: 10px;"><i class="flag fjp"></i><span class="col" style="gap: 2px;"><b>Japan ›</b><span style="font-size: 12px; color: var(--muted);">Ria Sen</span><span class="row" style="gap: 6px;"><span class="att" style="background: var(--amberSoft); color: var(--amber); box-shadow: inset 0 0 0 1px var(--amber);">Late</span></span></span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></td><td><span class="pbar"><i></i><span style="color: var(--muted);">—</span></span></td></tr>
+<tr><td class="dl"><span class="row" style="gap: 10px;"><i class="flag fde"></i><span class="col" style="gap: 2px;"><b>Germany ›</b><span style="font-size: 12px; color: var(--muted);">[Name]</span><span class="row" style="gap: 6px;"><span class="att" style="background: var(--sealSoft); color: var(--seal);">Present</span></span></span></span></td><td><span class="bsel"><span class="neg">−1</span><span>0</span><span>+1</span></span></td><td><span class="bsel"><span>−1</span><span class="zero">0</span><span>+1</span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span class="pos">+1</span></span></td><td><span class="bsel"><span>−1</span><span class="zero">0</span><span>+1</span></span></td><td><span class="pbar"><i><b style="width: 50%; background: var(--blue);"></b></i><b>50%</b></span></td></tr>
+<tr><td class="dl"><span class="row" style="gap: 10px;"><i class="flag fin"></i><span class="col" style="gap: 2px;"><b>India ›</b><span style="font-size: 12px; color: var(--muted);">[Name]</span><span class="row" style="gap: 6px;"><span class="att" style="background: var(--redSoft); color: var(--red);">Absent</span></span></span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></td><td><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></td><td><span class="pbar"><i></i><span style="color: var(--muted);">—</span></span></td></tr>
+<tr class="ft"><td class="dl" style="background: var(--sunk2);">Committee mean</td><td>+0.6</td><td>+0.2</td><td>+0.6</td><td>+0.4</td><td>76%</td></tr>
+</tbody></table>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+<div class="frame" style="width: 1440px; height: 1100px;">
+<div class="top"><span class="mark"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12Z" fill="#47A481"/></svg></span><b style="font-size: 15px;">Dhaka MUN 2026 · UNSC</b></div>
+<div style="flex: 1; background: var(--page);"></div>
+<div class="scrim"></div>
+<aside class="sheet">
+<div style="padding: 20px 22px; border-bottom: 1px solid var(--line2); display: flex; flex-direction: column; gap: 12px;">
+<div class="row" style="justify-content: space-between;"><span class="row" style="gap: 10px;"><i class="flag fbd" style="width: 32px; height: 22px; border-radius: 4px;"></i><span class="col"><b style="font-size: 18px;">Bangladesh</b><span style="font-size: 13px; color: var(--muted);">Nadia Rahman</span></span></span><span class="row" style="gap: 4px;"><button class="btn sm b-sec" title="Previous delegate" aria-label="Previous delegate" style="width: 32px; padding: 0;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><button class="btn sm b-sec" title="Next delegate" aria-label="Next delegate" style="width: 32px; padding: 0;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></span></div>
+<div class="row" style="gap: 16px;"><span class="col"><span style="font-size: 12px; color: var(--muted);">Final</span><b class="serif" style="font-size: 38px; line-height: 1;">82%</b></span><span class="row" style="gap: 6px; font-size: 13.5px; color: var(--gold); font-weight: 600;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/></svg>Rank 2 of 15</span></div>
+</div>
+<div style="padding: 18px 22px; display: flex; flex-direction: column; gap: 18px; overflow: hidden;">
+<div class="col" style="gap: 10px;"><b style="font-size: 14px;">Day by day</b><div class="row" style="gap: 8px;"><div class="dayb on"><b style="font-size: 13px;">15 Aug</b><span class="att" style="background: var(--sealSoft); color: var(--seal); align-self: flex-start;">P&amp;V</span><span style="font-size: 11.5px; color: var(--muted);">4/4 scored</span><span class="pbar"><i style="width: 90px;"><b style="width: 82%; background: var(--seal);"></b></i></span></div><div class="dayb"><b style="font-size: 13px;">16 Aug</b><span class="att" style="background: var(--sealSoft); color: var(--seal); align-self: flex-start;">Present</span><span style="font-size: 11.5px; color: var(--muted);">not counted</span></div><div class="dayb"><b style="font-size: 13px;">17 Aug</b><span class="att" style="background: var(--redSoft); color: var(--red); align-self: flex-start;">Absent</span><span style="font-size: 11.5px; color: var(--muted);">counts as 0%</span></div></div></div>
+<div class="col" style="gap: 10px;"><b style="font-size: 14px;">15 Aug · 82% <span style="font-weight: 500; color: var(--muted);">· Present and voting</span></b>
+<div style="border: 1px solid var(--line2); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;"><div class="row" style="justify-content: space-between;"><span class="col"><b style="font-size: 14px;">[Criterion 3]</b><span style="font-size: 12px; color: var(--muted);">mean of 3 marks · −1 / 0 / +1 · auto-fill from GSL speeches</span></span><span class="row" style="gap: 6px;"><button class="btn sm" title="Append the live-participation suggestion as another mark" style="background: var(--goldSoft); color: var(--gold); height: 26px;">+1</button><span class="mchip" style="background: var(--sealSoft); color: var(--seal);">+0.7</span></span></div><div class="row" style="gap: 6px;"><span class="mchip" style="background: var(--sealSoft); color: var(--seal);">+1 ×</span><span class="mchip" style="background: var(--sealSoft); color: var(--seal);">+1 ×</span><span class="mchip" style="background: var(--sunk); color: var(--ink2);">0 ×</span><span style="flex: 1;"></span><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></div><div class="row" style="justify-content: space-between; font-size: 12px; color: var(--muted);"><span>avg +0.67</span><span>contributes 21% to the day</span></div></div>
+<div style="border: 1px solid var(--line2); border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;"><span class="col"><b style="font-size: 14px;">[Criterion 1]</b><span style="font-size: 12px; color: var(--muted);">single mark · −1 / 0 / +1</span></span><span class="mchip" style="background: var(--sealSoft); color: var(--seal);">+1</span></div>
+</div>
+<div class="col" style="gap: 8px;"><b style="font-size: 14px;">On the floor · 15 Aug</b><div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; text-align: center;"><div style="padding: 8px 4px; border-radius: 10px; background: var(--sunk2);"><b>2</b><div style="font-size: 11px; color: var(--muted);">GSL</div></div><div style="padding: 8px 4px; border-radius: 10px; background: var(--sunk2);"><b>3</b><div style="font-size: 11px; color: var(--muted);">Caucus</div></div><div style="padding: 8px 4px; border-radius: 10px; background: var(--sunk2);"><b>6</b><div style="font-size: 11px; color: var(--muted);">Minutes</div></div><div style="padding: 8px 4px; border-radius: 10px; background: var(--sunk2);"><b>1</b><div style="font-size: 11px; color: var(--muted);">Points</div></div><div style="padding: 8px 4px; border-radius: 10px; background: var(--sunk2);"><b>2</b><div style="font-size: 11px; color: var(--muted);">Motions</div></div><div style="padding: 8px 4px; border-radius: 10px; background: var(--sunk2);"><b>5</b><div style="font-size: 11px; color: var(--muted);">Votes</div></div></div></div>
+<div class="col" style="gap: 6px; padding: 14px; border-radius: 12px; background: var(--sunk2); font-size: 12.5px; line-height: 1.6;"><b style="font-size: 14px;">How this final was computed</b><span>15 Aug — 82% · scored</span><span>16 Aug — present, not scored — dropped from the average</span><span>17 Aug — 0% · no marks — counts as zero</span><span style="font-family: ui-monospace, monospace;">computed % = 82 ÷ 2 days = 41%</span><span style="font-family: ui-monospace, monospace;">final = 70% × 41 + 30% × 90 = 55.7%</span></div>
+<div class="col" style="gap: 6px;"><b style="font-size: 14px;">Feedback · 15 Aug</b><div style="height: 70px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; color: var(--muted);">Private feedback for this delegate (shown in their results)…</div></div>
+</div>
+</aside>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Marking · phone</b><span>Rows become cards; marks stay one tap.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div class="tabsc"><span>Overview</span><span class="on">Marking</span><span>Motion Log</span><span>Papers</span></div>
+<div style="padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div class="card tile" style="padding: 12px;"><span>Scored today</span><b style="font-size: 20px;">11/15</b></div><div class="card tile" style="padding: 12px;"><span>Committee average</span><b style="font-size: 20px; color: var(--seal);">76%</b></div></div>
+<div class="row" style="gap: 6px;"><button class="btn sm b-sec" aria-label="Previous day" style="width: 32px; padding: 0;">‹</button><span class="sel" style="flex: 1; justify-content: center; font-weight: 600;">15 Aug 2026</span><button class="btn sm b-sec" aria-label="Next day" style="width: 32px; padding: 0;">›</button><span class="tgl on">Unscored</span></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="gap: 10px;"><i class="flag fbd"></i><b style="flex: 1;">Bangladesh</b><span class="att" style="background: var(--sealSoft); color: var(--seal);">P&amp;V</span><b>82%</b></div><div class="col" style="gap: 8px;"><div class="row" style="justify-content: space-between; font-size: 13px;"><span>[Criterion 1]</span><span class="bsel"><span>−1</span><span>0</span><span class="pos">+1</span></span></div><div class="row" style="justify-content: space-between; font-size: 13px;"><span>[Criterion 2]</span><span class="bsel"><span>−1</span><span class="zero">0</span><span>+1</span></span></div><div class="row" style="justify-content: space-between; font-size: 13px;"><span>[Criterion 3]</span><span class="mchip" style="background: var(--sealSoft); color: var(--seal);">+0.7 ·3</span></div></div><a href="#" style="font-size: 13px; font-weight: 600;">Open full record ›</a></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="gap: 10px;"><i class="flag fjp"></i><b style="flex: 1;">Japan</b><span class="att" style="background: var(--amberSoft); color: var(--amber);">Late</span><span style="color: var(--muted);">—</span></div><div class="row" style="justify-content: space-between; font-size: 13px;"><span>[Criterion 1]</span><span class="bsel"><span>−1</span><span>0</span><span>+1</span></span></div></div>
+</div>
+</div>
+
+<div class="cap"><b>Decimal scale &amp; empty states</b><span>±100 entry, nothing configured, all scored.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 14px;">Decimal mode · −100…+100</b><div class="row" style="gap: 8px;"><span style="width: 64px; height: 32px; border-radius: 8px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-weight: 700; background: var(--sealSoft); color: var(--seal);">+45</span><span style="width: 64px; height: 32px; border-radius: 8px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-weight: 700; background: var(--redSoft); color: var(--red);">−20</span><span style="width: 64px; height: 32px; border-radius: 8px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--muted);">—</span></div><div class="row" style="gap: 8px;"><span style="flex: 1; height: 34px; border-radius: 8px; border: 1px solid var(--line); display: flex; align-items: center; padding: 0 10px; color: var(--muted); font-size: 13px;">±100</span><button class="btn sm b-sec">Add</button></div><span style="font-size: 12px; color: var(--muted);">Blank = unscored, which is not the same as a scored 0.</span></div>
+<div class="card" style="padding: 18px; border-style: dashed; box-shadow: none; text-align: center;"><b style="font-size: 14.5px;">No marking templates defined for this event.</b><div style="font-size: 13px; color: var(--muted); margin-top: 4px;">The organizer needs to configure marking templates in the event settings.</div></div>
+<div class="card" style="padding: 14px; text-align: center; font-size: 13.5px; color: var(--seal); font-weight: 600;">Every delegate has been scored today.</div>
+<div class="card" style="padding: 14px; text-align: center; font-size: 13.5px; color: var(--muted);">No delegates match this search.</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2860}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dashboard shell and home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--signal:#B03B22;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--logo:#0B6E4F;--canvas:#E8ECED;--glass:rgba(255,255,255,.80);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--signal:#E08065;--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--logo:#47A481;--canvas:#060D14;--glass:rgba(19,36,52,.82)}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-dan{background:none;color:var(--red)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.side{width:256px;flex:none;background:var(--paper);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;box-sizing:border-box;gap:4px}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni .ico{color:var(--muted)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.ni.on .ico{color:var(--seal)}
+.ib{width:36px;height:36px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0;position:relative}
+.ib.bd{border:1px solid var(--line);background:var(--paper)}
+.dot{position:absolute;top:7px;right:8px;width:8px;height:8px;border-radius:4px;background:var(--red);box-shadow:0 0 0 2px var(--paper)}
+.uc{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--sunk2)}
+.av{width:36px;height:36px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex:none}
+.main{flex:1;min-width:0;padding:32px 40px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:28px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.stat{padding:20px;display:flex;flex-direction:column;gap:6px}
+.stat .n{font-family:Newsreader,Georgia,serif;font-size:40px;font-weight:500;line-height:1}
+.it{width:40px;height:40px;border-radius:12px;background:var(--sealSoft);color:var(--seal);display:flex;align-items:center;justify-content:center;flex:none}
+.pills{display:inline-flex;gap:2px;padding:3px;border-radius:10px;background:var(--sunk)}
+.pills span{height:30px;padding:0 12px;display:flex;align-items:center;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2)}
+.pills span.on{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--sh1)}
+.tl{display:flex;gap:14px;position:relative}
+.tl::before{content:"";position:absolute;left:17px;top:40px;bottom:-14px;width:2px;background:var(--line2)}
+.tl:last-child::before{display:none}
+.tlc{flex:1;padding:12px 14px;border-radius:12px;border:1px solid var(--line2);background:var(--paper);font-size:14px;line-height:1.5}
+.rp{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:10px;font-size:11px;font-weight:600;background:var(--sunk);color:var(--ink2);vertical-align:1px;margin:0 4px}
+.pill{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:11px;font-size:11.5px;font-weight:600;white-space:nowrap;flex:none}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}
+.fab{position:absolute;right:28px;bottom:28px;width:56px;height:56px;border-radius:28px;background:var(--seal);color:var(--sealInk);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(11,110,79,.35)}
+.fab b{position:absolute;top:-2px;right:-2px;min-width:20px;height:20px;border-radius:10px;background:var(--red);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;border:2px solid var(--page)}
+.pop{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh2);overflow:hidden;display:flex;flex-direction:column}
+.poph{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line2)}
+.ns{padding:10px 16px 4px;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
+.nr{display:flex;gap:12px;padding:10px 16px;font-size:13.5px;line-height:1.45}
+.nr.un{background:var(--sunk2)}
+.nri{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none}
+.mi{display:flex;align-items:center;gap:10px;height:38px;padding:0 12px;border-radius:8px;font-size:14px;color:var(--ink)}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.mtop{height:56px;background:var(--glass);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;flex:none}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+.chat{display:flex;flex-direction:column;gap:8px;padding:14px;flex:1;background:var(--sunk2)}
+.bub{max-width:76%;padding:9px 12px;border-radius:14px;font-size:13.5px;line-height:1.45}
+.bub.me{align-self:flex-end;background:var(--seal);color:var(--sealInk);border-bottom-right-radius:4px}
+.bub.them{align-self:flex-start;background:var(--paper);border:1px solid var(--line2);border-bottom-left-radius:4px}
+.sys{align-self:center;font-size:11.5px;color:var(--muted);background:var(--paper);border:1px solid var(--line2);padding:3px 10px;border-radius:10px}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 2700px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">D01 · Dashboard · shell + /dashboard</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Dashboard shell and home</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">The shell every dashboard page sits in: 256px sidebar (Menu + role sections, collapsible to 76px), user card with the bell at the bottom, the floating Messages bubble, and on phones a top bar with a slide-in drawer. Active nav is a soft green fill instead of a solid slab. Home keeps hero → three stat cards → Recent activity beside Recommended and the organiser promo. Overlays — notifications, profile menu, messages panel — are drawn underneath.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 1260px;">
+<aside class="side">
+<div class="row" style="justify-content: space-between; padding: 4px 6px 12px 10px;"><svg viewBox="0 -100 492 130" width="112" height="30" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg><button class="ib" aria-label="Collapse sidebar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 10l-2 2 2 2"/></svg></button></div>
+<span class="sl">Menu</span>
+<a class="ni on" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Dashboard</a>
+<a class="ni" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>My Conferences</a>
+<a class="ni" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Documents</a>
+<a class="ni" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>My Blogs</a>
+<a class="ni" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/></svg>Achievements</a>
+<a class="ni" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 3.1-5.5 7-5.5s7 2.2 7 5.5M16 14.6c3 .1 6 1.8 6 5.4"/></svg>Network</a>
+<a class="ni" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h15v13H5a2 2 0 0 1-2-2V5M16 13h.01"/></svg>Payments</a>
+<a class="ni" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a>
+<span class="sl">Chair Tools</span>
+<a class="ni" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 13-7.5 7.5a2.1 2.1 0 0 1-3-3L11 10M16 16l6-6M8 8l6-6M9 7l8 8M21 11l-8-8"/></svg>Chair Dashboard</a>
+<span class="sl">Organizer Tools</span>
+<a class="ni" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Manage Events</a>
+<span style="flex: 1;"></span>
+<div class="row" style="justify-content: flex-end; padding: 0 2px 6px;"><button class="ib bd" aria-label="View notifications"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><i class="dot"></i></button></div>
+<button class="uc" aria-label="Open account menu" style="font: inherit; text-align: left;"><span class="av" style="background: #13895F;">NR</span><span class="col" style="flex: 1; min-width: 0;"><b style="font-size: 13.5px; font-weight: 600; color: var(--ink);">Nadia Rahman</b><span style="font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">nadia@school.edu</span></span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="m7 15 5 5 5-5M7 9l5-5 5 5"/></svg></button>
+</aside>
+<main class="main">
+<div class="row" style="justify-content: space-between; align-items: flex-end;">
+<div class="col" style="gap: 8px;"><span class="kick">Delegate</span><h1 class="serif" style="margin: 0; font-size: 40px; line-height: 1.1;">Welcome back, Nadia</h1><span style="font-size: 15.5px; color: var(--muted);">Here's what's happening with your MUN journey today.</span></div>
+<div class="row" style="gap: 10px;"><a class="btn b-sec" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1zM12 15l-3-3a22 22 0 0 1 2-3.9A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22.4 22.4 0 0 1-4 2z"/></svg>Become an Organizer</a><a class="btn b-pri" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m16.2 7.8-2.1 6.3-6.3 2.1 2.1-6.3z"/></svg>Explore</a></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+<a class="card stat" href="#" style="color: inherit;"><div class="row" style="justify-content: space-between;"><span class="it"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="M7 17 17 7M8 7h9v9"/></svg></div><span class="n" style="margin-top: 8px;">4</span><b style="font-size: 14.5px;">My Conferences</b><span style="font-size: 13px; color: var(--muted);">2 Active · 2 Past</span></a>
+<a class="card stat" href="#" style="color: inherit;"><div class="row" style="justify-content: space-between;"><span class="it" style="background: var(--blueSoft); color: var(--blue);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="M7 17 17 7M8 7h9v9"/></svg></div><span class="n" style="margin-top: 8px;">2</span><b style="font-size: 14.5px;">Position Papers</b><span style="font-size: 13px; color: var(--muted);">Submissions Track</span></a>
+<a class="card stat" href="#" style="color: inherit;"><div class="row" style="justify-content: space-between;"><span class="it" style="background: var(--amberSoft); color: var(--amber);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/></svg></span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="M7 17 17 7M8 7h9v9"/></svg></div><span class="n" style="margin-top: 8px;">1</span><b style="font-size: 14.5px;">Achievements</b><span style="font-size: 13px; color: var(--muted);">Recognition &amp; Awards</span></a>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 20px; align-items: start;">
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 18px;">
+<div class="row" style="justify-content: space-between;"><h2 style="margin: 0; font-size: 18px; font-weight: 600;">Recent activity</h2><div class="pills"><span class="on">All</span><span>Following</span><span>Mine</span></div></div>
+<div class="col" style="gap: 14px;">
+<div class="tl"><span class="av" style="background: #13895F;">NR</span><div class="tlc"><b>Nadia Rahman</b><span class="rp">Delegate</span>submitted an application for <b>Dhaka Model United Nations Conference 2026</b><div style="font-size: 12px; color: var(--muted); margin-top: 4px;">just now</div></div></div>
+<div class="tl"><span class="av" style="background: #1E6FE0;">TA</span><div class="tlc"><b>Tanvir Ahmed</b><span class="rp">Delegate</span>submitted an application for <b>Screens Model UN 2027</b><div style="font-size: 12px; color: var(--muted); margin-top: 4px;">2 hours ago</div></div></div>
+<div class="tl"><span class="av" style="background: #7B4FD6;">RS</span><div class="tlc"><b>Ria Sen</b><span class="rp">Head Delegate</span>submitted an application for <b>[Conference]</b><div style="font-size: 12px; color: var(--muted); margin-top: 4px;">yesterday</div></div></div>
+<div class="tl"><span class="av" style="background: #B8860B;">AK</span><div class="tlc"><b>[Name]</b><span class="rp">Chair</span>[action] <b>[target]</b><div style="font-size: 12px; color: var(--muted); margin-top: 4px;">3 days ago</div></div></div>
+</div>
+<button class="btn b-sec" style="align-self: center;">Load more</button>
+</div>
+<div class="col" style="gap: 20px;">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;"><h2 style="margin: 0 0 8px; font-size: 18px; font-weight: 600;">Recommended</h2>
+<a href="#" class="row" style="padding: 8px; margin: 0 -8px; border-radius: 10px; color: inherit;"><span style="width: 48px; height: 48px; border-radius: 10px; background: linear-gradient(160deg,#B9CBC4,#DCD8CA); flex: none;"></span><span class="col" style="gap: 3px; min-width: 0;"><b style="font-size: 14px; font-weight: 600;">Screens Model UN 2027</b><span style="font-size: 12.5px; color: var(--muted);">Sun, 15 November · Online</span></span></a>
+<a href="#" class="row" style="padding: 8px; margin: 0 -8px; border-radius: 10px; color: inherit; background: var(--sunk2);"><span style="width: 48px; height: 48px; border-radius: 10px; background: #0E1D2C; color: #E7E3D6; display: flex; align-items: center; justify-content: center; flex: none;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><span class="col" style="gap: 3px; min-width: 0; flex: 1;"><b style="font-size: 14px; font-weight: 600;">[Conference name]</b><span style="font-size: 12.5px; color: var(--muted);">Fri, 4 December · Dhaka</span></span><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--seal);"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+<a class="btn b-sec" href="#" style="margin-top: 8px;">Browse all conferences</a>
+</div>
+<div style="border-radius: 16px; background: #0E1D2C; padding: 22px; display: flex; flex-direction: column; gap: 10px; color: #fff;"><span style="font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #93B7A8;">For organisers</span><b class="serif" style="font-size: 24px;">Become an organiser</b><span style="font-size: 14px; line-height: 1.55; color: #B7C4CE;">Host your own Model UN conference — create events, manage delegates, and run committees.</span><a href="#" class="btn" style="background: #fff; color: #0E1D2C; align-self: flex-start; margin-top: 4px;">Get started</a></div>
+</div>
+</div>
+</main>
+<a class="fab" href="#" aria-label="Open Messages"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg><b>3</b></a>
+</div>
+
+<div style="display: flex; gap: 24px; align-items: flex-start;">
+<div class="col" style="gap: 12px;"><div class="cap"><b>Notifications</b><span>Bell panel, three sections stacked.</span></div>
+<div class="pop" style="width: 360px;">
+<div class="poph"><b style="font-size: 15px;">Notifications</b><span class="pill p-ok">4 new</span></div>
+<div class="ns"><span>Updates (2)</span><a href="#" style="text-transform: none; letter-spacing: 0; font-size: 12.5px;">Mark all read</a></div>
+<div class="nr un"><span class="nri" style="background: var(--blueSoft); color: var(--blue);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16M16 21l4-4-4-4M20 17H4"/></svg></span><span class="col" style="gap: 2px;"><b style="font-size: 13.5px;">[Update title]</b><span style="color: var(--ink2);">[Update body, e.g. your move request was approved.]</span><span style="font-size: 12px; color: var(--muted);">5m ago</span></span></div>
+<div class="ns"><span>Invitations (1)</span></div>
+<div class="nr"><span class="nri" style="background: var(--sealSoft); color: var(--seal);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="col" style="gap: 8px;"><span>You are invited to join <b>Dhaka MUN 2026</b> as a Chair.</span><span class="row" style="gap: 6px;"><button class="btn sm b-sec">Reject</button><button class="btn sm b-pri">Accept</button></span></span></div>
+<div class="ns"><span>Room Alerts (1)</span></div>
+<div class="nr un"><span class="nri" style="background: var(--redSoft); color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span><span class="col" style="gap: 3px;"><span class="row" style="gap: 6px;"><b style="font-size: 13px;">Dhaka MUN 2026 — UNSC</b><span class="pill p-bad">Urgent</span></span><span style="color: var(--ink2);">[Room alert message.]</span><span style="font-size: 12px; color: var(--muted);">12m ago</span></span></div>
+<div style="height: 8px;"></div>
+</div></div>
+
+<div class="col" style="gap: 12px;"><div class="cap"><b>Account menu</b><span>From the user card or avatar.</span></div>
+<div class="pop" style="width: 240px; padding: 6px;">
+<div class="row" style="padding: 10px; gap: 10px;"><span class="av" style="background: #13895F; width: 32px; height: 32px; font-size: 12px;">NR</span><span class="col"><b style="font-size: 13.5px;">My Account</b><span style="font-size: 12px; color: var(--muted);">nadia@school.edu</span></span></div>
+<div style="height: 1px; background: var(--line2); margin: 4px 0;"></div>
+<a class="mi" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Settings</a>
+<a class="mi" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg>Support</a>
+<div style="height: 1px; background: var(--line2); margin: 4px 0;"></div>
+<a class="mi" href="#" style="color: var(--red);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Sign out</a>
+</div></div>
+
+<div class="col" style="gap: 12px;"><div class="cap"><b>Messages panel — list</b><span>From the floating bubble.</span></div>
+<div class="pop" style="width: 384px; height: 500px;">
+<div class="poph"><b style="font-size: 15px;">Messages</b><span class="row" style="gap: 4px;"><button class="ib" aria-label="New Chat"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="ib" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span></div>
+<div style="padding: 10px 14px;"><div class="row" style="height: 38px; padding: 0 12px; border-radius: 10px; background: var(--sunk2); border: 1px solid var(--line2); color: var(--muted); font-size: 13.5px; gap: 8px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search chats...</div></div>
+<div class="row" style="padding: 10px 14px; gap: 12px; background: var(--sunk2);"><span style="position: relative;"><span class="av" style="background: #1E6FE0; width: 40px; height: 40px;">TA</span><i style="position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; border-radius: 5px; background: #22A06B; box-shadow: 0 0 0 2px var(--paper);"></i></span><span class="col" style="flex: 1; min-width: 0; gap: 2px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14px;">Tanvir Ahmed</b><span style="font-size: 11.5px; color: var(--muted);">2m</span></span><span class="row" style="justify-content: space-between;"><span style="font-size: 13px; color: var(--ink2);">[Last message]</span><span class="pill" style="background: var(--seal); color: var(--sealInk); height: 18px; padding: 0 6px;">2</span></span></span></div>
+<div class="row" style="padding: 10px 14px; gap: 12px;"><span class="av" style="background: #7B4FD6; width: 40px; height: 40px;">RS</span><span class="col" style="flex: 1; min-width: 0; gap: 2px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14px;">Ria Sen</b><span style="font-size: 11.5px; color: var(--muted);">1h</span></span><span style="font-size: 13px; color: var(--muted);">No messages</span></span></div>
+<div class="row" style="padding: 10px 14px; gap: 12px;"><span class="av" style="background: #0E1D2C; width: 40px; height: 40px;">UN</span><span class="col" style="flex: 1; min-width: 0; gap: 2px;"><span class="row" style="justify-content: space-between;"><b style="font-size: 14px;">UNSC · Dhaka MUN</b><span style="font-size: 11.5px; color: var(--muted);">3h</span></span><span style="font-size: 13px; color: var(--ink2);">[Last message]</span></span></div>
+</div></div>
+
+<div class="col" style="gap: 12px;"><div class="cap"><b>Messages panel — chat</b><span>Presence, system note, ticks.</span></div>
+<div class="pop" style="width: 384px; height: 500px;">
+<div class="poph" style="justify-content: flex-start; gap: 10px;"><button class="ib" aria-label="Back"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><span class="av" style="background: #1E6FE0; width: 32px; height: 32px; font-size: 12px;">TA</span><span class="col" style="flex: 1;"><b style="font-size: 14px;">Tanvir Ahmed</b><span style="font-size: 11.5px; color: #22A06B; font-weight: 600;">Active now</span></span><button class="ib" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+<div class="chat"><span class="sys">[System note]</span><div class="bub them">[Message]<div style="font-size: 10.5px; color: var(--muted); margin-top: 3px;">9:12 AM</div></div><div class="bub me">[My reply]<div class="row" style="gap: 4px; justify-content: flex-end; font-size: 10.5px; opacity: .85; margin-top: 3px;">9:14 AM<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; color: #9FD4FF; stroke-width: 2.4;"><path d="M2 12.5l4.5 4.5L15 8M10 16.5l.5.5L21 7"/></svg></div></div></div>
+<div class="row" style="padding: 10px; gap: 8px; border-top: 1px solid var(--line2);"><div style="flex: 1; height: 40px; border-radius: 20px; background: var(--sunk2); border: 1px solid var(--line2); display: flex; align-items: center; padding: 0 14px; font-size: 13.5px; color: var(--muted);">Type message...</div><button class="ib" aria-label="Send" style="background: var(--seal); color: var(--sealInk); border-radius: 20px; width: 40px; height: 40px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4z"/></svg></button></div>
+</div></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Home · phone</b><span>Top bar: menu, logo, bell, avatar.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="mtop"><button class="ib" aria-label="Open sidebar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><svg viewBox="0 -100 492 130" width="96" height="26" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg><span style="flex: 1;"></span><button class="ib" aria-label="View notifications"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><i class="dot"></i></button><span class="av" style="background: #13895F; width: 32px; height: 32px; font-size: 12px;">NR</span></div>
+<div style="padding: 18px 16px; display: flex; flex-direction: column; gap: 16px; overflow: hidden;">
+<div class="col" style="gap: 6px;"><span class="kick">Delegate</span><h1 class="serif" style="margin: 0; font-size: 30px;">Welcome back, Nadia</h1><span style="font-size: 14px; color: var(--muted);">Here's what's happening with your MUN journey today.</span></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><a class="btn b-sec" href="#">Become an Organizer</a><a class="btn b-pri" href="#">Explore</a></div>
+<div style="display: flex; gap: 10px; overflow: hidden;"><div class="card stat" style="min-width: 150px; padding: 14px;"><span class="n" style="font-size: 30px;">4</span><b style="font-size: 13px;">My Conferences</b><span style="font-size: 12px; color: var(--muted);">2 Active · 2 Past</span></div><div class="card stat" style="min-width: 150px; padding: 14px;"><span class="n" style="font-size: 30px;">2</span><b style="font-size: 13px;">Position Papers</b><span style="font-size: 12px; color: var(--muted);">Submissions Track</span></div><div class="card stat" style="min-width: 150px; padding: 14px;"><span class="n" style="font-size: 30px;">1</span><b style="font-size: 13px;">Achievements</b></div></div>
+<div class="row" style="justify-content: space-between;"><b style="font-size: 16px;">Recent activity</b><div class="pills"><span class="on">All</span><span>Mine</span></div></div>
+<div class="tl"><span class="av" style="background: #13895F;">NR</span><div class="tlc" style="font-size: 13.5px;"><b>Nadia Rahman</b> submitted an application for <b>Dhaka MUN 2026</b><div style="font-size: 12px; color: var(--muted); margin-top: 4px;">just now</div></div></div>
+</div>
+<a class="fab" href="#" aria-label="Open Messages" style="right: 18px; bottom: 26px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg><b>3</b></a>
+</div>
+
+<div class="cap"><b>Drawer · phone</b><span>Same sections as the sidebar, plus Log out.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div class="scrim"></div>
+<aside class="side" style="position: absolute; left: 0; top: 0; bottom: 0; width: 300px; padding-top: 56px; box-shadow: var(--sh2);">
+<div class="row" style="justify-content: space-between; padding: 0 6px 10px 10px;"><b class="serif" style="font-size: 22px;">Menu</b><button class="ib" aria-label="Close menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+<a class="ni on" href="#">Dashboard</a><a class="ni" href="#">My Conferences</a><a class="ni" href="#">Documents</a><a class="ni" href="#">My Blogs</a><a class="ni" href="#">Achievements</a><a class="ni" href="#">Network</a><a class="ni" href="#">Payments</a><a class="ni" href="#">Settings</a>
+<span class="sl">Chair Tools</span><a class="ni" href="#">Chair Dashboard</a>
+<span class="sl">Organizer Tools</span><a class="ni" href="#">Manage Events</a>
+<span style="flex: 1;"></span>
+<a class="ni" href="#" style="color: var(--red);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--red);"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Log out</a>
+</aside>
+</div>
+
+<div class="cap"><b>Collapsed rail · 76px</b><span>Icons only; labels become tooltips, sections hairlines.</span></div>
+<div style="display: flex; gap: 16px;">
+<div style="width: 76px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+<button class="ib" aria-label="Expand sidebar"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M13 10l2 2-2 2"/></svg></button>
+<i style="width: 32px; height: 1px; background: var(--line2); margin: 6px 0;"></i>
+<span class="ib" style="background: var(--sealSoft); color: var(--seal); width: 44px; height: 40px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span>
+<span class="ib" style="width: 44px; height: 40px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>
+<span class="ib" style="width: 44px; height: 40px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+<span class="ib" style="width: 44px; height: 40px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/></svg></span>
+<i style="width: 32px; height: 1px; background: var(--line2); margin: 6px 0;"></i>
+<span class="ib" style="width: 44px; height: 40px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg></span>
+<span style="height: 40px;"></span>
+<button class="ib bd" aria-label="View notifications"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/></svg><i class="dot"></i></button>
+<span class="av" style="background: #13895F;">NR</span>
+</div>
+<div class="col" style="gap: 12px; flex: 1;">
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center;"><span style="width: 40px; height: 40px; border-radius: 12px; background: var(--redSoft); color: var(--red); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></span><b style="font-size: 15px;">Oops! Something went wrong</b><span style="font-size: 13px; color: var(--muted);">Failed to load dashboard data. Please try again.</span><button class="btn sm b-sec">Retry</button></div>
+<div class="card" style="padding: 16px; font-size: 13px; color: var(--muted); text-align: center; border-style: dashed; box-shadow: none;">No recent activity yet. Apply to a conference to get started!</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":2700}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

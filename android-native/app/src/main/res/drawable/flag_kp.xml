@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): kp.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <group>
+        <clip-path android:pathData="M-.1 0l640 0 0 480-639.9 0z"/>
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenOdd"
+            android:strokeColor="#000000"
+            android:strokeWidth="0.938"
+            android:pathData="M722.8 479.5l-798.9 0 0-479.1 798.9 0z"/>
+        <path
+            android:fillColor="#3E5698"
+            android:fillType="evenOdd"
+            android:pathData="M722.8 392.8l-798.9 0 0 86.7 798.9 0z"/>
+        <path
+            android:fillColor="#C60000"
+            android:fillType="evenOdd"
+            android:pathData="M722.8 372.7l-798.9 0 0-265.5 798.9 0z"/>
+        <path
+            android:fillColor="#3E5698"
+            android:fillType="evenOdd"
+            android:pathData="M722.8 .5l-798.9 0 0 86.6 798.9 0z"/>
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M303.2 239.9c0 59.5-49.7 107.8-111.2 107.9-61.5 0-111.2-48.3-111.2-107.9 0-59.5 49.7-107.6 111.2-107.6 61.4 0 111.2 48.2 111.2 107.7z"/>
+        <path
+            android:fillColor="#C40000"
+            android:fillType="evenOdd"
+            android:pathData="M160 253.6l-53.4-38.1 66.6-.2 21.3-62.3 19.7 62 66.6-.4-54.3 38.7 20 61.9-53.4-38.1-54.4 38.7z"/>
+    </group>
+</vector>

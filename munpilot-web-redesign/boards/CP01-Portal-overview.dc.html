@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Conference portal overview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--amber:#8A5A00;--amberSoft:#FBF0D9;--red:#B42318;--redSoft:#FBE7E4;--blue:#1F5FBF;--blueSoft:#E5EEFB;--purple:#6B46C1;--purpleSoft:#EEE8FB;--sand:#E7E3D6;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 10px 30px rgba(14,29,44,.12);--canvas:#E8ECED;--glass:rgba(255,255,255,.82);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--amber:#E9B45A;--amberSoft:rgba(233,180,90,.14);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--blue:#86B1F5;--blueSoft:rgba(134,177,245,.14);--purple:#B8A2FF;--purpleSoft:rgba(184,162,255,.16);--sand:#2A3B46;--sh1:none;--sh2:0 10px 30px rgba(0,0,0,.4);--canvas:#060D14;--glass:rgba(19,36,52,.84)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;text-decoration:none;flex:none}
+.btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.b-live{background:var(--red);color:#fff}
+.w.dark .b-live{color:#2A0904}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column;position:relative}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.top{height:64px;background:var(--glass);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 24px;flex:none}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+.ib{width:38px;height:38px;border-radius:10px;border:0;background:none;color:var(--ink2);display:flex;align-items:center;justify-content:center;flex:none;padding:0;position:relative}
+.ib.bd{border:1px solid var(--line);background:var(--paper)}
+.dot{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:4px;background:var(--red);box-shadow:0 0 0 2px var(--paper)}
+.ping{width:8px;height:8px;border-radius:4px;background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.35)}
+.rail{width:240px;flex:none;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px;align-self:flex-start}
+.ni{display:flex;align-items:center;gap:10px;height:38px;padding:0 10px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2)}
+.ni.on{background:var(--sealSoft);color:var(--seal);font-weight:600}
+.ni .bdg{margin-left:auto;min-width:20px;height:20px;border-radius:10px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh1)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.pill i{width:6px;height:6px;border-radius:3px;background:currentColor;display:block}
+.p-ok{background:var(--sealSoft);color:var(--seal)}.p-wait{background:var(--amberSoft);color:var(--amber)}.p-bad{background:var(--redSoft);color:var(--red)}.p-info{background:var(--blueSoft);color:var(--blue)}.p-mute{background:var(--sunk);color:var(--ink2)}.p-pu{background:var(--purpleSoft);color:var(--purple)}
+.flag{width:22px;height:15px;border-radius:3px;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.fbd{background:radial-gradient(circle at 45% 50%,#F42A41 0 28%,transparent 29%),#006A4E}
+.fjp{background:radial-gradient(circle,#BC002D 0 30%,transparent 31%),#fff}
+.ffr{background:linear-gradient(90deg,#0055A4 0 33%,#fff 33% 66%,#EF4135 66%)}
+.fde{background:linear-gradient(#000 0 33%,#DD0000 33% 66%,#FFCE00 66%)}
+.fin{background:linear-gradient(#FF9933 0 33%,#fff 33% 66%,#138808 66%)}
+.fng{background:linear-gradient(90deg,#008751 0 33%,#fff 33% 66%,#008751 66%)}
+.av{width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex:none}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.tbl th{text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding:10px 16px;background:var(--sunk2);border-bottom:1px solid var(--line)}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--line2)}
+.tbl tr:last-child td{border-bottom:0}
+.bub{max-width:80%;padding:8px 11px;border-radius:14px;font-size:13px;line-height:1.45}
+.bub.me{align-self:flex-end;background:var(--seal);color:var(--sealInk);border-bottom-right-radius:4px}
+.bub.them{background:var(--sunk2);border:1px solid var(--line2);border-bottom-left-radius:4px}
+.fb{width:28px;height:28px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none}
+.mr{display:flex;align-items:center;gap:10px;padding:7px 4px;border-radius:9px}
+.mr.hov{background:var(--sunk2)}
+.pop{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh2);display:flex;flex-direction:column}
+.phone{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.phone .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper)}
+.scrim{position:absolute;inset:0;background:rgba(14,29,44,.38)}
+.tabsc{display:flex;gap:6px;overflow:hidden;padding:10px 16px;background:var(--paper);border-bottom:1px solid var(--line2);flex:none}
+.tabsc span{height:32px;padding:0 13px;border-radius:16px;display:flex;align-items:center;font-size:13px;font-weight:500;color:var(--ink2);background:var(--sunk2);white-space:nowrap;flex:none}
+.tabsc span.on{background:var(--ink);color:var(--paper)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 3060px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">CP01 · Conference portal · /dashboard/conferences/[id]</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Portal shell and Overview</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">The three-zone portal stays: top bar with the conference name and a red "Live MUN" button, conference nav on the left, committee chat and members on the right. Overview keeps the hero (status, role, dates, Room Alerts), Committee and Country tiles, the waitlist seat offer, the live ceremony banner, the Live MUN card and the team panel. On phones the conference nav becomes scrolling chips and chat + members move behind the Messages button.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+<div class="frame" style="width: 1440px; height: 1500px;">
+<div class="top"><a class="mark" href="#" aria-label="Back to dashboard"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12Z" fill="#47A481"/></svg></a><span class="col" style="min-width: 0;"><span style="font-size: 11.5px; color: var(--muted); font-weight: 600; letter-spacing: .05em; text-transform: uppercase;">Conference portal</span><b style="font-size: 15px; white-space: nowrap;">Dhaka Model United Nations Conference 2026</b></span><span style="flex: 1;"></span><button class="btn b-live" title="Launch Live MUN"><i class="ping"></i>Live MUN</button><button class="ib bd" title="Messages" aria-label="Messages"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button><button class="ib bd" aria-label="View notifications"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><i class="dot"></i></button><span class="av" style="background: #13895F; width: 36px; height: 36px;">NR</span></div>
+<div style="display: flex; gap: 20px; padding: 20px 24px; flex: 1; min-height: 0;">
+<nav class="rail">
+<a class="ni" href="#" style="color: var(--muted); font-size: 13px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to Home</a>
+<span class="sl">Conference Portal</span>
+<a class="ni on" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Documents</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3zM11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>Announcements<span class="bdg">2</span></a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Schedule</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Requests</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>Food</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16M8 19v2M16 19v2"/><circle cx="8" cy="15" r="1"/><circle cx="16" cy="15" r="1"/></svg>Transport</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20V8M2 14h20v6M22 14V10a3 3 0 0 0-3-3h-7v7M6 11h.01"/></svg>Accommodation</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 18.6 13 12V9a3 3 0 1 0-3-3M13 12l-9.4 6.6A1 1 0 0 0 4.2 20h15.6a1 1 0 0 0 .6-1.4z"/></svg>Dress Code</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></svg>Session Report</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/></svg>Certificates</a>
+<a class="ni" href="#"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/></svg>Results</a>
+</nav>
+<main style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+<div class="card" style="padding: 26px; display: flex; gap: 28px;">
+<div class="col" style="gap: 12px; flex: 1;"><div class="row" style="gap: 6px;"><span class="pill p-ok"><i></i>Approved</span><span class="pill p-mute">Head Delegate</span><span class="pill p-pu">Team</span></div><h1 class="serif" style="margin: 0; font-size: 34px; line-height: 1.12;">Dhaka Model United Nations Conference 2026</h1><span style="font-size: 14.5px; line-height: 1.6; color: var(--ink2);">[Conference description from the organiser.]</span></div>
+<div class="col" style="gap: 12px; width: 230px; flex: none;"><span class="row" style="gap: 10px; font-size: 14px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Sat, 15 August 2026</span><span class="row" style="gap: 10px; font-size: 14px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--muted);"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Pan Pacific Sonargaon Dhaka</span><button class="btn b-sec" style="position: relative; justify-content: flex-start;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--red);"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0M2 8a10 10 0 0 1 2-5M22 8a10 10 0 0 0-2-5"/></svg>Room Alerts<span style="margin-left: auto; min-width: 20px; height: 20px; border-radius: 10px; background: var(--red); color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center;">2</span></button></div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+<div class="card" style="padding: 20px; display: flex; align-items: center; gap: 16px;"><span style="width: 48px; height: 48px; border-radius: 14px; background: var(--blueSoft); color: var(--blue); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10M19 21V10M9 21v-6h6v6M2 10l10-7 10 7"/></svg></span><span class="col"><span style="font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Committee</span><b style="font-size: 20px;">UNSC</b></span></div>
+<div class="card" style="padding: 20px; display: flex; align-items: center; gap: 16px;"><span class="flag fbd" style="width: 48px; height: 32px; border-radius: 6px;"></span><span class="col"><span style="font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Country</span><b style="font-size: 20px;">Bangladesh</b></span></div>
+</div>
+<div class="card" style="padding: 18px 22px; display: flex; align-items: center; gap: 16px; background: var(--sealSoft); border-color: transparent;"><span style="width: 44px; height: 44px; border-radius: 12px; background: var(--paper); color: var(--seal); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3M3 16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H7v-2a2 2 0 0 0-4 0zM5 18v2M19 18v2"/></svg></span><span class="col" style="flex: 1; gap: 3px;"><b style="font-size: 16px;">A seat has opened up in DISEC!</b><span style="font-size: 14px; color: var(--ink2);">Accept within <b>~31h</b> to claim it, or it passes to the next person.</span></span><button class="btn b-sec">Decline</button><button class="btn b-pri">Accept Seat</button></div>
+<div style="border-radius: 16px; background: #0E1D2C; color: #fff; padding: 18px 22px; display: flex; align-items: center; gap: 16px;"><span class="col" style="flex: 1; gap: 4px;"><span class="row" style="gap: 8px;"><b style="font-size: 16px;">Opening Ceremony</b><span class="pill" style="background: #B42318; color: #fff;"><i></i>Live</span></span><span style="font-size: 14px; color: #B7C4CE;">The organizer is hosting right now. Join to watch.</span></span><a class="btn" href="#" style="background: #fff; color: #0E1D2C;">Join ceremony</a></div>
+<div class="card" style="padding: 20px 22px; display: flex; align-items: center; gap: 16px;"><span style="width: 44px; height: 44px; border-radius: 12px; background: var(--redSoft); color: var(--red); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19.1 4.9a10 10 0 0 1 0 14.2M4.9 19.1a10 10 0 0 1 0-14.2"/></svg></span><span class="col" style="flex: 1; gap: 3px;"><b style="font-size: 16px;">Live MUN</b><span style="font-size: 14px; color: var(--ink2);">Follow your committee in session live — speakers list, caucuses and voting, in real time.</span></span><button class="btn b-live">Launch Live MUN</button></div>
+<div class="card" style="overflow: hidden;">
+<div class="row" style="padding: 18px 20px; justify-content: space-between;"><span class="row" style="gap: 8px;"><b style="font-size: 17px;">[Delegation name]</b><span class="pill p-pu">Team Head</span></span><button class="btn sm b-sec"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add Member</button></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 0 20px 16px;"><div style="padding: 14px; border-radius: 12px; background: var(--sunk2);"><span style="font-size: 12.5px; color: var(--muted);">Team Average Score</span><div><b class="serif" style="font-size: 26px;">78</b> <span style="color: var(--muted);">/ 100</span></div></div><div style="padding: 14px; border-radius: 12px; background: var(--sunk2); display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12.5px; color: var(--muted);">Position Papers</span><b class="serif" style="font-size: 26px;">3 <span style="font-size: 16px; color: var(--muted);">/ 5</span></b><i style="display: block; height: 5px; border-radius: 3px; background: var(--sunk);"><i style="display: block; width: 60%; height: 100%; border-radius: 3px; background: var(--seal);"></i></i></div></div>
+<table class="tbl"><thead><tr><th>Member</th><th>Committee</th><th>Country</th><th>Payment</th><th>Score</th></tr></thead><tbody>
+<tr><td><span class="row" style="gap: 8px;"><span class="av" style="background: #13895F;">NR</span><b>Nadia Rahman</b><span style="color: var(--muted);">(you)</span></span></td><td>UNSC</td><td><span class="row" style="gap: 6px;"><i class="flag fbd"></i>Bangladesh</span></td><td><span class="pill p-ok">Paid</span></td><td>82/100</td></tr>
+<tr><td><span class="row" style="gap: 8px;"><span class="av" style="background: #1E6FE0;">TA</span><b>Tanvir Ahmed</b></span></td><td>DISEC</td><td style="color: var(--muted);">Pending</td><td><span class="pill p-wait">Pending</span></td><td style="color: var(--muted);">Not graded</td></tr>
+</tbody></table>
+</div>
+</main>
+<aside style="width: 320px; flex: none; display: flex; flex-direction: column; gap: 16px;">
+<div class="card" style="height: 560px; display: flex; flex-direction: column; overflow: hidden;">
+<div class="row" style="padding: 14px 16px; border-bottom: 1px solid var(--line2);"><span class="col" style="flex: 1;"><b style="font-size: 15px;">Committee Chat</b><span style="font-size: 12px; color: var(--muted);">UNSC</span></span></div>
+<div style="flex: 1; padding: 14px; display: flex; flex-direction: column; gap: 10px; overflow: hidden;">
+<span style="align-self: center; font-size: 11.5px; color: var(--muted); background: var(--sunk2); padding: 3px 10px; border-radius: 10px;">[System note]</span>
+<div class="row" style="gap: 8px; align-items: flex-end;"><button class="fb" title="France"><i class="flag ffr" style="width: 18px; height: 12px;"></i></button><div class="bub them">[Message]</div></div>
+<div class="row" style="gap: 8px; align-items: flex-end;"><button class="fb" title="Japan" style="box-shadow: 0 0 0 2px var(--seal);"><i class="flag fjp" style="width: 18px; height: 12px;"></i></button><div class="col" style="gap: 4px;"><span style="font-size: 11.5px; color: var(--muted);">Ria Sen · Japan <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 11px; height: 11px; vertical-align: -1px;"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="bub them">[Message]</div></div></div>
+<div class="bub me">[My message]</div>
+</div>
+<div class="row" style="padding: 10px; gap: 8px; border-top: 1px solid var(--line2);"><div style="flex: 1; height: 38px; border-radius: 19px; background: var(--sunk2); border: 1px solid var(--line2); display: flex; align-items: center; padding: 0 14px; font-size: 13px; color: var(--muted);">Message committee…</div><button class="ib" aria-label="Send" style="background: var(--seal); color: var(--sealInk); border-radius: 19px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4z"/></svg></button></div>
+</div>
+<div class="card" style="padding: 14px 12px; display: flex; flex-direction: column; gap: 2px;">
+<div class="row" style="padding: 0 4px 6px;"><b style="font-size: 15px;">Members</b><span style="font-size: 13px; color: var(--muted);">· 46</span></div>
+<span style="font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 6px 4px 2px;">UNSC</span>
+<div class="mr"><span class="av" style="background: #B8860B;">AK</span><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">[Chair name]</b><span style="font-size: 12px; color: var(--muted);">Chair</span></span></div>
+<div class="mr"><span class="av" style="background: #13895F;">NR</span><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">Nadia Rahman (You)</b><span class="row" style="gap: 5px; font-size: 12px; color: var(--muted);"><i class="flag fbd" style="width: 15px; height: 10px;"></i>Bangladesh</span></span></div>
+<div class="mr hov"><span class="av" style="background: #7B4FD6;">RS</span><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">Ria Sen</b><span class="row" style="gap: 5px; font-size: 12px; color: var(--muted);"><i class="flag fjp" style="width: 15px; height: 10px;"></i>Japan</span></span><button class="ib" title="Message Ria Sen" aria-label="Message Ria Sen" style="width: 30px; height: 30px; color: var(--seal);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button></div>
+<span style="font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 8px 4px 2px;">DISEC</span>
+<div class="mr"><span class="av" style="background: #1E6FE0;">TA</span><span class="col" style="flex: 1;"><b style="font-size: 13.5px;">Tanvir Ahmed</b><span class="row" style="gap: 5px; font-size: 12px; color: var(--muted);"><i class="flag fde" style="width: 15px; height: 10px;"></i>Germany</span></span></div>
+<button class="btn sm b-sec" style="margin-top: 8px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>View all</button>
+</div>
+</aside>
+</div>
+</div>
+
+<div style="display: flex; gap: 24px; align-items: flex-start;">
+<div class="col" style="gap: 12px;"><div class="cap"><b>People dialog</b><span>From "View all".</span></div>
+<div class="pop" style="width: 640px; padding: 20px; gap: 14px;">
+<div class="row" style="justify-content: space-between;"><b style="font-size: 18px;">People · 46</b><button class="ib" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+<div style="height: 40px; border-radius: 10px; background: var(--sunk2); border: 1px solid var(--line2); display: flex; align-items: center; gap: 8px; padding: 0 12px; font-size: 13.5px; color: var(--muted);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search people by name, role, committee or country…</div>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);">Organizers · 2</span>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;"><div class="card" style="padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; box-shadow: none;"><span class="av" style="background: #0E1D2C; width: 40px; height: 40px;">OR</span><b style="font-size: 13px;">[Organizer]</b><span style="font-size: 11.5px; color: var(--muted);">Organizer</span></div><div class="card" style="padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; box-shadow: none;"><span class="av" style="background: #24384B; width: 40px; height: 40px;">CO</span><b style="font-size: 13px;">[Co-organizer]</b><span style="font-size: 11.5px; color: var(--muted);">Co-organizer</span></div></div>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);">UNSC · 15</span>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;"><div class="card" style="padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; box-shadow: none;"><span class="av" style="background: #13895F; width: 40px; height: 40px;">NR</span><b style="font-size: 13px;">Nadia Rahman</b><span class="row" style="gap: 4px; font-size: 11.5px; color: var(--muted);"><i class="flag fbd" style="width: 14px; height: 10px;"></i>Bangladesh</span></div><div class="card" style="padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; box-shadow: none;"><span class="av" style="background: #7B4FD6; width: 40px; height: 40px;">RS</span><b style="font-size: 13px;">Ria Sen</b><span class="row" style="gap: 4px; font-size: 11.5px; color: var(--muted);"><i class="flag fjp" style="width: 14px; height: 10px;"></i>Japan</span></div><div class="card" style="padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; box-shadow: none;"><span class="av" style="background: #B8860B; width: 40px; height: 40px;">KO</span><b style="font-size: 13px;">[Name]</b><span class="row" style="gap: 4px; font-size: 11.5px; color: var(--muted);"><i class="flag fng" style="width: 14px; height: 10px;"></i>Nigeria</span></div><div class="card" style="padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; box-shadow: none;"><span class="av" style="background: #1E6FE0; width: 40px; height: 40px;">PI</span><b style="font-size: 13px;">[Name]</b><span class="row" style="gap: 4px; font-size: 11.5px; color: var(--muted);"><i class="flag fin" style="width: 14px; height: 10px;"></i>India</span></div></div>
+</div></div>
+<div class="col" style="gap: 12px;"><div class="cap"><b>Room alerts</b><span>Dropdown from the hero button.</span></div>
+<div class="pop" style="width: 340px;">
+<div class="row" style="padding: 14px 16px; justify-content: space-between; border-bottom: 1px solid var(--line2);"><b style="font-size: 15px;">Room Notifications</b><button class="ib" aria-label="Close" style="width: 30px; height: 30px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+<div class="row" style="padding: 12px 16px; gap: 12px; align-items: flex-start; box-shadow: inset 3px 0 0 var(--red);"><span class="col" style="gap: 4px;"><span class="pill p-bad" style="align-self: flex-start;">Urgent</span><span style="font-size: 13.5px;">[Alert message]</span><span style="font-size: 12px; color: var(--muted);">5m ago</span></span></div>
+<div class="row" style="padding: 12px 16px; gap: 12px; align-items: flex-start; box-shadow: inset 3px 0 0 var(--amber); border-top: 1px solid var(--line2);"><span class="col" style="gap: 4px;"><span class="pill p-wait" style="align-self: flex-start;">Warning</span><span style="font-size: 13.5px;">[Alert message]</span><span style="font-size: 12px; color: var(--muted);">40m ago</span></span></div>
+<div class="row" style="padding: 12px 16px; gap: 12px; align-items: flex-start; box-shadow: inset 3px 0 0 var(--blue); border-top: 1px solid var(--line2);"><span class="col" style="gap: 4px;"><span class="pill p-info" style="align-self: flex-start;">Info</span><span style="font-size: 13.5px;">[Alert message]</span><span style="font-size: 12px; color: var(--muted);">2h ago</span></span></div>
+</div>
+<div class="pop" style="width: 340px; padding: 14px 16px; gap: 4px; margin-top: 8px; box-shadow: var(--sh2), inset 3px 0 0 var(--red);"><b style="font-size: 13.5px;">Urgent — Committee</b><span style="font-size: 13px; color: var(--ink2);">[Alert message]</span><span style="font-size: 11.5px; color: var(--muted);">Toast · 5s, bottom-right</span></div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Overview · phone</b><span>Nav as chips; Live MUN stays in the top bar.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div class="top" style="padding: 0 12px; gap: 8px; height: 56px;"><button class="ib" aria-label="Open conference menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><b style="font-size: 14.5px; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Dhaka MUN 2026</b><button class="ib b-live" aria-label="Launch Live MUN" style="background: var(--red); color: #fff; border-radius: 19px;"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4"/></svg></button><button class="ib" aria-label="Messages"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.5-5A8 8 0 1 1 21 12z"/></svg></button></div>
+<div class="tabsc"><span class="on">Overview</span><span>Documents</span><span>Announcements · 2</span><span>Schedule</span><span>Requests</span></div>
+<div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; overflow: hidden;">
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;"><div class="row" style="gap: 6px;"><span class="pill p-ok">Approved</span><span class="pill p-mute">Head Delegate</span></div><b class="serif" style="font-size: 22px; line-height: 1.15;">Dhaka Model United Nations Conference 2026</b><span style="font-size: 13px; color: var(--muted);">Sat, 15 Aug · Pan Pacific Sonargaon</span><button class="btn sm b-sec" style="align-self: flex-start;">Room Alerts · 2</button></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="card" style="padding: 14px;"><span style="font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Committee</span><div style="font-size: 18px; font-weight: 700;">UNSC</div></div><div class="card" style="padding: 14px;"><span style="font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);">Country</span><div class="row" style="gap: 6px; font-size: 16px; font-weight: 700;"><i class="flag fbd"></i>Bangladesh</div></div></div>
+<div class="card" style="padding: 14px; background: var(--sealSoft); border-color: transparent; display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 15px;">A seat has opened up in DISEC!</b><span style="font-size: 13px; color: var(--ink2);">Accept within ~31h to claim it, or it passes to the next person.</span><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><button class="btn sm b-sec">Decline</button><button class="btn sm b-pri">Accept Seat</button></div></div>
+<div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 15px;">Live MUN</b><span style="font-size: 13px; color: var(--ink2);">Follow your committee in session live — speakers list, caucuses and voting, in real time.</span><button class="btn b-live">Launch Live MUN</button></div>
+</div>
+</div>
+
+<div class="cap"><b>Live MUN gate · phone sheet</b><span>Committee not open yet → opens by itself.</span></div>
+<div class="phone">
+<div class="bar">9:41</div>
+<div class="scrim"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; background: var(--paper); border-radius: 24px 24px 0 0; padding: 12px 20px 30px; display: flex; flex-direction: column; gap: 14px;">
+<i style="width: 40px; height: 5px; border-radius: 3px; background: var(--line); align-self: center;"></i>
+<span style="width: 52px; height: 52px; border-radius: 16px; background: var(--amberSoft); color: var(--amber); display: flex; align-items: center; justify-content: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M12 13v3l2 1"/></svg></span>
+<b class="serif" style="font-size: 26px;">UNSC isn't in session yet</b>
+<span style="font-size: 14.5px; line-height: 1.55; color: var(--ink2);">Your chair hasn't gavelled in the sitting for 15 August. This opens by itself the moment they do.</span>
+<div class="row" style="gap: 10px; padding: 10px 12px; border-radius: 10px; background: var(--sunk2); font-size: 13.5px; color: var(--muted);"><i style="width: 10px; height: 10px; border-radius: 5px; background: var(--amber); box-shadow: 0 0 0 4px var(--amberSoft);"></i>Watching for your chair…</div>
+<div style="padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); font-size: 13.5px; color: var(--ink2);">[Organizer note]</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><button class="btn b-sec">Close</button><button class="btn b-pri" disabled style="opacity: .55;">Enter Live MUN</button></div>
+</div>
+</div>
+
+<div class="cap"><b>Other gate states</b><span>Not opened, ceremony only, chair just opened.</span></div>
+<div style="width: 390px; display: flex; flex-direction: column; gap: 12px;">
+<div class="pop" style="padding: 18px; gap: 8px;"><b style="font-size: 16px;">Live MUN hasn't opened yet</b><span style="font-size: 13.5px; color: var(--ink2);">The organizer hasn't opened Live MUN for Dhaka MUN 2026 yet. This unlocks the moment they do.</span><button class="btn sm b-sec" style="align-self: flex-end;">Close</button></div>
+<div class="pop" style="padding: 18px; gap: 8px;"><b style="font-size: 16px;">Committee sessions aren't open yet</b><span style="font-size: 13.5px; color: var(--ink2);">Opening Ceremony is live right now. Committee sessions open after it.</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Close</button><button class="btn sm b-pri">Join Opening Ceremony</button></div></div>
+<div class="pop" style="padding: 18px; gap: 8px; box-shadow: var(--sh2), inset 0 0 0 2px var(--seal);"><b style="font-size: 16px; color: var(--seal);">Your chair just opened the session</b><span style="font-size: 13.5px; color: var(--ink2);">The sitting is live now — you can go straight in.</span><div class="row" style="gap: 8px; justify-content: flex-end;"><button class="btn sm b-sec">Close</button><button class="btn sm b-live">Enter Live MUN</button></div></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":3060}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

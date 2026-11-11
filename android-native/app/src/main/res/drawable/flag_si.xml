@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- flag-icons (MIT, (c) Panayiotis Lipiridis): si.svg, flattened to a VectorDrawable -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="24dp"
+    android:viewportWidth="640"
+    android:viewportHeight="480">
+    <group>
+        <clip-path android:pathData="M0 0l640 0 0 480-640.1 0z"/>
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M-44 0l960 0 0 480-960 0z"/>
+        <path
+            android:fillColor="#D50000"
+            android:fillType="evenOdd"
+            android:pathData="M-44 320l960 0 0 160-960 0z"/>
+        <path
+            android:fillColor="#0000BF"
+            android:fillType="evenOdd"
+            android:pathData="M-44 160l960 0 0 160-960 0z"/>
+        <path
+            android:fillColor="#D50000"
+            android:fillType="evenOdd"
+            android:pathData="M228.2 87.2c-3.7 57.7-6 89.4-14.7 104-9.6 15.8-18.7 27.3-56 41.3-37.1-14-46.3-25.5-55.8-41.3-8.8-14.6-11-46.3-14.8-104l5.5-1.9c11.1-3.4 19.3-6.1 25.4-7.3 8.7-1.9 16.2-3.9 39.6-4.4 23.4 .4 30.9 2.6 39.7 4.5 6 1.3 14.6 3.8 25.6 7.2z"/>
+        <path
+            android:fillColor="#0000BF"
+            android:fillType="evenOdd"
+            android:pathData="M222.8 85.3c-3.6 57.7-6.6 84.1-11.3 96.8-9 21.8-23.2 33.7-54 45-30.7-11.3-45-23.2-54.1-45-4.7-12.7-7.5-39.1-11-96.9 10.9-3.4 19.3-6 25.4-7.2 8.7-1.9 16.2-4 39.6-4.4 23.4 .4 30.9 2.5 39.7 4.4 8.7 2 17.3 4.4 25.7 7.2z"/>
+        <path
+            android:fillColor="#FFDF00"
+            android:fillType="evenOdd"
+            android:pathData="M157.5 102.9l1.4 3.5 6.6 .9-4.2 2.6 4 2.7-5.9 .9-1.9 3.2-1.8-3.3-5.7-.7 3.8-2.8-3.9-2.6 6.2-.9z"/>
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M209.4 168.4l-3.7-2.8-2.5-4.3-5.1-4.5-2.7-4.4-5.1-4.6-2.4-4.4-2.8-2.1-1.7-1.8-4.7 4-2.4 4.4-3.1 2.9-3.5-2.8-2.5-4.5-9.7-17.1-9.6 17.1-2.6 4.5-3.4 2.8-3.1-2.9-2.5-4.4-4.6-4-1.8 1.7-2.7 2.2-2.5 4.4-5 4.6-2.8 4.4-5 4.5-2.6 4.3-3.6 2.8c2.1 12.9 8.2 24.8 17.4 34 10.1 8.6 21.7 15.1 34.3 19.2 12.7-4 24.4-10.5 34.5-19.2 5.4-5.6 15.6-18.1 17.5-34"/>
+        <path
+            android:fillColor="#FFDF00"
+            android:fillType="evenOdd"
+            android:pathData="M172.9 78.7l1.5 3.4 6.6 1-4.3 2.5 4.1 2.7-5.9 .9-1.9 3.2-1.9-3.2-5.6-.8 3.8-2.8-4-2.5 6.2-1z m-30.9 0l1.5 3.4 6.5 .9-4.2 2.5 4 2.7-5.9 1-1.8 3.1-1.9-3.1-5.6-.9 3.7-2.8-3.9-2.5 6.3-1z"/>
+        <path
+            android:fillColor="#0000BF"
+            android:fillType="evenOdd"
+            android:pathData="M201.3 190.3l-6.9 0-6.6-.5-7.8-3.7-8.8 0-7.6 3.7-6.1 .6-6-.6-7.6-3.7-8.9 0-7.8 3.7-6.5 .6-7.1-.1-3.4-5.8 .1-.2 10.5 1.8 6.5-.5 7.7-3.8 8.8 0 7.7 3.7 6 .6 6.1-.6 7.6-3.7 8.8 0 7.9 3.7 6.5 .6 10.1-1.9 .2 .4z m-81 8.9l7-.5 7.7-3.7 8.8 0 7.7 3.7 6 .5 6-.5 7.7-3.7 8.8 0 7.8 3.7 7.1 .5 4.4-5.6 0 0-4.9 1.3-6.5-.5-7.8-3.7-8.8 0-7.7 3.7-6 .6-6.1-.6-7.6-3.7-8.9 0-7.8 3.7-6.5 .6-4.7-1.2 0 .2 4.2 5.2z"/>
+    </group>
+</vector>

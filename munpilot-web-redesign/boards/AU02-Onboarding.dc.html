@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Onboarding</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0B6E4F;text-decoration:none}
+.w{--page:#EDF0F0;--paper:#FFFFFF;--sunk:#E3E8EA;--sunk2:#F4F6F6;--ink:#0E1D2C;--ink2:#24384B;--muted:#56697B;--line:#D8DEE2;--line2:#E6EAEC;--seal:#0B6E4F;--sealInk:#FFFFFF;--sealSoft:#E0EFE8;--red:#B42318;--redSoft:#FBE7E4;--sh1:0 1px 2px rgba(14,29,44,.05);--sh2:0 6px 20px rgba(14,29,44,.08);--logo:#0B6E4F;--canvas:#E8ECED;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.w.dark{--page:#0B1622;--paper:#132434;--sunk:#1B2E3E;--sunk2:#162839;--ink:#EDF2F5;--ink2:#C3D0DA;--muted:#93A6B5;--line:#24384B;--line2:#1E3244;--seal:#47A481;--sealInk:#05170F;--sealSoft:rgba(71,164,129,.16);--red:#FF8A7A;--redSoft:rgba(255,138,122,.14);--sh1:none;--sh2:0 8px 24px rgba(0,0,0,.35);--logo:#47A481;--canvas:#060D14}
+.lga{fill:var(--ink)}.lgb{fill:var(--logo)}
+.serif{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--seal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:9px;border:1px solid transparent;font:600 14px Inter,sans-serif;white-space:nowrap;box-sizing:border-box;flex:none}
+.btn.sm{height:34px;padding:0 13px;font-size:13.5px;border-radius:8px}
+.btn.lg{height:48px;padding:0 22px;font-size:15px;border-radius:10px}
+.b-pri{background:var(--seal);color:var(--sealInk)}
+.b-sec{background:var(--paper);color:var(--ink);border-color:var(--line);box-shadow:var(--sh1)}
+.b-ghost{background:none;color:var(--ink2)}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:16px;height:16px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+.frame{background:var(--page);border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(14,29,44,.10);flex:none;display:flex;flex-direction:column}
+.cap{display:flex;flex-direction:column;gap:4px}
+.cap b{font-size:18px;font-weight:600}.cap span{font-size:14px;color:var(--muted)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:22px;box-shadow:var(--sh2)}
+.fld{display:flex;flex-direction:column;gap:7px;min-width:0}
+.fld label,.fld .fl{font-size:13.5px;font-weight:600}
+.inp{display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border-radius:11px;border:1px solid var(--line);background:var(--sunk2);box-sizing:border-box;color:var(--muted)}
+.inp input{flex:1;min-width:0;border:0;background:none;outline:none;font:15px Inter,sans-serif;color:var(--ink);padding:0}
+.inp input::placeholder{color:var(--muted)}
+.inp.dis{opacity:.65}
+.req{color:#B03B22}
+.av{width:88px;height:88px;border-radius:44px;background:var(--sealSoft);color:var(--seal);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:600;position:relative;flex:none}
+.av .cam{position:absolute;right:-2px;bottom:-2px;width:32px;height:32px;border-radius:16px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;border:3px solid var(--paper)}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:11px;background:var(--redSoft);color:var(--red);font-size:13.5px;line-height:1.45}
+.dots{display:flex;gap:6px}
+.dots i{width:28px;height:4px;border-radius:2px;background:var(--seal);display:block}
+.ph{width:390px;height:844px;border-radius:44px;background:var(--page);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 10px #0E1D2C,0 20px 50px rgba(14,29,44,.18);flex:none}
+.ph .bar{height:44px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--ink)}
+.sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:var(--paper);border-top:1px solid var(--line)}
+</style>
+</helmet>
+<div class="w {{theme}}" style="width: 2022px; height: 1460px; box-sizing: border-box; padding: 64px; background: var(--canvas); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="kick">AU02 · Auth · /onboarding</span>
+<h1 class="serif" style="margin: 0; font-size: 44px;">Onboarding — set up your profile</h1>
+<p style="margin: 0; font-size: 16px; color: var(--ink2); max-width: 1300px; line-height: 1.55;">One centered card, no site header, as today — on the paper look instead of indigo glow. Photo upload on top (upload, remove, or skip to keep the Google photo), then first and last name, email (locked), date of birth and optional mobile. "Complete Setup" becomes "Saving…" while it saves.</p>
+</div>
+<div style="display: flex; gap: 64px; align-items: flex-start;">
+
+<div class="frame" style="width: 1440px; height: 1180px;">
+<div style="padding: 28px 40px; display: flex; align-items: center; justify-content: space-between;"><svg viewBox="0 -100 492 130" width="124" height="33" role="img" aria-label="MUN Pilot"><path class="lga" d="M98.55 0L84.96 0L84.96 -32.7Q84.96 -42.13 82.29 -46.35Q79.63 -50.57 73.3 -50.57Q67.97 -50.57 64.25 -45.23Q60.53 -39.9 60.53 -32.46L60.53 0L46.88 0L46.88 -33.81Q46.88 -50.57 35.04 -50.57Q29.53 -50.57 25.99 -45.53Q22.44 -40.49 22.44 -32.46L22.44 0L8.85 0L8.85 -60L22.44 -60L22.44 -50.51L22.68 -50.51Q29.18 -61.41 41.6 -61.41Q47.81 -61.41 52.47 -57.98Q57.13 -54.55 58.83 -48.98Q65.51 -61.41 78.75 -61.41Q98.55 -61.41 98.55 -36.97ZM165.06 0L151.47 0L151.47 -9.49L151.23 -9.49Q145.31 1.41 132.83 1.41Q111.56 1.41 111.56 -24.14L111.56 -60L125.16 -60L125.16 -25.55Q125.16 -9.37 137.64 -9.37Q143.67 -9.37 147.57 -13.83Q151.47 -18.28 151.47 -25.49L151.47 -60L165.06 -60ZM233.79 0L220.2 0L220.2 -33.81Q220.2 -50.62 208.31 -50.62Q202.09 -50.62 198.05 -45.97Q194.01 -41.31 194.01 -34.22L194.01 0L180.36 0L180.36 -60L194.01 -60L194.01 -50.04L194.24 -50.04Q200.98 -61.41 213.7 -61.41Q223.48 -61.41 228.64 -55.05Q233.79 -48.69 233.79 -36.68Z"/><path class="lgb" d="M268.2 -8.85L267.97 -8.85L267.97 27.6L254.38 27.6L254.38 -60L267.97 -60L267.97 -49.45L268.2 -49.45Q275.18 -61.41 288.59 -61.41Q300.02 -61.41 306.41 -53.38Q312.79 -45.35 312.79 -31.82Q312.79 -16.82 305.59 -7.79Q298.38 1.23 285.9 1.23Q274.41 1.23 268.2 -8.85ZM267.85 -32.52L267.85 -25.08Q267.85 -18.52 272.04 -13.95Q276.23 -9.37 282.68 -9.37Q290.24 -9.37 294.54 -15.26Q298.85 -21.15 298.85 -31.7Q298.85 -40.55 294.83 -45.56Q290.82 -50.57 283.97 -50.57Q276.7 -50.57 272.28 -45.41Q267.85 -40.25 267.85 -32.52ZM337.93 0L324.28 0L324.28 -60L337.93 -60ZM366.88 0L353.23 0L353.23 -88.83L366.88 -88.83ZM408.78 1.41Q394.89 1.41 386.6 -7Q378.31 -15.41 378.31 -29.3Q378.31 -44.41 386.95 -52.91Q395.59 -61.41 410.24 -61.41Q424.3 -61.41 432.16 -53.14Q440.01 -44.88 440.01 -30.23Q440.01 -15.88 431.54 -7.24Q423.07 1.41 408.78 1.41ZM409.42 -50.57Q401.45 -50.57 396.82 -45Q392.2 -39.43 392.2 -29.65Q392.2 -20.21 396.88 -14.79Q401.57 -9.37 409.42 -9.37Q417.45 -9.37 421.76 -14.71Q426.06 -20.04 426.06 -29.88Q426.06 -39.79 421.76 -45.18Q417.45 -50.57 409.42 -50.57ZM483.08 -0.64Q479.09 1.35 472.59 1.35Q455.13 1.35 455.13 -15.41L455.13 -49.34L445.11 -49.34L445.11 -60L455.13 -60L455.13 -73.89L468.72 -77.75L468.72 -60L483.08 -60L483.08 -49.34L468.72 -49.34L468.72 -19.34Q468.72 -14 470.65 -11.72Q472.59 -9.43 477.1 -9.43Q480.56 -9.43 483.08 -11.43Z"/><path class="lga" d="M331.1 -96 L343.1 -84 L331.1 -72 L319.1 -84 Z"/></svg><span style="font-size: 13.5px; color: var(--muted);">nadia@school.edu</span></div>
+<div style="width: 600px; margin: 24px auto 0; display: flex; flex-direction: column; gap: 28px;">
+<div class="col" style="gap: 10px; align-items: center; text-align: center;"><span class="kick">Profile settings</span><h1 class="serif" style="margin: 0; font-size: 44px;">Welcome to MUN Pilot</h1><span style="font-size: 16px; color: var(--ink2);">A few basics to get you started — everything else is optional.</span></div>
+<form class="card">
+<div class="row" style="gap: 20px;"><span class="av">NR<span class="cam"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span></span><span class="col" style="gap: 8px;"><b style="font-size: 17px;">Set up your profile</b><span style="font-size: 13.5px; color: var(--muted);">Add a photo or skip to use your Google account photo.</span><span class="row" style="gap: 8px;"><button type="button" class="btn sm b-sec" aria-label="Upload profile picture"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></svg>Upload photo</button><button type="button" class="btn sm b-ghost" aria-label="Remove uploaded picture">Remove</button></span></span></div>
+<div style="height: 1px; background: var(--line2);"></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div class="fld"><label for="o1">First Name <span class="req">*</span></label><div class="inp"><input id="o1" placeholder="John" value="Nadia"></div></div>
+<div class="fld"><label for="o2">Last Name <span class="req">*</span></label><div class="inp"><input id="o2" placeholder="Doe" value="Rahman"></div></div>
+<div class="fld" style="grid-column: span 2;"><label for="o3">Email</label><div class="inp dis"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><input id="o3" value="nadia@school.edu" disabled></div></div>
+<div class="fld"><span class="fl">Date of Birth</span><div class="inp" style="color: var(--muted);"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg><span style="flex: 1; font-size: 15px;">Select date</span></div></div>
+<div class="fld"><label for="o5">Mobile <span style="font-weight: 500; color: var(--muted);">(Optional)</span></label><div class="inp"><input id="o5" placeholder="+1 234 567 8900"></div></div>
+</div>
+<button type="button" class="btn lg b-pri" style="width: 100%;">Complete Setup</button>
+</form>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<div class="cap"><b>Onboarding · phone</b><span>Single column, sticky Complete Setup.</span></div>
+<div class="ph">
+<div class="bar">9:41</div>
+<div style="padding: 12px 20px 120px; display: flex; flex-direction: column; gap: 18px;">
+<div class="col" style="gap: 6px;"><span class="kick">Profile settings</span><h1 class="serif" style="margin: 0; font-size: 32px;">Welcome to MUN Pilot</h1><span style="font-size: 14.5px; line-height: 1.5; color: var(--ink2);">A few basics to get you started — everything else is optional.</span></div>
+<div class="row" style="gap: 16px;"><span class="av" style="width: 72px; height: 72px; font-size: 24px;">NR<span class="cam"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span></span><span class="col" style="gap: 6px;"><b style="font-size: 15.5px;">Set up your profile</b><button class="btn sm b-sec" style="align-self: flex-start;">Upload photo</button></span></div>
+<div class="alert"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 1px;"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Image must be less than 5MB.</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="fld"><label for="q1">First Name <span class="req">*</span></label><div class="inp"><input id="q1" value="Nadia"></div></div><div class="fld"><label for="q2">Last Name <span class="req">*</span></label><div class="inp"><input id="q2" value="Rahman"></div></div></div>
+<div class="fld"><label for="q3">Email</label><div class="inp dis"><input id="q3" value="nadia@school.edu" disabled></div></div>
+<div class="fld"><span class="fl">Date of Birth</span><div class="inp"><span style="flex: 1; font-size: 15px;">Select date</span></div></div>
+<div class="fld"><label for="q5">Mobile <span style="font-weight: 500; color: var(--muted);">(Optional)</span></label><div class="inp"><input id="q5" placeholder="+1 234 567 8900"></div></div>
+</div>
+<div class="sticky"><button class="btn lg b-pri" style="width: 100%;" disabled>Saving…</button></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":2022,"height":1460}}'>
+class Component extends DCLogic {
+renderVals() {
+return { theme: this.props.dark ? 'dark' : 'light' };
+}
+}
+</script>
+</body>
+</html>

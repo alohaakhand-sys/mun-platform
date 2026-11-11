@@ -1,0 +1,618 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-31T10:00:00Z"
+ },
+ "title": "MUN Pilot — Website Redesign",
+ "launch": {
+  "view": "canvas"
+ },
+ "pages": [
+  {
+   "id": "foundations",
+   "name": "00 · Foundations"
+  },
+  {
+   "id": "public",
+   "name": "P · Public site"
+  },
+  {
+   "id": "auth",
+   "name": "AU · Sign-in and onboarding"
+  },
+  {
+   "id": "dash",
+   "name": "D · General dashboard"
+  },
+  {
+   "id": "portal",
+   "name": "CP · Conference portal"
+  },
+  {
+   "id": "chair",
+   "name": "CH · Chair and Executive Board"
+  },
+  {
+   "id": "org",
+   "name": "OR · Organizer"
+  },
+  {
+   "id": "admin",
+   "name": "AD · App Admin"
+  }
+ ],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 3720,
+   "title": "00 · Foundations — colour, type, components",
+   "page": "foundations"
+  },
+  "P01-Home.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 2022,
+   "h": 3640,
+   "title": "P01 · Home",
+   "page": "public"
+  },
+  "P02-Conferences.dc.html": {
+   "x": 2142,
+   "y": 0,
+   "w": 2022,
+   "h": 2480,
+   "title": "P02 · Conferences list",
+   "page": "public"
+  },
+  "P03-Conference-detail.dc.html": {
+   "x": 2142,
+   "y": 2600,
+   "w": 2022,
+   "h": 3720,
+   "title": "P03 · Conference detail",
+   "page": "public"
+  },
+  "P04-Apply-wizard.dc.html": {
+   "x": 0,
+   "y": 3760,
+   "w": 2022,
+   "h": 3860,
+   "title": "P04 · Application wizard",
+   "page": "public"
+  },
+  "P05-Articles.dc.html": {
+   "x": 2142,
+   "y": 6440,
+   "w": 2022,
+   "h": 4280,
+   "title": "P05 · Articles list and article",
+   "page": "public"
+  },
+  "P06-About-contact.dc.html": {
+   "x": 0,
+   "y": 7740,
+   "w": 2022,
+   "h": 4900,
+   "title": "P06 · About and Contact",
+   "page": "public"
+  },
+  "P07-Legal-docs.dc.html": {
+   "x": 2142,
+   "y": 10840,
+   "w": 2022,
+   "h": 3900,
+   "title": "P07 · Legal, doc reader, app return",
+   "page": "public"
+  },
+  "AU01-Auth.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 2022,
+   "h": 2680,
+   "title": "AU01 · Log in, sign up, reset password",
+   "page": "auth"
+  },
+  "AU02-Onboarding.dc.html": {
+   "x": 2142,
+   "y": 0,
+   "w": 2022,
+   "h": 1460,
+   "title": "AU02 · Onboarding",
+   "page": "auth"
+  },
+  "D01-Shell-home.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 2022,
+   "h": 2700,
+   "title": "D01 · Dashboard shell and home",
+   "page": "dash"
+  },
+  "D02-Conferences-docs.dc.html": {
+   "x": 2142,
+   "y": 0,
+   "w": 2022,
+   "h": 3000,
+   "title": "D02 · My Conferences and Documents",
+   "page": "dash"
+  },
+  "D03-Blogs-achievements.dc.html": {
+   "x": 0,
+   "y": 2820,
+   "w": 2022,
+   "h": 3720,
+   "title": "D03 · My Blogs, editor, Achievements",
+   "page": "dash"
+  },
+  "D04-Network-profile.dc.html": {
+   "x": 2142,
+   "y": 3120,
+   "w": 2022,
+   "h": 3560,
+   "title": "D04 · Network and public profile",
+   "page": "dash"
+  },
+  "D05-Messages-payments.dc.html": {
+   "x": 0,
+   "y": 6660,
+   "w": 2022,
+   "h": 3000,
+   "title": "D05 · Messages and Payments",
+   "page": "dash"
+  },
+  "D06-Settings.dc.html": {
+   "x": 2142,
+   "y": 6800,
+   "w": 2022,
+   "h": 2900,
+   "title": "D06 · Settings",
+   "page": "dash"
+  },
+  "CP01-Portal-overview.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 2022,
+   "h": 3060,
+   "title": "CP01 · Portal shell and Overview",
+   "page": "portal"
+  },
+  "CP02-Portal-tabs.dc.html": {
+   "x": 2142,
+   "y": 0,
+   "w": 2022,
+   "h": 3200,
+   "title": "CP02 · Requests, Announcements, Schedule",
+   "page": "portal"
+  },
+  "CP03-Portal-modules.dc.html": {
+   "x": 0,
+   "y": 3180,
+   "w": 2022,
+   "h": 2900,
+   "title": "CP03 · Food, Transport, Accommodation, Dress Code",
+   "page": "portal"
+  },
+  "CP04-Portal-results.dc.html": {
+   "x": 2142,
+   "y": 3320,
+   "w": 2022,
+   "h": 3200,
+   "title": "CP04 · Results, certificate, session report",
+   "page": "portal"
+  },
+  "CP05-Gate-faculty-observer.dc.html": {
+   "x": 0,
+   "y": 6200,
+   "w": 2022,
+   "h": 2840,
+   "title": "CP05 · Payment gate, Faculty, Observer",
+   "page": "portal"
+  },
+  "CH01-Chair-overview.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 2022,
+   "h": 2700,
+   "title": "CH01 · Chair dashboard and hub overview",
+   "page": "chair"
+  },
+  "CH02-Marking.dc.html": {
+   "x": 2142,
+   "y": 0,
+   "w": 2022,
+   "h": 2860,
+   "title": "CH02 · Marking matrix and delegate record",
+   "page": "chair"
+  },
+  "CH03-Log-papers-requests.dc.html": {
+   "x": 0,
+   "y": 2820,
+   "w": 2022,
+   "h": 3000,
+   "title": "CH03 · Motion Log, Papers, Requests",
+   "page": "chair"
+  },
+  "CH04-Awards-guide-alert.dc.html": {
+   "x": 2142,
+   "y": 2980,
+   "w": 2022,
+   "h": 3280,
+   "title": "CH04 · Awards & Results, Study Guide, Room Alert",
+   "page": "chair"
+  },
+  "CH05-EB-dashboard.dc.html": {
+   "x": 0,
+   "y": 5940,
+   "w": 2022,
+   "h": 2140,
+   "title": "CH05 · Executive Board dashboard",
+   "page": "chair"
+  },
+  "OR07-Financials-plan.dc.html": {
+   "x": 2142,
+   "y": 7000,
+   "w": 2022,
+   "h": 3460,
+   "title": "OR07 · Financials, Pro, Plan",
+   "page": "org"
+  },
+  "OR06-Modules-tools.dc.html": {
+   "x": 0,
+   "y": 7000,
+   "w": 2022,
+   "h": 3380,
+   "title": "OR06 · Modules, Complaints, Tools",
+   "page": "org"
+  },
+  "OR05-Staff-comms.dc.html": {
+   "x": 2142,
+   "y": 3480,
+   "w": 2022,
+   "h": 3400,
+   "title": "OR05 · Staff, Schedule, Announcements, Rules",
+   "page": "org"
+  },
+  "OR01-Home-events-create.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 2022,
+   "h": 2980,
+   "title": "OR01 · Organizer home, Manage Events, Create event",
+   "page": "org"
+  },
+  "OR02-Event-overview.dc.html": {
+   "x": 2142,
+   "y": 0,
+   "w": 2022,
+   "h": 3340,
+   "title": "OR02 · Event overview and applicant profile",
+   "page": "org"
+  },
+  "OR03-Details-committees.dc.html": {
+   "x": 0,
+   "y": 3100,
+   "w": 2022,
+   "h": 3740,
+   "title": "OR03 · Event Details, Committees, Partners",
+   "page": "org"
+  },
+  "OR04-Allocation.dc.html": {
+   "x": 0,
+   "y": 10500,
+   "w": 2022,
+   "h": 3000,
+   "title": "OR04 · Allocation",
+   "page": "org"
+  },
+  "AD01-Overview-users-events.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 2022,
+   "h": 3000,
+   "title": "AD01 · Overview, users, events",
+   "page": "admin"
+  },
+  "AD02-Approvals-money-complaints.dc.html": {
+   "x": 2142,
+   "y": 0,
+   "w": 2022,
+   "h": 3420,
+   "title": "AD02 · Approvals, money, complaints",
+   "page": "admin"
+  },
+  "AD03-Oversight-tools-settings.dc.html": {
+   "x": 0,
+   "y": 3140,
+   "w": 2022,
+   "h": 3960,
+   "title": "AD03 · Oversight, tools, settings",
+   "page": "admin"
+  },
+  "P08-System-home-states.dc.html": {
+   "x": 0,
+   "y": 12760,
+   "w": 2022,
+   "h": 4120,
+   "title": "P08 · System and home states",
+   "page": "public"
+  },
+  "P09-Detail-apply-states.dc.html": {
+   "x": 2142,
+   "y": 14860,
+   "w": 2022,
+   "h": 4740,
+   "title": "P09 · Detail and apply states",
+   "page": "public"
+  },
+  "P10-Terms-doc-states.dc.html": {
+   "x": 0,
+   "y": 17000,
+   "w": 2022,
+   "h": 2660,
+   "title": "P10 · Terms and doc states",
+   "page": "public"
+  },
+  "AU03-Reset-onboarding-states.dc.html": {
+   "x": 2142,
+   "y": 1580,
+   "w": 2022,
+   "h": 3180,
+   "title": "AU03 · Reset and onboarding states",
+   "page": "auth"
+  },
+  "D07-Browse-payment-states.dc.html": {
+   "x": 0,
+   "y": 9780,
+   "w": 2022,
+   "h": 3420,
+   "title": "D07 · Browse and payment states",
+   "page": "dash"
+  },
+  "D08-Documents-roles.dc.html": {
+   "x": 2142,
+   "y": 9820,
+   "w": 2022,
+   "h": 3660,
+   "title": "D08 · Documents hub roles",
+   "page": "dash"
+  },
+  "D09-Profile-owner.dc.html": {
+   "x": 0,
+   "y": 13320,
+   "w": 2022,
+   "h": 2620,
+   "title": "D09 · Profile owner sections",
+   "page": "dash"
+  },
+  "D10-Messages-shell-network.dc.html": {
+   "x": 2142,
+   "y": 13600,
+   "w": 2022,
+   "h": 3320,
+   "title": "D10 · Messages, shell, network",
+   "page": "dash"
+  },
+  "D11-Blog-editor-states.dc.html": {
+   "x": 0,
+   "y": 16060,
+   "w": 2022,
+   "h": 2500,
+   "title": "D11 · Blog editor states",
+   "page": "dash"
+  },
+  "CP06-My-pass-food-transport.dc.html": {
+   "x": 2142,
+   "y": 6640,
+   "w": 2022,
+   "h": 3140,
+   "title": "CP06 · My Pass, food, transport",
+   "page": "portal"
+  },
+  "CP07-Paper-docs-accommodation.dc.html": {
+   "x": 0,
+   "y": 9160,
+   "w": 2022,
+   "h": 3170,
+   "title": "CP07 · Paper, docs, accommodation",
+   "page": "portal"
+  },
+  "CP08-Portal-states.dc.html": {
+   "x": 2142,
+   "y": 9900,
+   "w": 2022,
+   "h": 2880,
+   "title": "CP08 · Portal states",
+   "page": "portal"
+  },
+  "CH06-Passes-readonly-edges.dc.html": {
+   "x": 2142,
+   "y": 6380,
+   "w": 2022,
+   "h": 2810,
+   "title": "CH06 · Hub passes, read-only, edges",
+   "page": "chair"
+  },
+  "CH07-Log-papers-requests-states.dc.html": {
+   "x": 0,
+   "y": 8200,
+   "w": 2022,
+   "h": 2280,
+   "title": "CH07 · Log, papers, requests states",
+   "page": "chair"
+  },
+  "CH08-Guides-standings-scores.dc.html": {
+   "x": 2142,
+   "y": 9310,
+   "w": 2022,
+   "h": 2760,
+   "title": "CH08 · Guides, standings, scores",
+   "page": "chair"
+  },
+  "OR08-Org-empty-loading-edit.dc.html": {
+   "x": 2142,
+   "y": 10580,
+   "w": 2022,
+   "h": 3180,
+   "title": "OR08 · Organizer empty, loading, edit",
+   "page": "org"
+  },
+  "OR09-Allocation-states.dc.html": {
+   "x": 0,
+   "y": 13620,
+   "w": 2022,
+   "h": 2440,
+   "title": "OR09 · Allocation states",
+   "page": "org"
+  },
+  "OR10-Staff-forms.dc.html": {
+   "x": 2142,
+   "y": 13880,
+   "w": 2022,
+   "h": 2160,
+   "title": "OR10 · Staff and forms",
+   "page": "org"
+  },
+  "OR11-Coupons-pass-report.dc.html": {
+   "x": 2142,
+   "y": 16160,
+   "w": 2022,
+   "h": 2620,
+   "title": "OR11 · Coupons and pass report",
+   "page": "org"
+  },
+  "OR12-Scanner.dc.html": {
+   "x": 0,
+   "y": 16180,
+   "w": 2022,
+   "h": 2140,
+   "title": "OR12 · Scan passes",
+   "page": "org"
+  },
+  "OR13-Modules-idcards-schedule.dc.html": {
+   "x": 0,
+   "y": 18440,
+   "w": 2022,
+   "h": 2300,
+   "title": "OR13 · Modules, ID cards, schedule",
+   "page": "org"
+  },
+  "OR14-Rules-announcements.dc.html": {
+   "x": 2142,
+   "y": 18900,
+   "w": 2022,
+   "h": 2400,
+   "title": "OR14 · Rules and announcements",
+   "page": "org"
+  },
+  "OR15-Plan-money-complaints.dc.html": {
+   "x": 0,
+   "y": 20860,
+   "w": 2022,
+   "h": 3280,
+   "title": "OR15 · Plan, money, complaints",
+   "page": "org"
+  },
+  "AD04-Members-plans-approvals.dc.html": {
+   "x": 2142,
+   "y": 3540,
+   "w": 2022,
+   "h": 3420,
+   "title": "AD04 · Members, plans, approvals",
+   "page": "admin"
+  },
+  "AD05-Gateways-complaints-live.dc.html": {
+   "x": 2142,
+   "y": 7080,
+   "w": 2022,
+   "h": 3240,
+   "title": "AD05 · Gateways, complaints, live",
+   "page": "admin"
+  },
+  "AD06-Moderation-tools-settings.dc.html": {
+   "x": 0,
+   "y": 7220,
+   "w": 2022,
+   "h": 2540,
+   "title": "AD06 · Moderation, tools, settings",
+   "page": "admin"
+  },
+  "CP09-Portal-decisions.dc.html": {
+   "x": 0,
+   "y": 12450,
+   "w": 2022,
+   "h": 2180,
+   "title": "CP09 · Portal decisions",
+   "page": "portal"
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "P01-Home.dc.html",
+  "P02-Conferences.dc.html",
+  "P03-Conference-detail.dc.html",
+  "P04-Apply-wizard.dc.html",
+  "P05-Articles.dc.html",
+  "P06-About-contact.dc.html",
+  "P07-Legal-docs.dc.html",
+  "P08-System-home-states.dc.html",
+  "P09-Detail-apply-states.dc.html",
+  "P10-Terms-doc-states.dc.html",
+  "AU01-Auth.dc.html",
+  "AU02-Onboarding.dc.html",
+  "AU03-Reset-onboarding-states.dc.html",
+  "D01-Shell-home.dc.html",
+  "D02-Conferences-docs.dc.html",
+  "D03-Blogs-achievements.dc.html",
+  "D04-Network-profile.dc.html",
+  "D05-Messages-payments.dc.html",
+  "D06-Settings.dc.html",
+  "D07-Browse-payment-states.dc.html",
+  "D08-Documents-roles.dc.html",
+  "D09-Profile-owner.dc.html",
+  "D10-Messages-shell-network.dc.html",
+  "D11-Blog-editor-states.dc.html",
+  "CP01-Portal-overview.dc.html",
+  "CP02-Portal-tabs.dc.html",
+  "CP03-Portal-modules.dc.html",
+  "CP04-Portal-results.dc.html",
+  "CP05-Gate-faculty-observer.dc.html",
+  "CP06-My-pass-food-transport.dc.html",
+  "CP07-Paper-docs-accommodation.dc.html",
+  "CP08-Portal-states.dc.html",
+  "CP09-Portal-decisions.dc.html",
+  "CH01-Chair-overview.dc.html",
+  "CH02-Marking.dc.html",
+  "CH03-Log-papers-requests.dc.html",
+  "CH04-Awards-guide-alert.dc.html",
+  "CH05-EB-dashboard.dc.html",
+  "CH06-Passes-readonly-edges.dc.html",
+  "CH07-Log-papers-requests-states.dc.html",
+  "CH08-Guides-standings-scores.dc.html",
+  "OR07-Financials-plan.dc.html",
+  "OR06-Modules-tools.dc.html",
+  "OR05-Staff-comms.dc.html",
+  "OR01-Home-events-create.dc.html",
+  "OR02-Event-overview.dc.html",
+  "OR03-Details-committees.dc.html",
+  "OR04-Allocation.dc.html",
+  "OR08-Org-empty-loading-edit.dc.html",
+  "OR09-Allocation-states.dc.html",
+  "OR10-Staff-forms.dc.html",
+  "OR11-Coupons-pass-report.dc.html",
+  "OR12-Scanner.dc.html",
+  "OR13-Modules-idcards-schedule.dc.html",
+  "OR14-Rules-announcements.dc.html",
+  "OR15-Plan-money-complaints.dc.html",
+  "AD01-Overview-users-events.dc.html",
+  "AD02-Approvals-money-complaints.dc.html",
+  "AD03-Oversight-tools-settings.dc.html",
+  "AD04-Members-plans-approvals.dc.html",
+  "AD05-Gateways-complaints-live.dc.html",
+  "AD06-Moderation-tools-settings.dc.html"
+ ],
+ "notes": {},
+ "designSystems": []
+}

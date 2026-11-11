@@ -1,0 +1,1523 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userDocExists() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    // A member's own proStatus may only become 'pending', and only when they aren't already
+    // pending or holding an unexpired Pro.
+    function proReapplyOk() {
+      let cur = resource.data.get('proStatus', 'none');
+      return request.resource.data.proStatus == 'pending' &&
+        (cur in ['none', 'rejected', 'expired'] ||
+         (cur == 'active' && resource.data.get('proExpiresAt', null) != null && resource.data.proExpiresAt < request.time));
+    }
+
+    // ── Event plans (src/lib/data/eventPlan.ts) ──────────────────────────────────────────
+    // event.plan is the App Admin's / server's to write. No plan = Free, capped by the admin's
+    // numbers in systemSettings/global. Caps: null = unlimited.
+    function planTier(e) {
+      return e.get('plan', {}).get('tier', 'free');
+    }
+    function planSetting(key, fallback) {
+      return exists(/databases/$(database)/documents/systemSettings/global)
+        ? get(/databases/$(database)/documents/systemSettings/global).data.get(key, fallback)
+        : fallback;
+    }
+    function planLimit(e, k, freeKey, freeDefault) {
+      let lim = e.get('plan', {}).get('limits', {});
+      return k in lim ? lim[k] : (planTier(e) == 'free' ? planSetting(freeKey, freeDefault) : null);
+    }
+    function participantCap(e) {
+      return planLimit(e, 'participants', 'freeParticipantCap', 50);
+    }
+    function committeeCap(e) {
+      return planLimit(e, 'committees', 'freeCommitteeCap', 5);
+    }
+    // A custom coupon's shape (setup/qr-passes-plan.md): a title, who gets it, how many uses.
+    function couponOk(d) {
+      return d.keys().hasOnly(['title', 'note', 'kind', 'day', 'timeWindow', 'venue', 'audience', 'usesPerPerson', 'active', 'createdBy', 'createdAt', 'updatedAt']) &&
+        d.title is string && d.title.size() > 0 && d.title.size() <= 80 &&
+        d.usesPerPerson is int && d.usesPerPerson >= 1 && d.usesPerPerson <= 20 &&
+        d.audience is map && d.active is bool;
+    }
+    function planFeature(e, f) {
+      return planTier(e) == 'pro' || e.get('plan', {}).get('features', {}).get(f, false) == true;
+    }
+    // 1 when an application holds a participant seat (approved, not a staff role), else 0.
+    function seatOf(app) {
+      return (app.get('status', '') == 'approved' &&
+        !app.get('role', '').lower().matches('.*(staff|co-organizer|usg|chair|director|vice-chair).*')) ? 1 : 0;
+    }
+    // The event's approvedCount moves only with the application named in seatTx, by exactly
+    // that application's seat change in the same write.
+    function seatTxOk(eventId) {
+      let appPath = /databases/$(database)/documents/applications/$(request.resource.data.seatTx);
+      let after = getAfter(appPath).data;
+      return after.eventId == eventId &&
+        request.resource.data.approvedCount == resource.data.get('approvedCount', 0) + seatOf(after) - seatOf(get(appPath).data);
+    }
+    // Owner/co-organizer event edits: no plan or counter tampering, committees within the cap,
+    // and the Pro looks only on a plan that has them.
+    function eventEditOk(eventId) {
+      let d = request.resource.data;
+      let keys = d.diff(resource.data).affectedKeys();
+      return !keys.hasAny(['plan']) &&
+        (!keys.hasAny(['approvedCount', 'seatTx']) || seatTxOk(eventId)) &&
+        (!keys.hasAny(['committees']) || d.get('committees', []).size() <= resource.data.get('committees', []).size() ||
+          committeeCap(resource.data) == null || d.get('committees', []).size() <= committeeCap(resource.data)) &&
+        (!keys.hasAny(['theme']) || !d.get('theme', '').matches('^#.*') || planFeature(resource.data, 'customTheme')) &&
+        (!keys.hasAny(['certificateTemplate']) || d.get('certificateTemplate', '') != 'ornate' || planFeature(resource.data, 'ornate'));
+    }
+    // An application's seat change on a capped event must move the event's counter with it
+    // (same batch), and an approval must fit under the cap.
+    function appSeatOk(appId) {
+      let delta = seatOf(request.resource.data) - seatOf(resource.data);
+      let evPath = /databases/$(database)/documents/events/$(resource.data.eventId);
+      let before = get(evPath).data;
+      let after = getAfter(evPath).data;
+      return delta == 0 || participantCap(before) == null || (
+        after.get('seatTx', '') == appId &&
+        after.get('approvedCount', 0) == before.get('approvedCount', 0) + delta &&
+        (delta < 0 || after.get('approvedCount', 0) <= participantCap(before)));
+    }
+
+    function getUserRole() {
+      return userDocExists() ? getUserData().role : '';
+    }
+
+    function isOrganizer() {
+      return isSignedIn() && userDocExists() &&
+        (getUserData().role == 'Organizer' || getUserData().role == 'organizer');
+    }
+
+    function isAdmin() {
+      return isSignedIn() && userDocExists() &&
+        (getUserData().get('role', '') in ['App Admin', 'admin'] || getUserData().get('isAdmin', false) == true);
+    }
+
+    // users/{uid}/private/contact: "connections" limits it to active connections; anything else
+    // (or no setting) is every signed-in member.
+    function contactVisibleTo(userId) {
+      let owner = get(/databases/$(database)/documents/users/$(userId)).data;
+      let conn = /databases/$(database)/documents/users/$(userId)/connections/$(request.auth.uid);
+      return owner.get('privacySettings', {}).get('contactVisibility', 'everyone') != 'connections' ||
+        (exists(conn) && get(conn).data.get('status', '') == 'active');
+    }
+
+    function isEventOrganizer(eventId) {
+      return isSignedIn() &&
+        isOrganizerOrCoOrg(eventId);
+    }
+
+    function isEventStaff(eventId) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/events/$(eventId)/staff/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/events/$(eventId)/staff/$(request.auth.uid)).data.inviteStatus == 'accepted';
+    }
+
+    // ── Event membership (Phase 1 read tightening) ──────────────────────────────────────────
+    // `events/{id}/members/{uid}` is written ONLY by the server (lib/server/membership.ts),
+    // recomputed from the event's owner, accepted staff and approved applications — rules can't
+    // look up `applications/{autoId}` by uid, so this marker is how a delegate is recognised.
+    // Event-scoped on purpose: a committee-name mismatch must never lock a delegate out of their
+    // own sitting (chat and marks keep their own committee checks).
+    function isEventMember(eventId) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/events/$(eventId)/members/$(request.auth.uid));
+    }
+    // Who may read an event's live data: members first (one exists() for the common case), then
+    // staff, the organizer and App Admins.
+    function canReadLive(eventId) {
+      return isEventMember(eventId) || isEventStaff(eventId) || isOrganizerOrCoOrg(eventId) || isAdmin();
+    }
+    // On the sitting's roll call: a second door for a delegate whose marker is missing.
+    function onSessionRoll(eventId, sessionId) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)) &&
+        request.auth.uid in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.get('attendance', {});
+    }
+
+    // Accepted staff member with the organizer-level "co-organizer" role.
+    function isEventCoOrganizer(eventId) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/events/$(eventId)/staff/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/events/$(eventId)/staff/$(request.auth.uid)).data.inviteStatus == 'accepted' &&
+        get(/databases/$(database)/documents/events/$(eventId)/staff/$(request.auth.uid)).data.role == 'co-organizer';
+    }
+
+    // Event owner, an accepted co-organizer, or platform admin. Co-organizers get
+    // near-full organizer write access per plan D5 (NOT event delete / financial settings).
+    function isOrganizerOrCoOrg(eventId) {
+      return isSignedIn() && (
+        get(/databases/$(database)/documents/events/$(eventId)).data.organizerId == request.auth.uid ||
+        isEventCoOrganizer(eventId) ||
+        isAdmin()
+      );
+    }
+
+    // Accepted Executive Board member (director / USG) — oversees committees and
+    // manages chairs within their scope (plan D5).
+    function ebStaffData(eventId) {
+      return get(/databases/$(database)/documents/events/$(eventId)/staff/$(request.auth.uid)).data;
+    }
+    function isEventDirectorOrUsg(eventId) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/events/$(eventId)/staff/$(request.auth.uid)) &&
+        ebStaffData(eventId).inviteStatus == 'accepted' &&
+        ebStaffData(eventId).role in ['director', 'usg', 'eb'];
+    }
+    // committeeId absent, null or "" → event-wide scope (covers all committees).
+    function staffCommittee(data) {
+      return ('committeeId' in data && data.committeeId != '') ? data.committeeId : null;
+    }
+    // Self-create from an existing grant (invite accept, legacy auto-id → uid-keyed migration):
+    // the source doc must be addressed to the caller and the copy must not widen it.
+    function staffCopiedFromGrant(eventId, d) {
+      return 'sourceId' in d && d.sourceId is string &&
+        exists(/databases/$(database)/documents/events/$(eventId)/staff/$(d.sourceId)) &&
+        staffGrantMatches(get(/databases/$(database)/documents/events/$(eventId)/staff/$(d.sourceId)).data, d);
+    }
+    function staffGrantMatches(src, d) {
+      return (src.get('email', '') == request.auth.token.email || src.get('uid', '') == request.auth.uid) &&
+        src.get('inviteStatus', '') in ['invited', 'accepted'] &&
+        d.get('role', '') == src.get('role', '') &&
+        d.get('permissions', {}) == src.get('permissions', {}) &&
+        staffCommittee(d) == staffCommittee(src) &&
+        d.get('delegatePower', false) == src.get('delegatePower', false);
+    }
+    // Self-register as chair from an APPROVED chair application (the committee hub's fallback
+    // for application-based chairs): role 'chair', no extra permissions, the app's committee.
+    function staffFromChairApplication(eventId, d) {
+      let app = get(/databases/$(database)/documents/applications/$(d.sourceApplicationId)).data;
+      return 'sourceApplicationId' in d && d.sourceApplicationId is string &&
+        exists(/databases/$(database)/documents/applications/$(d.sourceApplicationId)) &&
+        app.get('userId', '') == request.auth.uid && app.get('eventId', '') == eventId &&
+        app.get('status', '') == 'approved' &&
+        app.get('role', '').lower().matches('.*chair.*') && !app.get('role', '').lower().matches('.*co-organizer.*') &&
+        d.get('role', '') == 'chair' &&
+        d.get('permissions', {}).values().hasOnly([false]) &&
+        d.get('delegatePower', false) == false &&
+        d.get('committeeId', '') in [app.get('assignedCommittee', ''), app.get('choices', {}).get('primary', {}).get('committee', ''), ''];
+    }
+    function ebInScope(eventId, committee) {
+      return staffCommittee(ebStaffData(eventId)) == null ||
+             staffCommittee(ebStaffData(eventId)) == committee;
+    }
+    function isChairTierStaff(data) {
+      return data.role == 'chair' || data.role == 'vice-chair';
+    }
+
+    // Per-staff PermissionsMap enforcement. Owner/co-org bypass via isOrganizerOrCoOrg.
+    function hasEventPerm(eventId, perm) {
+      return isEventStaff(eventId) &&
+        ('permissions' in ebStaffData(eventId)) &&
+        (perm in ebStaffData(eventId).permissions) &&
+        ebStaffData(eventId).permissions[perm] == true;
+    }
+    // Accepted chair/vice-chair assigned to a specific committee.
+    function isCommitteeChair(eventId, committee) {
+      return isEventStaff(eventId) &&
+        isChairTierStaff(ebStaffData(eventId)) &&
+        staffCommittee(ebStaffData(eventId)) == committee;
+    }
+    // Application read access: org/co-org, EB, any chair-tier staff (need their roster),
+    // or staff explicitly granted canViewApplications (e.g. an observer). NOT plain observers.
+    function canReadApplications(eventId) {
+      return isOrganizerOrCoOrg(eventId) ||
+        isEventDirectorOrUsg(eventId) ||
+        hasEventPerm(eventId, 'canViewApplications') ||
+        (isEventStaff(eventId) && isChairTierStaff(ebStaffData(eventId)));
+    }
+    // Marking write: org/co-org, the committee's chair, or a staffer granted canMarkDelegates.
+    function canWriteMarking(eventId, committee) {
+      return isOrganizerOrCoOrg(eventId) ||
+        isCommitteeChair(eventId, committee) ||
+        hasEventPerm(eventId, 'canMarkDelegates');
+    }
+    // Executive Board (director / USG) whose scope covers this committee.
+    function isEbOf(eventId, committee) {
+      return isEventDirectorOrUsg(eventId) && ebInScope(eventId, committee);
+    }
+    // Who runs a committee sitting: everyone who may mark it, plus the Executive Board inside
+    // its scope. Used for the session doc, its subcollections, the registry, standings,
+    // document review and markings. NOT for /chat: EB does not read delegates' private notes,
+    // so the chat rule keeps canWriteMarking.
+    function canRunSession(eventId, committee) {
+      return canWriteMarking(eventId, committee) || isEbOf(eventId, committee);
+    }
+    // ── Live MUN: event-level control ───────────────────────────────────────────
+    // A ceremony is a reserved session doc (events/{id}/sessions/__ceremony__opening|closing).
+    // It belongs to no committee, so canWriteMarking is the WRONG authority for it: a staffer
+    // holding `canMarkDelegates` would otherwise be able to put themselves on the ceremony
+    // stage and get a publisher token in front of the whole conference. The organizer owns
+    // the ceremony, full stop.
+    function isCeremonySession(sid) {
+      return sid.matches('^__ceremony__.*');
+    }
+    function canWriteSessionDoc(eventId, committee, sid) {
+      return (isCeremonySession(sid) && isOrganizerOrCoOrg(eventId)) ||
+        (!isCeremonySession(sid) && canRunSession(eventId, committee));
+    }
+    // The organizer's master switch (events/{id}/liveControl/state). Until it is on, no chair
+    // may open a committee sitting.
+    //
+    // A MISSING DOC ALLOWS, on purpose. The UI treats "no control doc" as "not started"
+    // (strict), but the rules take the opposite default so an event already mid-conference can
+    // never be locked out by a control doc that failed to write. Guarded with exists() first —
+    // get() on a missing document ERRORS, and an error denies.
+    function sessionsGateOpen(eventId) {
+      return !exists(/databases/$(database)/documents/events/$(eventId)/liveControl/state) ||
+        get(/databases/$(database)/documents/events/$(eventId)/liveControl/state).data.sessionsOpen == true;
+    }
+
+    // The dais for a committee's documents: who may read a paper at ANY status and rule on it.
+    // Extracted so the committeeDocs read and update branches cannot drift apart — read
+    // visibility and review authority have to be the same set or a reviewer sees a queue they
+    // cannot act on (or worse, the reverse).
+    //
+    // `canMarkDelegates` is in the set deliberately. It is the same quartet-plus-permission shape
+    // as canWriteMarking, and it matches `canControl` in the chair console — the console has always
+    // offered a canMarkDelegates staffer the full approve/reject/publish desk, while the update
+    // rule silently denied them. Aligning here closes that, and it is also what makes the console's
+    // unfiltered document listener valid for every viewer who can act in it.
+    function canReviewDocs(eventId, committee) {
+      return isOrganizerOrCoOrg(eventId) ||
+        isCommitteeChair(eventId, committee) ||
+        isEventDirectorOrUsg(eventId) ||
+        hasEventPerm(eventId, 'canMarkDelegates') ||
+        isAdmin();
+    }
+
+    // ── Application window (shared schedule) ────────────────────────────────────
+    // Applications open at creation; the effective hard close is derived client/server
+    // side and persisted on the event as `applicationCloseAt` (epoch MILLIS). We only
+    // gate the close here — open start is always allowed. Missing field = open.
+    // The `role` arg is kept for call-site compatibility (timing is no longer per-role).
+    function appWindowOpen(eventId, role) {
+      return exists(/databases/$(database)/documents/events/$(eventId)) &&
+        (!('applicationCloseAt' in get(/databases/$(database)/documents/events/$(eventId)).data) ||
+         get(/databases/$(database)/documents/events/$(eventId)).data.applicationCloseAt == null ||
+         request.time.toMillis() <= get(/databases/$(database)/documents/events/$(eventId)).data.applicationCloseAt);
+    }
+
+    // ── Live-session registry ───────────────────────────────────────────────────
+    // Flat index of the sessions running right now: liveSessions/{eventId}__{sessionId},
+    // written by the chair console (registerLiveSession in sessionService). It exists so the
+    // app-admin monitor never has to scan the whole `sessions` collection group, which costs a
+    // read per session doc ever created against the Spark plan's 50k/day cap.
+    match /liveSessions/{entryId} {
+      allow read: if isAdmin();
+      // Same predicate that guards writing the session doc itself, so nobody can advertise a
+      // session they could not have run. The exists() guard keeps a get() on a missing event
+      // from erroring out — in rules, an error denies.
+      allow create, update: if isSignedIn() &&
+        exists(/databases/$(database)/documents/events/$(request.resource.data.eventId)) &&
+        canRunSession(request.resource.data.eventId, request.resource.data.committeeId);
+      // Chairs unregister on close; the admin monitor prunes orphans and force-stops.
+      //
+      // `resource == null` FIRST, and it is not optional. Unlike create/update above — which read
+      // `request.resource.data`, always present — a delete reads `resource.data`, and `resource` is
+      // NULL when the entry is already gone. Touching `.data` on null ERRORS, and an error denies,
+      // so a no-op delete came back as "Missing or insufficient permissions". That is a real flow,
+      // not a corner: `setPhase("closed")` unregisters, and `finalizeSession` unregisters again, so
+      // a chair who closes (or passes an `adjourn` motion) and THEN finalizes always hit it. Second
+      // deleter loses the race for the same reason. Permitting the no-op grants nothing — there is
+      // no document left to remove — while the real predicate still guards every entry that exists.
+      allow delete: if isAdmin() || (isSignedIn() && (
+        resource == null || (
+          exists(/databases/$(database)/documents/events/$(resource.data.eventId)) &&
+          canRunSession(resource.data.eventId, resource.data.committeeId)
+        )
+      ));
+    }
+
+    match /{path=**}/results/{resultId} {
+      allow read: if isSignedIn();
+    }
+
+    // App Admins list every member's contact in one collection-group query (admin users table).
+    match /{path=**}/private/{docId} {
+      allow read: if isAdmin();
+    }
+
+    match /{path=**}/staff/{uid} {
+      allow read: if isSignedIn() && (resource == null || resource.data.email == request.auth.token.email || resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    // ── User Profiles ──────────────────────────────────────────────────────────
+    match /users/{userId} {
+      // Collection queries (getAllUsers for messaging/admin): any signed-in user
+      allow list: if isSignedIn();
+      // Single-doc reads: own profile, admin/organizer bypass, or privacy not hidden
+      // resource == null guard prevents crash when doc doesn't exist
+      allow get: if isSignedIn() && (
+        request.auth.uid == userId ||
+        isAdmin() ||
+        isOrganizer() ||
+        resource == null ||
+        !('privacySettings' in resource.data) ||
+        !('showProfile' in resource.data.privacySettings) ||
+        resource.data.privacySettings.showProfile != false
+      );
+      // Email and phone never live on this doc (every signed-in member can read it): they go
+      // in private/contact below. A write may not add or change them here; docs that still
+      // carry them from before the move can be updated otherwise until the migration strips them.
+      // Privilege fields are the App Admin's to set: a member can't make themselves admin,
+      // organizer or Pro. Onboarding may write role 'user' (keeping an elevated role leaves it
+      // unchanged), and applying for Pro may move proStatus to 'pending'.
+      allow create: if isSignedIn() && request.auth.uid == userId &&
+        !request.resource.data.keys().hasAny(['email', 'phoneNumber', 'isAdmin', 'proStatus', 'proActivatedAt', 'proExpiresAt', 'organizerApplicationStatus', 'planOverrides', 'verifiedOrganizer', 'disabled', 'disabledReason']) &&
+        request.resource.data.get('role', 'user') in ['user', 'delegate'];
+      allow update: if (request.auth.uid == userId &&
+          !request.resource.data.diff(resource.data).affectedKeys().hasAny(['email', 'phoneNumber', 'isAdmin', 'proActivatedAt', 'proExpiresAt', 'organizerApplicationStatus', 'planOverrides', 'verifiedOrganizer', 'disabled', 'disabledReason']) &&
+          (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']) || request.resource.data.role == 'user') &&
+          (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['proStatus']) || proReapplyOk())) ||
+        isAdmin();
+      allow delete: if isAdmin();
+
+      // Email and phone. Readable by the owner, App Admins, and — per the owner's
+      // privacySettings.contactVisibility — any signed-in member ("everyone", the default) or
+      // only their active connections ("connections"). Organizers get an applicant's contact
+      // from the application itself (applicantEmail / applicantPhone).
+      match /private/{docId} {
+        allow read: if isSignedIn() && docId == 'contact' && (
+          request.auth.uid == userId || isAdmin() || contactVisibleTo(userId));
+        allow write: if isSignedIn() && request.auth.uid == userId && docId == 'contact';
+      }
+
+      match /blocks/{blockedUid} {
+        allow read, write: if isSignedIn() && request.auth.uid == userId;
+        allow get: if isSignedIn() && request.auth.uid == blockedUid;
+      }
+
+      match /connections/{otherUid} {
+        allow read: if isSignedIn() && (request.auth.uid == userId || request.auth.uid == otherUid || isOrganizer());
+        allow write: if isSignedIn() && (
+          request.auth.uid == userId || 
+          request.auth.uid == otherUid || 
+          (request.resource.data != null && 'sourceEventId' in request.resource.data && isEventOrganizer(request.resource.data.sourceEventId))
+        );
+      }
+
+      // Online presence — owner writes, signed-in reads
+      match /presence/{doc} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() && request.auth.uid == userId;
+      }
+    }
+
+    // ── Pro Applications ───────────────────────────────────────────────────────
+    // The applicant writes their own application only as 'pending'; the admin decides it.
+    match /proApplications/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow create, update: if isAdmin() || (isSignedIn() && request.auth.uid == userId &&
+        request.resource.data.status == 'pending' && request.resource.data.get('userId', userId) == userId);
+      allow delete: if isAdmin();
+    }
+
+    // ── Upgrade requests (Pro for an event, or more Free room) ─────────────────────────
+    // The event's owner files one as 'pending'; the App Admin decides it and sets the plan.
+    match /upgradeRequests/{reqId} {
+      allow read: if isSignedIn() && (resource.data.organizerId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && request.resource.data.organizerId == request.auth.uid &&
+        request.resource.data.status == 'pending' && request.resource.data.kind in ['pro', 'quota'] &&
+        get(/databases/$(database)/documents/events/$(request.resource.data.eventId)).data.organizerId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // ── Organizer Applications ──────────────────────────────────────────────────
+    match /organizerApplications/{appId} {
+      allow read: if isSignedIn() && (resource == null || resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // ── Events ────────────────────────────────────────────────────────────────
+    match /events/{eventId} {
+      // Public reads only for published events; drafts visible to organizer, any
+      // accepted staff (co-organizer, EB, chairs…), or admin.
+      allow read: if (resource.data.status == 'published') ||
+        (isSignedIn() && resource.data.organizerId == request.auth.uid) ||
+        isEventStaff(eventId) ||
+        isAdmin();
+      // A new event starts Free: no plan, no seats, Free looks, committees within the Free cap.
+      allow create: if isAdmin() || (isSignedIn() && request.resource.data.organizerId == request.auth.uid &&
+        !request.resource.data.keys().hasAny(['plan', 'seatTx']) &&
+        request.resource.data.get('approvedCount', 0) == 0 &&
+        request.resource.data.get('committees', []).size() <= planSetting('freeCommitteeCap', 5) &&
+        !request.resource.data.get('theme', '').matches('^#.*') &&
+        request.resource.data.get('certificateTemplate', '') != 'ornate');
+      // Co-organizers may edit the event, but only the owner/admin may delete it. An applicant
+      // may move the seat counter for their own application only (withdrawing frees a seat).
+      allow update: if isSignedIn() && (isAdmin() ||
+        ((resource.data.organizerId == request.auth.uid || isEventCoOrganizer(eventId)) && eventEditOk(eventId)) ||
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['approvedCount', 'seatTx']) && seatTxOk(eventId) &&
+          getAfter(/databases/$(database)/documents/applications/$(request.resource.data.seatTx)).data.userId == request.auth.uid));
+      allow delete: if isSignedIn() &&
+        (resource.data.organizerId == request.auth.uid || isAdmin());
+
+      match /staff/{uid} {
+        // Staff docs hold emails + permission maps — don't expose the whole roster to
+        // every signed-in user. Own doc, this event's organizer/co-org, fellow accepted
+        // staff, or admin. (Own-doc reads also fall back to the global /{path=**}/staff
+        // rule, so chair-detection queries filtered by uid/email keep working.)
+        allow read: if isSignedIn() && (
+          resource == null ||
+          resource.data.uid == request.auth.uid ||
+          resource.data.email == request.auth.token.email ||
+          isOrganizerOrCoOrg(eventId) ||
+          isEventStaff(eventId) ||
+          isAdmin()
+        );
+        // SELF-CREATE carries no grant of its own. A user may write their own uid-keyed doc only
+        // as a copy of something the organizer already granted: an invite / legacy auto-id doc
+        // addressed to them (`sourceId`, deleted in the same batch — get() reads the pre-batch
+        // state), or an approved chair application (`sourceApplicationId`). Before this, any
+        // signed-in user could create `staff/{own uid}` with role 'co-organizer' on any event.
+        allow create: if isSignedIn() && (
+          isOrganizerOrCoOrg(eventId) ||
+          isAdmin() ||
+          (request.auth.uid == uid && request.resource.data.inviteStatus == 'accepted' &&
+            (staffCopiedFromGrant(eventId, request.resource.data) ||
+             staffFromChairApplication(eventId, request.resource.data))) ||
+          // A PUBLIC STAFF APPLICATION (event.allowPublicStaff): my own doc, status 'applied', a
+          // chair-tier or director role, and nothing granted — no permission, committee or delegate
+          // power. 'applied' is not staff anywhere (every staff check requires 'accepted'); only the
+          // organizer can accept it.
+          (request.auth.uid == uid &&
+            get(/databases/$(database)/documents/events/$(eventId)).data.get('allowPublicStaff', false) == true &&
+            request.resource.data.keys().hasOnly(['uid', 'name', 'email', 'role', 'committeeId', 'permissions', 'inviteStatus', 'addedAt']) &&
+            request.resource.data.inviteStatus == 'applied' &&
+            request.resource.data.uid == request.auth.uid &&
+            request.resource.data.email == request.auth.token.email &&
+            request.resource.data.role in ['chair', 'vice-chair', 'director'] &&
+            request.resource.data.committeeId == null &&
+            request.resource.data.permissions.values().hasOnly([false]))
+        );
+        allow update: if isSignedIn() && (
+          isOrganizerOrCoOrg(eventId) ||
+          isAdmin() ||
+          // The invitee answers: accept or decline, never re-scope. Role, permissions, committee
+          // and delegate power stay as the organizer set them; declining a role change may only
+          // restore the previous role/permissions the organizer recorded.
+          (resource != null &&
+            (request.auth.token.email == resource.data.get('email', '') || request.auth.uid == resource.data.get('uid', '')) &&
+            resource.data.get('inviteStatus', '') in ['invited', 'accepted'] &&
+            request.resource.data.inviteStatus in ['accepted', 'rejected'] &&
+            request.resource.data.get('email', '') == resource.data.get('email', '') &&
+            staffCommittee(request.resource.data) == staffCommittee(resource.data) &&
+            request.resource.data.get('delegatePower', false) == resource.data.get('delegatePower', false) &&
+            ( ( request.resource.data.get('role', '') == resource.data.get('role', '') &&
+                request.resource.data.get('permissions', {}) == resource.data.get('permissions', {}) ) ||
+              ( resource.data.get('isRoleUpdate', false) == true &&
+                request.resource.data.inviteStatus == 'accepted' &&
+                request.resource.data.get('role', '') == resource.data.get('previousRole', '') &&
+                request.resource.data.get('permissions', {}) == resource.data.get('previousPermissions', {}) ) )) ||
+          // Director / USG may edit chairs in their scope (e.g. reassign committee),
+          // but cannot change a chair's role and must keep them within scope.
+          (resource != null && isEventDirectorOrUsg(eventId) &&
+            isChairTierStaff(resource.data) && isChairTierStaff(request.resource.data) &&
+            request.resource.data.role == resource.data.role &&
+            ebInScope(eventId, staffCommittee(resource.data)) &&
+            ebInScope(eventId, staffCommittee(request.resource.data)))
+        );
+        allow delete: if isSignedIn() && (
+          isOrganizerOrCoOrg(eventId) ||
+          isAdmin() ||
+          (resource != null && (resource.data.email == request.auth.token.email || resource.data.uid == request.auth.uid)) ||
+          // Director / USG may remove a chair within their scope.
+          (resource != null && isEventDirectorOrUsg(eventId) &&
+            isChairTierStaff(resource.data) && ebInScope(eventId, staffCommittee(resource.data)))
+        );
+      }
+
+      match /partners/{partnerId} {
+        allow read: if true;
+        allow write: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) || isAdmin());
+      }
+
+      // Announcements — delegates read; org/co-org or staff with canSendAnnouncements write.
+      match /announcements/{announcementId} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) || hasEventPerm(eventId, 'canSendAnnouncements') || isAdmin());
+      }
+
+      match /waitlist/{entryId} {
+        allow read: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) || isAdmin() || resource.data.applicantUid == request.auth.uid);
+        allow create, delete: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) || isAdmin());
+        // The waitlisted applicant may accept/decline their own offer (status only).
+        allow update: if isSignedIn() && (
+          isOrganizerOrCoOrg(eventId) || isAdmin() ||
+          (resource.data.applicantUid == request.auth.uid &&
+           request.resource.data.applicantUid == resource.data.applicantUid &&
+           request.resource.data.status in ['accepted', 'expired'])
+        );
+      }
+
+      // Results — chairs submit (canMarkDelegates / committee chair); approval needs
+      // canApproveResults or org/owner. Read stays public to signed-in users.
+      match /results/{resultId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn() && (
+          isOrganizerOrCoOrg(eventId) ||
+          hasEventPerm(eventId, 'canMarkDelegates') ||
+          isCommitteeChair(eventId, request.resource.data.committeeId)
+        );
+        allow update: if isSignedIn() && (
+          isOrganizerOrCoOrg(eventId) ||
+          hasEventPerm(eventId, 'canApproveResults')
+        );
+      }
+
+      // Event-level Live MUN control — the organizer's master switch plus the two ceremonies.
+      // ONE doc, id "state". Read is open to any signed-in user because every chair and every
+      // delegate has to check the gate before entering Live MUN; it holds nothing sensitive
+      // (a boolean, two ceremony statuses and an optional public note). Write is the organizer
+      // or a co-organizer — this is the switch that decides whether the conference is running.
+      match /liveControl/{docId} {
+        allow read: if isSignedIn();
+        allow write: if isOrganizerOrCoOrg(eventId);
+      }
+
+      // Published committee standings — one doc per committee, id = the committee NAME with
+      // "/" sanitized (standingsService.standingsDocId).
+      //
+      // This doc EXISTS so delegates can see a ranking at all: the /markings rule lets a
+      // delegate read only their own doc, so ranking — a statement about other people's
+      // scores — is uncomputable client-side by design. The chair publishes a derived board
+      // instead of the raw marks.
+      //
+      // Read is open to any signed-in user because a published board is, by the chair's own
+      // act, public to the room. Unpublished means the doc simply does not exist; there is no
+      // draft state to leak. Write is the marking authority for that committee.
+      match /standings/{committeeId} {
+        allow read: if isSignedIn();
+        allow create, update: if isSignedIn() && (
+          isAdmin() || canRunSession(eventId, request.resource.data.committeeId)
+        );
+        allow delete: if isSignedIn() && (
+          isAdmin() || canRunSession(eventId, resource.data.committeeId)
+        );
+      }
+
+      // Membership markers (see isEventMember). Written by the server alone; a member may read
+      // their own, the organizer and staff may read the event's.
+      match /members/{memberUid} {
+        allow read: if isSignedIn() && (request.auth.uid == memberUid || isOrganizerOrCoOrg(eventId) || isEventStaff(eventId) || isAdmin());
+        allow write: if false;
+      }
+
+      // Live committee-session console (wxMUN-style: roll call, GSL, caucuses, voting).
+      // Write = the committee's chair / co-chair / org (canWriteMarking). Read = the event's
+      // members, staff, organizer and admins (canReadLive), or anyone on the sitting's roll —
+      // no longer every signed-in account.
+      match /sessions/{sessionId} {
+        // Members, staff, organizer, admin — or anyone on this sitting's roll (read straight off
+        // the doc being read, so it costs nothing extra).
+        allow read: if canReadLive(eventId) ||
+          (resource != null && request.auth != null && request.auth.uid in resource.data.get('attendance', {}));
+        // Two gates on create: WHO (canWriteSessionDoc — organizer alone for a ceremony) and
+        // WHETHER (sessionsGateOpen — the organizer's master switch, committee sittings only;
+        // a ceremony IS the organizer opening something, so it is not gated by itself).
+        allow create: if isSignedIn() && (
+          isAdmin() || (
+            canWriteSessionDoc(eventId, request.resource.data.committeeId, sessionId) &&
+            (isCeremonySession(sessionId) || sessionsGateOpen(eventId))
+          )
+        );
+        // Chair/co-chair/org write the whole doc. A present delegate may ALSO update, but only
+        // to cast their OWN roll-call ballot (activeVote.ballots.{their uid}) — nothing else.
+        //
+        // No sessionsGateOpen() here: an in-flight sitting must not be cut off mid-vote if the
+        // organizer flips the switch. The switch governs STARTING, and create enforces that.
+        allow update: if isSignedIn() && (
+          isAdmin() ||
+          canWriteSessionDoc(eventId, resource.data.committeeId, sessionId) ||
+          (
+            resource.data.activeVote != null &&
+            resource.data.activeVote.mode == "roll_call" &&
+            // `ballots` is seeded to {} by openVote for every roll-call vote. Requiring it to
+            // exist keeps the accesses below from erroring out (an error denies) on a doc that
+            // somehow lacks it.
+            "ballots" in resource.data.activeVote &&
+            // ONE DELEGATE, ONE BALLOT: a delegate may only ADD their own key, never change or
+            // remove it once set. Chair overrides and vice-chair proxies are unaffected — they
+            // take the canWriteMarking branch above, which short-circuits this whole clause.
+            !(request.auth.uid in resource.data.activeVote.ballots) &&
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(["activeVote", "updatedAt"]) &&
+            request.resource.data.activeVote.diff(resource.data.activeVote).affectedKeys().hasOnly(["ballots"]) &&
+            request.resource.data.activeVote.ballots.diff(resource.data.activeVote.ballots).affectedKeys().hasOnly([request.auth.uid]) &&
+            request.resource.data.activeVote.ballots[request.auth.uid] in ["yes", "no", "abstain"] &&
+            request.auth.uid in resource.data.attendance &&
+            resource.data.attendance[request.auth.uid].status in ["present", "present_and_voting"] &&
+            // Voting window: reject a self-cast ballot once the chair's countdown has run out.
+            // Votes with no timer ("No limit", and every vote predating the countdown) skip this.
+            // 2s of grace absorbs clock skew — endsAt is written from the chair's Date.now().
+            (
+              !("timer" in resource.data.activeVote) ||
+              resource.data.activeVote.timer.running != true ||
+              resource.data.activeVote.timer.endsAt == null ||
+              request.time.toMillis() < resource.data.activeVote.timer.endsAt + 2000
+            )
+          ) ||
+          (
+            // SELF ROLL CALL. A delegate declares their OWN attendance while the chair holds the
+            // roll-call gate open. Same shape as the ballot carve-out above and for the same
+            // reasons: one field path, own uid only, `hasOnly` so nothing rides along.
+            //
+            // `"floorGate" in resource.data` FIRST — sessions created before motion-first have no
+            // such field, and reading a missing key errors, which denies. Guarding keeps legacy
+            // sessions on the chair-only path instead of failing loudly.
+            //
+            // THE WINDOW CLOSES ITSELF. Past endsAt this branch stops matching, so a chair whose
+            // laptop is asleep cannot leave roll call open — no scheduled function required. 2s of
+            // grace absorbs clock skew, exactly as the ballot timer above does.
+            "floorGate" in resource.data &&
+            resource.data.floorGate != null &&
+            resource.data.floorGate.kind == "roll_call" &&
+            // ONE DELEGATE, ONE ANSWER — the attendance twin of the ballot guard above. A delegate
+            // who can re-declare all window long has not answered the roll, they have been playing
+            // with a switch, and the chair's "Answered n / m" readout jitters under them.
+            //
+            // THE TEST IS ON THE STATUS, NOT ON THE KEY. `ensureSession` seeds EVERY roster member
+            // as "absent", so the ballot branch's `!(uid in ...)` shape would deny the very first
+            // declaration here. Being already-absent is precisely the state that may still declare.
+            //
+            // The escape hatch is the chair: setAttendance moves them back to absent or late and
+            // this clause matches again. Chair overrides and vice-chair proxies never reach here —
+            // canWriteMarking short-circuits the whole disjunction.
+            "attendance" in resource.data &&
+            !(
+              request.auth.uid in resource.data.attendance &&
+              resource.data.attendance[request.auth.uid].status in ["present", "present_and_voting"]
+            ) &&
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(["attendance", "updatedAt"]) &&
+            request.resource.data.attendance.diff(resource.data.attendance).affectedKeys().hasOnly([request.auth.uid]) &&
+            request.resource.data.attendance[request.auth.uid].status in ["present", "present_and_voting"] &&
+            // Cannot declare on someone else's behalf by writing a foreign delegateId into own key.
+            request.resource.data.attendance[request.auth.uid].delegateId == request.auth.uid &&
+            (
+              resource.data.floorGate.endsAt == null ||
+              request.time.toMillis() < resource.data.floorGate.endsAt + 2000
+            )
+          ) ||
+          (
+            // OWN YIELD (GSL). The delegate who currently HOLDS the floor may set how the rest of
+            // their own speech runs — to questions, to comments, or back to the chair. Two field
+            // paths under their own activeSpeaker, nothing else.
+            //
+            // Yielding to another DELEGATION is deliberately not here: that transfers time to
+            // someone else, so it goes through a `yield` request the chair accepts (requestYield →
+            // yieldFloorToDelegate). This branch can never hand the floor to a third party.
+            //
+            // The activeSpeaker identity check is what makes it safe — only one uid in the whole
+            // committee satisfies it at any moment, and only while they are actually speaking.
+            "gsl" in resource.data &&
+            resource.data.gsl.activeSpeaker != null &&
+            resource.data.gsl.activeSpeaker.delegateId == request.auth.uid &&
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(["gsl", "updatedAt"]) &&
+            request.resource.data.gsl.diff(resource.data.gsl).affectedKeys().hasOnly(["activeSpeaker"]) &&
+            request.resource.data.gsl.activeSpeaker.diff(resource.data.gsl.activeSpeaker)
+              .affectedKeys().hasOnly(["yieldTo", "yieldTargetCountry"]) &&
+            request.resource.data.gsl.activeSpeaker.yieldTo in ["none", "questions", "comments"] &&
+            // Cannot smuggle a target country in and have a chair surface act on it.
+            request.resource.data.gsl.activeSpeaker.yieldTargetCountry == "" &&
+            // Identity is immutable through this branch — no rewriting who holds the floor.
+            request.resource.data.gsl.activeSpeaker.delegateId == request.auth.uid
+          ) ||
+          (
+            // OWN YIELD (MODERATED CAUCUS). The exact same carve-out, one field path over: a
+            // moderated caucus runs its speeches on `caucus.currentSpeaker`, and `gsl.activeSpeaker`
+            // is a STALE leftover throughout (startModCaucus never clears it). Without this branch
+            // the caucus speaker's yield menu writes a path the rules reject, which surfaces as
+            // "Missing or insufficient permissions" in the browser console and nowhere else.
+            //
+            // The kind check matters: an unmoderated caucus recognizes nobody, so there is no
+            // speaker to be trusted here.
+            "caucus" in resource.data &&
+            resource.data.caucus != null &&
+            resource.data.caucus.kind == "moderated" &&
+            resource.data.caucus.currentSpeaker != null &&
+            resource.data.caucus.currentSpeaker.delegateId == request.auth.uid &&
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(["caucus", "updatedAt"]) &&
+            request.resource.data.caucus.diff(resource.data.caucus).affectedKeys().hasOnly(["currentSpeaker"]) &&
+            request.resource.data.caucus.currentSpeaker.diff(resource.data.caucus.currentSpeaker)
+              .affectedKeys().hasOnly(["yieldTo", "yieldTargetCountry"]) &&
+            request.resource.data.caucus.currentSpeaker.yieldTo in ["none", "questions", "comments"] &&
+            request.resource.data.caucus.currentSpeaker.yieldTargetCountry == "" &&
+            request.resource.data.caucus.currentSpeaker.delegateId == request.auth.uid
+          )
+        );
+        allow delete: if isSignedIn() &&
+          (isAdmin() || canWriteSessionDoc(eventId, resource.data.committeeId, sessionId));
+
+        // Subcollections gate on the parent session's committee (1 get() each, like
+        // the marking-comments rules).
+        match /votes/{voteId} {
+          allow read: if canReadLive(eventId) || onSessionRoll(eventId, sessionId);
+          allow write: if isSignedIn() && (isAdmin() || canRunSession(eventId,
+            get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId));
+        }
+        match /motions/{motionId} {
+          allow read: if canReadLive(eventId) || onSessionRoll(eventId, sessionId);
+          allow write: if isSignedIn() && (isAdmin() || canRunSession(eventId,
+            get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId));
+        }
+        match /participation/{delegateId} {
+          // A day with no session yet has NO session doc, and get() on a missing doc
+          // errors — an error denies. That broke the chair's marking matrix
+          // (getDailyParticipation / subscribeParticipation) the moment a committee was
+          // assigned: every load before the first session existed threw "Missing or
+          // insufficient permissions". A session that doesn't exist has nothing to leak,
+          // so let the (always empty) listing through and keep the real gate for
+          // sessions that do exist.
+          allow read: if isSignedIn() && (
+            request.auth.uid == delegateId || isAdmin() ||
+            !exists(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)) ||
+            canRunSession(eventId, get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId)
+          );
+          allow write: if isSignedIn() && (
+            request.auth.uid == delegateId ||
+            isAdmin() ||
+            canRunSession(eventId, get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId)
+          );
+        }
+        // Live points (Order / Information / Personal Privilege / Parliamentary Inquiry).
+        // A rostered delegate (present in the session's attendance map) may CREATE their
+        // own pending point and DELETE it while still pending; the chair resolves it.
+        match /points/{pointId} {
+          allow read: if canReadLive(eventId) || onSessionRoll(eventId, sessionId);
+          allow create: if isSignedIn() && (
+            isAdmin() ||
+            canRunSession(eventId, get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId) ||
+            ( request.resource.data.delegateId == request.auth.uid &&
+              request.resource.data.status == "pending" &&
+              request.auth.uid in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.attendance )
+          );
+          allow update: if isSignedIn() && (isAdmin() || canRunSession(eventId,
+            get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId));
+          allow delete: if isSignedIn() && (
+            isAdmin() ||
+            canRunSession(eventId, get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId) ||
+            ( resource.data.delegateId == request.auth.uid && resource.data.status == "pending" )
+          );
+        }
+        // Floor requests (raise hand for the floor / request to speak). A rostered delegate
+        // (present in attendance) may CREATE their own pending request and DELETE it while
+        // pending; the chair resolves it (update = granted/dismissed).
+        match /requests/{reqId} {
+          allow read: if canReadLive(eventId) || onSessionRoll(eventId, sessionId);
+          allow create: if isSignedIn() && (
+            isAdmin() ||
+            canRunSession(eventId, get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId) ||
+            ( request.resource.data.delegateId == request.auth.uid &&
+              request.resource.data.status == "pending" &&
+              (
+                request.resource.data.kind == "floor" ||
+                request.resource.data.kind == "speak" ||
+                (
+                  // Yielding remaining time to another delegation. ONLY the delegate who actually
+                  // holds the floor may ask, and only naming someone else — without the speaker
+                  // check any delegate could queue yields for a speech that is not theirs, and
+                  // without the self-target check a speaker could "yield" to themselves to reset
+                  // their own clock. The chair still has to accept; this only bounds who may ask.
+                  //
+                  // TWO WAYS TO HOLD THE FLOOR, and both must be here. The GSL speaks from
+                  // `gsl.activeSpeaker`; a moderated caucus speaks from `caucus.currentSpeaker`
+                  // while `gsl.activeSpeaker` sits stale on the document (startModCaucus never
+                  // clears it). Checking only the GSL slot therefore rejects every caucus yield
+                  // AND would accept one from the last GSL speaker mid-caucus — wrong in both
+                  // directions. Mirrors `floorHolder` in floorGate.ts.
+                  //
+                  // NOT AGAIN, THOUGH. A yield recipient's clock is their own allotment PLUS the
+                  // remainder handed over (yieldGrantMs), so a chain of yields COMPOUNDS: 50+10=60,
+                  // then 50+60=110, and so on without bound. The consoles already hide the control
+                  // for `viaYield`; this is the half that a delegate cannot bypass. `.get` with a
+                  // default because an ordinary speaker's slot carries no `viaYield` key at all,
+                  // and bare access to a missing map field errors — which would deny every yield.
+                  request.resource.data.kind == "yield" &&
+                  (
+                    (
+                      // GSL — and only while no caucus has suspended it.
+                      get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus == null &&
+                      get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.gsl.activeSpeaker != null &&
+                      get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.gsl.activeSpeaker.delegateId == request.auth.uid &&
+                      get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.gsl.activeSpeaker.get("viaYield", false) != true
+                    ) ||
+                    (
+                      // Moderated caucus. An unmoderated one recognizes nobody, so there is no
+                      // speaker with time to hand on.
+                      get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus != null &&
+                      get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus.kind == "moderated" &&
+                      get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus.currentSpeaker != null &&
+                      get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus.currentSpeaker.delegateId == request.auth.uid &&
+                      get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus.currentSpeaker.get("viaYield", false) != true
+                    )
+                  ) &&
+                  request.resource.data.yieldTargetDelegateId is string &&
+                  request.resource.data.yieldTargetDelegateId != request.auth.uid &&
+                  request.resource.data.yieldTargetDelegateId in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.attendance
+                ) ||
+                (
+                  // "Change my vote": only while a roll-call vote is OPEN, only naming THAT vote,
+                  // and only from a delegate who has already cast in it. Without the voteId match a
+                  // delegate could stockpile requests against a stale vote for the chair to approve
+                  // against whichever vote happens to be live later.
+                  request.resource.data.kind == "vote_change" &&
+                  get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.activeVote != null &&
+                  get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.activeVote.mode == "roll_call" &&
+                  "ballots" in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.activeVote &&
+                  request.resource.data.voteId == get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.activeVote.voteId &&
+                  request.auth.uid in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.activeVote.ballots
+                ) ||
+                (
+                  // Moderated-caucus speakers prompt (the digital placard raise). Only while a
+                  // MODERATED caucus is live, and only naming THAT caucus — without the caucusId
+                  // match a delegate could pre-answer a caucus that hasn't started, or keep a
+                  // stale answer alive so the chair adds them to the wrong debate.
+                  // Unlike "floor"/"speak", this one also requires a PRESENT status: it feeds a
+                  // speakers list, and an absent delegation has no floor to be given.
+                  request.resource.data.kind == "caucus_signup" &&
+                  request.resource.data.answer in ["yes", "no"] &&
+                  get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus != null &&
+                  get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus.kind == "moderated" &&
+                  "caucusId" in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus &&
+                  request.resource.data.caucusId == get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus.caucusId &&
+                  request.auth.uid in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.attendance &&
+                  get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.attendance[request.auth.uid].status in ["present", "present_and_voting"] &&
+                  // Signup window: reject an answer once the response countdown has run out.
+                  // Caucuses predating the window lack the field entirely — a missing-key
+                  // access ERRORS (denies), so fail open for them instead. 2s of grace
+                  // absorbs clock skew — signupEndsAt is written from the chair's Date.now().
+                  (
+                    !("signupEndsAt" in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus) ||
+                    request.time.toMillis() < get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.caucus.signupEndsAt + 2000
+                  )
+                )
+              ) &&
+              request.auth.uid in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.attendance )
+          );
+          allow update: if isSignedIn() && (isAdmin() || canRunSession(eventId,
+            get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId));
+          allow delete: if isSignedIn() && (
+            isAdmin() ||
+            canRunSession(eventId, get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId) ||
+            ( resource.data.delegateId == request.auth.uid && resource.data.status == "pending" )
+          );
+        }
+        // Motion queue (delegate-proposed, chair-driven). Mirrors `points`: a rostered
+        // delegate (in the session's attendance map) may CREATE their own pending motion
+        // and DELETE it while still pending; only the chair updates/resolves it.
+        match /motionQueue/{motionId} {
+          allow read: if canReadLive(eventId) || onSessionRoll(eventId, sessionId);
+          allow create: if isSignedIn() && (
+            isAdmin() ||
+            canRunSession(eventId, get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId) ||
+            ( request.resource.data.byDelegateId == request.auth.uid &&
+              request.resource.data.status == "pending" &&
+              request.auth.uid in get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.attendance )
+          );
+          allow update: if isSignedIn() && (isAdmin() || canRunSession(eventId,
+            get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId));
+          allow delete: if isSignedIn() && (
+            isAdmin() ||
+            canRunSession(eventId, get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data.committeeId) ||
+            ( resource.data.byDelegateId == request.auth.uid && resource.data.status == "pending" )
+          );
+        }
+        // ── Session chat (private delegate <-> dais notes + dais announcements) ──────────
+        // ISOLATED from the platform messenger (`conversations/*`) by construction: different
+        // path, different service, different UI. Nothing here is reachable from that feature.
+        //
+        // threadKey is the DELEGATE'S UID — per-delegate, not per-delegation, so a double
+        // delegation gets two threads and neither delegate sees the other's. '@all' is the
+        // reserved dais announcement lane; no uid contains '@'.
+        //
+        // RULES DO NOT FILTER QUERIES. A delegate listener MUST be shaped
+        //     where("threadKey", "in", [uid, "@all"])
+        // Anything wider returns a document this rule denies, and Firestore rejects the WHOLE
+        // listener rather than dropping rows — visible only in the browser console.
+        match /chat/{msgId} {
+          // `get(<missing doc>).data` ERRORS, and an error DENIES. An empty chat collection hides
+          // that (a list with no results evaluates no per-document rules), so this only bites once
+          // the collection is non-empty and the session doc is gone — a chair recreating a day, or
+          // a stale listener outliving a deleted session. Guard every reach-through.
+          function chatSessExists() {
+            return exists(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId));
+          }
+          function chatSess() {
+            return get(/databases/$(database)/documents/events/$(eventId)/sessions/$(sessionId)).data;
+          }
+          // Chair, vice-chair (both pass isChairTierStaff), organizer, co-organizer, and anyone
+          // holding canMarkDelegates. Deliberately NOT isEventDirectorOrUsg: an EB overseer must
+          // not read private notes. `canControl` in the chair console is WIDER than this (it
+          // includes isExecBoard), so the console gates its dock on a narrower `canDais` prop.
+          function isDais() {
+            return chatSessExists() && canWriteMarking(eventId, chatSess().committeeId);
+          }
+
+          // A delegate's read costs ZERO get()s — the cheap clauses come first and || short-circuits.
+          // NOTE ON isAdmin(): an App Admin can also WRITE here, not just read, because
+          // `canWriteMarking` -> `isOrganizerOrCoOrg` already folds in `isAdmin()`. That matches
+          // every sibling session subcollection (an admin can write markings, votes, the session
+          // itself), so it is left alone rather than special-cased. It does NOT weaken the ghost
+          // observer contract: the admin observe page mounts no chat dock, and nothing here writes
+          // on read, so watching still leaves no trace.
+          allow read: if isSignedIn() && (
+            resource.data.threadKey == "@all" ||
+            resource.data.threadKey == request.auth.uid ||
+            isDais() ||
+            isAdmin()
+          );
+
+          allow create: if isSignedIn() &&
+            request.resource.data.text is string &&
+            request.resource.data.text.size() > 0 &&
+            request.resource.data.text.size() <= 1000 &&
+            request.resource.data.sentAt is number &&
+            request.resource.data.threadKey is string &&
+            request.resource.data.fromUid == request.auth.uid &&
+            (
+              ( request.resource.data.fromRole == "dais" && isDais() ) ||
+              // Own thread only, never the broadcast lane, only while on today's roll and while
+              // the sitting is open. `.get("finalized", false)` rather than bare access: reading
+              // a missing key ERRORS, and an error denies.
+              ( request.resource.data.fromRole == "delegate" &&
+                request.resource.data.threadKey == request.auth.uid &&
+                chatSessExists() &&
+                request.auth.uid in chatSess().attendance &&
+                chatSess().get("finalized", false) != true &&
+                chatSess().phase != "closed" )
+            );
+
+          // THE RECORD IS THE POINT. Nobody edits — not even the dais, whose own conduct this
+          // records. Only an App Admin may remove (support / data-deletion). This is a considered
+          // narrowing of the `isAdmin() || canWriteMarking(...)` write grant every sibling
+          // subcollection uses; do not "fix" it back.
+          //
+          // Verified against the live project with a per-user client (see the session notes):
+          // delegate sends only into their own thread while on the roll and the sitting is open;
+          // one delegate cannot read another's thread, reply as dais, broadcast, exceed 1000 chars,
+          // or forge fromUid; an off-roll account cannot send at all.
+          allow update: if false;
+          allow delete: if isAdmin();
+        }
+      }
+
+      // Food slots — organizer writes, signed-in reads
+      match /foodSlots/{slotId} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) || isAdmin());
+      }
+
+      // QR passes (setup/qr-passes-plan.md). The server signs and checks every pass and writes
+      // every redemption with the admin SDK, so no client writes either. `passes/{uid}` holds the
+      // pass version (a reset bumps it) and stays server-only. A holder reads their own
+      // redemptions (used coupons fade); the owner, co-organizers and scanners read all of them.
+      match /passes/{uid} {
+        allow read, write: if false;
+      }
+      match /redemptions/{rid} {
+        allow read: if isSignedIn() && (
+          resource.data.holderUid == request.auth.uid ||
+          isOrganizerOrCoOrg(eventId) ||
+          hasEventPerm(eventId, 'canScanPasses'));
+        allow write: if false;
+      }
+      // Custom coupons (gift, kit, drink, extra meal): a Pro feature (plan feature `passes`). The
+      // organizer writes them; members read them to see what their pass holds; scanners pick them.
+      match /coupons/{couponId} {
+        allow read: if isSignedIn() && (isEventMember(eventId) || isEventStaff(eventId) || isOrganizerOrCoOrg(eventId));
+        allow create, update: if isOrganizerOrCoOrg(eventId) &&
+          planFeature(get(/databases/$(database)/documents/events/$(eventId)).data, 'passes') &&
+          couponOk(request.resource.data);
+        allow delete: if isOrganizerOrCoOrg(eventId);
+      }
+
+      // Transport routes — organizer writes, signed-in reads; delegates can self-register
+      match /transportRoutes/{routeId} {
+        allow read: if isSignedIn();
+        allow create, delete: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) || isAdmin());
+        allow update: if isSignedIn();
+      }
+
+      // Accommodation blocks — organizer writes, signed-in reads
+      match /accommodationBlocks/{blockId} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) || isAdmin());
+      }
+
+      // Accommodation requests — delegate creates/reads own, organizer manages all
+      match /accommodationRequests/{reqId} {
+        allow read: if isSignedIn() && (
+          resource.data.delegateUid == request.auth.uid ||
+          isOrganizerOrCoOrg(eventId) ||
+          isAdmin()
+        );
+        allow create: if isSignedIn();
+        allow update: if isSignedIn() && (
+          isOrganizerOrCoOrg(eventId) || isAdmin()
+        );
+      }
+
+      // Live sessions — organizer writes, signed-in reads
+      match /liveSessions/{sessionId} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) || isAdmin());
+      }
+
+      // Study guides — the committee's chair, an EB overseer, or org/owner writes; all read.
+      match /studyGuides/{committeeName} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) ||
+           isCommitteeChair(eventId, committeeName) ||
+           isEventDirectorOrUsg(eventId) || isAdmin());
+      }
+
+      // In-session committee documents (Working Paper / Draft Resolution / Amendment).
+      // A delegate creates their own submission; the committee's chair, an EB overseer,
+      // or org/owner reviews (approve/reject). The submitter may edit their own doc only
+      // while it's still theirs to shape.
+      match /committeeDocs/{docId} {
+        // READ IS STATUS-SCOPED, and the client queries are shaped to match — see
+        // `committeeDocService.ts`. Firestore evaluates this per document on a list query and
+        // one failing document fails the WHOLE query rather than filtering it out, so any
+        // unfiltered listener over this collection is reviewer-only by construction.
+        //
+        // A paper still `collecting-endorsements` is a draft mid-handshake: its sponsor list is
+        // not settled and it is not introduceable, so only its author and the committee's
+        // reviewers may read it. Everything else is meant to circulate.
+        //
+        // A submitted/approved paper circulates to the event's members (canReadLive — the
+        // `members/{uid}` marker), not to every signed-in account.
+        allow read: if isSignedIn() && (
+          resource.data.submittedBy == request.auth.uid ||
+          (resource.data.status in ['submitted', 'approved', 'rejected'] && canReadLive(eventId)) ||
+          canReviewDocs(eventId, resource.data.committee)
+        );
+        // A delegate may only create a paper AS themselves, in a REAL state, with a committee.
+        // Without the status clamp a client could self-create `approved` and skip the dais
+        // entirely — which also decides its visibility under the read rule above. Without the
+        // committee clamp the paper is unreachable forever: every list matches on that string and
+        // `sameCommittee("", "")` is false by design.
+        //
+        // TWO AUTHORS, ONE SHAPE. The second branch is the vice-chair's delegate-power proxy
+        // (Represent panel): the paper still belongs to `submittedBy` — the delegation — but the
+        // WRITER is a committee dais member, who must name themselves in `proxyBy`. Every clamp
+        // above the branch applies to both, so a proxy cannot self-approve either.
+        allow create: if isSignedIn() &&
+          request.resource.data.status in ['submitted', 'collecting-endorsements'] &&
+          request.resource.data.type in ['working-paper', 'draft-resolution', 'amendment'] &&
+          request.resource.data.format == 'markdown' &&
+          request.resource.data.committee is string &&
+          request.resource.data.committee.size() > 0 &&
+          (
+            request.resource.data.submittedBy == request.auth.uid ||
+            ( canReviewDocs(eventId, request.resource.data.committee) &&
+              request.resource.data.proxyBy == request.auth.uid )
+          );
+        allow update, delete: if isSignedIn() && (
+          canReviewDocs(eventId, resource.data.committee) ||
+          // The submitter may edit their own paper while it is still theirs to shape:
+          // "submitted" (pre-review) or "collecting-endorsements" (window still open, so
+          // finalize can stamp the confirmed sponsor/signatory lists back onto the doc).
+          // The status they may WRITE is clamped to the same pair — an author re-submits, an
+          // author never approves. `finalizeDocEndorsements` runs on the admin SDK and bypasses
+          // rules, so the collecting → submitted transition is unaffected.
+          (resource.data.submittedBy == request.auth.uid &&
+            resource.data.status in ['submitted', 'collecting-endorsements'] &&
+            (request.method == 'delete' ||
+             request.resource.data.status in ['submitted', 'collecting-endorsements']))
+        );
+
+        // Sponsor / signatory consent records. The author (paper submitter) creates each
+        // pending request; the named target flips ONLY their own row to accepted/rejected;
+        // the author may expire leftovers when the window closes. Mostly written server-side
+        // (admin) — these rules cover the client accept/reject write. Named `docEndorsements`
+        // to stay distinct from the peer-reputation `endorsements` collection group.
+        match /docEndorsements/{endId} {
+          allow read: if canReadLive(eventId);
+          allow create: if isSignedIn() &&
+            get(/databases/$(database)/documents/events/$(eventId)/committeeDocs/$(docId)).data.submittedBy == request.auth.uid &&
+            request.resource.data.status == 'pending';
+          allow update: if isSignedIn() && (
+            isOrganizerOrCoOrg(eventId) || isAdmin() ||
+            // Target responds — own pending row only, flip to accepted/rejected.
+            ( resource.data.targetUid == request.auth.uid &&
+              resource.data.status == 'pending' &&
+              request.resource.data.status in ['accepted', 'rejected'] &&
+              request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'respondedAt']) ) ||
+            // A committee dais member answers ON BEHALF of the target — the vice-chair's delegate
+            // power, for a delegate who is in the room but not on the platform. Same clamp as the
+            // target's own branch plus the proxy stamp, and `proxyBy` must name the writer so the
+            // consent record says who actually pressed it. The paper's committee comes from the
+            // parent, not from this row, so a forged `committee` field here proves nothing.
+            ( resource.data.status == 'pending' &&
+              request.resource.data.status in ['accepted', 'rejected'] &&
+              request.resource.data.proxyBy == request.auth.uid &&
+              canReviewDocs(eventId, get(/databases/$(database)/documents/events/$(eventId)/committeeDocs/$(docId)).data.committee) &&
+              request.resource.data.diff(resource.data).affectedKeys()
+                .hasOnly(['status', 'respondedAt', 'proxyBy', 'proxyByName']) ) ||
+            // Author expires a still-pending row after the window has closed.
+            ( get(/databases/$(database)/documents/events/$(eventId)/committeeDocs/$(docId)).data.submittedBy == request.auth.uid &&
+              request.resource.data.status == 'expired' )
+          );
+          allow delete: if isSignedIn() && ( isAdmin() || isOrganizerOrCoOrg(eventId) ||
+            get(/databases/$(database)/documents/events/$(eventId)/committeeDocs/$(docId)).data.submittedBy == request.auth.uid );
+        }
+      }
+
+      // Committee documents — organizer writes, signed-in reads
+      match /committees/{committeeId} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) ||
+           isAdmin());
+      }
+
+      // Committee notifications (room alerts) — the committee's chair, an EB overseer,
+      // or org/owner writes; all signed-in read.
+      match /committees/{committeeId}/notifications/{notifId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn() && (
+          isOrganizerOrCoOrg(eventId) ||
+          isCommitteeChair(eventId, committeeId) ||
+          isEventDirectorOrUsg(eventId) || isAdmin());
+        allow delete: if isSignedIn() && (
+          isOrganizerOrCoOrg(eventId) ||
+          isCommitteeChair(eventId, committeeId) ||
+          isEventDirectorOrUsg(eventId) || isAdmin());
+      }
+
+      // Settings (e.g. dress code) — organizer writes, signed-in reads
+      match /settings/{docId} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() &&
+          (isOrganizerOrCoOrg(eventId) || isAdmin());
+      }
+    }
+
+
+    // ── Applications ──────────────────────────────────────────────────────────
+    // What an applicant may create: a PENDING application, not yet placed, not marked paid,
+    // for themselves, or for a teammate under a team application they lead
+    // (submitTeamApplication writes the members after the parent, keyed by email). Without
+    // this, any signed-in account could create an "approved" application, which the live
+    // gate and the Agora token route both treat as committee membership.
+    function isFreshApplication() {
+      let d = request.resource.data;
+      return d.get('status', '') == 'pending' &&
+        !('assignedCommittee' in d) && !('assignedCountry' in d) &&
+        d.get('paymentStatus', 'unpaid') == 'unpaid' &&
+        (d.get('userId', '') == request.auth.uid ||
+          (d.get('teamApplicationParentId', '') != '' &&
+           get(/databases/$(database)/documents/applications/$(d.teamApplicationParentId)).data.userId == request.auth.uid));
+    }
+    // An applicant editing their own application. Placement and payment are the organizer's
+    // and the payment webhooks' (server, admin SDK) to set; the applicant may only withdraw.
+    function isApplicantSelfEdit() {
+      let changed = request.resource.data.diff(resource.data).affectedKeys();
+      return !changed.hasAny(['assignedCommittee', 'assignedCountry', 'paymentStatus', 'paidAt',
+          'devPaid', 'role', 'tierName', 'eventId', 'userId', 'delegationId', 'teamApplicationParentId']) &&
+        (!changed.hasAny(['status']) || request.resource.data.status == 'withdrawn');
+    }
+    match /applications/{appId} {
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        request.auth.uid == resource.data.userId ||
+        (exists(/databases/$(database)/documents/events/$(resource.data.eventId)) && canReadApplications(resource.data.eventId)) ||
+        ('institutionName' in resource.data && 'institutionName' in getUserData() && resource.data.institutionName == getUserData().institutionName) ||
+        ('delegationId' in resource.data) // Allow reading team members if they share a delegation (simplified for team leads)
+      );
+      // Hard deadline gate: the role's application window must be open (admin/server
+      // writes bypass rules entirely, so migrations/back-office are unaffected).
+      allow create: if isSignedIn() && (
+        // An App Admin may create one on someone's behalf (the admin "Test allocation" tool).
+        isAdmin() ||
+        (appWindowOpen(request.resource.data.eventId, request.resource.data.role) && isFreshApplication())
+      );
+      // Update: delegate edits own (position paper, announcement read stamp, withdraw), never
+      // the fields that decide placement or payment; event owner / co-organizer manage.
+      // (Global role checks removed — must be scoped to THIS event.)
+      // A seat change also has to fit the event's participant cap (appSeatOk).
+      allow update: if isSignedIn() && (
+        isAdmin() || ((
+          (request.auth.uid == resource.data.userId && isApplicantSelfEdit()) ||
+          (exists(/databases/$(database)/documents/events/$(resource.data.eventId)) && get(/databases/$(database)/documents/events/$(resource.data.eventId)).data.organizerId == request.auth.uid) ||
+          (exists(/databases/$(database)/documents/events/$(resource.data.eventId)) && isEventCoOrganizer(resource.data.eventId))
+        ) && appSeatOk(appId))
+      );
+    }
+
+    // ── Migration Requests (delegate committee/country moves + swaps) ─────────
+    // All mutations go through admin-authenticated API routes (server). Clients
+    // only READ: the requester, the swap occupant, the event's organizer/co-org, admin.
+    match /migrationRequests/{requestId} {
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        resource.data.requesterUid == request.auth.uid ||
+        resource.data.occupantUid == request.auth.uid ||
+        (exists(/databases/$(database)/documents/events/$(resource.data.eventId)) && isOrganizerOrCoOrg(resource.data.eventId))
+      );
+      allow write: if isAdmin();
+    }
+
+    // ── In-app Notifications ──────────────────────────────────────────────────
+    // Created server-side (admin) only; owner reads + flips `read`. No client create/delete.
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow update: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow create, delete: if isAdmin();
+    }
+
+    // ── Endorsement inbox (collection-group) ──────────────────────────────────
+    // The recipient's "who wants me to sponsor/sign" feed queries `endorsements`
+    // across every paper via collectionGroup — which only the recursive-wildcard rule
+    // authorises. Scoped to the target's own rows so a listing can't leak others'.
+    // Path-based create/update/delete are governed by the nested committeeDocs rule.
+    match /{path=**}/docEndorsements/{endId} {
+      allow read: if isSignedIn() && resource.data.targetUid == request.auth.uid;
+    }
+
+    // ── Peer reputation (ratings / recommendations / endorsements) ───────────────
+    // All writes go through admin-authenticated server routes (/api/reputation/*)
+    // that verify the caller + eligibility (connection OR shared conference) and
+    // maintain the denormalized counters on users/{uid}. Client writes are blocked;
+    // the admin SDK bypasses these rules, so `allow write: if isAdmin()` = server-only.
+    match /ratings/{ratingId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+    match /recommendations/{recId} {
+      // Approved recs are public; the recipient and author always see their own
+      // (recipient needs the pending queue; author needs their submitted drafts).
+      allow read: if isSignedIn() && (
+        resource.data.status == 'approved' ||
+        resource.data.toUid == request.auth.uid ||
+        resource.data.authorUid == request.auth.uid ||
+        isAdmin()
+      );
+      allow write: if isAdmin();
+    }
+    match /endorsements/{endorsementId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ── Articles ──────────────────────────────────────────────────────────────
+    match /articles/{articleId} {
+      // Single-doc read: published, own draft, or admin
+      allow get: if resource.data.published == true || isAdmin() ||
+        (isSignedIn() && request.auth.uid == resource.data.authorId);
+      // Collection queries: signed-in users may list (client must filter by published==true or authorId==uid)
+      allow list: if resource.data.published == true || isSignedIn();
+      allow create: if isSignedIn();
+      // An article the App Admin hid (hiddenByAdmin) stays unpublished: its author can edit or
+      // delete it, not publish it again or clear the flag.
+      allow update: if isSignedIn() && (isAdmin() || (request.auth.uid == resource.data.authorId &&
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['hiddenByAdmin']) &&
+        !(resource.data.get('hiddenByAdmin', false) == true && request.resource.data.get('published', false) == true)));
+      allow delete: if isSignedIn() &&
+        (request.auth.uid == resource.data.authorId || isAdmin());
+
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if isSignedIn();
+        allow delete: if isSignedIn() &&
+          (request.auth.uid == resource.data.authorId || isAdmin());
+      }
+    }
+
+    // ── Conversations ─────────────────────────────────────────────────────────
+    match /conversations/{convId} {
+      allow read: if isSignedIn() && (
+        resource == null ||
+        request.auth.uid in resource.data.participants ||
+        (resource.data.type == 'group' && 'eventId' in resource.data && isEventOrganizer(resource.data.eventId))
+      );
+      // You may only open a conversation you're part of — closes the hole where any
+      // signed-in user could fabricate conversations (spam others' inboxes, or spoof a
+      // group as belonging to an event). The one exception: an event's organizer/co-org
+      // may seed that event's committee group chats on a member's behalf (e.g. the
+      // auto-group created when a delegate is approved).
+      allow create: if isSignedIn() && (
+        request.auth.uid in request.resource.data.participants ||
+        (request.resource.data.type == 'group' &&
+         'eventId' in request.resource.data &&
+         isEventOrganizer(request.resource.data.eventId))
+      );
+      allow update: if isSignedIn() && (
+        request.auth.uid in resource.data.participants ||
+        (resource.data.type == 'group' && 'eventId' in resource.data && isEventOrganizer(resource.data.eventId))
+      );
+
+      match /messages/{msgId} {
+        allow read: if isSignedIn() && (
+          !exists(/databases/$(database)/documents/conversations/$(convId)) ||
+          request.auth.uid in get(/databases/$(database)/documents/conversations/$(convId)).data.participants ||
+          (get(/databases/$(database)/documents/conversations/$(convId)).data.type == 'group' && 
+           'eventId' in get(/databases/$(database)/documents/conversations/$(convId)).data &&
+           isEventOrganizer(get(/databases/$(database)/documents/conversations/$(convId)).data.eventId))
+        );
+        allow create: if isSignedIn() && (
+          request.auth.uid in get(/databases/$(database)/documents/conversations/$(convId)).data.participants ||
+          (get(/databases/$(database)/documents/conversations/$(convId)).data.type == 'group' &&
+           'eventId' in get(/databases/$(database)/documents/conversations/$(convId)).data &&
+           isEventOrganizer(get(/databases/$(database)/documents/conversations/$(convId)).data.eventId))
+        ) && (
+          request.resource.data.senderId == request.auth.uid ||
+          request.resource.data.senderId == 'system'
+        ) && (
+          request.resource.data.senderId == 'system' ||
+          !('blockedBy' in get(/databases/$(database)/documents/conversations/$(convId)).data) ||
+          !(request.auth.uid in get(/databases/$(database)/documents/conversations/$(convId)).data.blockedBy)
+        );
+        // Read receipts (markConversationRead): a participant may only add themselves to readBy
+        // and stamp their own readAt. Nothing else on a message ever changes.
+        allow update: if isSignedIn() &&
+          request.auth.uid in get(/databases/$(database)/documents/conversations/$(convId)).data.participants &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy', 'readAt']) &&
+          request.resource.data.get('readBy', []).toSet().difference(resource.data.get('readBy', []).toSet()).hasOnly([request.auth.uid]) &&
+          resource.data.get('readBy', []).toSet().difference(request.resource.data.get('readBy', []).toSet()).size() == 0 &&
+          request.resource.data.get('readAt', {}).diff(resource.data.get('readAt', {})).affectedKeys().hasOnly([request.auth.uid]);
+      }
+    }
+
+    // ── Activities ────────────────────────────────────────────────────────────
+    match /activities/{activityId} {
+      allow read: if resource.data.isPublic == true || (
+        isSignedIn() && (
+          resource.data.userId == request.auth.uid ||
+          isAdmin()
+        )
+      );
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // ── Markings ──────────────────────────────────────────────────────────────
+    match /markings/{markingId} {
+      allow read: if isSignedIn() && (
+        // A get on a not-yet-created doc has resource == null. Allow it (returns
+        // not-found, leaks nothing) so the get-before-create transaction in
+        // appendScoreEntry can seed the first per-speech mark; the write is still
+        // gated by canRunSession below.
+        resource == null ||
+        isAdmin() ||
+        request.auth.uid == resource.data.delegateId ||
+        (resource.data.eventId is string && (
+          canRunSession(resource.data.eventId, resource.data.committeeId) ||
+          isEventDirectorOrUsg(resource.data.eventId)
+        ))
+      );
+      allow create: if isSignedIn() && isAdmin() ||
+        (isSignedIn() && canRunSession(request.resource.data.eventId, request.resource.data.committeeId));
+      allow update: if isSignedIn() && isAdmin() ||
+        (isSignedIn() && canRunSession(resource.data.eventId, resource.data.committeeId));
+      allow delete: if isSignedIn() && (isAdmin() ||
+        (resource.data.eventId is string && canRunSession(resource.data.eventId, resource.data.committeeId)));
+
+      // Marking comments: the dais's private notes on a paper. Only those who can run the
+      // parent marking's committee (and directors/USGs, admins) read or write them; the
+      // delegate the paper belongs to does not see them.
+      match /comments/{commentId} {
+        allow read: if isSignedIn() && (isAdmin() ||
+          (exists(/databases/$(database)/documents/markings/$(markingId)) && (
+            canRunSession(
+              get(/databases/$(database)/documents/markings/$(markingId)).data.eventId,
+              get(/databases/$(database)/documents/markings/$(markingId)).data.committeeId) ||
+            isEventDirectorOrUsg(get(/databases/$(database)/documents/markings/$(markingId)).data.eventId))));
+        allow create: if isSignedIn() && (isAdmin() ||
+          canRunSession(
+            get(/databases/$(database)/documents/markings/$(markingId)).data.eventId,
+            get(/databases/$(database)/documents/markings/$(markingId)).data.committeeId));
+        allow delete: if isSignedIn() && (isAdmin() ||
+          canRunSession(
+            get(/databases/$(database)/documents/markings/$(markingId)).data.eventId,
+            get(/databases/$(database)/documents/markings/$(markingId)).data.committeeId));
+      }
+    }
+
+    // ── Complaints (with escalation hierarchy) ────────────────────────────────
+    match /complaints/{complaintId} {
+      // Read: complainant, the assigned handler, listed actors, this event's
+      // organizer/co-organizer, a same-institution faculty advisor, or admin.
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        request.auth.uid == resource.data.userId ||
+        request.auth.uid == resource.data.assignedTo ||
+        ('actorUids' in resource.data && request.auth.uid in resource.data.actorUids) ||
+        (exists(/databases/$(database)/documents/events/$(resource.data.eventId)) && isOrganizerOrCoOrg(resource.data.eventId)) ||
+        (
+          (getUserRole() == 'Faculty Advisor' || getUserRole() == 'faculty_advisor' || getUserRole() == 'faculty-advisor') &&
+          'applicationId' in resource.data &&
+          exists(/databases/$(database)/documents/applications/$(resource.data.applicationId)) &&
+          'institutionName' in get(/databases/$(database)/documents/applications/$(resource.data.applicationId)).data &&
+          'institutionName' in getUserData() &&
+          get(/databases/$(database)/documents/applications/$(resource.data.applicationId)).data.institutionName == getUserData().institutionName
+        )
+      );
+      allow create: if isSignedIn();
+      // Update: complainant (addendum), the assigned handler, this event's
+      // organizer/co-organizer, or admin. (Global role checks removed.)
+      allow update: if isSignedIn() && (
+        isAdmin() ||
+        request.auth.uid == resource.data.userId ||
+        request.auth.uid == resource.data.assignedTo ||
+        (exists(/databases/$(database)/documents/events/$(resource.data.eventId)) && isOrganizerOrCoOrg(resource.data.eventId))
+      );
+    }
+
+    // ── Logs ──────────────────────────────────────────────────────────────────
+    match /certificateGenerationLogs/{logId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ── Payout Requests (platform-managed Stripe) ─────────────────────────────
+    match /payoutRequests/{payoutId} {
+      // Organizer sees/creates own requests; admin sees and processes all.
+      allow read: if isSignedIn() && (isAdmin() || resource.data.organizerId == request.auth.uid);
+      // The balance check is the admin's (rules can't compute a wallet; /api/admin/payouts shows it).
+      allow create: if isSignedIn() &&
+        request.resource.data.organizerId == request.auth.uid &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.amount is number && request.resource.data.amount > 0 &&
+        request.resource.data.keys().hasOnly(['organizerId', 'organizerName', 'organizerEmail', 'amount', 'note', 'status', 'requestedAt']);
+      // Only an admin marks a payout paid/rejected.
+      allow update: if isAdmin();
+    }
+
+    // ── System Settings ───────────────────────────────────────────────────────
+    match /systemSettings/{document} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ── Audit Logs ────────────────────────────────────────────────────────────
+    // Append-only: an admin can read and add entries, nobody can change or remove one.
+    match /auditLogs/{logId} {
+      allow read, create: if isAdmin();
+      allow update, delete: if false;
+    }
+  }
+}
